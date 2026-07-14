@@ -1,0 +1,55 @@
+html{background:#03090f}
+  body{
+    background:
+      radial-gradient(120% 80% at 50% -8%, rgba(26,68,116,.32), transparent 56%),
+      linear-gradient(180deg,#0a2138 0%, #06162a 48%, #02070e 100%);
+    background-attachment:fixed;
+    color:var(--paper);
+  }
+  /* canvas de fondo (cerebro que cruza la pagina) */
+  #brainbg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+  /* contenido por encima del fondo */
+  section,.trust,footer{position:relative;z-index:1}
+  header.nav{position:fixed;top:0;left:0;right:0;width:100%;z-index:100}
+
+  /* secciones translucidas: dejan ver el cerebro de fondo */
+  section,.trust,.metrics,.solutions,.medios,.ai,.modelo,.process,.edge,.reg,.team,.cta,footer{background:transparent}
+  .solutions,.medios,.modelo,.team,.metrics,.finan{border-top:1px solid rgba(246,243,236,.10)}
+  .process,.ai,.cta,.edge,.reg{border-top:1px solid rgba(246,243,236,.08)}
+  .trust{border-top:1px solid rgba(246,243,236,.10);border-bottom:1px solid rgba(246,243,236,.10)}
+  footer{border-top:1px solid rgba(246,243,236,.10)}
+
+  /* tipografia clara */
+  h1,h2,h3,h4,.serif,.sec-head h2,.process .sec-head h2{color:var(--paper)}
+  .metric .num,.sol-card .arrow,.sol-ficha .arrow,.modelo .lede b,.person a.li,.step h4,.process .closer p,.menu-btn{color:var(--paper)}
+  p,li,.lead,.sec-head p,.metric .cap,.trust .label,.sol-card p,.sol-ficha p,.panel-lead p,.feat p,.modelo .lede,.client .who,.edge p.body,.person p,.legal,.reg,.reg p,.nav-links a,.nav-dropdown__trigger,.tab,.step p{color:rgba(246,243,236,.80)}
+  .eyebrow{color:var(--brass-2)}
+  .nav-links a:hover{color:var(--paper)}
+  .nav-dropdown:hover .nav-dropdown__trigger,
+  .nav-dropdown:focus-within .nav-dropdown__trigger{color:var(--paper)}
+  .btn-ghost-dark{border-color:rgba(246,243,236,.24);color:var(--paper)}
+  .btn-ghost-dark:hover{border-color:var(--brass-2);color:var(--brass-2)}
+
+  /* paneles translucidos (para que el fondo se vea a traves) */
+  .sol-ficha,.sol-card,.gain,.cycle,.pullquote,.person{
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(246,243,236,.12);
+  }
+  .sol-ficha:hover,.sol-card:hover,.gain:hover{border-color:var(--brass-2)}
+  .tabs{background:rgba(255,255,255,.06);border:1px solid rgba(246,243,236,.14)}
+  .tab[aria-selected="true"]{background:var(--brass);color:#0e2336}
+
+  /* tiles claros solo para logos a color de partners y sellos */
+  .trust .logos .chip,.reg .seal{background:#fff;border:1px solid rgba(246,243,236,.14)}
+
+  /* nav navy reforzado */
+  header.nav{background:rgba(14,35,54,.88);border-bottom:1px solid rgba(246,243,236,.12)}
+  /* planillas que quedaban en blanco - panel translucido legible */
+  .feat,.client{background:rgba(255,255,255,.05);border:1px solid rgba(246,243,236,.12);border-radius:6px}
+  .client h3,.feat h4,.feat .fh h4{color:var(--paper)}
+  .client ul li,.client p,.feat p{color:rgba(246,243,236,.82)}
+  /* proceso: 6 pasos en grilla 3x2 */
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .step{border-left:1px solid rgba(246,243,236,.12);border-top:0}
+  .step:nth-child(3n+1){border-left:0}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}.step{border-left:0;border-top:1px solid rgba(246,243,236,.12)}.step:first-child{border-top:0}}

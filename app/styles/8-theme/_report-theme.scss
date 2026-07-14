@@ -1,0 +1,58 @@
+:root {
+  --ink: #1B3A5C;
+  --ink-2: #244A70;
+  --brass: #BFA05A;
+  --brass-2: #D2B775;
+  --gold-ink: #9A7A2E;
+  --azure: #4E84BD;
+}
+
+header.nav {
+  background: rgba(22, 49, 76, .86);
+  border-bottom: 1px solid rgba(246, 243, 236, .12);
+  backdrop-filter: saturate(140%) blur(10px);
+}
+
+header.nav .brand img { height: 40px; width: auto; }
+.nav-links a { color: rgba(246, 243, 236, .72); }
+.nav-links a:hover { color: var(--paper); }
+.nav-links .nidx { color: var(--brass-2); }
+.menu-btn { color: var(--paper); }
+
+.hero {
+  background:
+    radial-gradient(120% 90% at 78% 18%, rgba(191, 160, 90, .10), transparent 60%),
+    linear-gradient(180deg, #21456B 0%, #1A3A5A 55%, #15314C 100%);
+  color: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 50% at 50% 50%, rgba(191, 160, 90, .06), transparent 70%);
+}
+
+.hero .eyebrow { color: var(--brass-2); }
+.hero h1 { color: var(--paper); }
+.hero p.lead { color: rgba(246, 243, 236, .80); }
+.hero .note { color: rgba(246, 243, 236, .62); }
+.hero-badge {
+  color: rgba(246, 243, 236, .78);
+  border: 1px solid rgba(246, 243, 236, .20);
+  background: rgba(255, 255, 255, .04);
+}
+.hero-badge b { color: var(--brass-2); }
+.hero .btn-ghost {
+  border: 1px solid rgba(246, 243, 236, .26);
+  color: var(--paper);
+  background: transparent;
+}
+.hero .btn-ghost:hover {
+  border-color: var(--brass-2);
+  color: var(--brass-2);
+  background: rgba(191, 160, 90, .06);
+}

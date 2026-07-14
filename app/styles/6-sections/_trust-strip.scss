@@ -1,0 +1,19 @@
+// Trust strip / logos intro
+
+/* ---------- TRUST STRIP ---------- */
+
+  .trust{background:var(--ink-2);border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);padding:24px 0}
+
+  .trust-inner{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
+
+  .trust .label{font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);white-space:nowrap}
+
+  .trust .logos{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+
+  .trust .logos .chip{background:#fff;border-radius:5px;padding:9px 15px;height:52px;min-width:96px;display:flex;align-items:center;justify-content:center;transition:transform .18s ease}
+
+  .trust .logos .chip:hover{transform:translateY(-2px)}
+
+  .trust .logos .chip img{max-height:30px;max-width:118px;width:auto;object-fit:contain;display:block}
+
+  .logo-fallback{font-family:var(--font-hanken), sans-serif;font-weight:600;font-size:14px;color:var(--ink);letter-spacing:.01em;white-space:nowrap}

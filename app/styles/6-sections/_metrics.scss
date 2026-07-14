@@ -1,0 +1,17 @@
+// Métricas
+
+/* ---------- METRICS (prueba) ---------- */
+
+  .metrics{background:var(--paper);padding:70px 0 64px}
+
+  .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line-light)}
+
+  .metric{padding:30px 26px 4px;border-right:1px solid var(--line-light)}
+
+  .metric:last-child{border-right:0}
+
+  .metric .num{font-family:var(--font-fraunces), serif;font-weight:500;font-size:clamp(38px,4.4vw,52px);line-height:1;color:var(--ink)}
+
+  .metric .num small{font-size:.5em;color:var(--brass);font-family:var(--font-mono), monospace;font-weight:600;margin-left:2px;vertical-align:super}
+
+  .metric .cap{margin-top:12px;font-size:14.5px;color:var(--slate);max-width:22ch}

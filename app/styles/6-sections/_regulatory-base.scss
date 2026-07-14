@@ -1,0 +1,19 @@
+// Regulatorio (base)
+
+/* ---------- REGULATORY ---------- */
+
+  .reg{background:var(--ink-2);color:var(--slate-light)}
+
+  .reg-inner{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:center}
+
+  .reg p{font-size:14.5px;line-height:1.7;margin-bottom:14px}
+
+  .reg .badge{font-family:var(--font-mono), monospace;color:var(--brass-2);font-size:13px;letter-spacing:.04em}
+
+  .reg .seals{display:flex;gap:14px;flex-wrap:wrap}
+
+  .reg .seal{background:#fff;border-radius:3px;padding:14px 20px;display:flex;align-items:center;justify-content:center;transition:transform .18s ease}
+
+  .reg .seal:hover{transform:translateY(-2px)}
+
+  .reg .seal img{height:34px;width:auto;display:block}

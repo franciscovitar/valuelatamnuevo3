@@ -1,0 +1,48 @@
+// Reveal, tilt, shapes y responsive global
+
+/* ---------- 3D REVEAL + DEPTH ---------- */
+  .reveal{opacity:0;transform:translateY(24px) scale(.985);transition:opacity .6s var(--ease-out),transform .6s var(--ease-out);will-change:transform,opacity}
+  .reveal.in{opacity:1;transform:translateY(0) scale(1)}
+  .tilt{transform-style:preserve-3d;transition:transform .28s cubic-bezier(.2,.7,.2,1);will-change:transform}
+  .shapes{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .shape{position:absolute;display:block;border-radius:6px;transform:skewX(-16deg);will-change:transform;opacity:.5}
+  .shape.navy{background:linear-gradient(135deg,#2c517a,#16395d)}
+  .shape.blue{background:linear-gradient(135deg,#8fbce8,#5a8fc6)}
+  .shape.ghost{background:transparent;border:1.5px solid rgba(246,243,236,.16);opacity:.85}
+  .hero-inner{position:relative;z-index:1}
+  .process{position:relative}
+  .process .wrap{position:relative;z-index:1}
+  .cta{position:relative}
+  .cta .wrap{position:relative;z-index:1}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .tilt{transform:none}
+    .shapes{display:none}
+    html{scroll-behavior:auto}
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:980px){
+    .hero-inner{grid-template-columns:1fr;gap:40px}
+    #neural{height:360px}.hero-viz{min-height:360px}
+    .metrics-grid{grid-template-columns:1fr 1fr}
+    .metric{border-bottom:1px solid var(--line-light)}
+    .metric:nth-child(2){border-right:0}
+    .sol-grid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr}
+    .step{border-left:0;border-top:1px solid var(--line-dark)}
+    .step:nth-child(odd){border-right:1px solid var(--line-dark)}
+    .edge-grid,.reg-inner,.team-grid,.cta-grid,.foot-grid{grid-template-columns:1fr;gap:38px}
+    .nav-links{display:none}
+    .menu-btn{display:block}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 20px}
+    section{padding:64px 0}
+    .metrics-grid{grid-template-columns:1fr}
+    .metric{border-right:0}
+    .steps{grid-template-columns:1fr}
+    .step{border-right:0}
+    .row2{grid-template-columns:1fr}
+    .hero h1{font-size:36px}
+  }

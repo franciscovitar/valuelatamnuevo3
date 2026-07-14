@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="g" cx="55%" cy="42%" r="70%">
+      <stop offset="0%" stop-color="#1d3d60"/>
+      <stop offset="48%" stop-color="#071827"/>
+      <stop offset="100%" stop-color="#01050a"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" x2="1">
+      <stop stop-color="#f0d58b"/>
+      <stop offset="1" stop-color="#b6964f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="870" cy="180" r="260" fill="none" stroke="#c9ad63" stroke-opacity=".22"/>
+  <circle cx="870" cy="180" r="160" fill="none" stroke="#8fb2d6" stroke-opacity=".18"/>
+  <g transform="translate(90 82)">
+    <path d="M0 54h70l38-86h76L124 98H54L16 162h-58L0 54Z" fill="#f4efe4" opacity=".94"/>
+    <path d="M108-32h76L142 58H75L108-32Z" fill="url(#gold)"/>
+  </g>
+  <text x="90" y="300" fill="#f4efe4" font-family="Arial, sans-serif" font-size="76" font-weight="700">Value Latam</text>
+  <text x="92" y="370" fill="#c9ad63" font-family="Arial, sans-serif" font-size="30" letter-spacing="4">CONSULTORIA FINANCIERA INTEGRAL</text>
+  <text x="92" y="438" fill="#d8dfeb" font-family="Arial, sans-serif" font-size="34">Financiamiento, liquidez, medios de pago</text>
+  <text x="92" y="485" fill="#d8dfeb" font-family="Arial, sans-serif" font-size="34">y automatización con IA para empresas.</text>
+</svg>

@@ -1,0 +1,29 @@
+/* Inversion & Liquidez: dos negocios */
+
+  .biz-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+
+  .biz{background:rgba(255,255,255,.05);border:1px solid rgba(246,243,236,.14);border-radius:12px;padding:30px 28px}
+
+  .biz .biz-tag{font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8fb2d6}
+
+  .biz h3{font-family:var(--font-fraunces), serif;font-weight:500;color:var(--paper);font-size:clamp(20px,2.2vw,26px);margin:9px 0 12px;line-height:1.18}
+
+  .biz p{color:rgba(246,243,236,.82);font-size:15px;line-height:1.62;margin:0}
+
+  @media(max-width:760px){.biz-grid{grid-template-columns:1fr}}
+
+  /* relaciones / logos de partners */
+
+  .rel-strip{margin-top:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+
+  .rel-label{font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(246,243,236,.55);margin-right:2px}
+
+  .rel-logo{background:#fff;border-radius:8px;height:44px;padding:0 16px;display:inline-flex;align-items:center;justify-content:center}
+
+  .rel-logo img{height:24px;width:auto;display:block}
+
+  .rel-fb{display:inline;font-family:var(--font-hanken), sans-serif;font-weight:700;font-size:14px;color:#1B3A5C}
+
+  .rel-logo img ~ .rel-fb{display:none}
+
+  .rel-more{font-size:12px;color:rgba(246,243,236,.5);font-style:italic}

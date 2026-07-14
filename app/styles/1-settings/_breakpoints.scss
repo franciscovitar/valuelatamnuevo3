@@ -1,0 +1,27 @@
+// Breakpoints unificados
+$bp-xs: 360px;
+$bp-sm: 560px;
+$bp-md: 640px;
+$bp-lg: 760px;
+$bp-xl: 880px;
+$bp-nav: 980px;
+$bp-wide: 1180px;
+
+@mixin down($width) {
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin up($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin motion-safe {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+

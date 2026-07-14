@@ -1,0 +1,277 @@
+// Ajustes finales de producción
+
+/* ---------- Final production polish ---------- */
+
+/* Safe reveal: content is visible without JS. JS progressively enhances. */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px) scale(.985);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+  will-change: transform, opacity;
+}
+
+.js .reveal.in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal,
+  .js .reveal.in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Cover intro copy */
+.cover-intro-copy {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + min(19vw, 168px));
+  z-index: 4;
+  max-width: min(540px, calc(100% - 48px));
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+  text-align: center;
+  transition: opacity .24s linear, transform .24s linear;
+}
+
+.cover-intro-copy span {
+  display: block;
+  color: rgba(143, 178, 214, .78);
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+}
+
+.cover-intro-copy p {
+  margin-top: 12px;
+  color: rgba(246, 243, 236, .86);
+  font-size: clamp(14px, 1.35vw, 17px);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+/* Hero: tighter editorial line and stronger credential. */
+.hero-title .eyebrow {
+  letter-spacing: .145em;
+  opacity: .92;
+}
+
+.hero-title .btn-ghost {
+  border-color: rgba(143, 178, 214, .42);
+  background: rgba(143, 178, 214, .055);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+
+.hero-title .btn-ghost:hover {
+  border-color: rgba(216, 178, 90, .9);
+  background: rgba(216, 178, 90, .10);
+  color: #f2d88c;
+  transform: translateY(-2px);
+}
+
+.hero-title .hero-badge {
+  color: rgba(246, 243, 236, .84);
+  border-color: rgba(143, 178, 214, .34);
+  background: rgba(143, 178, 214, .06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+}
+
+.hero-title .hero-badge b {
+  color: #f0cd70;
+}
+
+/* Solution cards: one clear interaction. Header expands, CTA appears inside the expanded file. */
+.sol-card .arrow {
+  margin-top: 0;
+}
+
+.sol-ficha .sol-ficha-link {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 14px;
+  color: var(--brass-2);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sol-ficha .sol-ficha-link:hover {
+  color: #f1d389;
+}
+
+.sol-head {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.sol-head:focus-visible {
+  outline: 2px solid rgba(216, 178, 90, .8);
+  outline-offset: 5px;
+  border-radius: 12px;
+}
+
+/* Honeypot field: invisible to humans, present for bots. */
+.hp-field {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Form feedback */
+.vl2-form-feedback.is-success {
+  color: #a6dfbd;
+}
+
+.vl2-form-feedback.is-error {
+  color: #f0b0a8;
+}
+
+/* More robust WhatsApp floating button placement */
+.vl2-wa {
+  z-index: 92;
+}
+
+@media (max-width: 640px) {
+  .cover-intro-copy {
+    top: calc(50% + min(27vw, 135px));
+    max-width: min(320px, calc(100% - 44px));
+  }
+
+  .cover-intro-copy span {
+    font-size: 9px;
+    letter-spacing: .22em;
+  }
+
+  .cover-intro-copy p {
+    font-size: 13.5px;
+  }
+}
+
+/* -------------------------------------------
+   Final QA fixes
+-------------------------------------------- */
+
+/* Header: avoid duplicated CTA on desktop. Keep only the right-side CTA. */
+header.nav .nav-links .nav-mobile-cta {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  header.nav .nav-links .nav-mobile-cta {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 981px) {
+  .nav-links > a,
+  .nav-dropdown__trigger,
+  .nav-dropdown__menu a {
+    border: 0;
+    border-bottom: 0;
+    text-decoration: none;
+    box-shadow: none;
+  }
+
+  .nav-links > a.is-active,
+  .nav-dropdown__menu a.is-active,
+  .nav-dropdown.is-active-group .nav-dropdown__trigger.is-active {
+    color: var(--paper);
+  }
+}
+
+/* Hero intro: use the same blue family seen in the following sections. */
+.hero-title {
+  background:
+    radial-gradient(120% 90% at 50% -6%, rgba(39, 92, 145, .28), transparent 54%),
+    radial-gradient(70% 60% at 50% 18%, rgba(20, 53, 89, .20), transparent 68%),
+    linear-gradient(180deg, #0b243d 0%, #081b30 54%, #061321 100%);
+}
+
+/* Partner logos desktop spacing fix - balanced row */
+@media (min-width: 761px) {
+  .partner-logos .partner-carousel-viewport {
+    overflow: visible;
+  }
+
+  .partner-logos .partner-carousel-track {
+    width: 100%;
+    display: block;
+    animation: none;
+    transform: none;
+  }
+
+  .partner-logos .partner-carousel-set {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(70px, 6vw, 118px);
+  }
+
+  .partner-logos .partner-carousel-set[aria-hidden='true'] {
+    display: none;
+  }
+
+  .partner-logos .partner-logo {
+    flex: 0 0 auto;
+    width: auto;
+    height: 124px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    transform: none;
+    filter: none;
+  }
+
+  .partner-logos .partner-logo img {
+    display: block;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transform: none;
+    filter: none;
+  }
+
+  .partner-logos .partner-logo--balanz img,
+  .partner-logos .partner-logo--adcap img {
+    width: 124px;
+    height: 124px;
+    max-width: 124px;
+    max-height: 124px;
+    border-radius: 14px;
+  }
+
+  .partner-logos .partner-logo--argenpymes img {
+    max-width: 210px;
+    max-height: 76px;
+  }
+
+  .partner-logos .partner-logo--trend img {
+    max-width: 240px;
+    max-height: 86px;
+  }
+
+  .partner-logos .partner-logo--acindar img {
+    max-width: 210px;
+    max-height: 76px;
+  }
+}

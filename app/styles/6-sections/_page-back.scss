@@ -1,0 +1,19 @@
+.page-back {
+  padding-top: clamp(88px, 12vh, 120px);
+  padding-bottom: 8px;
+}
+
+.page-back__link {
+  display: inline-block;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(143, 178, 214, .85);
+  transition: color .18s ease;
+}
+
+.page-back__link:hover {
+  color: var(--paper);
+}

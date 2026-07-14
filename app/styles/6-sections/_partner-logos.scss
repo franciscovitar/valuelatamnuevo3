@@ -1,0 +1,261 @@
+// Partner logos (componente)
+
+/* ---------- Partner logos: desktop static, mobile marquee ---------- */
+.partner-logos {
+  overflow: hidden;
+  padding: clamp(70px, 8vw, 120px) 0;
+}
+
+.partner-logos .wrap {
+  max-width: 1780px;
+  padding-inline: clamp(42px, 4vw, 72px);
+}
+
+.partner-logos .partner-head {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  margin-bottom: clamp(38px, 5vw, 76px);
+}
+
+.partner-logo-grid--static {
+  display: grid;
+  grid-template-columns: 118px 190px 230px 190px 118px;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  column-gap: clamp(42px, 4.2vw, 72px);
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+}
+
+.partner-carousel-shell {
+  display: none;
+}
+
+.partner-logos .partner-logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  transition: transform .18s ease, filter .18s ease;
+}
+
+.partner-logo-grid--static .partner-logo:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06) contrast(1.03);
+}
+
+.partner-logos .partner-logo img {
+  display: block;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0;
+  box-shadow: none;
+  filter: none;
+}
+
+.partner-logos .partner-logo .rel-fb {
+  display: none;
+}
+
+.partner-logos .partner-logo--plain {
+  width: 100%;
+  height: 104px;
+}
+
+.partner-logos .partner-logo--acindar img {
+  max-width: 190px;
+  max-height: 58px;
+}
+
+.partner-logos .partner-logo--argenpymes img {
+  max-width: 190px;
+  max-height: 58px;
+}
+
+.partner-logos .partner-logo--trend img {
+  max-width: 220px;
+  max-height: 72px;
+}
+
+.partner-logos .partner-logo--badge {
+  width: 118px;
+  height: 118px;
+  overflow: hidden;
+  border-radius: 13px;
+}
+
+.partner-logos .partner-logo--badge img {
+  width: 118px;
+  height: 118px;
+  max-width: 118px;
+  max-height: 118px;
+  border-radius: 13px;
+}
+
+@media (max-width: 1080px) {
+  .partner-logo-grid--static {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px 44px;
+  }
+}
+
+@media (max-width: 760px) {
+  .partner-logos {
+    padding-top: clamp(58px, 12vw, 82px);
+    padding-bottom: clamp(58px, 12vw, 82px);
+  }
+
+  .partner-logos .wrap {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  .partner-logos .partner-head {
+    padding-inline: 24px;
+    margin-bottom: 30px;
+  }
+
+  .partner-logo-grid--static {
+    display: none;
+  }
+
+  .partner-carousel-shell {
+    --carousel-gap: clamp(26px, 6vw, 44px);
+    --badge-pair-gap: 18px;
+    --carousel-speed: 28s;
+
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    padding-block: 6px 14px;
+    mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  }
+
+  .partner-carousel-viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .partner-carousel-track {
+    display: flex;
+    width: max-content;
+    animation: partner-logo-marquee var(--carousel-speed) linear infinite;
+    will-change: transform;
+  }
+
+  .partner-carousel-set {
+    display: flex;
+    align-items: center;
+    gap: var(--carousel-gap);
+    flex: 0 0 auto;
+    padding-right: var(--carousel-gap);
+  }
+
+  .partner-carousel-shell .partner-logo {
+    flex: 0 0 auto;
+    pointer-events: none;
+  }
+
+  .partner-carousel-shell .partner-logo--plain {
+    width: auto;
+    height: 76px;
+  }
+
+  .partner-carousel-shell .partner-logo--acindar img {
+    width: 188px;
+    max-width: 188px;
+    max-height: 50px;
+  }
+
+  .partner-carousel-shell .partner-logo--argenpymes img {
+    width: 196px;
+    max-width: 196px;
+    max-height: 54px;
+  }
+
+  .partner-carousel-shell .partner-logo--trend img {
+    width: 198px;
+    max-width: 198px;
+    max-height: 62px;
+  }
+
+  .partner-carousel-shell .partner-logo--badge,
+  .partner-carousel-shell .partner-logo--badge img {
+    width: 102px;
+    height: 102px;
+    max-width: 102px;
+    max-height: 102px;
+    border-radius: 13px;
+  }
+
+  .partner-carousel-shell .partner-logo--balanz {
+    margin-right: var(--badge-pair-gap);
+  }
+}
+
+@media (max-width: 430px) {
+  .partner-carousel-shell {
+    --carousel-gap: 24px;
+    --badge-pair-gap: 14px;
+    --carousel-speed: 25s;
+  }
+
+  .partner-carousel-shell .partner-logo--plain {
+    height: 66px;
+  }
+
+  .partner-carousel-shell .partner-logo--acindar img {
+    width: 154px;
+    max-width: 154px;
+    max-height: 42px;
+  }
+
+  .partner-carousel-shell .partner-logo--argenpymes img {
+    width: 164px;
+    max-width: 164px;
+    max-height: 46px;
+  }
+
+  .partner-carousel-shell .partner-logo--trend img {
+    width: 166px;
+    max-width: 166px;
+    max-height: 54px;
+  }
+
+  .partner-carousel-shell .partner-logo--badge,
+  .partner-carousel-shell .partner-logo--badge img {
+    width: 86px;
+    height: 86px;
+    max-width: 86px;
+    max-height: 86px;
+  }
+}
+
+@keyframes partner-logo-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partner-carousel-track {
+    animation: none;
+    transform: none;
+  }
+}

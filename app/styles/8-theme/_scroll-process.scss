@@ -1,0 +1,39 @@
+/* Proceso: cerebro que se construye al scrollear */
+
+  .pb-hint{color:rgba(246,243,236,.6);font-family:var(--font-mono), monospace;font-size:12px;margin-top:10px}
+
+  .pb-scroller{position:relative;height:260vh}
+
+  .pb-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+
+  .pb-stage{width:100%;max-width:960px;height:58vh;max-height:600px}
+
+  .pb-stage canvas{display:block;border-radius:14px}
+
+  .pb-caption{min-height:54px;display:flex;align-items:center;gap:14px;max-width:680px;padding:0 20px;transition:opacity .4s ease}
+
+  .pb-step{font-family:var(--font-fraunces), serif;font-size:30px;color:var(--brass-2);line-height:1;flex-shrink:0}
+
+  .pb-txt{font-size:16px;color:rgba(246,243,236,.85);line-height:1.4}
+
+  .pbb-dot{fill:rgba(143,178,214,.45)}
+
+  .pbb-branch{fill:none;stroke-width:1.8}
+
+  .pbb-branch.u{stroke:rgba(143,178,214,.6)}
+
+  .pbb-branch.s{stroke:var(--brass-2)}
+
+  .pbb-n{fill:rgba(143,178,214,.95)}
+
+  .pbb-n.sub{fill:var(--brass-2)}
+
+  .pbb-label{font-family:var(--font-hanken), sans-serif;font-weight:600;font-size:12.5px;color:var(--paper);text-align:center;background:rgba(8,24,42,.72);border:1px solid rgba(143,178,214,.4);border-radius:8px;padding:5px 8px;line-height:1.12}
+
+  .pbb-label.sub{border-color:var(--brass-2);color:var(--brass-2);font-size:11.5px}
+
+  .pbb-core{fill:rgba(246,243,236,.92);transform-box:fill-box;transform-origin:center;animation:mcore 2.6s ease-in-out infinite}
+
+  .pbb-halo{fill:rgba(191,160,90,.16);transform-box:fill-box;transform-origin:center;animation:mhalo 3.6s ease-in-out infinite}
+
+  @media(max-width:680px){.pb-scroller{height:300vh}.pb-txt{font-size:14px}}

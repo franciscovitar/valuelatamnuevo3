@@ -1,0 +1,37 @@
+// Value LATAM — ITCSS (cascada preservada)
+
+@use './styles/1-settings/breakpoints' as *;
+@use './styles/1-settings/tokens' as *;
+@use './styles/2-generic/reset' as *;
+@use './styles/3-elements/typography' as *;
+
+@use './styles/5-components/buttons' as *;
+@use './styles/5-components/navigation' as *;
+
+@use './styles/6-sections/hero' as *;
+@use './styles/6-sections/trust-strip' as *;
+@use './styles/6-sections/metrics' as *;
+@use './styles/4-objects/section-shell' as *;
+@use './styles/6-sections/solutions' as *;
+@use './styles/6-sections/payments-tabs' as *;
+@use './styles/6-sections/modelo-relato' as *;
+@use './styles/6-sections/process' as *;
+@use './styles/6-sections/why-us' as *;
+@use './styles/6-sections/regulatory-base' as *;
+@use './styles/6-sections/team' as *;
+
+@use './styles/5-components/forms' as *;
+@use './styles/5-components/footer' as *;
+
+@use './styles/9-utilities/reveal-responsive' as *;
+@use './styles/8-theme' as *;
+@use './styles/7-features' as *;
+
+@use './styles/6-sections/partner-logos' as *;
+@use './styles/6-sections/liquidity-operators' as *;
+@use './styles/6-sections/regulatory-panel' as *;
+
+@use './styles/6-sections/page-back' as *;
+
+@use './styles/5-components/mobile-menu' as *;
+@use './styles/10-trumps/site-polish' as *;

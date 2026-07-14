@@ -1,0 +1,122 @@
+// Operadores de liquidez
+
+/* ---------- Liquidity operator logos ---------- */
+.finan .liquidity-operators {
+  --liq-logo-size: 88px;
+  --liq-gap: 14px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--liq-gap);
+  width: fit-content;
+  max-width: 100%;
+  margin-top: clamp(24px, 3vw, 40px);
+  overflow: visible;
+}
+
+.finan .liquidity-operators__label,
+.finan .liquidity-operators__more {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.finan .liquidity-operators__label {
+  color: rgba(216, 232, 244, .62);
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.finan .liquidity-operators__more {
+  color: rgba(246, 243, 236, .54);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.finan .liquidity-operators__logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 var(--liq-logo-size);
+  width: var(--liq-logo-size);
+  height: var(--liq-logo-size);
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.finan .liquidity-operators__logo img {
+  display: block;
+  width: var(--liq-logo-size);
+  height: var(--liq-logo-size);
+  max-width: var(--liq-logo-size);
+  max-height: var(--liq-logo-size);
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: none;
+  filter: none;
+}
+
+@media (max-width: 900px) {
+  .finan .liquidity-operators {
+    --liq-logo-size: 78px;
+    --liq-gap: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .finan .liquidity-operators {
+    --liq-logo-size: clamp(50px, 14vw, 58px);
+    --liq-gap: clamp(5px, 1.45vw, 8px);
+
+    width: 100%;
+    margin-top: 22px;
+    justify-content: flex-start;
+  }
+
+  .finan .liquidity-operators__label {
+    font-size: clamp(6.2px, 1.7vw, 7.2px);
+    letter-spacing: .045em;
+    opacity: .82;
+  }
+
+  .finan .liquidity-operators__more {
+    font-size: clamp(6.8px, 1.9vw, 8px);
+    opacity: .82;
+  }
+
+  .finan .liquidity-operators__logo,
+  .finan .liquidity-operators__logo img {
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 370px) {
+  .finan .liquidity-operators {
+    --liq-logo-size: 46px;
+    --liq-gap: 4px;
+  }
+
+  .finan .liquidity-operators__label {
+    font-size: 5.7px;
+    letter-spacing: .025em;
+  }
+
+  .finan .liquidity-operators__more {
+    font-size: 6.3px;
+  }
+}

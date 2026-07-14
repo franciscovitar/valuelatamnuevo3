@@ -1,0 +1,17 @@
+.eyebrow,
+.bs-kicker,
+.join-sub-eyebrow { color: #8fb2d6; }
+
+.dot { background: #8fb2d6; }
+.tag { color: #8fb2d6; border-color: rgba(143, 178, 214, .35); }
+.cross .ar,
+.cross b { color: #8fb2d6; }
+.badge { color: rgba(246, 243, 236, .85); }
+.feat-hl { border: 1px solid rgba(143, 178, 214, .42); background: rgba(143, 178, 214, .07); }
+.faq summary::after,
+.faq details[open] summary { color: #8fb2d6; }
+.bs-dots button.active { background: #8fb2d6; }
+.reg .seal { color: rgba(246, 243, 236, .85); }
+.reg .seal:hover,
+.trust .logos .chip:hover { border-color: #8fb2d6; color: var(--paper); }
+.tab[aria-selected="true"] { background: rgba(246, 243, 236, .13); color: var(--paper); }

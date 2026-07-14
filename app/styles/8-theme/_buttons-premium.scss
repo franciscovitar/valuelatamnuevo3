@@ -1,0 +1,43 @@
+.btn{ position:relative; overflow:hidden; border-radius:11px; padding:15px 26px; font-weight:600; letter-spacing:.014em; font-size:15px; line-height:1; }
+.btn:focus-visible{ outline:2px solid #8fb2d6; outline-offset:3px; }
+
+  /* Primario (oro) */
+  .btn-primary{
+    background:linear-gradient(180deg,#E7CF95 0%,#D2B775 40%,#BD9E57 100%);
+    color:#13233a; border:1px solid rgba(255,255,255,.30);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.5), inset 0 -1px 0 rgba(120,92,30,.35), 0 10px 24px -12px rgba(191,160,90,.75), 0 2px 6px -1px rgba(0,0,0,.4);
+    text-shadow:0 1px 0 rgba(255,255,255,.22);
+  }
+  .btn-primary::before{ content:''; position:absolute; top:0; left:0; width:60%; height:100%; pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);
+    transform:translateX(-180%) skewX(-12deg); transition:transform .6s var(--ease-out); }
+  .btn-primary::after{ content:'→'; font-size:1.02em; margin-left:.15em; transform:translateX(0); transition:transform .2s var(--ease-out); }
+  .btn-primary:hover{
+    background:linear-gradient(180deg,#EFD8A0 0%,#DCC07E 42%,#C7A862 100%); transform:translateY(-2px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 16px 32px -12px rgba(191,160,90,.9), 0 3px 10px -2px rgba(0,0,0,.5);
+  }
+  .btn-primary:hover::before{ transform:translateX(320%) skewX(-12deg); }
+  .btn-primary:hover::after{ transform:translateX(4px); }
+  .btn-primary:active{ transform:translateY(0) scale(.97); box-shadow:inset 0 2px 5px rgba(120,92,30,.45), 0 6px 16px -10px rgba(191,160,90,.7); }
+
+  /* Ghost refinado */
+  .btn-ghost{ border:1px solid rgba(246,243,236,.30); color:var(--paper); background:rgba(246,243,236,.02); border-radius:11px; }
+  .btn-ghost:hover{ border-color:rgba(210,183,117,.9); color:#E7D49B; background:rgba(191,160,90,.09); transform:translateY(-2px); }
+
+  /* Header: un toque mas compacto */
+  header .btn-primary, .nav .btn-primary{ padding:11px 20px; font-size:14px; }
+
+.rel-logo, .reg .seal.logo {
+  background:transparent; border:none; box-shadow:none;
+    padding:0; height:auto; min-width:0; overflow:visible;
+    border-radius:0; display:inline-flex; align-items:center; justify-content:center;
+    transition:transform .18s ease, opacity .18s ease;
+  }
+  .rel-logo img, .reg .seal.logo img{
+    height:42px; width:auto; max-width:180px; object-fit:contain; display:block;
+    border-radius:7px;
+  }
+  .rel-logo:hover, .reg .seal.logo:hover{ transform:translateY(-2px); background:transparent; border:none; }
+  .rel-logo .rel-fb, .reg .seal.logo .rel-fb{ color:rgba(246,243,236,.85); }
+  .trust .logos{ gap:30px; }
+  .reg .seals{ gap:26px; }

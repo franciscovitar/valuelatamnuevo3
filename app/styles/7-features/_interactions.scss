@@ -1,0 +1,184 @@
+/* final responsive and interaction polish */
+body.menu-open{overflow:hidden}
+.menu-btn{
+  width:42px;
+  height:42px;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(246,243,236,.18);
+  border-radius:999px;
+  background:rgba(246,243,236,.04);
+}
+.menu-btn span{
+  display:block;
+  width:18px;
+  height:2px;
+  background:currentColor;
+  border-radius:999px;
+  transition:transform .22s var(--ease-out),opacity .18s ease;
+}
+.menu-btn span + span{margin-top:4px}
+.nav.menu-open .menu-btn span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav.menu-open .menu-btn span:nth-child(2){opacity:0}
+.nav.menu-open .menu-btn span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+.vl2-wa{
+  color:#fff;
+  text-shadow:0 1px 2px rgba(0,0,0,.34);
+  border-color:rgba(255,255,255,.42);
+  box-shadow:0 18px 44px -18px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.22);
+}
+.vl2-wa .dot{
+  background:#fff;
+  box-shadow:0 0 0 5px rgba(255,255,255,.18),0 0 16px rgba(255,255,255,.32);
+}
+
+.rel-strip{
+  align-items:center;
+  gap:14px;
+}
+.rel-strip .liquidity-logo{
+  width:120px;
+  height:64px;
+  padding:10px 16px;
+  border-radius:16px;
+  background:rgba(246,243,236,.06);
+  border:1px solid rgba(143,178,214,.22);
+  box-shadow:inset 0 1px 0 rgba(246,243,236,.05),0 14px 34px -28px rgba(0,0,0,.8);
+  overflow:hidden;
+}
+.rel-strip .liquidity-logo img{
+  width:100%;
+  height:42px;
+  max-width:86px;
+  max-height:42px;
+  object-fit:contain;
+  border-radius:8px;
+}
+.rel-strip .liquidity-logo .rel-fb{display:none}
+
+.field input,.field select,.field textarea{
+  min-height:48px;
+  color:var(--paper);
+  background:rgba(4,15,26,.78);
+  border-color:rgba(143,178,214,.24);
+}
+.field select{
+  appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,rgba(246,243,236,.75) 50%),linear-gradient(135deg,rgba(246,243,236,.75) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 21px,calc(100% - 12px) 21px;
+  background-size:6px 6px,6px 6px;
+  background-repeat:no-repeat;
+  padding-right:42px;
+}
+.field textarea{min-height:104px}
+.field-error label{color:#ffd0c2}
+.field [aria-invalid="true"]{
+  border-color:#ff9a7b;
+  box-shadow:0 0 0 3px rgba(255,154,123,.14);
+}
+.vl2-form-feedback{
+  min-height:20px;
+  margin-top:14px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:rgba(143,178,214,.10);
+  color:rgba(246,243,236,.84);
+}
+.vl2-form-feedback:empty{display:none}
+.vl2-form-feedback.is-error{background:rgba(255,154,123,.12);color:#ffd0c2}
+.vl2-form-feedback.is-success{background:rgba(37,211,102,.12);color:#bcffd3}
+
+.privacy-page{
+  min-height:100vh;
+  background:linear-gradient(180deg,#0a2138 0%,#02070e 100%);
+  color:var(--paper);
+}
+.privacy-shell{
+  max-width:760px;
+}
+.privacy-brand{margin-bottom:34px}
+.privacy-page h1{
+  margin:14px 0 22px;
+  font-size:clamp(38px,6vw,64px);
+}
+.privacy-page p{
+  color:rgba(246,243,236,.82);
+  margin-bottom:16px;
+  font-size:16px;
+}
+.privacy-page a:not(.btn){color:#9ec0e6;text-decoration:underline}
+
+@media(max-width:980px){
+  .nav-links{
+    position:fixed;
+    left:16px;
+    right:16px;
+    top:82px;
+    display:grid;
+    gap:6px;
+    padding:14px;
+    border:1px solid rgba(143,178,214,.24);
+    border-radius:20px;
+    background:rgba(6,18,30,.96);
+    box-shadow:0 24px 60px -30px rgba(0,0,0,.75);
+    backdrop-filter:blur(14px);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-10px);
+    pointer-events:none;
+    transition:opacity .18s ease,transform .22s var(--ease-out),visibility .18s ease;
+  }
+  .nav.menu-open .nav-links{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .nav-links a{
+    min-height:46px;
+    display:flex;
+    align-items:center;
+    padding:0 14px;
+    border-radius:12px;
+    color:rgba(246,243,236,.88);
+  }
+  .nav-links a:hover,.nav-links a:focus-visible{
+    background:rgba(143,178,214,.12);
+    color:#fff;
+  }
+}
+
+@media(max-width:640px){
+  section{padding:64px 0}
+  .wrap{padding-inline:20px}
+  .cover-scroll{height:300vh}
+  .cover-caption{
+    bottom:22px;
+    align-items:flex-start;
+    justify-content:flex-start;
+    padding-inline:20px;
+  }
+  .cover-caption .pb-step{font-size:25px}
+  .cover-caption .pb-txt{font-size:13.5px;max-width:280px}
+  .row2{grid-template-columns:1fr;gap:0}
+  .cta form{padding:22px;border-radius:20px}
+  .cta .sub{font-size:16px;max-width:none}
+  .rel-strip{
+    justify-content:flex-start;
+  }
+  .rel-strip .rel-label,.rel-strip .rel-more{
+    width:100%;
+  }
+  .rel-strip .liquidity-logo{
+    width:calc(50% - 7px);
+    height:66px;
+  }
+  .foot-grid{gap:28px}
+  .foot-bottom{align-items:flex-start}
+}
+
+@media(max-width:360px){
+  .nav .btn-primary{max-width:142px;font-size:11.5px}
+  .vl2-wa{font-size:12px;padding:10px 12px}
+}

@@ -1,0 +1,63 @@
+/* Medios: pagina de pagos */
+
+  .pay-sub{font-family:var(--font-mono), monospace;font-size:13px;letter-spacing:.05em;color:#8fb2d6;margin-top:10px}
+
+  .pay-hero{max-width:none;margin-top:6px}
+
+  .pay-hero p{
+    color:rgba(246,243,236,.78);
+    font-size:16px;
+    font-weight:400;
+    line-height:1.65;
+    margin:0;
+  }
+
+  .pay-hero p + p{margin-top:18px}
+
+  .pay-hero b{font-weight:600;color:rgba(246,243,236,.94)}
+
+  .pay-features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+
+  .pay-features{align-items:start}
+
+  .pay-feat-hint{color:rgba(246,243,236,.6);font-family:var(--font-mono), monospace;font-size:12px;margin-top:26px}
+
+  .pay-feat{background:rgba(255,255,255,.05);border:1px solid rgba(246,243,236,.12);border-radius:9px;overflow:hidden;transition:border-color .2s}
+
+  .pay-feat[open]{border-color:rgba(143,178,214,.5)}
+
+  .pay-feat summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:600;font-size:14px;color:var(--paper);display:flex;align-items:center;gap:10px}
+
+  .pay-feat summary::-webkit-details-marker{display:none}
+
+  .pay-feat summary::before{content:'';width:7px;height:7px;border-radius:50%;background:#8fb2d6;flex-shrink:0}
+
+  .pay-feat summary::after{content:'+';color:#8fb2d6;font-size:18px;line-height:1;margin-left:auto;font-weight:400}
+
+  .pay-feat[open] summary::after{content:'\2013'}
+
+  .pay-feat p{margin:0;padding:0 20px 20px 35px;color:rgba(246,243,236,.76);font-size:14px;font-weight:400;line-height:1.65}
+
+  .pay-pillars{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+
+  .pillar{background:rgba(143,178,214,.07);border:1px solid rgba(143,178,214,.3);border-radius:14px;padding:34px 32px}
+
+  .pillar-gold{background:rgba(191,160,90,.08);border-color:rgba(191,160,90,.4)}
+
+  .pill-tag{font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8fb2d6}
+
+  .pillar-gold .pill-tag{color:var(--brass-2)}
+
+  .pillar h3{font-family:var(--font-fraunces), serif;font-weight:500;color:var(--paper);font-size:clamp(22px,2.4vw,28px);margin:10px 0 12px;line-height:1.12}
+
+  .pillar p{color:rgba(246,243,236,.76);font-size:15px;line-height:1.65;font-weight:400;margin:0}
+
+  .pillar p b{font-weight:600;color:rgba(246,243,236,.94)}
+
+  .pay-giros{margin-top:30px;border-top:1px solid rgba(246,243,236,.12);padding-top:28px;max-width:none}
+
+  .pay-giros h4{color:var(--paper);font-size:17px;margin-bottom:10px;line-height:1.05}
+
+  .pay-giros p{color:rgba(246,243,236,.76);font-size:15px;font-weight:400;line-height:1.65;margin:0}
+
+  @media(max-width:760px){.pay-features{grid-template-columns:1fr 1fr}.pay-pillars{grid-template-columns:1fr}}

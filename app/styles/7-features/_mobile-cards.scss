@@ -1,0 +1,225 @@
+/* final requested polish - whatsapp menu cover cards form */
+.nav-mobile-cta{display:none}
+.menu-btn{
+  display:none;
+  place-items:center;
+  padding:0;
+  line-height:0;
+}
+.menu-btn span{margin-inline:auto}
+.vl2-wa{
+  gap:8px;
+}
+.vl2-wa .dot{display:none}
+.vl2-wa .wa-icon{
+  width:18px;
+  height:18px;
+  flex:0 0 18px;
+  color:#fff;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.24));
+}
+.cover-brain{
+  background:
+    radial-gradient(120% 90% at 10% 15%,rgba(143,178,214,.11),transparent 48%),
+    radial-gradient(105% 88% at 88% 78%,rgba(210,183,117,.09),transparent 52%),
+    radial-gradient(70% 65% at 50% 50%,rgba(25,55,86,.42),transparent 68%),
+    #01040a;
+}
+.cover-brain::before{
+  opacity:.9;
+  background:
+    linear-gradient(105deg,transparent 0%,rgba(143,178,214,.09) 38%,transparent 62%),
+    repeating-linear-gradient(115deg,rgba(143,178,214,.045) 0 1px,transparent 1px 70px),
+    repeating-linear-gradient(25deg,rgba(210,183,117,.03) 0 1px,transparent 1px 86px);
+}
+.sol-ficha{
+  background:rgba(5,17,30,.38);
+  border-color:rgba(143,178,214,.2);
+  padding:0;
+}
+.sol-card.open .sol-ficha{
+  max-height:380px;
+  margin-top:16px;
+  padding:8px 0;
+}
+.frow{
+  display:grid;
+  grid-template-columns:minmax(86px,.7fr) minmax(0,1.3fr);
+  align-items:start;
+  gap:12px;
+  padding:12px 0;
+}
+.frow span:first-child{
+  color:rgba(143,178,214,.72);
+}
+.frow span:last-child{
+  color:rgba(246,243,236,.88);
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+.faq details{
+  overflow:hidden;
+}
+.faq details p{
+  max-height:0;
+  opacity:0;
+  transform:translateY(-4px);
+  transition:max-height .32s ease,opacity .25s ease,transform .25s ease,margin-top .25s ease;
+}
+.faq details[open] p{
+  max-height:160px;
+  opacity:1;
+  transform:none;
+}
+.join-section-sub + .fin-grid{
+  margin-top:30px;
+}
+.pay-feat{
+  transition:border-color .24s ease,background-color .24s ease,transform .22s var(--ease-out);
+}
+.pay-feat p{
+  transition:opacity .24s ease,transform .24s ease;
+}
+.pay-feat[open]{
+  border-color:rgba(143,178,214,.38);
+  background:rgba(143,178,214,.08);
+}
+.cta form.is-sending{
+  opacity:.82;
+}
+.cta form button[disabled]{
+  cursor:wait;
+  filter:saturate(.85);
+}
+.vl2-form-feedback a{
+  color:#fff;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+@media(max-width:980px){
+  .nav-inner{
+    grid-template-columns:auto 1fr auto;
+  }
+  .menu-btn{
+    display:grid;
+    width:42px;
+    height:42px;
+    flex:0 0 42px;
+    border-radius:50%;
+    border:1px solid rgba(246,243,236,.22);
+    background:rgba(246,243,236,.035);
+  }
+  .nav-cta{
+    display:none;
+  }
+  .nav-links{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:auto;
+    width:min(84vw,340px);
+    height:100dvh;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:flex-start;
+    gap:8px;
+    padding:96px 22px 24px;
+    border-left:1px solid rgba(246,243,236,.12);
+    border-radius:0;
+    background:linear-gradient(180deg,rgba(8,24,40,.98),rgba(2,8,15,.98));
+    box-shadow:-28px 0 80px rgba(0,0,0,.45);
+    transform:translateX(105%);
+    opacity:1;
+    visibility:hidden;
+    pointer-events:none;
+    z-index:70;
+  }
+  .nav::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.42);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .22s ease;
+    z-index:60;
+  }
+  .nav.menu-open::before{
+    opacity:1;
+    pointer-events:auto;
+  }
+  .nav.menu-open .nav-links{
+    transform:translateX(0);
+    visibility:visible;
+    pointer-events:auto;
+  }
+  .nav-links a{
+    width:100%;
+    min-height:48px;
+    padding:12px 14px;
+    border-radius:14px;
+  }
+  .nav-mobile-cta{
+    display:inline-flex;
+    justify-content:center;
+    margin-top:10px;
+    color:#07111c;
+  }
+}
+@media(max-width:760px){
+  .pay-features{
+    grid-template-columns:1fr;
+  }
+  .pay-group{
+    margin-top:34px;
+  }
+}
+@media(max-width:520px){
+  .cover-sticky{
+    min-height:100svh;
+  }
+  .vl2-cover-hud{
+    width:min(104vw,390px);
+    height:min(104vw,390px);
+  }
+  .cover-caption{
+    bottom:16px;
+    min-height:78px;
+  }
+  .frow{
+    grid-template-columns:1fr;
+    gap:5px;
+  }
+  .frow span:last-child{
+    text-align:left;
+    font-size:13px;
+  }
+  .sol-card.open .sol-ficha{
+    padding:10px 12px;
+  }
+}
+@media(max-width:430px){
+  .brand img{
+    height:36px;
+    max-width:136px;
+  }
+  .nav-inner{
+    min-height:74px;
+  }
+  .menu-btn{
+    width:40px;
+    height:40px;
+  }
+  .vl2-cover-hud{
+    width:min(112vw,382px);
+    height:min(112vw,382px);
+  }
+  .vl2-wa{
+    right:12px;
+    bottom:12px;
+    padding:10px 13px;
+  }
+}

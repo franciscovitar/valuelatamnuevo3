@@ -1,0 +1,726 @@
+/* final logo readability polish */
+.solutions .wrap{
+  padding-inline:clamp(24px,4vw,56px);
+}
+.sol-grid{
+  gap:clamp(22px,3vw,34px);
+}
+.sol-card{
+  padding:clamp(30px,3.2vw,42px) clamp(30px,3.4vw,44px);
+}
+.sol-card.open .sol-ficha{
+  margin-top:20px;
+  padding:14px 16px;
+}
+.frow{
+  grid-template-columns:minmax(120px,.62fr) minmax(0,1.38fr);
+  gap:18px;
+}
+
+.partner-logos{
+  padding:clamp(60px,7vw,96px) 0 clamp(68px,7vw,104px);
+}
+.partner-logos .wrap{
+  max-width:1760px;
+  padding-inline:clamp(32px,4vw,64px);
+}
+.partner-logos .partner-head{
+  max-width:880px;
+  margin-bottom:clamp(34px,4vw,58px);
+}
+.partner-logo-grid{
+  grid-template-columns:repeat(5,minmax(180px,1fr));
+  gap:clamp(24px,2.6vw,40px);
+}
+.partner-logo,
+.rel-strip .liquidity-logo,
+.reg .seal.logo{
+  background:#f3f0ea;
+  border:1px solid rgba(246,243,236,.2);
+  box-shadow:0 20px 50px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.75);
+}
+.partner-logo{
+  height:104px;
+  border-radius:12px;
+  padding:18px 26px;
+}
+.partner-logo img{
+  max-width:100%;
+  width:auto;
+  object-fit:contain;
+}
+.partner-logo--acindar img{max-height:54px}
+.partner-logo--argenpymes img{max-height:58px}
+.partner-logo--trend img{max-height:60px}
+.partner-logo--balanz img,
+.partner-logo--adcap img{max-height:68px}
+
+.rel-strip{
+  margin-top:34px;
+  gap:18px;
+  padding-inline:clamp(12px,2vw,28px);
+}
+.rel-strip .rel-label{
+  margin-right:4px;
+}
+.rel-strip .liquidity-logo{
+  width:190px;
+  min-width:190px;
+  height:92px;
+  padding:16px 24px;
+  border-radius:18px;
+}
+.rel-strip .liquidity-logo img{
+  max-width:100%;
+  max-height:64px;
+  width:auto;
+  height:auto;
+}
+.rel-strip .liquidity-logo--balanz img,
+.rel-strip .liquidity-logo--adcap img{
+  max-height:70px;
+}
+.reg-inner{
+  grid-template-columns:minmax(0,1.25fr) minmax(380px,.75fr);
+  gap:clamp(56px,7vw,110px);
+}
+.reg .seals{
+  grid-template-columns:repeat(2,minmax(190px,230px));
+  gap:24px;
+}
+.reg .seal.logo{
+  height:106px;
+  padding:20px 28px;
+  border-radius:18px;
+}
+.reg .seal.logo img{
+  max-width:176px;
+  max-height:66px;
+  width:auto;
+  height:auto;
+}
+.reg .seal-logo--cnv img{max-width:184px}
+.reg .seal-logo--byma img{max-width:170px}
+
+@media(max-width:1180px){
+  .partner-logo-grid{
+    grid-template-columns:repeat(3,minmax(180px,1fr));
+  }
+  .reg-inner{
+    grid-template-columns:1fr;
+  }
+  .reg .seals{
+    justify-content:start;
+  }
+}
+@media(max-width:760px){
+  .solutions .wrap{
+    padding-inline:26px;
+  }
+  .sol-card{
+    padding:28px 24px;
+  }
+  .frow{
+    grid-template-columns:1fr;
+    gap:6px;
+  }
+  .frow span:last-child{
+    text-align:left;
+  }
+  .partner-logos .wrap{
+    padding-inline:24px;
+  }
+  .partner-logo-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+  }
+  .partner-logo{
+    height:94px;
+    padding:16px 18px;
+  }
+  .partner-logo--acindar img,
+  .partner-logo--argenpymes img,
+  .partner-logo--trend img{max-height:50px}
+  .partner-logo--balanz img,
+  .partner-logo--adcap img{max-height:62px}
+  .rel-strip{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+  }
+  .rel-strip .rel-label,
+  .rel-strip .rel-more{
+    grid-column:1 / -1;
+  }
+  .rel-strip .liquidity-logo{
+    width:100%;
+    min-width:0;
+    height:86px;
+  }
+  .reg .seals{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100%;
+  }
+  .reg .seal.logo{
+    height:94px;
+    padding:18px 20px;
+  }
+}
+@media(max-width:480px){
+  .partner-logo-grid{
+    grid-template-columns:1fr;
+  }
+  .partner-logo{
+    max-width:none;
+    height:92px;
+  }
+  .rel-strip{
+    grid-template-columns:1fr;
+  }
+  .rel-strip .liquidity-logo{
+    height:82px;
+  }
+  .reg .seals{
+    grid-template-columns:1fr;
+    max-width:none;
+  }
+}
+
+/* desktop downloaded logos final tuning */
+.partner-logo{
+  height:112px;
+  padding:18px 28px;
+}
+.partner-logo--acindar img{
+  max-height:58px;
+  max-width:94%;
+}
+.partner-logo--argenpymes img{
+  max-height:78px;
+  max-width:96%;
+}
+.partner-logo--trend img{
+  max-height:78px;
+  max-width:98%;
+}
+.partner-logo--balanz img,
+.partner-logo--adcap img{
+  max-height:82px;
+  max-width:82px;
+}
+.rel-strip .liquidity-logo{
+  height:100px;
+  width:210px;
+  min-width:210px;
+  padding:16px 28px;
+}
+.rel-strip .liquidity-logo--balanz img,
+.rel-strip .liquidity-logo--adcap img{
+  max-height:82px;
+  max-width:82px;
+}
+.reg .seal.logo{
+  height:112px;
+  padding:22px 30px;
+}
+.reg .seal-logo--cnv img{
+  max-width:196px;
+  max-height:76px;
+}
+.reg .seal-logo--byma img{
+  max-width:186px;
+  max-height:76px;
+}
+
+@media(max-width:760px){
+  .partner-logo{
+    height:104px;
+  }
+  .partner-logo--balanz img,
+  .partner-logo--adcap img{
+    max-height:74px;
+    max-width:74px;
+  }
+  .rel-strip .liquidity-logo{
+    height:94px;
+    width:100%;
+    min-width:0;
+  }
+  .rel-strip .liquidity-logo--balanz img,
+  .rel-strip .liquidity-logo--adcap img{
+    max-height:76px;
+    max-width:76px;
+  }
+}
+@media(max-width:480px){
+  .partner-logo{
+    height:100px;
+    padding:16px 22px;
+  }
+  .partner-logo--argenpymes img,
+  .partner-logo--trend img{
+    max-height:72px;
+  }
+}
+
+/* cover reference match - remove grid overlay */
+.cover-brain{
+  background:
+    radial-gradient(92% 82% at 50% 48%, rgba(27,58,92,.22), transparent 58%),
+    radial-gradient(70% 70% at 48% 45%, rgba(143,178,214,.10), transparent 66%),
+    #01040a;
+}
+.cover-brain::before{
+  background:
+    conic-gradient(from 212deg at 50% 50%, transparent 0 18%, rgba(143,178,214,.055) 25%, transparent 33%, transparent 59%, rgba(210,183,117,.06) 66%, transparent 76%),
+    radial-gradient(68% 54% at 50% 48%, rgba(143,178,214,.075), transparent 70%);
+  opacity:.46;
+  mix-blend-mode:screen;
+}
+.cover-brain::after{
+  background:
+    radial-gradient(ellipse at 50% 48%, transparent 0 50%, rgba(1,4,10,.34) 74%, rgba(1,4,10,.92) 100%),
+    linear-gradient(180deg, rgba(1,4,10,.08), transparent 32%, rgba(1,4,10,.18));
+}
+.vl2-cover-hud{
+  width:min(68vw,84vh,840px);
+  height:min(68vw,84vh,840px);
+}
+.vl2-cover-hud::before{
+  inset:13%;
+  border-color:rgba(210,183,117,.13);
+  box-shadow:0 0 34px rgba(143,178,214,.045), inset 0 0 34px rgba(210,183,117,.035);
+}
+.cover-caption{
+  bottom:clamp(28px,4.8vh,52px);
+}
+@media(max-width:640px){
+  .vl2-cover-hud{
+    width:min(92vw,54vh);
+    height:min(92vw,54vh);
+  }
+}
+
+/* logo natural-size strip */
+.partner-logo-grid{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:clamp(34px,4vw,72px);
+  flex-wrap:nowrap;
+}
+.partner-logo{
+  width:auto;
+  min-width:0;
+  height:auto;
+  min-height:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  overflow:visible;
+  flex:0 0 auto;
+}
+.partner-logo:hover{
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  transform:translateY(-1px);
+}
+.partner-logo img{
+  display:block;
+  width:auto;
+  height:64px;
+  max-width:none;
+  max-height:none;
+  object-fit:contain;
+}
+.partner-logo--acindar img{
+  height:58px;
+}
+.partner-logo--argenpymes img,
+.partner-logo--trend img{
+  height:64px;
+}
+.partner-logo--balanz img,
+.partner-logo--adcap img{
+  height:68px;
+}
+.rel-strip .liquidity-logo{
+  width:auto;
+  min-width:0;
+  height:auto;
+  min-height:0;
+  padding:0;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+.rel-strip .liquidity-logo img{
+  height:68px;
+  width:auto;
+  max-width:none;
+  max-height:none;
+}
+
+@media(max-width:1180px){
+  .partner-logo-grid{
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:28px 46px;
+  }
+}
+@media(max-width:760px){
+  .partner-logo-grid{
+    gap:24px 34px;
+  }
+  .partner-logo img{
+    height:54px;
+  }
+  .partner-logo--acindar img{
+    height:48px;
+  }
+  .partner-logo--balanz img,
+  .partner-logo--adcap img{
+    height:58px;
+  }
+  .rel-strip .liquidity-logo img{
+    height:58px;
+  }
+}
+@media(max-width:480px){
+  .partner-logo-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    justify-items:center;
+    gap:24px 22px;
+  }
+  .partner-logo img{
+    height:48px;
+  }
+  .partner-logo--acindar img{
+    height:42px;
+  }
+  .partner-logo--balanz img,
+  .partner-logo--adcap img{
+    height:52px;
+  }
+}
+
+/* logo grid final sane layout */
+.partner-logos{
+  overflow:hidden;
+}
+.partner-logos .wrap{
+  max-width:1780px;
+  padding-inline:clamp(42px,4vw,72px);
+}
+.partner-logo-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  align-items:center;
+  gap:clamp(22px,2.4vw,38px);
+  width:100%;
+  overflow:visible;
+}
+.partner-logo-grid .partner-logo,
+.partner-logo{
+  box-sizing:border-box;
+  width:100%;
+  max-width:none;
+  min-width:0;
+  height:118px;
+  min-height:118px;
+  padding:20px 26px;
+  margin:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f2eee8;
+  border:1px solid rgba(246,243,236,.18);
+  border-radius:14px;
+  box-shadow:0 22px 48px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.75);
+  overflow:hidden;
+  flex:none;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.partner-logo-grid .partner-logo:hover,
+.partner-logo:hover{
+  transform:translateY(-2px);
+  border-color:rgba(143,178,214,.38);
+  box-shadow:0 26px 58px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.8);
+}
+.partner-logo-grid .partner-logo img,
+.partner-logo img{
+  display:block;
+  width:auto;
+  height:auto;
+  max-width:92%;
+  max-height:76px;
+  object-fit:contain;
+  border-radius:0;
+}
+.partner-logo--acindar img{
+  max-height:58px;
+  max-width:94%;
+}
+.partner-logo--argenpymes img{
+  max-height:78px;
+  max-width:88%;
+}
+.partner-logo--trend img{
+  max-height:78px;
+  max-width:94%;
+}
+.partner-logo--balanz img,
+.partner-logo--adcap img{
+  max-height:76px;
+  max-width:76px;
+}
+
+.rel-strip .liquidity-logo{
+  box-sizing:border-box;
+  width:176px;
+  min-width:176px;
+  height:96px;
+  min-height:96px;
+  padding:16px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f2eee8;
+  border:1px solid rgba(246,243,236,.18);
+  border-radius:16px;
+  box-shadow:0 18px 42px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.75);
+  overflow:hidden;
+}
+.rel-strip .liquidity-logo img{
+  width:auto;
+  height:auto;
+  max-width:72px;
+  max-height:72px;
+  object-fit:contain;
+}
+
+@media(max-width:1180px){
+  .partner-logo-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media(max-width:760px){
+  .partner-logos .wrap{
+    padding-inline:24px;
+  }
+  .partner-logo-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+  }
+  .partner-logo-grid .partner-logo,
+  .partner-logo{
+    height:96px;
+    min-height:96px;
+    padding:16px 18px;
+  }
+  .partner-logo-grid .partner-logo img,
+  .partner-logo img{
+    max-height:62px;
+  }
+  .partner-logo--acindar img{max-height:48px}
+  .partner-logo--balanz img,
+  .partner-logo--adcap img{
+    max-width:62px;
+    max-height:62px;
+  }
+  .rel-strip .liquidity-logo{
+    width:100%;
+    min-width:0;
+    height:88px;
+    min-height:88px;
+  }
+  .rel-strip .liquidity-logo img{
+    max-width:64px;
+    max-height:64px;
+  }
+}
+@media(max-width:430px){
+  .partner-logo-grid{
+    grid-template-columns:1fr;
+  }
+  .partner-logo-grid .partner-logo,
+  .partner-logo{
+    height:92px;
+    min-height:92px;
+  }
+}
+
+/* logo photo-first final */
+.partner-logos {
+  overflow: hidden;
+}
+
+.partner-logos .wrap {
+  max-width: 1780px;
+  padding-inline: clamp(42px, 4vw, 72px);
+}
+
+.partner-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: clamp(30px, 4vw, 72px);
+  width: 100%;
+  overflow: visible;
+}
+
+.partner-logo-grid .partner-logo,
+.partner-logo {
+  box-sizing: border-box;
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+  height: 112px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  flex: none;
+  transition: transform .18s ease, filter .18s ease;
+}
+
+.partner-logo-grid .partner-logo:hover,
+.partner-logo:hover {
+  transform: translateY(-2px);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  filter: brightness(1.06) contrast(1.03);
+}
+
+.partner-logo-grid .partner-logo img,
+.partner-logo img {
+  display: block;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0;
+  filter: drop-shadow(0 14px 30px rgba(0, 0, 0, .2));
+}
+
+.partner-logo--acindar img {
+  max-width: min(250px, 100%);
+  max-height: 72px;
+}
+
+.partner-logo--argenpymes img {
+  max-width: min(260px, 100%);
+  max-height: 92px;
+}
+
+.partner-logo--trend img {
+  max-width: min(300px, 100%);
+  max-height: 92px;
+}
+
+.partner-logo--balanz img,
+.partner-logo--adcap img {
+  max-width: 104px;
+  max-height: 104px;
+  border-radius: 8px;
+}
+
+.rel-strip .liquidity-logo {
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  height: 92px;
+  min-height: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.rel-strip .liquidity-logo img {
+  width: auto;
+  height: auto;
+  max-width: 92px;
+  max-height: 92px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 26px rgba(0, 0, 0, .2));
+}
+
+@media (max-width: 1180px) {
+  .partner-logo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px 54px;
+  }
+}
+
+@media (max-width: 760px) {
+  .partner-logos .wrap {
+    padding-inline: 24px;
+  }
+
+  .partner-logo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 26px;
+  }
+
+  .partner-logo-grid .partner-logo,
+  .partner-logo {
+    height: 86px;
+  }
+
+  .partner-logo--acindar img {
+    max-width: 172px;
+    max-height: 54px;
+  }
+
+  .partner-logo--argenpymes img,
+  .partner-logo--trend img {
+    max-width: 180px;
+    max-height: 68px;
+  }
+
+  .partner-logo--balanz img,
+  .partner-logo--adcap img {
+    max-width: 76px;
+    max-height: 76px;
+  }
+
+  .rel-strip .liquidity-logo {
+    height: 78px;
+  }
+
+  .rel-strip .liquidity-logo img {
+    max-width: 76px;
+    max-height: 76px;
+  }
+}
+
+@media (max-width: 430px) {
+  .partner-logo-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .partner-logo-grid .partner-logo,
+  .partner-logo {
+    height: 76px;
+  }
+}

@@ -1,0 +1,288 @@
+.vl2-wa {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: #25D366;
+  color: #061017;
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 999px;
+  padding: 11px 16px;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 18px 44px -20px rgba(0, 0, 0, .7);
+  transition: transform .18s var(--ease-out), filter .18s ease;
+}
+
+.vl2-wa:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.08);
+}
+
+.vl2-wa .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #061017;
+  box-shadow: 0 0 0 5px rgba(6, 16, 23, .13);
+}
+
+.cover {
+  padding: 0;
+  background: #01040a;
+}
+
+.cover-brain {
+  background:
+    radial-gradient(90% 90% at 50% 50%, rgba(191, 160, 90, .08), transparent 54%),
+    radial-gradient(80% 70% at 48% 42%, rgba(68, 115, 159, .16), transparent 62%),
+    #01040a;
+}
+
+/* Fondo cinematográfico centrado, sin círculo corrido */
+.cover-brain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(143, 178, 214, .22), transparent 43%),
+    radial-gradient(circle at 50% 50%, transparent 0 34%, rgba(210, 183, 117, .055) 34.2% 34.45%, transparent 34.8%),
+    radial-gradient(circle at 50% 50%, transparent 0 46%, rgba(143, 178, 214, .035) 46.2% 46.45%, transparent 46.8%),
+    radial-gradient(circle at 50% 50%, transparent 0 57%, rgba(143, 178, 214, .025) 57.2% 57.45%, transparent 57.8%);
+  mix-blend-mode: screen;
+  opacity: .66;
+  animation: vl2-cinema-breathe 12s ease-in-out infinite alternate;
+}
+
+@keyframes vl2-cinema-breathe {
+  from {
+    opacity: .46;
+    transform: scale(.985);
+  }
+
+  to {
+    opacity: .72;
+    transform: scale(1.025);
+  }
+}
+
+.cover-brain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 0 42%, rgba(1, 4, 10, .42) 72%, rgba(1, 4, 10, .86) 100%),
+    linear-gradient(180deg, rgba(1, 4, 10, .12), transparent 30%, rgba(1, 4, 10, .22));
+}
+
+.cover-caption {
+  transition: opacity .42s ease, transform .42s ease;
+}
+
+.vl2-cover-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  contain: strict;
+}
+
+/* Círculo grande centrado de fondo */
+.vl2-cover-hud {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  contain: layout paint;
+  width: min(62vw, 78vh, 760px);
+  height: min(62vw, 78vh, 760px);
+  max-width: 760px;
+  max-height: 760px;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+}
+
+.vl2-cover-hud::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 1px solid rgba(210, 183, 117, .22);
+  border-radius: 50%;
+  box-shadow:
+    0 0 48px rgba(143, 178, 214, .075),
+    inset 0 0 48px rgba(210, 183, 117, .045);
+  animation: vl2-ring 8s ease-in-out infinite;
+}
+
+.vl2-cover-hud::after {
+  content: none !important;
+  display: none !important;
+}
+
+@keyframes vl2-ring {
+  0%,
+  100% {
+    transform: scale(.97);
+    opacity: .54;
+  }
+
+  50% {
+    transform: scale(1.025);
+    opacity: .88;
+  }
+}
+
+/* Badge real del centro, posicionado por JS sobre el hub */
+.vl2-cover-hub-badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  white-space: nowrap;
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: .22em;
+  color: rgba(246, 243, 236, .72);
+  padding: 9px 14px;
+  border: 1px solid rgba(210, 183, 117, .4);
+  border-radius: 999px;
+  background: rgba(1, 4, 10, .54);
+  backdrop-filter: blur(5px);
+}
+
+.vl2-cover-note {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: calc(50% + min(28vw, 245px));
+  transform: translateX(-50%);
+  pointer-events: none;
+  text-align: center;
+  font-family: var(--font-mono), monospace;
+  font-size: 10.5px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(246, 243, 236, .45);
+  white-space: nowrap;
+}
+
+.vl2-form-feedback {
+  margin-top: 12px;
+  color: var(--brass-2);
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+
+/* Animation performance tuning */
+.cover-brain,
+.cover-brain::before,
+.vl2-cover-canvas,
+.vl2-cover-hud,
+.vl2-cover-hud::before {
+  backface-visibility: hidden;
+}
+
+.cover-brain::before,
+.vl2-cover-canvas,
+.vl2-cover-hud::before {
+  will-change: transform, opacity;
+}
+
+@media (max-width: 640px) {
+  .vl2-wa {
+    right: 12px;
+    bottom: 12px;
+    padding: 11px 13px;
+    font-size: 13px;
+  }
+
+  .sound-toggle {
+    bottom: 70px;
+  }
+
+  .vl2-cover-hud {
+    top: 51.5%;
+    width: min(100vw, 62vh);
+    height: min(100vw, 62vh);
+    max-width: none;
+    max-height: none;
+  }
+
+  .vl2-cover-note {
+    display: none;
+  }
+
+  .cover-brain::after {
+    background:
+      radial-gradient(ellipse at 50% 51.8%, transparent 0 48%, rgba(1, 4, 10, .38) 74%, rgba(1, 4, 10, .88) 100%),
+      linear-gradient(180deg, rgba(1, 4, 10, .12), transparent 30%, rgba(1, 4, 10, .22));
+  }
+}
+
+@media (max-width: 560px) {
+  .nav .btn-primary {
+    padding: 9px 13px;
+    font-size: 12px;
+    line-height: 1.05;
+    max-width: 170px;
+    white-space: normal;
+  }
+
+  .nav .btn-primary::after {
+    margin-left: 4px;
+  }
+
+  .nav-inner {
+    gap: 10px;
+  }
+}
+/* Performance polish for the scroll-built cinematic cover */
+.cover,
+.cover-scroll,
+.cover-sticky,
+.cover-brain {
+  isolation: isolate;
+  contain: layout paint style;
+}
+
+.vl2-cover-hub-badge {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  will-change: transform;
+}
+
+.cover-caption,
+.cover-intro-copy,
+.vl2-cover-note {
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-brain::before,
+  .vl2-cover-hud::before {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .cover-brain::before,
+  .vl2-cover-hud::before {
+    animation-duration: 18s;
+  }
+}

@@ -1,0 +1,21 @@
+// Footer
+
+/* ---------- FOOTER ---------- */
+
+  footer{background:var(--ink);color:var(--slate-light);border-top:1px solid var(--line-dark);padding:60px 0 34px}
+
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px}
+
+  footer h5{font-size:13px;color:var(--paper);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px;font-family:var(--font-mono), monospace;font-weight:500}
+
+  footer ul{list-style:none}
+
+  footer li{margin-bottom:10px;font-size:14.5px}
+
+  footer li a:hover{color:var(--paper)}
+
+  footer .blurb{font-size:14.5px;max-width:34ch;margin:14px 0 18px}
+
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line-dark);margin-top:44px;padding-top:24px;font-size:13px;flex-wrap:wrap;gap:14px}
+
+  .foot-bottom .social{display:flex;gap:18px}

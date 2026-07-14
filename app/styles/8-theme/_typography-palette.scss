@@ -1,0 +1,27 @@
+:root {
+  --paper: #F8F5EF;
+  --paper-2: #FFFFFF;
+  --ink: #0C2030;
+  --ink-2: #123042;
+  --brass: #BE9433;
+  --brass-2: #D8B45E;
+  --slate: #54697A;
+  --gold-ink: #8A6C1E;
+  --azure: #4E84BD;
+}
+
+body { line-height: 1.65; }
+.serif { letter-spacing: -.022em; }
+.hero h1 { font-size: clamp(40px, 5.4vw, 68px); letter-spacing: -.03em; line-height: 1.04; }
+.eyebrow { font-weight: 600; }
+
+.flowline span { background: linear-gradient(90deg, transparent, var(--azure), transparent); }
+.hero-viz::before,
+.hero-viz::after { border-color: var(--azure); opacity: .55; }
+.hud-tag { color: var(--azure); }
+.hud-tag .dot { background: var(--azure); }
+
+@keyframes hudpulse {
+  0%, 100% { opacity: .3; }
+  50% { opacity: 1; box-shadow: 0 0 9px var(--azure); }
+}

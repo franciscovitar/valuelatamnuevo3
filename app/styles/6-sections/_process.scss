@@ -1,0 +1,25 @@
+// Proceso
+
+/* ---------- PROCESS (como funciona) ---------- */
+
+  .process{background:var(--ink);color:var(--paper)}
+
+  .process .sec-head h2{color:var(--paper)}
+
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+
+  .step{padding:32px 26px 30px;border-left:1px solid var(--line-dark);position:relative}
+
+  .step:first-child{border-left:0}
+
+  .step .n{font-family:var(--font-mono), monospace;font-size:13px;color:var(--brass);letter-spacing:.1em}
+
+  .step h4{font-size:19px;margin:18px 0 10px;font-weight:600}
+
+  .step p{font-size:14.5px;color:var(--slate-light)}
+
+  .process .closer{margin-top:48px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line-dark);padding-top:34px}
+
+  .process .closer p{font-size:17px;color:var(--paper)}
+
+  .process .closer b{color:var(--brass-2)}

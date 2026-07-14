@@ -1,0 +1,70 @@
+.hero-viz::before,
+.hero-viz::after {
+  content: "";
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--brass);
+  opacity: .5;
+  pointer-events: none;
+}
+
+.hero-viz::before { top: 0; left: 3%; border-right: 0; border-bottom: 0; }
+.hero-viz::after { bottom: 32px; right: 3%; border-left: 0; border-top: 0; }
+
+.hud-tag {
+  position: absolute;
+  top: 4px;
+  right: 4%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--gold-ink);
+  opacity: .85;
+  pointer-events: none;
+}
+
+.hud-tag .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brass);
+  animation: hudpulse 1.9s ease-in-out infinite;
+}
+
+@keyframes hudpulse {
+  0%, 100% { opacity: .3; }
+  50% { opacity: 1; box-shadow: 0 0 9px var(--brass); }
+}
+
+.flowline {
+  position: relative;
+  height: 2px;
+  background: var(--line-dark);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.flowline span {
+  position: absolute;
+  top: 0;
+  left: -34%;
+  width: 34%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--brass-2), transparent);
+  animation: flow 3.4s linear infinite;
+}
+
+@keyframes flow { to { left: 104%; } }
+
+.cv { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-tag .dot { animation: none; }
+  .flowline span { animation: none; left: 0; width: 100%; opacity: .4; }
+}

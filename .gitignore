@@ -1,0 +1,10 @@
+.next
+out
+node_modules
+.env*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# CSS temporales de validación SCSS (scripts de refactor)
+.tmp-*.css

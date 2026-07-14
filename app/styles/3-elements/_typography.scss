@@ -1,0 +1,44 @@
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--brass);
+  font-weight: 500;
+}
+
+.serif {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+h1,
+.hero h1,
+.hero-title h1,
+.cover-caption .pb-step {
+  line-height: 0.98;
+  letter-spacing: -0.032em;
+}
+
+h2,
+h3,
+.sec-head h2,
+.join-h3 {
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+p,
+.lead,
+.fin-lede,
+.ai-lede,
+.modelo .lede,
+li {
+  line-height: 1.6;
+}
+
+.mono { font-family: var(--font-mono), monospace; }

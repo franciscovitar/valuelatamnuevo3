@@ -1,0 +1,42 @@
+:root { --hairline: rgba(11,33,41,.10); --gold-ink: #9A7B26; }
+
+body { background: var(--paper-2); }
+header.nav { background: rgba(255,255,255,.82); border-bottom: 1px solid var(--hairline); }
+.nav-links a { color: var(--slate); }
+.nav-links a:hover { color: var(--ink); }
+.menu-btn { color: var(--ink); }
+.hero { background: linear-gradient(180deg, #FFFFFF 0%, #F3F0E8 100%); color: var(--ink); }
+.hero::after { background: radial-gradient(circle, rgba(196, 154, 58, .12), transparent 62%); }
+.hero p.lead { color: var(--slate); }
+.hero .eyebrow { color: var(--gold-ink); }
+.viz-cap { color: var(--slate); }
+.hero-badge { color: var(--slate); border-color: var(--hairline); }
+.hero-badge b { color: var(--gold-ink); }
+.btn-ghost { border-color: var(--hairline); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--brass); color: var(--gold-ink); }
+.shape.navy { opacity: .12; }
+.shape.blue { opacity: .16; }
+.shape.ghost { border-color: rgba(11, 33, 41, .12); opacity: .6; }
+.trust { background: var(--paper); border-top-color: var(--hairline); border-bottom-color: var(--hairline); }
+.trust .label { color: var(--slate); }
+.trust .logos .chip { background: #fff; border: 1px solid var(--hairline); }
+.process { background: var(--paper); }
+.process .sec-head h2 { color: var(--ink); }
+.process .eyebrow { color: var(--gold-ink); }
+.step { border-left-color: var(--hairline); }
+.step h4 { color: var(--ink); }
+.step p { color: var(--slate); }
+.step .n { color: var(--gold-ink); }
+.process .closer { border-top-color: var(--hairline); }
+.process .closer p { color: var(--ink); }
+.process .shape.navy { opacity: .10; }
+.reg { background: var(--paper-2); color: var(--slate); }
+.reg .eyebrow { color: var(--gold-ink); }
+.reg p { color: var(--slate); }
+.reg .badge { color: var(--gold-ink); }
+.reg .seal { background: #fff; border: 1px solid var(--hairline); }
+
+@media (max-width: 980px) {
+  .step { border-left: 0; border-top: 1px solid var(--hairline); }
+  .step:nth-child(odd) { border-right: 1px solid var(--hairline); }
+}

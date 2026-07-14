@@ -1,0 +1,99 @@
+.model-stage{margin-top:30px}
+
+  .hub-svg{display:block;width:100%;max-width:740px;margin:0 auto;height:auto;overflow:visible}
+
+  .brain-dot{fill:rgba(143,178,214,.5)}
+
+  .brain-line{stroke:rgba(143,178,214,.15);stroke-width:1}
+
+  .brain-core{fill:rgba(246,243,236,.92)}
+
+  .brain-halo{fill:rgba(191,160,90,.16)}
+
+  .uconn{fill:none;stroke:rgba(143,178,214,.4);stroke-width:1.6}
+
+  .hub-unit{box-sizing:border-box;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3px;border-radius:12px;border:1px solid rgba(143,178,214,.45);background:rgba(143,178,214,.12);color:var(--paper);font-family:var(--font-hanken), sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:background-color .22s ease,border-color .22s ease,color .22s ease,transform .22s var(--ease-out);padding:6px}
+
+  .hub-unit:hover{border-color:#8fb2d6;background:rgba(143,178,214,.22);transform:translateY(-1px)}
+
+  .un-go{font-family:var(--font-mono), monospace;font-size:10px;letter-spacing:.06em;color:#8fb2d6;font-weight:400}
+
+  .hub-hint{text-align:center;color:rgba(246,243,236,.6);font-family:var(--font-mono), monospace;font-size:12px;margin-top:12px}
+
+  .model-unit{animation:popIn .4s ease both}
+
+  .mu-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  .mu-ey{font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8fb2d6}
+
+  .mu-title{font-family:var(--font-fraunces), serif;font-size:clamp(22px,2.6vw,30px);color:var(--paper);margin-top:4px;line-height:1.1}
+
+  .back-btn{background:transparent;border:1px solid rgba(246,243,236,.24);color:var(--paper);font-family:var(--font-hanken), sans-serif;font-weight:600;font-size:13px;padding:8px 16px;border-radius:999px;cursor:pointer;transition:background-color .2s ease,border-color .2s ease,color .2s ease,transform .2s var(--ease-out);white-space:nowrap}
+
+  .back-btn:hover{border-color:#8fb2d6;color:#8fb2d6}
+
+  .mu-tree-svg{display:block;width:100%;max-width:740px;margin:18px auto 0;height:auto;overflow:visible}
+
+  .cbranch.shown{opacity:1}
+
+  .mu-expl{margin:18px auto 0;max-width:680px;background:rgba(255,255,255,.04);border:1px solid rgba(246,243,236,.12);border-radius:10px;padding:18px 22px}
+
+  .mu-expl .te-t{font-family:var(--font-fraunces), serif;font-size:18px;color:var(--paper);margin-bottom:5px}
+
+  .mu-expl .te-d{font-size:14px;color:rgba(246,243,236,.82);line-height:1.55}
+
+  .mu-foot{text-align:center;margin-top:26px}
+
+  /* cerebro de Nuestro Modelo: con vida (como el de arriba) */
+
+  .brain-core{transform-box:fill-box;transform-origin:center;animation:mcore 2.6s ease-in-out infinite}
+
+  @keyframes mcore{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+
+  .brain-halo{transform-box:fill-box;transform-origin:center;animation:mhalo 3.6s ease-in-out infinite}
+
+  @keyframes mhalo{0%,100%{transform:scale(1);opacity:.16}50%{transform:scale(1.3);opacity:.27}}
+
+  .brain-dot{animation:mtwinkle 4s ease-in-out infinite}
+
+  @keyframes mtwinkle{0%,100%{opacity:.35}50%{opacity:.8}}
+
+  .uconn{stroke-dasharray:4 7;animation:mflow 7s linear infinite}
+
+  @keyframes mflow{to{stroke-dashoffset:-110}}
+
+  .uconn-active{stroke:var(--brass-2);stroke-width:2.3}
+
+  @media(prefers-reduced-motion:reduce){.brain-core,.brain-halo,.brain-dot,.uconn{animation:none}}
+
+  /* Hero a una sola columna: titulo arriba, cerebro-modelo debajo */
+
+  .hero-inner.hero-solo{display:block;grid-template-columns:none;text-align:center;padding:78px 0 60px}
+
+  .hero-solo .hero-copy{max-width:800px;margin:0 auto}
+
+  .hero-solo .hero-actions{justify-content:center}
+
+  .hero-solo .hero-actions .note{flex-basis:100%;text-align:center;margin-top:4px}
+
+  .hero-solo .hero-badge{display:inline-block;margin-top:10px}
+
+  .hero-model{margin-top:42px}
+
+  .hm-eyebrow{display:block;text-align:center;font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8fb2d6;margin-bottom:10px}
+
+  /* experiencia guiada de cada unidad */
+
+  .mu-guide{text-align:center;color:rgba(246,243,236,.7);font-family:var(--font-mono), monospace;font-size:12.5px;letter-spacing:.02em;margin:14px 0 0}
+
+  .mu-guide b{color:#8fb2d6}
+
+  .tchild.locked{opacity:.5;border-style:dashed}
+
+  .tchild.done{opacity:1;border-color:#8fb2d6;background:rgba(143,178,214,.14)}
+
+  .tchild-sub.done{border-color:var(--brass-2);background:rgba(191,160,90,.16)}
+
+  .mu-foot .btn.ready{animation:readyPulse 1.5s ease-in-out infinite}
+
+  @keyframes readyPulse{0%,100%{box-shadow:0 0 0 0 rgba(191,160,90,0)}50%{box-shadow:0 0 0 7px rgba(191,160,90,.18)}}

@@ -1,0 +1,9 @@
+.sound-toggle{position:fixed;right:18px;bottom:18px;z-index:60;display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:var(--paper);border:1px solid rgba(246,243,236,.18);border-radius:30px;padding:10px 16px;font-family:var(--font-mono), monospace;font-size:12px;letter-spacing:.06em;cursor:pointer;box-shadow:0 12px 30px -12px rgba(11,33,41,.45);transition:transform .2s}
+
+  .sound-toggle:hover{transform:translateY(-2px)}
+
+  .sound-toggle .sicon{width:13px;height:13px;border-radius:50%;border:2px solid var(--brass-2);transition:background .25s,box-shadow .25s}
+
+  .sound-toggle.on .sicon{background:var(--brass-2);box-shadow:0 0 10px var(--brass-2)}
+
+  @media(max-width:560px){.sound-toggle .slabel{display:none}.sound-toggle{padding:12px;right:14px;bottom:14px}}

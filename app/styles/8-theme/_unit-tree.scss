@@ -1,0 +1,49 @@
+.utree-section .sec-sub{color:rgba(246,243,236,.78);max-width:none;margin-top:10px;line-height:1.6}
+
+  .tree-wrap{overflow-x:auto;margin-top:26px;-webkit-overflow-scrolling:touch}
+
+  .utree-svg{display:block;width:100%;min-width:840px;height:auto;overflow:visible}
+
+  .branch{fill:none;stroke:rgba(143,178,214,.32);stroke-width:1.5}
+
+  .cbranch{fill:none;stroke:rgba(143,178,214,.45);stroke-width:1.5;opacity:0;transition:opacity .45s ease}
+
+  .cbranch-sub{stroke:var(--brass-2)}
+
+  .fb-arc{fill:none;stroke:rgba(143,178,214,.30);stroke-width:1.4;stroke-dasharray:5 7;animation:fbflow 7s linear infinite}
+
+  .fb-loop{stroke:rgba(143,178,214,.20)}
+
+  @keyframes fbflow{to{stroke-dashoffset:-140}}
+
+  .tnode{box-sizing:border-box;height:100%;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:10px;font-family:var(--font-hanken), sans-serif;font-weight:600;font-size:13px;line-height:1.18;padding:5px 8px;cursor:pointer;transition:background-color .25s ease,border-color .25s ease,transform .25s var(--ease-out);border:1px solid rgba(246,243,236,.18);color:var(--paper);background:rgba(255,255,255,.05)}
+
+  .tnode:hover{border-color:#8fb2d6}
+
+  .troot{background:rgba(143,178,214,.16);border-color:rgba(143,178,214,.5);font-family:var(--font-fraunces), serif;font-weight:500;font-size:14px}
+
+  .tunit{background:rgba(143,178,214,.10);border-color:rgba(143,178,214,.42)}
+
+  .tunit.open{border-color:#8fb2d6;background:rgba(143,178,214,.20)}
+
+  .tplus{margin-top:2px;color:#8fb2d6;font-weight:400;font-size:14px;line-height:1}
+
+  .tunit.open .tplus{color:#8fb2d6}
+
+  .tchild{font-weight:500;font-size:12px;color:rgba(246,243,236,.86)}
+
+  .tchild-accent{border-color:rgba(143,178,214,.5)}
+
+  .tchild-sub{border:1px solid var(--brass-2);background:rgba(191,160,90,.12)}
+
+  .tchild .ck{display:block;font-family:var(--font-mono), monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-2);margin-bottom:2px}
+
+  .pop{animation:popIn .42s cubic-bezier(.2,.7,.2,1) both}
+
+  @keyframes popIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .tree-expl{margin-top:22px;max-width:700px;background:rgba(255,255,255,.04);border:1px solid rgba(246,243,236,.12);border-radius:10px;padding:20px 24px;transition:border-color .3s}
+
+  .tree-expl .te-t{font-family:var(--font-fraunces), serif;font-size:19px;color:var(--paper);margin-bottom:6px}
+
+  .tree-expl .te-d{font-size:14.5px;color:rgba(246,243,236,.82);line-height:1.55}

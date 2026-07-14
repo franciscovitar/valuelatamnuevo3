@@ -1,0 +1,43 @@
+// Medios de pago (tabs)
+
+/* ---------- MEDIOS DE PAGO (tabs) ---------- */
+
+  .medios{background:var(--paper);border-top:1px solid var(--line-light)}
+
+  .tabs{display:inline-flex;gap:6px;border:1px solid var(--line-light);border-radius:3px;padding:6px;background:#fff;margin-bottom:36px;flex-wrap:wrap}
+
+  .tab{font-family:var(--font-hanken), sans-serif;font-weight:600;font-size:15px;padding:11px 22px;border:0;background:transparent;color:var(--slate);border-radius:2px;cursor:pointer;transition:background .2s,color .2s}
+
+  .tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+
+  .tab:hover:not([aria-selected="true"]){color:var(--ink)}
+
+  .panel{display:none}
+
+  .panel.active{display:block;animation:fade .35s ease}
+
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .panel-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:48px;align-items:start}
+
+  .panel-lead h3{font-family:var(--font-fraunces), serif;font-weight:500;font-size:26px;line-height:1.22;margin-bottom:16px}
+
+  .panel-lead p{font-size:16px;color:var(--slate);margin-bottom:14px}
+
+  .panel-lead .tag{display:inline-block;margin-top:6px;font-family:var(--font-mono), monospace;font-size:12px;letter-spacing:.05em;color:var(--brass);border:1px solid var(--line-light);padding:7px 13px;border-radius:2px}
+
+  .feat-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-light);border:1px solid var(--line-light);border-radius:3px;overflow:hidden}
+
+  .feat{background:#fff;padding:22px 22px}
+
+  .feat .fh{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+
+  .feat .fh .dot{width:7px;height:7px;background:var(--brass);border-radius:50%;flex-shrink:0}
+
+  .feat h4{font-size:15.5px;font-weight:600;line-height:1.25}
+
+  .feat p{font-size:13.5px;color:var(--slate)}
+
+  @media(max-width:860px){.panel-grid{grid-template-columns:1fr;gap:30px}.feat-list{grid-template-columns:1fr}}
+
+  @media(prefers-reduced-motion:reduce){.panel.active{animation:none}}
