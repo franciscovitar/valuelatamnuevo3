@@ -4,7 +4,6 @@ import {
   CoverStory,
   Footer,
   Header,
-  Intro,
   Metrics,
   PartnerLogos,
   Process,
@@ -26,8 +25,7 @@ export default function Home() {
       <BackgroundCanvas />
       <Header />
       <main>
-        {/* <CoverStory /> */}
-        <Intro />
+        <CoverStory />
         <Metrics />
         <PartnerLogos />
         <Solutions />
