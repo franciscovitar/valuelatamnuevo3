@@ -134,14 +134,22 @@ function ProcessRoute({ steps }) {
               <h2 className="serif">Cómo trabajamos con tu empresa, paso a paso.</h2>
             </div>
 
-            <div aria-hidden="true" className="process-route-progress">
-              <span className="process-route-progress__fill" />
+            <div aria-live="polite" className="process-route-stage">
+              <span className="process-route-stage__current">01</span>
+              <span className="process-route-stage__sep">/</span>
+              <span className="process-route-stage__total">{String(steps.length).padStart(2, '0')}</span>
+            </div>
+
+            <div aria-hidden="true" className="process-route-segments">
+              {steps.map(([title], index) => (
+                <span className="process-route-segments__item" data-route-segment={index} key={title} />
+              ))}
             </div>
 
             <div className="process-route-viewport">
               <div className="process-route-track">
                 {steps.map(([title, text], index) => (
-                  <article className="process-route-panel" key={title}>
+                  <article className="process-route-panel" data-route-panel={index} key={title}>
                     <div className="n">{String(index + 1).padStart(2, '0')}</div>
                     <h4>{title}</h4>
                     <p>{text}</p>
@@ -171,9 +179,14 @@ function ProcessRoute({ steps }) {
         <div aria-hidden="true" className="process-route-progress-mobile">
           <span className="process-route-progress-mobile__fill" />
         </div>
+        <div aria-live="polite" className="process-route-stage process-route-stage--mobile">
+          <span className="process-route-stage__current">01</span>
+          <span className="process-route-stage__sep">/</span>
+          <span className="process-route-stage__total">{String(steps.length).padStart(2, '0')}</span>
+        </div>
         <div className="steps">
           {steps.map(([title, text], index) => (
-            <div className="step" key={title}>
+            <div className="step" data-route-step={index} key={title}>
               <div className="n">{String(index + 1).padStart(2, '0')}</div>
               <h4>{title}</h4>
               <p>{text}</p>

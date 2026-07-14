@@ -1,1 +1,87 @@
-// Reservado — transición visual desactivada (conflictos con GSAP en App Router).
+.vl-route-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  pointer-events: none;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.vl-route-overlay__panel {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    118deg,
+    #061321 0%,
+    #0a2138 42%,
+    #02070e 100%
+  );
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.vl-route-overlay__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(210, 183, 117, 0.95) 38%,
+    rgba(158, 192, 230, 0.88) 62%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px rgba(210, 183, 117, 0.42),
+    0 0 22px rgba(143, 178, 214, 0.24);
+  transform: translateX(-100vw);
+  pointer-events: none;
+}
+
+html.vl-route-transition main {
+  opacity: 0;
+}
+
+html.vl-route-reveal main {
+  opacity: 1;
+  transition: opacity 0.38s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.vl-text-reveal {
+  user-select: text;
+}
+
+.vl-split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.06em;
+}
+
+.vl-split-word__inner {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.vl-split-line {
+  display: block;
+  overflow: hidden;
+}
+
+.vl-split-line__inner {
+  display: block;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.vl-route-reveal main {
+    transition: none;
+  }
+
+  .vl-route-overlay__panel,
+  .vl-route-overlay__line {
+    transition: none;
+  }
+}

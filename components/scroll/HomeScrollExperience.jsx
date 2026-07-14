@@ -3,12 +3,14 @@
 import { usePathname } from 'next/navigation';
 import { initHomeScrollExperience } from '@/lib/scroll/home';
 import { useGsapScope } from '@/lib/scroll';
+import { useRouteReady } from './PageTransitionProvider';
 
 export default function HomeScrollExperience() {
   const pathname = usePathname();
+  const routeReady = useRouteReady();
 
   useGsapScope(() => {
-    if (pathname !== '/') return () => {};
+    if (pathname !== '/' || !routeReady) return () => {};
 
     let cleanup;
     let frame = 0;
@@ -25,7 +27,7 @@ export default function HomeScrollExperience() {
       cancelAnimationFrame(frame);
       cleanup?.();
     };
-  }, { dependencies: [pathname], revertOnUpdate: false });
+  }, { dependencies: [pathname, routeReady], revertOnUpdate: false });
 
   return null;
 }
