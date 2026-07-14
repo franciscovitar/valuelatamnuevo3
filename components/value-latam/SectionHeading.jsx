@@ -1,6 +1,6 @@
 export default function SectionHeading({ eyebrow, title, children }) {
   return (
-    <div className="sec-head reveal">
+    <div className="sec-head">
       <span className="eyebrow">{eyebrow}</span>
       <h2 className="serif">{title}</h2>
       {children}

@@ -2,9 +2,9 @@ import { whyUsHome } from '@/data/valueLatamContent';
 
 export default function WhyUs() {
   return (
-    <section className="edge" id="diferencial">
+    <section className="edge" data-vl-gsap-root="why-us" data-vl-home-section="why-us" id="diferencial">
       <div className="wrap edge-grid">
-        <div className="reveal">
+        <div>
           <span className="eyebrow">Por qué Value Latam</span>
           <h2 className="serif">{whyUsHome.title}</h2>
           <p className="body">{whyUsHome.body}</p>
@@ -14,7 +14,7 @@ export default function WhyUs() {
             ))}
           </ul>
         </div>
-        <div className="pullquote reveal">
+        <div className="pullquote">
           <p className="q">
             &ldquo;En Argentina, la mayoría de los negocios terminan siendo, en buena medida,{' '}
             <span>financieros</span>. Nuestro trabajo es que esa variable juegue a favor de la empresa.&rdquo;

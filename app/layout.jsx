@@ -1,4 +1,5 @@
 import { siteConfig } from '@/data/siteConfig';
+import AppProviders from '@/components/scroll/AppProviders';
 import './value-latam.scss';
 
 export const metadata = {
@@ -62,7 +63,9 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <AppProviders>{children}</AppProviders>
+      </body>
     </html>
   );
 }

@@ -1,4 +1,4 @@
-export default function FeatureGrid({ items, className = 'fin-grid reveal reveal-grid', initial = 3 }) {
+export default function FeatureGrid({ items, className = 'fin-grid', initial = 3 }) {
   return (
     <div className={className} data-initial={initial}>
       {items.map(([title, text, highlight]) => (

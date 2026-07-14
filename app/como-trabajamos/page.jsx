@@ -10,7 +10,7 @@ export default function ComoTrabajamosPage() {
   return (
     <MarketingShell>
       <PageBackLink />
-      <Process />
+      <Process internal />
     </MarketingShell>
   );
 }

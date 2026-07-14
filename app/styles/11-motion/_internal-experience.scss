@@ -1,0 +1,136 @@
+// Etapa 7 — experiencia GSAP páginas internas
+
+.process-route-progress,
+.process-route-progress-mobile {
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(246, 243, 236, 0.1);
+}
+
+.process-route-progress {
+  width: 100%;
+  max-width: 420px;
+  height: 2px;
+  margin: 0 0 18px;
+}
+
+.process-route-progress-mobile {
+  width: 3px;
+  height: 120px;
+  margin: 0 0 18px 12px;
+}
+
+.process-route-progress__fill,
+.process-route-progress-mobile__fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(191, 160, 90, 0.42), rgba(232, 206, 142, 0.92));
+}
+
+.process-route-progress-mobile__fill {
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
+@media (min-width: 761px) {
+  .process-route__mobile {
+    display: none;
+  }
+
+  [data-vl-gsap-root='process-route'] .process-route-pin {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  [data-vl-gsap-root='process-route'].is-vl-pinned {
+    position: relative;
+    z-index: 6;
+  }
+
+  .process-route-viewport {
+    overflow: hidden;
+    width: 100%;
+    margin: 8px 0 0;
+  }
+
+  .process-route-track {
+    display: flex;
+    gap: 18px;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .process-route-panel {
+    flex: 0 0 min(420px, calc(100vw - 120px));
+    padding: 28px 24px 26px;
+    border: 1px solid rgba(246, 243, 236, 0.12);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  .process-route-panel .n {
+    font-family: var(--font-mono), monospace;
+    font-size: 13px;
+    color: var(--brass);
+    letter-spacing: 0.1em;
+  }
+
+  .process-route-panel h4 {
+    font-size: 19px;
+    margin: 16px 0 10px;
+    font-weight: 600;
+    color: var(--paper);
+  }
+
+  .process-route-panel p {
+    font-size: 14.5px;
+    color: rgba(246, 243, 236, 0.8);
+    line-height: 1.45;
+  }
+
+  [data-vl-gsap-root='process-route'] .process-route__desktop .closer {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line-dark);
+  }
+}
+
+@media (max-width: 760px) {
+  .process-route__desktop {
+    display: none;
+  }
+
+  .process-route__mobile .steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+html.vl-motion-enabled {
+  [data-vl-internal-page] .sec-head,
+  [data-vl-internal-page] .fin-lede,
+  [data-vl-internal-page] .feat,
+  [data-vl-internal-page] .biz,
+  [data-vl-internal-page] .step,
+  [data-vl-internal-page] .process-route-panel {
+    backface-visibility: hidden;
+  }
+
+  [data-vl-gsap-tilt] {
+    transform-style: preserve-3d;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-route__desktop {
+    display: none !important;
+  }
+
+  .process-route__mobile {
+    display: block !important;
+  }
+}

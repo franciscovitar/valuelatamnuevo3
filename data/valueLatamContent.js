@@ -52,9 +52,9 @@ export const navSolutionLinks = [
 ];
 
 export const navLinks = [
+  ['/', 'Inicio'],
   [solutionPages.comoTrabajamos.path, 'Cómo trabajamos'],
   [solutionPages.referenciadores.path, 'Referenciadores'],
-  ['/#equipo', 'Equipo'],
 ];
 
 export const introHome = {

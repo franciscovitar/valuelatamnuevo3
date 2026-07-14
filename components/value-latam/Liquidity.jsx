@@ -3,16 +3,21 @@ import SectionHeading from './SectionHeading';
 
 export default function Liquidity() {
   return (
-    <section className="finan" id="liquidez">
+    <section
+      className="finan"
+      data-vl-gsap-root="liquidity"
+      data-vl-internal-page="liquidez"
+      id="liquidez"
+    >
       <div className="wrap">
         <SectionHeading eyebrow="Unidad 02 · Inversión & Liquidez" title="Dos negocios: la liquidez de tu empresa y el patrimonio de los socios." />
 
-        <p className="fin-lede reveal">
+        <p className="fin-lede">
           Somos especialistas en dos frentes distintos y complementarios. Por un lado, la gestión de liquidez de tu empresa. Por el otro, el portfolio manager del patrimonio de los socios. En ambos, diseñamos la estrategia y ejecutamos por vos: vos confirmás.
         </p>
 
-        <div className="biz-grid reveal">
-          <div className="biz">
+        <div className="biz-grid">
+          <div className="biz" data-vl-gsap-tilt="">
             <span className="biz-tag">Negocio 01 · Empresa</span>
             <h3>Gestión de liquidez</h3>
             <p>
@@ -29,7 +34,7 @@ export default function Liquidity() {
           </div>
         </div>
 
-        <div className="liquidity-operators reveal" aria-label="Operamos con Balanz y AdCap, entre otras">
+        <div className="liquidity-operators" aria-label="Operamos con Balanz y AdCap, entre otras">
           <span className="liquidity-operators__label">Operamos con</span>
 
           <span className="liquidity-operators__logo liquidity-operators__logo--balanz" aria-label="Balanz">
@@ -43,7 +48,7 @@ export default function Liquidity() {
           <span className="liquidity-operators__more">entre otras</span>
         </div>
 
-        <div className="fin-cta reveal">
+        <div className="fin-cta">
           <Link className="btn btn-primary" href="/#contacto">Quiero que gestionen mi liquidez</Link>
         </div>
       </div>

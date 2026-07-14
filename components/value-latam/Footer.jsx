@@ -3,7 +3,7 @@ import { contact, solutionPages } from '@/data/valueLatamContent';
 
 export default function Footer() {
   return (
-    <footer>
+    <footer data-vl-gsap-root="footer">
       <div className="wrap">
         <div className="foot-grid">
           <div>

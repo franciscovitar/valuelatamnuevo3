@@ -2,6 +2,12 @@ export function initRevealCounters() {
   const cleanups = [];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const isHomeMotionSection = (element) =>
+    Boolean(element.closest('[data-vl-home-section]'));
+
+  const isGsapSection = (element) =>
+    Boolean(element.closest('[data-vl-gsap-root]'));
+
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -11,10 +17,16 @@ export function initRevealCounters() {
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
 
-    document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+    document.querySelectorAll('.reveal').forEach((element) => {
+      if (isHomeMotionSection(element) || isGsapSection(element)) return;
+      revealObserver.observe(element);
+    });
     cleanups.push(() => revealObserver.disconnect());
   } else {
-    document.querySelectorAll('.reveal').forEach((element) => element.classList.add('in'));
+    document.querySelectorAll('.reveal').forEach((element) => {
+      if (isHomeMotionSection(element) || isGsapSection(element)) return;
+      element.classList.add('in');
+    });
   }
 
   const counters = Array.from(document.querySelectorAll('.cv'));
@@ -50,13 +62,21 @@ export function initRevealCounters() {
       });
     }, { threshold: 0.5 });
 
-    counters.forEach((counter) => counterObserver.observe(counter));
+    counters.forEach((counter) => {
+      if (isHomeMotionSection(counter) || isGsapSection(counter)) return;
+      counterObserver.observe(counter);
+    });
     cleanups.push(() => counterObserver.disconnect());
   } else {
-    counters.forEach(runCounter);
+    counters.forEach((counter) => {
+      if (isHomeMotionSection(counter) || isGsapSection(counter)) return;
+      runCounter(counter);
+    });
   }
 
   document.querySelectorAll('.sol-grid,.metrics-grid,.steps,.feat-list,.team-grid,.cycle-row,.clients,.pay-features').forEach((group) => {
+    if (isHomeMotionSection(group) || isGsapSection(group)) return;
+
     Array.from(group.children).forEach((child, index) => {
       if (child.classList.contains('reveal')) child.style.transitionDelay = (index * 70) + 'ms';
     });

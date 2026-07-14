@@ -1,0 +1,28 @@
+// Infraestructura Lenis — sin cambios visuales
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+html.lenis.lenis-stopped {
+  overflow: auto;
+}
+
+html.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+}

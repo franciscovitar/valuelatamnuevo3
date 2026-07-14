@@ -8,34 +8,46 @@ const partnerLogos = [
 
 const carouselSets = [partnerLogos, partnerLogos];
 
-function LogoItem({ logo, suffix = '' }) {
-  return (
-    <span className={`partner-logo partner-logo--${logo.slug} partner-logo--${logo.variant}`}>
-      <img src={logo.src} alt={logo.alt} width={logo.width} height={logo.height} loading="lazy" decoding="async" />
-      <b className="rel-fb">{logo.alt}</b>
-    </span>
-  );
-}
-
 export default function PartnerLogos() {
   return (
-    <section className="trust partner-logos" aria-label="Empresas y partners">
+    <section
+      aria-label="Empresas y partners"
+      className="trust partner-logos"
+      data-vl-gsap-root="partners"
+      data-vl-home-section="partners"
+    >
       <div className="wrap">
-        <div className="sec-head reveal partner-head">
+        <div className="sec-head partner-head">
           <span className="eyebrow">Red de trabajo</span>
           <h2 className="serif">Empresas y aliados con los que trabajamos.</h2>
         </div>
 
-        <div className="partner-logo-grid partner-logo-grid--static reveal">
-          {partnerLogos.map((logo) => <LogoItem logo={logo} key={logo.alt} />)}
+        <div className="partner-logo-grid partner-logo-grid--static">
+          {partnerLogos.map((logo) => (
+            <span
+              className={`partner-logo partner-logo--${logo.slug} partner-logo--${logo.variant}`}
+              key={logo.alt}
+            >
+              <img alt={logo.alt} decoding="async" loading="lazy" src={logo.src} />
+              <b className="rel-fb">{logo.alt}</b>
+            </span>
+          ))}
         </div>
 
-        <div className="partner-carousel-shell reveal" aria-hidden="true">
+        <div aria-hidden="true" className="partner-carousel-shell">
           <div className="partner-carousel-viewport">
             <div className="partner-carousel-track">
               {carouselSets.map((set, setIndex) => (
                 <div className="partner-carousel-set" key={`partner-set-${setIndex}`}>
-                  {set.map((logo) => <LogoItem logo={logo} key={`${logo.alt}-${setIndex}`} />)}
+                  {set.map((logo) => (
+                    <span
+                      className={`partner-logo partner-logo--${logo.slug} partner-logo--${logo.variant}`}
+                      key={`${logo.alt}-${setIndex}`}
+                    >
+                      <img alt={logo.alt} decoding="async" loading="lazy" src={logo.src} />
+                      <b className="rel-fb">{logo.alt}</b>
+                    </span>
+                  ))}
                 </div>
               ))}
             </div>

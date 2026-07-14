@@ -1,0 +1,64 @@
+// Motion — microinteracciones globales (Etapa 1)
+
+html.vl-motion-enabled {
+  .btn-primary:hover,
+  .btn-ghost:hover,
+  .btn-primary:active,
+  .btn-ghost:active,
+  .btn:active {
+    transform: none !important;
+  }
+
+  .btn-primary.vl-micro:hover::after {
+    transform: translateX(3px);
+  }
+
+  .btn-ghost.vl-micro:hover::after {
+    transform: translate(2px, -2px);
+  }
+
+  header.nav .nav-links > a.vl-micro-nav,
+  header.nav .nav-dropdown__menu a.vl-micro-nav {
+    position: relative;
+  }
+
+  .vl-nav-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: rgba(158, 192, 230, 0.88);
+    transform: scaleX(0);
+    transform-origin: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  header.nav .nav-dropdown__menu a .vl-nav-indicator {
+    bottom: 4px;
+    left: 14px;
+    right: 14px;
+  }
+
+  .sol-card.vl-micro-card,
+  .person.vl-micro-card,
+  .jcard.vl-micro-card,
+  .gain.vl-micro-card,
+  .biz.vl-micro-card,
+  .ficha.vl-micro-card,
+  .pillar.vl-micro-card,
+  .pay-feat.vl-micro-card {
+    will-change: transform, box-shadow;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.vl-motion-enabled {
+    .btn-primary:hover,
+    .btn-ghost:hover,
+    .btn:active {
+      transform: none !important;
+    }
+  }
+}

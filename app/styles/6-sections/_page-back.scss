@@ -1,19 +1,23 @@
 .page-back {
-  padding-top: clamp(88px, 12vh, 120px);
-  padding-bottom: 8px;
+  padding-top: clamp(96px, 13vh, 128px);
+  padding-bottom: 12px;
 }
 
 .page-back__link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-mono), monospace;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: .14em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(143, 178, 214, .85);
-  transition: color .18s ease;
+  color: rgba(143, 178, 214, 0.92);
+  opacity: 1;
+  transition: color 0.18s ease, transform 0.18s ease;
 }
 
 .page-back__link:hover {
   color: var(--paper);
+  transform: translateX(-2px);
 }

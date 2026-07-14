@@ -47,6 +47,12 @@ export default function Header() {
         </Link>
 
         <nav className="nav-links" id="main-menu" aria-label="Navegación principal">
+          {navLinks.slice(0, 1).map(([href, label]) => (
+            <NavLink href={href} key={href} pathname={pathname}>
+              {label}
+            </NavLink>
+          ))}
+
           <div
             className={`nav-dropdown${solutionsActive ? ' is-active-group' : ''}`}
             data-nav-dropdown
@@ -90,7 +96,7 @@ export default function Header() {
             </ul>
           </div>
 
-          {navLinks.map(([href, label]) => (
+          {navLinks.slice(1).map(([href, label]) => (
             <NavLink href={href} key={href} pathname={pathname}>
               {label}
             </NavLink>

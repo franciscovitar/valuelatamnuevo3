@@ -1,3 +1,4 @@
+import HomeScrollExperience from '@/components/scroll/HomeScrollExperience';
 import {
   Contact,
   CoverStory,
@@ -25,17 +26,18 @@ export default function Home() {
       <BackgroundCanvas />
       <Header />
       <main>
-        <CoverStory />
+        {/* <CoverStory /> */}
         <Intro />
         <Metrics />
         <PartnerLogos />
         <Solutions />
-        <Process compact />
         <WhyUs />
+        <Process compact />
         <Regulation />
         <Team />
         <WorkWithUsTeaser />
         <Contact />
+        <HomeScrollExperience />
       </main>
       <Footer />
       <SoundToggle />
