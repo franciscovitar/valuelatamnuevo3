@@ -1,169 +1,245 @@
 import { gsap } from '@/lib/scroll/gsap';
 import { ScrollTrigger } from '@/lib/scroll/gsap';
-import { SCROLL_ANCHOR_OFFSET } from '@/lib/scroll/config';
-import { getLenis } from '@/lib/scroll/lenis';
 import { prefersReducedMotion } from '@/lib/motion/tokens';
 import {
+  HERO_CARD_FLOAT,
+  HERO_DESIGN,
+  HERO_SCROLL_DESKTOP_VH,
+  HERO_SCROLL_MOBILE_VH,
   HERO_STATES,
+  HERO_THEME,
   HERO_TIMELINE,
-  designX,
-  designY,
-  getHeroScale,
 } from './heroKeyframes';
 
-const SCRUB = 0.82;
-const INTERACTIVE_FROM = 0.32;
+const SCRUB = 1.35;
+const EASE_MOVE = 'power1.inOut';
+const EASE_SOFT = 'sine.inOut';
+const EASE_REVEAL = 'power2.out';
+const CARD_STAGGER = 0.016;
+const LINE_STAGGER = 0.011;
+const COPY_ENTRANCE_DELAY = 0.022;
 
-function getScrollHeight() {
-  if (typeof window === 'undefined') return 280;
-  if (window.matchMedia('(max-width: 760px)').matches) return 240;
-  if (window.matchMedia('(max-width: 1024px)').matches) return 260;
-  return 280;
+function applyThemeVars(root, themeKey) {
+  const vars = HERO_THEME[themeKey];
+  Object.entries(vars).forEach(([key, value]) => {
+    root.style.setProperty(key, value);
+  });
 }
 
-function setContentInteractivity(content, progress) {
-  if (!content) return;
-  const interactive = progress >= INTERACTIVE_FROM && progress < 0.97;
-  content.style.pointerEvents = interactive ? 'auto' : 'none';
-  content.classList.toggle('is-cover-interactive', interactive);
+function collectTargets(root) {
+  return {
+    root,
+    content: root.querySelector('#coverContent'),
+    cards: gsap.utils.toArray(root.querySelectorAll('[data-cover-card]')),
+    cardFloats: gsap.utils.toArray(root.querySelectorAll('[data-cover-card-float]')),
+    lines: gsap.utils.toArray(root.querySelectorAll('[data-cover-line]')),
+    radial: root.querySelector('#coverRadial'),
+    smoke: root.querySelector('#coverSmoke'),
+  };
 }
 
-function setTheme(root, theme) {
-  root.classList.toggle('is-theme-gold', theme >= 0.5);
-}
+function applyState(targets, state) {
+  const { root, content, cards, lines, radial, smoke } = targets;
 
-function applyState({ scale, content, cards, lines, radial, smoke, root, state }) {
   gsap.set(content, {
-    x: designX(state.content.x, scale.x),
+    x: state.content.x,
     opacity: state.content.opacity,
+    force3D: true,
   });
 
-  cards.forEach((card, index) => {
-    const pos = state.cards[index];
-    gsap.set(card, {
-      x: designX(pos.x, scale.x),
-      y: designY(pos.y, scale.y),
-      opacity: pos.opacity,
+  state.cards.forEach((cardState, index) => {
+    gsap.set(cards[index], {
+      x: cardState.x,
+      y: cardState.y,
+      opacity: cardState.opacity,
+      force3D: true,
     });
   });
 
-  gsap.set(lines, { opacity: state.linesOpacity });
-  gsap.set(radial, { opacity: state.radialOpacity });
-  gsap.set(smoke, {
-    y: designY(state.smoke.y, scale.y),
-    opacity: state.smoke.opacity,
+  state.lines.x.forEach((x, index) => {
+    gsap.set(lines[index], {
+      x,
+      opacity: state.lines.opacity,
+      force3D: true,
+    });
   });
-  setTheme(root, state.theme);
+
+  gsap.set(radial, { opacity: state.radial.opacity });
+  gsap.set(smoke, {
+    y: state.smoke.y,
+    opacity: state.smoke.opacity,
+    force3D: true,
+  });
+
+  applyThemeVars(root, state.theme === 1 ? 'gold' : 'blue');
 }
 
-function tweenState({
-  tl,
-  at,
-  duration,
-  scale,
-  content,
-  cards,
-  lines,
-  radial,
-  smoke,
-  root,
-  from,
-  to,
-}) {
-  tl.to(
+function segmentDuration(total, offset) {
+  return Math.max(total - offset, total * 0.72);
+}
+
+function buildTimeline(targets) {
+  const { root, content, cards, lines, radial, smoke } = targets;
+  const s1 = HERO_STATES.s1;
+  const s2 = HERO_STATES.s2;
+  const s3 = HERO_STATES.s3;
+  const s4 = HERO_STATES.s4;
+  const [t12Start, t12End] = HERO_TIMELINE.s1ToS2;
+  const [t23Start, t23End] = HERO_TIMELINE.s2ToS3;
+  const [t34Start, t34End] = HERO_TIMELINE.s3ToS4;
+  const [, tHoldEnd] = HERO_TIMELINE.holdS4;
+
+  const dur12 = t12End - t12Start;
+  const dur23 = t23End - t23Start;
+  const dur34 = t34End - t34Start;
+  const durHold = tHoldEnd - t34End;
+
+  const tl = gsap.timeline({ defaults: { ease: EASE_MOVE } });
+
+  const copyStart = t12Start + COPY_ENTRANCE_DELAY;
+  const copyDur12 = segmentDuration(dur12, COPY_ENTRANCE_DELAY);
+
+  tl.fromTo(
     content,
-    {
-      x: designX(to.content.x, scale.x),
-      opacity: to.content.opacity,
-      duration,
-      ease: 'none',
-    },
-    at,
+    { x: s1.content.x, opacity: s1.content.opacity },
+    { x: s2.content.x, opacity: s2.content.opacity, duration: copyDur12, ease: EASE_MOVE },
+    copyStart,
   );
+
+  tl.to(content, { x: s3.content.x, duration: dur23, ease: EASE_SOFT }, t23Start);
 
   cards.forEach((card, index) => {
-    const target = to.cards[index];
-    tl.to(
+    const cardStart = t12Start + index * CARD_STAGGER;
+    const cardDur12 = segmentDuration(dur12, index * CARD_STAGGER);
+    const revealDur = Math.min(cardDur12 * 0.62, cardDur12 - 0.012);
+
+    tl.fromTo(
       card,
       {
-        x: designX(target.x, scale.x),
-        y: designY(target.y, scale.y),
-        opacity: target.opacity,
-        duration,
-        ease: 'none',
+        x: s1.cards[index].x,
+        y: s1.cards[index].y,
       },
-      at,
+      {
+        x: s2.cards[index].x,
+        y: s2.cards[index].y,
+        duration: cardDur12,
+        ease: EASE_MOVE,
+      },
+      cardStart,
+    );
+
+    tl.fromTo(
+      card,
+      { opacity: s1.cards[index].opacity },
+      { opacity: s2.cards[index].opacity, duration: revealDur, ease: EASE_REVEAL },
+      cardStart + CARD_STAGGER * 0.35,
+    );
+
+    tl.to(card, { y: s3.cards[index].y, duration: dur23, ease: EASE_SOFT }, t23Start);
+    tl.to(card, { y: s4.cards[index].y, duration: dur34, ease: EASE_SOFT }, t34Start);
+  });
+
+  lines.forEach((line, index) => {
+    const lineStart = t12Start + index * LINE_STAGGER;
+    const lineDur12 = segmentDuration(dur12, index * LINE_STAGGER);
+    const lineRevealDur = Math.min(lineDur12 * 0.55, lineDur12 - 0.01);
+
+    tl.fromTo(
+      line,
+      { x: s1.lines.x[index] },
+      { x: s2.lines.x[index], duration: lineDur12, ease: EASE_MOVE },
+      lineStart,
+    );
+
+    tl.fromTo(
+      line,
+      { opacity: s1.lines.opacity },
+      { opacity: s2.lines.opacity, duration: lineRevealDur, ease: EASE_REVEAL },
+      lineStart + LINE_STAGGER * 0.4,
     );
   });
 
-  if (from.linesOpacity !== to.linesOpacity) {
-    tl.to(lines, { opacity: to.linesOpacity, duration, ease: 'none' }, at);
-  }
-
-  if (from.radialOpacity !== to.radialOpacity) {
-    tl.to(radial, { opacity: to.radialOpacity, duration, ease: 'none' }, at);
-  }
-
-  tl.to(
-    smoke,
-    {
-      y: designY(to.smoke.y, scale.y),
-      opacity: to.smoke.opacity,
-      duration,
-      ease: 'none',
-    },
-    at,
+  tl.fromTo(
+    radial,
+    { opacity: s1.radial.opacity },
+    { opacity: s2.radial.opacity, duration: dur12 * 0.72, ease: EASE_REVEAL },
+    t12Start + 0.012,
   );
 
-  if (from.theme !== to.theme) {
-    const themeProxy = { value: from.theme };
-    tl.to(
-      themeProxy,
-      {
-        value: to.theme,
-        duration,
-        ease: 'none',
-        onUpdate: () => setTheme(root, themeProxy.value),
-      },
-      at,
-    );
-  }
-}
-
-function initReducedLayout(scroller, sticky, root) {
-  scroller.style.height = 'auto';
-  sticky.style.position = 'relative';
-  sticky.style.top = '';
-  sticky.style.height = '';
-  sticky.style.minHeight = '';
-
-  const scale = getHeroScale(sticky);
-  const content = root.querySelector('#coverContent');
-  const cards = gsap.utils.toArray(root.querySelectorAll('[data-cover-card]'));
-  const lines = root.querySelector('#coverLines');
-  const radial = root.querySelector('#coverRadial');
-  const smoke = root.querySelector('#coverSmoke');
-
-  applyState({
-    scale,
-    content,
-    cards,
-    lines,
-    radial,
+  tl.fromTo(
     smoke,
-    root,
-    state: HERO_STATES.s4,
-  });
+    { y: s1.smoke.y },
+    { y: s2.smoke.y, duration: dur12, ease: EASE_MOVE },
+    t12Start,
+  );
 
-  gsap.set(root.querySelector('#coverExit'), { opacity: 0 });
-  if (content) {
-    content.style.pointerEvents = 'auto';
-    content.classList.add('is-cover-interactive');
-  }
+  tl.fromTo(
+    smoke,
+    { opacity: s1.smoke.opacity },
+    { opacity: s2.smoke.opacity, duration: dur12 * 0.68, ease: EASE_REVEAL },
+    t12Start + 0.018,
+  );
+
+  tl.to(smoke, { y: s3.smoke.y, duration: dur23, ease: EASE_SOFT }, t23Start);
+
+  tl.fromTo(
+    root,
+    { ...HERO_THEME.blue },
+    { ...HERO_THEME.gold, duration: dur23, ease: EASE_SOFT },
+    t23Start,
+  );
+
+  tl.to({}, { duration: durHold }, t34End);
+
+  return tl;
 }
 
-function waitForCoverImages(root) {
-  const images = gsap.utils.toArray(root?.querySelectorAll('img') ?? []);
+function buildCardFloatAnimations(floatEls) {
+  return floatEls.map((el, index) =>
+    gsap.fromTo(
+      el,
+      { y: 0 },
+      {
+        y: HERO_CARD_FLOAT.amplitude[index] ?? 6,
+        duration: HERO_CARD_FLOAT.duration[index] ?? 2.8,
+        delay: HERO_CARD_FLOAT.delay[index] ?? index * 0.25,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        paused: true,
+      },
+    ),
+  );
+}
+
+function setCardFloatActive(floatAnims, floatEls, active) {
+  floatAnims.forEach((anim, index) => {
+    if (active) {
+      anim.play();
+      return;
+    }
+
+    anim.pause(0);
+    gsap.set(floatEls[index], { y: 0 });
+  });
+}
+
+function updateStageScale(viewport) {
+  if (!viewport) return 1;
+  const scale = Math.max(
+    viewport.clientWidth / HERO_DESIGN.width,
+    viewport.clientHeight / HERO_DESIGN.height,
+  );
+  viewport.style.setProperty('--hero-stage-scale', String(scale));
+  return scale;
+}
+
+function setScrollHeight(scrollEl, mobile) {
+  scrollEl.style.height = `${mobile ? HERO_SCROLL_MOBILE_VH : HERO_SCROLL_DESKTOP_VH}vh`;
+}
+
+function waitForHeroImages(root) {
+  const images = gsap.utils.toArray(root.querySelectorAll('img'));
   return Promise.all(
     images.map(
       (img) =>
@@ -179,229 +255,135 @@ function waitForCoverImages(root) {
   );
 }
 
-function waitForLayout() {
-  return new Promise((resolve) => {
-    requestAnimationFrame(() => requestAnimationFrame(resolve));
-  });
-}
+function initStaticReduced(root, scrollEl, stickyEl, viewport) {
+  setScrollHeight(scrollEl, false);
+  scrollEl.style.height = 'auto';
+  stickyEl.style.position = 'relative';
+  stickyEl.style.height = '100svh';
 
-function waitForLenis(maxMs = 2500) {
-  return new Promise((resolve) => {
-    if (getLenis()) {
-      resolve();
-      return;
-    }
+  const targets = collectTargets(root);
+  applyState(targets, HERO_STATES.s4);
+  updateStageScale(viewport);
+  root.classList.add('is-cover-mounted');
 
-    const started = performance.now();
-    const tick = () => {
-      if (getLenis() || performance.now() - started >= maxMs) {
-        resolve();
-        return;
-      }
-      requestAnimationFrame(tick);
-    };
-
-    tick();
-  });
-}
-
-/** Sincroniza video futuro con el progreso 0–1 del Hero. */
-export function setCoverMediumProgress(root, progress) {
-  const clamped = gsap.utils.clamp(0, 1, progress);
-  const video = root?.querySelector('[data-cover-video]');
-  if (video?.duration && Number.isFinite(video.duration)) {
-    video.currentTime = clamped * video.duration;
-  }
+  return () => {
+    scrollEl.style.height = '';
+    stickyEl.style.position = '';
+    stickyEl.style.height = '';
+    root.classList.remove('is-cover-mounted', 'is-cover-active');
+    viewport?.style.removeProperty('--hero-stage-scale');
+  };
 }
 
 export function initCoverAnimation() {
   const root = document.querySelector('[data-vl-cover-root]');
-  const scroller = document.getElementById('coverScroll');
-  const sticky = document.getElementById('coverSticky');
+  const scrollEl = document.getElementById('coverScroll');
+  const stickyEl = document.getElementById('coverSticky');
+  const viewport = document.getElementById('coverViewport');
 
-  if (!root || !scroller || !sticky) return () => {};
+  if (!root || !scrollEl || !stickyEl || !viewport) return () => {};
 
   if (prefersReducedMotion()) {
-    initReducedLayout(scroller, sticky, root);
-    root.classList.add('is-cover-ready');
-    return () => {
-      scroller.style.height = '';
-      sticky.style.position = '';
-      sticky.style.top = '';
-      sticky.style.height = '';
-      sticky.style.minHeight = '';
-    };
+    return initStaticReduced(root, scrollEl, stickyEl, viewport);
   }
 
-  const content = root.querySelector('#coverContent');
-  const cards = gsap.utils.toArray(root.querySelectorAll('[data-cover-card]'));
-  const lines = root.querySelector('#coverLines');
-  const radial = root.querySelector('#coverRadial');
-  const smoke = root.querySelector('#coverSmoke');
-  const exit = root.querySelector('#coverExit');
-
   let ctx;
+  let mm;
+  let resizeObserver;
   let refreshTimer;
   let disposed = false;
 
-  const mountTimeline = () => {
+  const boot = async () => {
+    await waitForHeroImages(root);
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
     if (disposed) return;
 
-    ctx?.revert();
+    mm = gsap.matchMedia();
 
-    const scale = getHeroScale(sticky);
-    const scrollVh = getScrollHeight();
-    scroller.style.height = `${scrollVh}vh`;
+    mm.add(
+      {
+        desktop: '(min-width: 1024px)',
+        mobile: '(max-width: 1023px)',
+      },
+      (context) => {
+        const { desktop } = context.conditions;
+        const targets = collectTargets(root);
+        const mobile = !desktop;
 
-    setTheme(root, 0);
+        setScrollHeight(scrollEl, mobile);
+        updateStageScale(viewport);
+        applyState(targets, HERO_STATES.s1);
 
-    applyState({
-      scale,
-      content,
-      cards,
-      lines,
-      radial,
-      smoke,
-      root,
-      state: HERO_STATES.s1,
+        ctx = gsap.context(() => {
+          const tl = buildTimeline(targets);
+          const floatAnims = buildCardFloatAnimations(targets.cardFloats);
+          const floatStart = HERO_TIMELINE.holdS4[0];
+          let cardFloatActive = false;
+
+          ScrollTrigger.create({
+            animation: tl,
+            trigger: scrollEl,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: SCRUB,
+            pin: stickyEl,
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate(self) {
+              const shouldFloat = self.progress >= floatStart;
+              if (shouldFloat === cardFloatActive) return;
+              cardFloatActive = shouldFloat;
+              setCardFloatActive(floatAnims, targets.cardFloats, shouldFloat);
+            },
+            onRefresh(self) {
+              const shouldFloat = self.progress >= floatStart;
+              if (shouldFloat === cardFloatActive) return;
+              cardFloatActive = shouldFloat;
+              setCardFloatActive(floatAnims, targets.cardFloats, shouldFloat);
+            },
+          });
+
+          root.classList.add('is-cover-active');
+        }, root);
+
+        root.classList.add('is-cover-mounted');
+        ScrollTrigger.refresh();
+
+        return () => {
+          root.classList.remove('is-cover-active');
+        };
+      },
+    );
+
+    resizeObserver = new ResizeObserver(() => {
+      updateStageScale(viewport);
+      clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 120);
     });
-
-    gsap.set(exit, { opacity: 0 });
-    setContentInteractivity(content, 0);
-    root.classList.add('is-cover-ready');
-
-    const { s1toS2, s2toS3, s3toS4, exit: exitRange } = HERO_TIMELINE;
-
-    ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: scroller,
-          start: `top top+=${SCROLL_ANCHOR_OFFSET}`,
-          end: 'bottom bottom',
-          scrub: SCRUB,
-          pin: sticky,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            setCoverMediumProgress(root, self.progress);
-            setContentInteractivity(content, self.progress);
-          },
-        },
-      });
-
-      root.classList.add('is-cover-active');
-
-      tweenState({
-        tl,
-        at: s1toS2[0],
-        duration: s1toS2[1] - s1toS2[0],
-        scale,
-        content,
-        cards,
-        lines,
-        radial,
-        smoke,
-        root,
-        from: HERO_STATES.s1,
-        to: HERO_STATES.s2,
-      });
-
-      tweenState({
-        tl,
-        at: s2toS3[0],
-        duration: s2toS3[1] - s2toS3[0],
-        scale,
-        content,
-        cards,
-        lines,
-        radial,
-        smoke,
-        root,
-        from: HERO_STATES.s2,
-        to: HERO_STATES.s3,
-      });
-
-      tweenState({
-        tl,
-        at: s3toS4[0],
-        duration: s3toS4[1] - s3toS4[0],
-        scale,
-        content,
-        cards,
-        lines,
-        radial,
-        smoke,
-        root,
-        from: HERO_STATES.s3,
-        to: HERO_STATES.s4,
-      });
-
-      tl.to(
-        exit,
-        { opacity: 0.65, duration: exitRange[1] - exitRange[0], ease: 'none' },
-        exitRange[0],
-      );
-      tl.to(
-        [content, ...cards, smoke],
-        {
-          opacity: 0.15,
-          duration: exitRange[1] - exitRange[0],
-          ease: 'none',
-        },
-        exitRange[0],
-      );
-    }, root);
-
-    ScrollTrigger.refresh();
-  };
-
-  applyState({
-    scale: getHeroScale(sticky),
-    content,
-    cards,
-    lines,
-    radial,
-    smoke,
-    root,
-    state: HERO_STATES.s1,
-  });
-
-  const boot = async () => {
-    await waitForCoverImages(root);
-    await waitForLayout();
-    await waitForLenis();
-    mountTimeline();
+    resizeObserver.observe(viewport);
   };
 
   boot();
 
-  const onResize = () => {
-    scroller.style.height = `${getScrollHeight()}vh`;
-    clearTimeout(refreshTimer);
-    refreshTimer = window.setTimeout(() => {
-      ctx?.revert();
-      mountTimeline();
-    }, 150);
-  };
-
-  window.addEventListener('resize', onResize);
-
   return () => {
     disposed = true;
-    window.removeEventListener('resize', onResize);
     clearTimeout(refreshTimer);
-    root.classList.remove('is-cover-active', 'is-cover-ready', 'is-theme-gold');
-    scroller.style.height = '';
-    sticky.style.position = '';
-    sticky.style.top = '';
-    sticky.style.height = '';
-    sticky.style.minHeight = '';
-    if (content) {
-      content.style.pointerEvents = '';
-      content.classList.remove('is-cover-interactive');
-    }
+    resizeObserver?.disconnect();
+    mm?.revert();
     ctx?.revert();
+
+    root.classList.remove('is-cover-mounted', 'is-cover-active');
+    scrollEl.style.height = '';
+    stickyEl.style.position = '';
+    stickyEl.style.top = '';
+    stickyEl.style.height = '';
+    stickyEl.style.minHeight = '';
+    viewport?.style.removeProperty('--hero-stage-scale');
+
+    Object.keys(HERO_THEME.blue).forEach((key) => {
+      root.style.removeProperty(key);
+    });
   };
 }

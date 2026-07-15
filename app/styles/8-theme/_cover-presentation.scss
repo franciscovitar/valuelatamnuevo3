@@ -1,49 +1,88 @@
-// Hero scroll — cuatro keyframes Figma (45:2199 → 45:5306 → 45:2396 → 45:3491)
+// Hero Figma — stage 1440×900, cuatro keyframes (45:2199 → 45:5306 → 45:2396 → 45:3491)
+
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700&family=Inter:wght@400;600&family=Poppins:wght@400&display=swap');
 
 .cover-hero {
   --hero-accent: #8fb2d6;
   --hero-card-bg: rgba(10, 22, 36, 0.7);
   --hero-card-border: rgba(143, 178, 214, 0.15);
+  --hero-glow: rgba(143, 178, 214, 0.3);
+  --hero-line-accent: #8fb2d6;
+  --hero-stage-scale: 1;
+  --hero-font-inter: 'Inter', system-ui, sans-serif;
+  --hero-font-poppins: 'Poppins', system-ui, sans-serif;
+  --hero-font-hanken: 'Hanken Grotesk', system-ui, sans-serif;
+  --hero-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 
-  background: #02060d;
   position: relative;
   z-index: 2;
   padding: 0;
+  background: #02060d;
   isolation: isolate;
 }
 
-.cover-hero.is-theme-gold {
-  --hero-accent: #bfa05a;
-  --hero-card-bg: rgba(20, 18, 12, 0.7);
-  --hero-card-border: rgba(191, 160, 90, 0.15);
+.cover-hero__scroll {
+  position: relative;
+  height: 360vh;
 }
 
-.cover-hero .cover-scroll {
+.cover-hero__sticky {
   position: relative;
-  height: 280vh;
-}
-
-.cover-hero .cover-sticky {
-  position: relative;
-  top: 0;
   width: 100%;
-  height: 100dvh;
   height: 100svh;
   min-height: 0;
   overflow: hidden;
   background: #02060d;
 }
 
-.cover-hero__stage {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.cover-hero__viewport {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
+}
+
+.cover-hero__design-stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1440px;
+  height: 900px;
+  transform: translate(-50%, -50%) scale(var(--hero-stage-scale));
+  transform-origin: center center;
+  background: #02060d;
+  overflow: hidden;
+}
+
+// Estado 01 — CSS seguro antes de GSAP
+.cover-hero:not(.is-cover-mounted) {
+  .cover-hero__content {
+    transform: translateX(-471px);
+    opacity: 1;
+  }
+
+  .cover-hero__card {
+    opacity: 0;
+  }
+
+  .cover-hero__radial {
+    opacity: 0;
+  }
+
+  .cover-hero__line {
+    opacity: 0;
+  }
+
+  .cover-hero__smoke {
+    opacity: 0;
+  }
 }
 
 .cover-hero__base {
   position: absolute;
-  inset: 0;
+  left: 0;
+  top: 0;
+  width: 1556px;
+  height: 952px;
   opacity: 0.2;
   pointer-events: none;
   background:
@@ -51,66 +90,54 @@
     linear-gradient(90deg, rgba(143, 178, 214, 0.12) 0%, rgba(0, 0, 0, 0) 0%);
 }
 
+.cover-hero__radial {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1556px;
+  height: 952px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 340.62px 208.4px at 100% 50%,
+    rgba(39, 92, 145, 0.15) 0%,
+    rgba(21, 49, 79, 0.575) 22.08%,
+    rgba(11, 28, 46, 0.7875) 33.12%,
+    rgba(7, 17, 30, 0.89375) 38.64%,
+    rgba(2, 6, 13, 1) 44.16%
+  );
+}
+
 .cover-hero__lines {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0;
 }
 
 .cover-hero__line {
   position: absolute;
   top: 0;
+  left: 0;
   width: 1px;
-  height: 100%;
+  height: 952px;
+  opacity: 0;
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
-    color-mix(in srgb, var(--hero-accent) 14%, transparent) 7%,
-    color-mix(in srgb, var(--hero-accent) 29%, transparent) 14%,
-    color-mix(in srgb, var(--hero-accent) 43%, transparent) 21%,
-    color-mix(in srgb, var(--hero-accent) 57%, transparent) 29%,
-    color-mix(in srgb, var(--hero-accent) 71%, transparent) 36%,
-    color-mix(in srgb, var(--hero-accent) 86%, transparent) 43%,
-    var(--hero-accent) 50%,
-    color-mix(in srgb, var(--hero-accent) 86%, transparent) 57%,
-    color-mix(in srgb, var(--hero-accent) 71%, transparent) 64%,
-    color-mix(in srgb, var(--hero-accent) 57%, transparent) 71%,
-    color-mix(in srgb, var(--hero-accent) 43%, transparent) 79%,
-    color-mix(in srgb, var(--hero-accent) 29%, transparent) 86%,
-    color-mix(in srgb, var(--hero-accent) 14%, transparent) 93%,
+    color-mix(in srgb, var(--hero-line-accent) 14.3%, transparent) 7.14%,
+    color-mix(in srgb, var(--hero-line-accent) 28.6%, transparent) 14.29%,
+    color-mix(in srgb, var(--hero-line-accent) 42.9%, transparent) 21.43%,
+    color-mix(in srgb, var(--hero-line-accent) 57.1%, transparent) 28.57%,
+    color-mix(in srgb, var(--hero-line-accent) 71.4%, transparent) 35.71%,
+    color-mix(in srgb, var(--hero-line-accent) 85.7%, transparent) 42.86%,
+    var(--hero-line-accent) 50%,
+    color-mix(in srgb, var(--hero-line-accent) 85.7%, transparent) 57.14%,
+    color-mix(in srgb, var(--hero-line-accent) 71.4%, transparent) 64.29%,
+    color-mix(in srgb, var(--hero-line-accent) 57.1%, transparent) 71.43%,
+    color-mix(in srgb, var(--hero-line-accent) 42.9%, transparent) 78.57%,
+    color-mix(in srgb, var(--hero-line-accent) 28.6%, transparent) 85.71%,
+    color-mix(in srgb, var(--hero-line-accent) 14.3%, transparent) 92.86%,
     rgba(0, 0, 0, 0) 100%
-  );
-}
-
-.cover-hero__line:nth-child(1) {
-  left: calc(40% + 84.81px);
-}
-
-.cover-hero__line:nth-child(2) {
-  left: calc(40% + 235.81px);
-}
-
-.cover-hero__line:nth-child(3) {
-  left: calc(60% + 98.81px);
-}
-
-.cover-hero__line:nth-child(4) {
-  left: calc(80% - 38.19px);
-}
-
-.cover-hero__radial {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.55;
-  background: radial-gradient(
-    ellipse 340px 208px at 100% 50%,
-    rgba(39, 92, 145, 0.15) 0%,
-    rgba(21, 49, 79, 0.575) 22%,
-    rgba(11, 28, 46, 0.79) 33%,
-    rgba(7, 17, 30, 0.89) 39%,
-    rgba(2, 6, 13, 1) 44%
   );
 }
 
@@ -124,12 +151,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
-  align-items: center;
   width: 280px;
-  max-width: min(280px, 58vw);
   opacity: 0;
   will-change: transform, opacity;
+}
+
+.cover-hero__card-float {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  will-change: transform;
 }
 
 .cover-hero__card-icon {
@@ -140,8 +171,7 @@
   border-radius: 999px;
   border: 1px solid var(--hero-accent);
   background: #02060d;
-  color: var(--hero-accent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--hero-accent) 30%, transparent);
+  box-shadow: 0 0 10px var(--hero-glow);
   display: grid;
   place-items: center;
 }
@@ -155,22 +185,30 @@
   opacity: 0.31;
 }
 
-.cover-hero__card-icon img {
+.cover-hero__card-glyph {
   width: 24px;
   height: 24px;
-  display: block;
+  background: var(--hero-accent);
+  -webkit-mask-image: var(--hero-icon);
+  mask-image: var(--hero-icon);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 .cover-hero__card-body {
-  margin-left: 16px;
+  position: relative;
   width: 216px;
-  max-width: calc(100% - 64px);
+  height: 103.5px;
+  margin-left: 16px;
   padding: 17px;
   border-radius: 16px;
   border: 1px solid var(--hero-card-border);
   background: var(--hero-card-bg);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  position: relative;
 }
 
 .cover-hero__card-body::before {
@@ -183,37 +221,37 @@
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
-    color-mix(in srgb, var(--hero-accent) 14%, transparent) 7%,
-    color-mix(in srgb, var(--hero-accent) 29%, transparent) 14%,
-    color-mix(in srgb, var(--hero-accent) 43%, transparent) 21%,
-    color-mix(in srgb, var(--hero-accent) 57%, transparent) 29%,
-    color-mix(in srgb, var(--hero-accent) 71%, transparent) 36%,
-    color-mix(in srgb, var(--hero-accent) 86%, transparent) 43%,
+    color-mix(in srgb, var(--hero-accent) 14.3%, transparent) 7.14%,
+    color-mix(in srgb, var(--hero-accent) 28.6%, transparent) 14.29%,
+    color-mix(in srgb, var(--hero-accent) 42.9%, transparent) 21.43%,
+    color-mix(in srgb, var(--hero-accent) 57.1%, transparent) 28.57%,
+    color-mix(in srgb, var(--hero-accent) 71.4%, transparent) 35.71%,
+    color-mix(in srgb, var(--hero-accent) 85.7%, transparent) 42.86%,
     var(--hero-accent) 50%,
-    color-mix(in srgb, var(--hero-accent) 86%, transparent) 57%,
-    color-mix(in srgb, var(--hero-accent) 71%, transparent) 64%,
-    color-mix(in srgb, var(--hero-accent) 57%, transparent) 71%,
-    color-mix(in srgb, var(--hero-accent) 43%, transparent) 79%,
-    color-mix(in srgb, var(--hero-accent) 29%, transparent) 86%,
-    color-mix(in srgb, var(--hero-accent) 14%, transparent) 93%,
+    color-mix(in srgb, var(--hero-accent) 85.7%, transparent) 57.14%,
+    color-mix(in srgb, var(--hero-accent) 71.4%, transparent) 64.29%,
+    color-mix(in srgb, var(--hero-accent) 57.1%, transparent) 71.43%,
+    color-mix(in srgb, var(--hero-accent) 42.9%, transparent) 78.57%,
+    color-mix(in srgb, var(--hero-accent) 28.6%, transparent) 85.71%,
+    color-mix(in srgb, var(--hero-accent) 14.3%, transparent) 92.86%,
     rgba(0, 0, 0, 0) 100%
   );
 }
 
 .cover-hero__card-index {
   display: block;
-  font-family: var(--font-mono), monospace;
+  font-family: var(--hero-font-mono);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.1em;
+  line-height: 15px;
   color: var(--hero-accent);
   opacity: 0.8;
-  line-height: 15px;
 }
 
 .cover-hero__card-title {
   margin: 4px 0 0;
-  font-family: var(--font-hanken), sans-serif;
+  font-family: var(--hero-font-hanken);
   font-size: 18px;
   font-weight: 700;
   line-height: 27px;
@@ -222,17 +260,19 @@
 
 .cover-hero__card-desc {
   margin: 4px 0 0;
-  font-family: var(--font-hanken), sans-serif;
+  font-family: var(--hero-font-hanken);
   font-size: 13px;
+  font-weight: 400;
   line-height: 19.5px;
   color: rgba(255, 255, 255, 0.5);
 }
 
 .cover-hero__smoke {
   position: absolute;
-  left: -55%;
-  width: 265%;
-  height: 238%;
+  left: -797px;
+  top: 0;
+  width: 3814px;
+  height: 2146px;
   pointer-events: none;
   opacity: 0;
   will-change: transform, opacity;
@@ -246,137 +286,173 @@
   opacity: 0.3;
 }
 
-.cover-hero__content-rail {
+.cover-hero__copy-rail {
   position: absolute;
   inset: 0;
-  z-index: 5;
   display: flex;
   align-items: center;
-  padding-top: calc(var(--nav-h, 72px) + 12px);
-  padding-bottom: clamp(32px, 6vh, 64px);
   pointer-events: none;
 }
 
 .cover-hero__content {
-  width: min(492px, 86vw);
-  opacity: 0;
+  width: 492px;
+  overflow: visible;
   will-change: transform, opacity;
-}
-
-.cover-hero__content.is-cover-interactive {
-  pointer-events: auto;
 }
 
 .cover-hero__eyebrow {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.21em;
+  gap: 14px;
+  font-family: var(--hero-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.17em;
+  line-height: 1.2;
   text-transform: uppercase;
-  color: #8fb2d6;
+  color: color-mix(in srgb, var(--hero-accent) 88%, rgba(246, 243, 236, 0.35) 12%);
 }
 
 .cover-hero__eyebrow::before {
   content: '';
-  width: 32px;
+  width: 40px;
   height: 1px;
-  background: rgba(143, 178, 214, 0.5);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--hero-accent) 72%, transparent) 0%,
+    color-mix(in srgb, var(--hero-accent) 18%, transparent) 100%
+  );
   flex-shrink: 0;
 }
 
 .cover-hero__title {
-  margin: 24px 0 0;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: clamp(40px, 5vw, 72px);
-  line-height: 1.05;
-  letter-spacing: -0.021em;
-  color: #f8f5ef;
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
+  margin: 20px 0 0;
+  overflow: visible;
+  font-family: var(--hero-font-poppins);
+  font-size: 72px;
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  font-feature-settings: 'liga' 1, 'kern' 1;
 }
 
 .cover-hero__title-line {
   display: block;
+  color: rgba(248, 245, 239, 0.98);
+  overflow: visible;
+}
+
+.cover-hero__title-line + .cover-hero__title-line {
+  margin-top: 0.02em;
 }
 
 .cover-hero__title-line--accent {
+  line-height: 1.16;
+  padding: 0 0 0.12em;
+  margin-top: 0.02em;
+  overflow: visible;
   background: linear-gradient(
-    90deg,
-    rgb(231, 207, 149) 0%,
-    rgb(210, 182, 118) 50%,
-    rgb(189, 158, 87) 100%
+    102deg,
+    color-mix(in srgb, var(--hero-accent) 78%, #fff 22%) 0%,
+    var(--hero-accent) 48%,
+    color-mix(in srgb, var(--hero-accent) 68%, #1a1508 32%) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  filter: drop-shadow(0 1px 18px color-mix(in srgb, var(--hero-accent) 24%, transparent));
 }
 
 .cover-hero__lead {
-  margin: 32px 0 0;
-  max-width: 500px;
-  font-family: var(--font-sans);
-  font-size: clamp(16px, 1.25vw, 18px);
-  line-height: 1.5;
-  color: rgba(246, 243, 236, 0.82);
-}
-
-.cover-hero__actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin-top: 28px;
+  flex-direction: column;
+  gap: 10px;
+  width: min(100%, 460px);
+  margin: 28px 0 0;
+  font-family: var(--hero-font-inter);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.62;
+  letter-spacing: 0.008em;
+  text-wrap: pretty;
 }
 
-.cover-hero__actions .btn-ghost {
-  border-color: rgba(246, 243, 236, 0.28);
-  color: #f8f5ef;
+.cover-hero__lead-line {
+  color: rgba(246, 243, 236, 0.68);
 }
 
-.cover-hero__badge {
-  display: inline-block;
-  margin-top: 20px;
-  font-size: 12px;
-  color: rgba(246, 243, 236, 0.72);
-}
-
-.cover-hero__badge b {
-  color: rgba(246, 243, 236, 0.92);
-}
-
-.cover-hero__exit {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(2, 6, 13, 0) 0%,
-    rgba(2, 6, 13, 0.35) 55%,
-    rgba(2, 6, 13, 0.85) 100%
-  );
+.cover-hero__lead-closer {
+  color: rgba(246, 243, 236, 0.9);
+  font-weight: 500;
+  letter-spacing: 0.004em;
 }
 
 .cover-hero.is-cover-active .cover-hero__card,
 .cover-hero.is-cover-active .cover-hero__content,
-.cover-hero.is-cover-active .cover-hero__smoke {
+.cover-hero.is-cover-active .cover-hero__smoke,
+.cover-hero.is-cover-active .cover-hero__line {
   will-change: transform, opacity;
 }
 
-@media (max-width: 1024px) {
-  .cover-hero .cover-scroll {
-    height: 260vh;
+.cover-hero.is-cover-active .cover-hero__card-float {
+  will-change: transform;
+}
+
+@media (max-width: 1023px) {
+  .cover-hero__scroll {
+    height: 280vh;
+  }
+}
+
+@media (max-width: 759px) {
+  .cover-hero__scroll {
+    height: 240vh;
+  }
+
+  .cover-hero__copy-rail {
+    align-items: flex-end;
+    padding: 0 24px 72px;
+  }
+
+  .cover-hero__content {
+    width: min(492px, 100%);
+  }
+
+  .cover-hero__title {
+    font-size: clamp(36px, 10vw, 52px);
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+  }
+
+  .cover-hero__title-line--accent {
+    line-height: 1.18;
+    padding-bottom: 0.1em;
+  }
+
+  .cover-hero__eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+  }
+
+  .cover-hero__lead {
+    width: 100%;
+    max-width: 460px;
+    font-size: 15px;
+    line-height: 1.58;
+    gap: 8px;
   }
 
   .cover-hero__card {
-    width: 240px;
+    width: 252px;
   }
 
   .cover-hero__card-body {
-    width: 188px;
+    width: 196px;
+    height: auto;
+    min-height: 96px;
     padding: 14px;
   }
 
@@ -386,62 +462,19 @@
   }
 }
 
-@media (max-width: 760px) {
-  .cover-hero .cover-scroll {
-    height: 240vh;
-  }
-
-  .cover-hero__content-rail {
-    align-items: flex-end;
-    padding-bottom: clamp(48px, 10vh, 88px);
-  }
-
-  .cover-hero__title {
-    font-size: clamp(34px, 9vw, 48px);
-  }
-
-  .cover-hero__card {
-    width: 210px;
-    transform-origin: top left;
-  }
-
-  .cover-hero__card-icon {
-    width: 40px;
-    height: 40px;
-  }
-
-  .cover-hero__card-icon img {
-    width: 20px;
-    height: 20px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .cover-hero .cover-scroll {
+  .cover-hero__scroll {
     height: auto;
   }
 
-  .cover-hero .cover-sticky {
+  .cover-hero__sticky {
     position: relative;
+    height: 100svh;
     min-height: 100svh;
-    height: auto;
   }
 
-  .cover-hero__content-rail {
-    align-items: center;
-  }
-
-  .cover-hero__content {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .cover-hero__card {
-    opacity: 1;
-  }
-
-  .cover-hero__exit {
-    display: none;
+  .cover-hero:not(.is-cover-mounted) .cover-hero__content {
+    transform: none;
   }
 }
 
