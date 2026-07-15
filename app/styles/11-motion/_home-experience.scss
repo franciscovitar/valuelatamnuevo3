@@ -84,17 +84,26 @@
 }
 
 html.vl-motion-enabled {
-  [data-vl-gsap-root='solutions'] .sol-card {
-    opacity: 1 !important;
-    filter: none !important;
+  [data-vl-gsap-root='solutions'] .sol-card,
+  [data-vl-gsap-root='process'] .step {
     backface-visibility: hidden;
+    will-change: transform, opacity;
   }
 
-  [data-vl-gsap-root='process'] .step,
   [data-vl-gsap-root='process'] .closer,
   [data-vl-gsap-root='solutions'] .sec-head > *,
   [data-vl-gsap-root='process'] .sec-head > * {
     backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+
+  [data-vl-gsap-root='solutions'] .sol-card .idx,
+  [data-vl-gsap-root='solutions'] .sol-card h3,
+  [data-vl-gsap-root='solutions'] .sol-card p,
+  [data-vl-gsap-root='solutions'] .sol-card .arrow,
+  [data-vl-gsap-root='process'] .step .n,
+  [data-vl-gsap-root='process'] .step h4,
+  [data-vl-gsap-root='process'] .step p {
     will-change: transform, opacity;
   }
 
