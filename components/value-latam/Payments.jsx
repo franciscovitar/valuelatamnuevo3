@@ -24,10 +24,6 @@ export default function Payments() {
           </ol>
         </div>
 
-        <div aria-live="polite" className="pay-reading-sticky">
-          <span className="pay-reading-sticky__label" data-pay-sticky-current />
-        </div>
-
         <SectionHeading eyebrow="Unidad 03 · Medios de pago" title="Apuntamos al costo 0.">
           <p className="pay-sub">Cobrar, pagar, dar tarjetas a tu equipo e invertir el excedente, desde una sola cuenta. Y enterate cómo lo hacemos.</p>
         </SectionHeading>

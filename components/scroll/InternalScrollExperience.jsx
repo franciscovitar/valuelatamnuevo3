@@ -23,10 +23,13 @@ export default function InternalScrollExperience() {
   const routeReady = useRouteReady();
 
   useLayoutEffect(() => {
-    if (!INTERNAL_ROUTES.has(pathname) || !routeReady) return;
+    if (!INTERNAL_ROUTES.has(pathname)) return;
+
     const main = document.querySelector('main');
-    if (main) stashInternalIntroBeforePaint(main);
-  }, [pathname, routeReady]);
+    if (!main) return;
+
+    stashInternalIntroBeforePaint(main);
+  }, [pathname]);
 
   useGsapScope(() => {
     if (!INTERNAL_ROUTES.has(pathname) || !routeReady) return () => {};
@@ -36,7 +39,7 @@ export default function InternalScrollExperience() {
 
     const cleanup = initInternalScrollExperience(main, pathname);
     return () => cleanup?.();
-  }, { dependencies: [pathname, routeReady], revertOnUpdate: false });
+  }, { dependencies: [pathname, routeReady], revertOnUpdate: true });
 
   return null;
 }

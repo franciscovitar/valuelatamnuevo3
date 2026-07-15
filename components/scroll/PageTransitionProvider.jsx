@@ -26,36 +26,43 @@ const TIMING = {
 
 export default function PageTransitionProvider({ children }) {
   const pathname = usePathname();
+  const pathnameRef = useRef(pathname);
+
   const isFirstRoute = useRef(true);
   const timelineRef = useRef(null);
   const overlayRef = useRef(null);
   const panelRef = useRef(null);
   const lineRef = useRef(null);
-  const [routeReady, setRouteReady] = useState(true);
+  const [readyPathname, setReadyPathname] = useState(pathname);
+  const routeReady = readyPathname === pathname;
 
   useLayoutEffect(() => {
+    pathnameRef.current = pathname;
+
     if (isFirstRoute.current) {
       isFirstRoute.current = false;
       return undefined;
     }
 
+    const transitionPathname = pathname;
     const root = document.documentElement;
     const overlay = overlayRef.current;
     const panel = panelRef.current;
     const line = lineRef.current;
 
-    setRouteReady(false);
     pauseLenis();
     root.classList.add('lenis-stopped', 'vl-route-transition');
 
     const finish = () => {
+      if (transitionPathname !== pathnameRef.current) return;
+
       timelineRef.current = null;
       root.classList.remove('vl-route-transition', 'vl-route-reveal');
       gsap.set(overlay, { visibility: 'hidden', pointerEvents: 'none' });
       finalizeRouteEnter();
       resumeLenis();
       root.classList.remove('lenis-stopped');
-      setRouteReady(true);
+      setReadyPathname(transitionPathname);
     };
 
     if (prefersReducedMotion() || !overlay || !panel || !line) {

@@ -49,6 +49,11 @@ html.vl-route-reveal main {
   transition: opacity 0.38s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+[data-vl-internal-intro-state='stashed'] {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+}
+
 .vl-text-reveal {
   user-select: text;
 }

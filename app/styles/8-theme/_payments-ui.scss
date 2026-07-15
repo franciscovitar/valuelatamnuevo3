@@ -1,6 +1,13 @@
 /* Medios: pagina de pagos */
 
-  .pay-sub{font-family:var(--font-mono), monospace;font-size:13px;letter-spacing:.05em;color:#8fb2d6;margin-top:10px}
+  .pay-sub{
+    font-size:18px;
+    color:rgba(246,243,236,.78);
+    max-width:none;
+    margin:10px 0 0;
+    line-height:1.65;
+    font-weight:400;
+  }
 
   .pay-hero{max-width:none;margin-top:6px}
 
