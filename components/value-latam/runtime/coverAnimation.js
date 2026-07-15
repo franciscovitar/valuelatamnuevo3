@@ -1,43 +1,208 @@
 import { gsap } from '@/lib/scroll/gsap';
 import { ScrollTrigger } from '@/lib/scroll/gsap';
 import { SCROLL_ANCHOR_OFFSET } from '@/lib/scroll/config';
+import { getLenis } from '@/lib/scroll/lenis';
 import { prefersReducedMotion } from '@/lib/motion/tokens';
+import {
+  HERO_STATES,
+  HERO_TIMELINE,
+  designX,
+  designY,
+  getHeroScale,
+} from './heroKeyframes';
 
-const SCRUB = 0.95;
+const SCRUB = 0.82;
+const INTERACTIVE_FROM = 0.32;
 
 function getScrollHeight() {
-  if (typeof window === 'undefined') return 340;
-  if (window.matchMedia('(max-width: 760px)').matches) return 260;
-  if (window.matchMedia('(max-width: 1024px)').matches) return 300;
-  return 340;
+  if (typeof window === 'undefined') return 280;
+  if (window.matchMedia('(max-width: 760px)').matches) return 240;
+  if (window.matchMedia('(max-width: 1024px)').matches) return 260;
+  return 280;
 }
 
-function getMediaTransform() {
-  if (typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches) {
-    return { scale: 1.28, yPercent: -10, xPercent: -1 };
-  }
-  return { scale: 1.52, yPercent: -17, xPercent: -2.5 };
+function setContentInteractivity(content, progress) {
+  if (!content) return;
+  const interactive = progress >= INTERACTIVE_FROM && progress < 0.97;
+  content.style.pointerEvents = interactive ? 'auto' : 'none';
+  content.classList.toggle('is-cover-interactive', interactive);
 }
 
-function prepareSymbolPaths(svg) {
-  const paths = gsap.utils.toArray(svg?.querySelectorAll('.cover-symbol__path') ?? []);
-  paths.forEach((path) => {
-    let length = 1;
-    try {
-      length = path.getTotalLength();
-    } catch {
-      length = 1;
-    }
-    gsap.set(path, {
-      fill: 'transparent',
-      strokeWidth: 1.6,
-      strokeLinecap: 'round',
-      strokeLinejoin: 'round',
-      strokeDasharray: length,
-      strokeDashoffset: length,
+function setTheme(root, theme) {
+  root.classList.toggle('is-theme-gold', theme >= 0.5);
+}
+
+function applyState({ scale, content, cards, lines, radial, smoke, root, state }) {
+  gsap.set(content, {
+    x: designX(state.content.x, scale.x),
+    opacity: state.content.opacity,
+  });
+
+  cards.forEach((card, index) => {
+    const pos = state.cards[index];
+    gsap.set(card, {
+      x: designX(pos.x, scale.x),
+      y: designY(pos.y, scale.y),
+      opacity: pos.opacity,
     });
   });
-  return paths;
+
+  gsap.set(lines, { opacity: state.linesOpacity });
+  gsap.set(radial, { opacity: state.radialOpacity });
+  gsap.set(smoke, {
+    y: designY(state.smoke.y, scale.y),
+    opacity: state.smoke.opacity,
+  });
+  setTheme(root, state.theme);
+}
+
+function tweenState({
+  tl,
+  at,
+  duration,
+  scale,
+  content,
+  cards,
+  lines,
+  radial,
+  smoke,
+  root,
+  from,
+  to,
+}) {
+  tl.to(
+    content,
+    {
+      x: designX(to.content.x, scale.x),
+      opacity: to.content.opacity,
+      duration,
+      ease: 'none',
+    },
+    at,
+  );
+
+  cards.forEach((card, index) => {
+    const target = to.cards[index];
+    tl.to(
+      card,
+      {
+        x: designX(target.x, scale.x),
+        y: designY(target.y, scale.y),
+        opacity: target.opacity,
+        duration,
+        ease: 'none',
+      },
+      at,
+    );
+  });
+
+  if (from.linesOpacity !== to.linesOpacity) {
+    tl.to(lines, { opacity: to.linesOpacity, duration, ease: 'none' }, at);
+  }
+
+  if (from.radialOpacity !== to.radialOpacity) {
+    tl.to(radial, { opacity: to.radialOpacity, duration, ease: 'none' }, at);
+  }
+
+  tl.to(
+    smoke,
+    {
+      y: designY(to.smoke.y, scale.y),
+      opacity: to.smoke.opacity,
+      duration,
+      ease: 'none',
+    },
+    at,
+  );
+
+  if (from.theme !== to.theme) {
+    const themeProxy = { value: from.theme };
+    tl.to(
+      themeProxy,
+      {
+        value: to.theme,
+        duration,
+        ease: 'none',
+        onUpdate: () => setTheme(root, themeProxy.value),
+      },
+      at,
+    );
+  }
+}
+
+function initReducedLayout(scroller, sticky, root) {
+  scroller.style.height = 'auto';
+  sticky.style.position = 'relative';
+  sticky.style.top = '';
+  sticky.style.height = '';
+  sticky.style.minHeight = '';
+
+  const scale = getHeroScale(sticky);
+  const content = root.querySelector('#coverContent');
+  const cards = gsap.utils.toArray(root.querySelectorAll('[data-cover-card]'));
+  const lines = root.querySelector('#coverLines');
+  const radial = root.querySelector('#coverRadial');
+  const smoke = root.querySelector('#coverSmoke');
+
+  applyState({
+    scale,
+    content,
+    cards,
+    lines,
+    radial,
+    smoke,
+    root,
+    state: HERO_STATES.s4,
+  });
+
+  gsap.set(root.querySelector('#coverExit'), { opacity: 0 });
+  if (content) {
+    content.style.pointerEvents = 'auto';
+    content.classList.add('is-cover-interactive');
+  }
+}
+
+function waitForCoverImages(root) {
+  const images = gsap.utils.toArray(root?.querySelectorAll('img') ?? []);
+  return Promise.all(
+    images.map(
+      (img) =>
+        new Promise((resolve) => {
+          if (img.complete) {
+            resolve();
+            return;
+          }
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', resolve, { once: true });
+        }),
+    ),
+  );
+}
+
+function waitForLayout() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  });
+}
+
+function waitForLenis(maxMs = 2500) {
+  return new Promise((resolve) => {
+    if (getLenis()) {
+      resolve();
+      return;
+    }
+
+    const started = performance.now();
+    const tick = () => {
+      if (getLenis() || performance.now() - started >= maxMs) {
+        resolve();
+        return;
+      }
+      requestAnimationFrame(tick);
+    };
+
+    tick();
+  });
 }
 
 /** Sincroniza video futuro con el progreso 0–1 del Hero. */
@@ -49,30 +214,6 @@ export function setCoverMediumProgress(root, progress) {
   }
 }
 
-function initReducedLayout(scroller, sticky, root) {
-  scroller.style.height = 'auto';
-  sticky.style.position = 'relative';
-  sticky.style.minHeight = '100svh';
-
-  gsap.set(root.querySelector('#coverMediaOverlay'), { opacity: 0.32 });
-  gsap.set(root.querySelector('#coverExterior'), { opacity: 0 });
-  gsap.set(root.querySelector('#coverBrand'), { opacity: 0.35 });
-  gsap.set(root.querySelector('#coverLogoOutline'), { opacity: 0 });
-  gsap.set(root.querySelector('#coverLogoStage'), { opacity: 0.5 });
-  gsap.set(root.querySelector('#coverDissolve'), { opacity: 0 });
-  gsap.set(root.querySelector('#coverContent'), { opacity: 1, pointerEvents: 'auto' });
-
-  const paths = root.querySelectorAll('.cover-symbol__path');
-  paths.forEach((path) => {
-    gsap.set(path, {
-      strokeDashoffset: 0,
-      fill: path.classList.contains('cover-symbol__path--gold')
-        ? 'rgba(191, 160, 90, 0.9)'
-        : 'rgba(246, 243, 236, 0.88)',
-    });
-  });
-}
-
 export function initCoverAnimation() {
   const root = document.querySelector('[data-vl-cover-root]');
   const scroller = document.getElementById('coverScroll');
@@ -82,157 +223,185 @@ export function initCoverAnimation() {
 
   if (prefersReducedMotion()) {
     initReducedLayout(scroller, sticky, root);
+    root.classList.add('is-cover-ready');
     return () => {
       scroller.style.height = '';
       sticky.style.position = '';
+      sticky.style.top = '';
+      sticky.style.height = '';
       sticky.style.minHeight = '';
     };
   }
 
-  const scrollVh = getScrollHeight();
-  scroller.style.height = `${scrollVh}vh`;
-
-  const media = root.querySelector('#coverMedia');
-  const mediaVisual = root.querySelector('#coverMediaVisual');
-  const mediaOverlay = root.querySelector('#coverMediaOverlay');
-  const exterior = root.querySelector('#coverExterior');
   const content = root.querySelector('#coverContent');
-  const eyebrow = root.querySelector('#coverEyebrow');
-  const title = root.querySelector('#coverTitle');
-  const lead = root.querySelector('#coverLead');
-  const actions = root.querySelector('#coverActions');
-  const badge = root.querySelector('#coverBadge');
-  const hint = root.querySelector('#coverScrollHint');
-  const brand = root.querySelector('#coverBrand');
-  const symbol = root.querySelector('#coverSymbol');
-  const logoOutline = root.querySelector('#coverLogoOutline');
-  const logoStage = root.querySelector('#coverLogoStage');
-  const logoMask = root.querySelector('#coverLogoMask');
-  const maskFill = root.querySelector('#coverLogoMaskFill');
-  const dissolve = root.querySelector('#coverDissolve');
-  const ivoryPath = root.querySelector('.cover-symbol__path--ivory');
-  const goldPath = root.querySelector('.cover-symbol__path--gold');
+  const cards = gsap.utils.toArray(root.querySelectorAll('[data-cover-card]'));
+  const lines = root.querySelector('#coverLines');
+  const radial = root.querySelector('#coverRadial');
+  const smoke = root.querySelector('#coverSmoke');
+  const exit = root.querySelector('#coverExit');
 
-  const symbolPaths = prepareSymbolPaths(symbol);
+  let ctx;
+  let refreshTimer;
+  let disposed = false;
 
-  gsap.set(mediaVisual, { scale: 1, yPercent: 0, xPercent: 0, transformOrigin: '50% 38%' });
-  gsap.set(maskFill, { scale: 1.12, yPercent: -4, xPercent: -1, transformOrigin: '50% 38%' });
-  gsap.set(brand, { opacity: 0 });
-  gsap.set(logoOutline, { opacity: 0, scale: 0.94 });
-  gsap.set(logoStage, { opacity: 0, scale: 0.9 });
-  gsap.set(exterior, { opacity: 0 });
-  gsap.set(dissolve, { opacity: 0 });
-  gsap.set(media, { opacity: 1 });
-  gsap.set(content, { opacity: 1, pointerEvents: 'auto' });
+  const mountTimeline = () => {
+    if (disposed) return;
 
-  const ctx = gsap.context(() => {
-    const tl = gsap.timeline({
-      defaults: { ease: 'none' },
-      scrollTrigger: {
-        trigger: scroller,
-        start: `top top+=${SCROLL_ANCHOR_OFFSET}`,
-        end: 'bottom bottom',
-        scrub: SCRUB,
-        pin: sticky,
-        pinSpacing: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => setCoverMediumProgress(root, self.progress),
-      },
+    ctx?.revert();
+
+    const scale = getHeroScale(sticky);
+    const scrollVh = getScrollHeight();
+    scroller.style.height = `${scrollVh}vh`;
+
+    setTheme(root, 0);
+
+    applyState({
+      scale,
+      content,
+      cards,
+      lines,
+      radial,
+      smoke,
+      root,
+      state: HERO_STATES.s1,
     });
 
-    root.classList.add('is-cover-active');
+    gsap.set(exit, { opacity: 0 });
+    setContentInteractivity(content, 0);
+    root.classList.add('is-cover-ready');
 
-    // Fase 1 — Presentación (0–20%)
-    tl.to(mediaOverlay, { opacity: 0.34, duration: 0.08 }, 0);
+    const { s1toS2, s2toS3, s3toS4, exit: exitRange } = HERO_TIMELINE;
 
-    // Fase 2 — Retirada del contenido (15–38%)
-    tl.to(hint, { opacity: 0, y: 10, filter: 'blur(2px)', duration: 0.04 }, 0.14);
-    tl.to(eyebrow, { opacity: 0, y: -14, filter: 'blur(4px)', duration: 0.05 }, 0.17);
-    tl.to(title, { opacity: 0, y: -22, filter: 'blur(4px)', duration: 0.07 }, 0.2);
-    tl.to(lead, { opacity: 0, y: -16, filter: 'blur(4px)', duration: 0.05 }, 0.26);
-    tl.to(actions, { opacity: 0, y: -14, filter: 'blur(3px)', duration: 0.05 }, 0.29);
-    tl.to(badge, { opacity: 0, y: -10, filter: 'blur(3px)', duration: 0.04 }, 0.33);
-    tl.add(() => gsap.set(content, { pointerEvents: 'none' }), 0.3);
+    ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: scroller,
+          start: `top top+=${SCROLL_ANCHOR_OFFSET}`,
+          end: 'bottom bottom',
+          scrub: SCRUB,
+          pin: sticky,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            setCoverMediumProgress(root, self.progress);
+            setContentInteractivity(content, self.progress);
+          },
+        },
+      });
 
-    // Fase 3 — Movimiento del medio (15–55%)
-    tl.to(
-      mediaOverlay,
-      { opacity: 0.52, duration: 0.14 },
-      0.18,
-    );
-    tl.fromTo(
-      mediaVisual,
-      { scale: 1, yPercent: 0, xPercent: 0 },
-      {
-        scale: () => getMediaTransform().scale,
-        yPercent: () => getMediaTransform().yPercent,
-        xPercent: () => getMediaTransform().xPercent,
-        duration: 0.38,
-      },
-      0.14,
-    );
+      root.classList.add('is-cover-active');
 
-    // Fase 4 — Construcción del logo (32–62%)
-    tl.to(brand, { opacity: 1, duration: 0.06 }, 0.32);
-    tl.to(symbolPaths, {
-      strokeDashoffset: 0,
-      stagger: 0.03,
-      duration: 0.14,
-    }, 0.34);
-    tl.to(ivoryPath, {
-      fill: 'rgba(246, 243, 236, 0.94)',
-      duration: 0.06,
-    }, 0.48);
-    tl.to(goldPath, {
-      fill: 'rgba(191, 160, 90, 0.96)',
-      duration: 0.06,
-    }, 0.5);
-    tl.to(logoOutline, { opacity: 0.42, scale: 1, duration: 0.08 }, 0.5);
-    tl.to(symbol, { opacity: 0, scale: 0.82, duration: 0.06 }, 0.54);
-    tl.to(logoOutline, { opacity: 0.58, duration: 0.04 }, 0.54);
+      tweenState({
+        tl,
+        at: s1toS2[0],
+        duration: s1toS2[1] - s1toS2[0],
+        scale,
+        content,
+        cards,
+        lines,
+        radial,
+        smoke,
+        root,
+        from: HERO_STATES.s1,
+        to: HERO_STATES.s2,
+      });
 
-    // Fase 5 — Logo con imagen en el interior (58–88%)
-    tl.to(mediaOverlay, { opacity: 0, duration: 0.06 }, 0.56);
-    tl.to(media, { opacity: 0, duration: 0.08 }, 0.56);
-    tl.to(exterior, { opacity: 1, duration: 0.1 }, 0.54);
-    tl.to(logoOutline, { opacity: 0, scale: 1.02, duration: 0.06 }, 0.58);
-    tl.to(logoStage, { opacity: 1, scale: 1, duration: 0.1 }, 0.58);
-    tl.to(brand, { opacity: 0, duration: 0.04 }, 0.58);
-    tl.fromTo(
-      maskFill,
-      { scale: 1.12, yPercent: -4, xPercent: -1 },
-      {
-        scale: () => getMediaTransform().scale * 0.96,
-        yPercent: () => getMediaTransform().yPercent * 0.85,
-        xPercent: () => getMediaTransform().xPercent,
-        duration: 0.26,
-      },
-      0.6,
-    );
-    tl.to(logoMask, { scale: 1.06, duration: 0.18 }, 0.64);
+      tweenState({
+        tl,
+        at: s2toS3[0],
+        duration: s2toS3[1] - s2toS3[0],
+        scale,
+        content,
+        cards,
+        lines,
+        radial,
+        smoke,
+        root,
+        from: HERO_STATES.s2,
+        to: HERO_STATES.s3,
+      });
 
-    // Fase 6 — Cierre hacia Resultados (86–100%)
-    tl.to(logoStage, { scale: 0.96, y: -12, duration: 0.06 }, 0.86);
-    tl.to(dissolve, { opacity: 1, duration: 0.1 }, 0.88);
-    tl.to(logoStage, { opacity: 0, duration: 0.08 }, 0.92);
-    tl.to(exterior, { opacity: 1, duration: 0.04 }, 0.94);
-  }, root);
+      tweenState({
+        tl,
+        at: s3toS4[0],
+        duration: s3toS4[1] - s3toS4[0],
+        scale,
+        content,
+        cards,
+        lines,
+        radial,
+        smoke,
+        root,
+        from: HERO_STATES.s3,
+        to: HERO_STATES.s4,
+      });
+
+      tl.to(
+        exit,
+        { opacity: 0.65, duration: exitRange[1] - exitRange[0], ease: 'none' },
+        exitRange[0],
+      );
+      tl.to(
+        [content, ...cards, smoke],
+        {
+          opacity: 0.15,
+          duration: exitRange[1] - exitRange[0],
+          ease: 'none',
+        },
+        exitRange[0],
+      );
+    }, root);
+
+    ScrollTrigger.refresh();
+  };
+
+  applyState({
+    scale: getHeroScale(sticky),
+    content,
+    cards,
+    lines,
+    radial,
+    smoke,
+    root,
+    state: HERO_STATES.s1,
+  });
+
+  const boot = async () => {
+    await waitForCoverImages(root);
+    await waitForLayout();
+    await waitForLenis();
+    mountTimeline();
+  };
+
+  boot();
 
   const onResize = () => {
     scroller.style.height = `${getScrollHeight()}vh`;
-    ScrollTrigger.refresh();
+    clearTimeout(refreshTimer);
+    refreshTimer = window.setTimeout(() => {
+      ctx?.revert();
+      mountTimeline();
+    }, 150);
   };
 
   window.addEventListener('resize', onResize);
 
   return () => {
+    disposed = true;
     window.removeEventListener('resize', onResize);
-    root.classList.remove('is-cover-active');
+    clearTimeout(refreshTimer);
+    root.classList.remove('is-cover-active', 'is-cover-ready', 'is-theme-gold');
     scroller.style.height = '';
     sticky.style.position = '';
+    sticky.style.top = '';
+    sticky.style.height = '';
     sticky.style.minHeight = '';
-    content?.classList.remove('is-cover-content-hidden');
-    ctx.revert();
+    if (content) {
+      content.style.pointerEvents = '';
+      content.classList.remove('is-cover-interactive');
+    }
+    ctx?.revert();
   };
 }
