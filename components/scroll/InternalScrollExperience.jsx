@@ -1,7 +1,11 @@
 'use client';
 
+import { useLayoutEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { initInternalScrollExperience } from '@/lib/scroll/internal';
+import {
+  initInternalScrollExperience,
+  stashInternalIntroBeforePaint,
+} from '@/lib/scroll/internal';
 import { useGsapScope } from '@/lib/scroll';
 import { useRouteReady } from './PageTransitionProvider';
 
@@ -18,24 +22,20 @@ export default function InternalScrollExperience() {
   const pathname = usePathname();
   const routeReady = useRouteReady();
 
+  useLayoutEffect(() => {
+    if (!INTERNAL_ROUTES.has(pathname) || !routeReady) return;
+    const main = document.querySelector('main');
+    if (main) stashInternalIntroBeforePaint(main);
+  }, [pathname, routeReady]);
+
   useGsapScope(() => {
     if (!INTERNAL_ROUTES.has(pathname) || !routeReady) return () => {};
 
-    let cleanup;
-    let frame = 0;
+    const main = document.querySelector('main');
+    if (!main) return () => {};
 
-    frame = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const main = document.querySelector('main');
-        if (!main) return;
-        cleanup = initInternalScrollExperience(main, pathname);
-      });
-    });
-
-    return () => {
-      cancelAnimationFrame(frame);
-      cleanup?.();
-    };
+    const cleanup = initInternalScrollExperience(main, pathname);
+    return () => cleanup?.();
   }, { dependencies: [pathname, routeReady], revertOnUpdate: false });
 
   return null;
