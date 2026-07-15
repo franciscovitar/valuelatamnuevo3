@@ -11,7 +11,7 @@ import {
   HERO_TIMELINE,
 } from './heroKeyframes';
 
-const SCRUB = 1.35;
+const SCRUB = 1.05;
 const EASE_MOVE = 'power1.inOut';
 const EASE_SOFT = 'sine.inOut';
 const EASE_REVEAL = 'power2.out';
@@ -84,17 +84,23 @@ function buildTimeline(targets) {
   const s2 = HERO_STATES.s2;
   const s3 = HERO_STATES.s3;
   const s4 = HERO_STATES.s4;
+  const [tHoldS1Start, tHoldS1End] = HERO_TIMELINE.holdS1;
   const [t12Start, t12End] = HERO_TIMELINE.s1ToS2;
+  const [tHoldS2Start, tHoldS2End] = HERO_TIMELINE.holdS2;
   const [t23Start, t23End] = HERO_TIMELINE.s2ToS3;
   const [t34Start, t34End] = HERO_TIMELINE.s3ToS4;
   const [, tHoldEnd] = HERO_TIMELINE.holdS4;
 
+  const durHoldS1 = tHoldS1End - tHoldS1Start;
   const dur12 = t12End - t12Start;
+  const durHoldS2 = tHoldS2End - tHoldS2Start;
   const dur23 = t23End - t23Start;
   const dur34 = t34End - t34Start;
-  const durHold = tHoldEnd - t34End;
+  const durHoldS4 = tHoldEnd - t34End;
 
   const tl = gsap.timeline({ defaults: { ease: EASE_MOVE } });
+
+  tl.to({}, { duration: durHoldS1 }, tHoldS1Start);
 
   const copyStart = t12Start + COPY_ENTRANCE_DELAY;
   const copyDur12 = segmentDuration(dur12, COPY_ENTRANCE_DELAY);
@@ -111,7 +117,7 @@ function buildTimeline(targets) {
   cards.forEach((card, index) => {
     const cardStart = t12Start + index * CARD_STAGGER;
     const cardDur12 = segmentDuration(dur12, index * CARD_STAGGER);
-    const revealDur = Math.min(cardDur12 * 0.62, cardDur12 - 0.012);
+    const revealDur = Math.min(cardDur12 * 0.78, cardDur12 - 0.008);
 
     tl.fromTo(
       card,
@@ -142,7 +148,7 @@ function buildTimeline(targets) {
   lines.forEach((line, index) => {
     const lineStart = t12Start + index * LINE_STAGGER;
     const lineDur12 = segmentDuration(dur12, index * LINE_STAGGER);
-    const lineRevealDur = Math.min(lineDur12 * 0.55, lineDur12 - 0.01);
+    const lineRevealDur = Math.min(lineDur12 * 0.72, lineDur12 - 0.008);
 
     tl.fromTo(
       line,
@@ -162,7 +168,7 @@ function buildTimeline(targets) {
   tl.fromTo(
     radial,
     { opacity: s1.radial.opacity },
-    { opacity: s2.radial.opacity, duration: dur12 * 0.72, ease: EASE_REVEAL },
+    { opacity: s2.radial.opacity, duration: dur12 * 0.82, ease: EASE_REVEAL },
     t12Start + 0.012,
   );
 
@@ -176,7 +182,7 @@ function buildTimeline(targets) {
   tl.fromTo(
     smoke,
     { opacity: s1.smoke.opacity },
-    { opacity: s2.smoke.opacity, duration: dur12 * 0.68, ease: EASE_REVEAL },
+    { opacity: s2.smoke.opacity, duration: dur12 * 0.78, ease: EASE_REVEAL },
     t12Start + 0.018,
   );
 
@@ -189,7 +195,8 @@ function buildTimeline(targets) {
     t23Start,
   );
 
-  tl.to({}, { duration: durHold }, t34End);
+  tl.to({}, { duration: durHoldS2 }, tHoldS2Start);
+  tl.to({}, { duration: durHoldS4 }, t34End);
 
   return tl;
 }

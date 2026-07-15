@@ -118,19 +118,20 @@ export const HERO_STATES = {
 
 /** Timeline normalizada 0–1, tramos sin superposición. */
 export const HERO_TIMELINE = {
-  s1ToS2: [0, 0.43],
-  holdS2: [0.43, 0.5],
-  s2ToS3: [0.5, 0.78],
-  s3ToS4: [0.78, 0.91],
-  holdS4: [0.91, 1],
+  holdS1: [0, 0.05],
+  s1ToS2: [0.05, 0.46],
+  holdS2: [0.46, 0.56],
+  s2ToS3: [0.56, 0.80],
+  s3ToS4: [0.80, 0.92],
+  holdS4: [0.92, 1],
 };
 
-export const HERO_SCROLL_DESKTOP_VH = 360;
-export const HERO_SCROLL_MOBILE_VH = 280;
+export const HERO_SCROLL_DESKTOP_VH = 390;
+export const HERO_SCROLL_MOBILE_VH = 300;
 
 /** Flotado idle en estado final — capa interna, no interfiere con scroll. */
 export const HERO_CARD_FLOAT = {
-  amplitude: [6, -5, 7, -6],
-  duration: [2.6, 2.9, 2.75, 3.05],
-  delay: [0, 0.32, 0.18, 0.44],
+  amplitude: [2.5, -2, 3, -2.5],
+  duration: [3.8, 4.2, 3.6, 4.5],
+  delay: [0, 0.4, 0.25, 0.55],
 };
