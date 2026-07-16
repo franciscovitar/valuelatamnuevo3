@@ -12,7 +12,7 @@ export default function AIProcesses() {
     >
       <div className="wrap">
         <SectionHeading eyebrow="Unidad 04 · Agentic AI" title="La gestión diaria de tu empresa, ejecutada por agentes de IA" />
-        <p className="ai-lede">No es una herramienta más: es una capa de inteligencia que opera las tareas administrativas y de gestión de tu empresa de punta a punta. Diseñamos e implementamos agentes que trabajan sobre tus datos, tus procesos y tu operación diaria, para que tu equipo deje de hacer tareas repetitivas y se enfoque en lo importante.</p>
+        <p className="ai-lede">No es una herramienta más: es una capa de inteligencia que opera las tareas administrativas y de gestión de tu empresa de punta a punta. Diseñamos e implementamos agentes que trabajan sobre tus datos, tus procesos y tu operación diaria, para que tu equipo deje de hacer tareas repetitivas y se enfoque en lo importante. </p>
 
         <div className="ai-story">
           <div className="ai-grid">
