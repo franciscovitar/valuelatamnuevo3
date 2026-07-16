@@ -17,8 +17,7 @@
   width:100%;
 }
 .partner-logo,
-.rel-strip .liquidity-logo,
-.reg .seal.logo{
+.rel-strip .liquidity-logo{
   box-sizing:border-box;
   display:flex;
   align-items:center;
@@ -36,8 +35,7 @@
   padding:14px 18px;
 }
 .partner-logo img,
-.rel-strip .liquidity-logo img,
-.reg .seal.logo img{
+.rel-strip .liquidity-logo img{
   display:block;
   width:auto;
   height:auto;
@@ -53,8 +51,7 @@
 .partner-logo--balanz img,
 .partner-logo--adcap img{max-height:38px}
 .partner-logo:hover,
-.rel-strip .liquidity-logo:hover,
-.reg .seal.logo:hover{
+.rel-strip .liquidity-logo:hover {
   transform:translateY(-2px);
   border-color:rgba(143,178,214,.46);
   background:rgba(143,178,214,.07);

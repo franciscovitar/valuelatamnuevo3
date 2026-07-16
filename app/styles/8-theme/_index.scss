@@ -19,6 +19,8 @@
 @use 'scroll-process' as *;
 @use 'cover-presentation' as *;
 @use 'video-hero' as *;
+// ImageHero styles retained for rollback:
+// @use 'image-hero' as *;
 @use 'logos' as *;
 @use 'buttons-premium' as *;
 @use 'ui-polish' as *;

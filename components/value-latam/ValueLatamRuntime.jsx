@@ -6,6 +6,8 @@ import { initMicroInteractions } from './runtime/microInteractions';
 // Legacy Hero animation retained for rollback:
 // import { initCoverAnimation } from './runtime/coverAnimation';
 import { initVideoHeroAnimation } from './runtime/videoHeroAnimation';
+// ImageHero animation retained for rollback:
+// import { initImageHeroAnimation } from './runtime/imageHeroAnimation';
 import { initLeadCapture } from './runtime/leadCapture';
 import { initNavigationCards } from './runtime/navigationCards';
 import { initRevealCounters } from './runtime/revealCounters';
@@ -25,6 +27,7 @@ export default function ValueLatamRuntime() {
       // Legacy Hero animation retained for rollback:
       // initCoverAnimation(),
       initVideoHeroAnimation(),
+      // initImageHeroAnimation(),
     ];
 
     return () => {

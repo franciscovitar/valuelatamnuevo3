@@ -2,15 +2,15 @@ import { gsap, ScrollTrigger } from '@/lib/scroll/gsap';
 import { bindGoldSweep } from '@/lib/motion/uiEffects';
 import { prefersReducedMotion } from '@/lib/motion/tokens';
 
-const SCRUB = 0.65;
-const SCROLL_VH = {
-  desktop: 360,
-  tablet: 315,
-  mobile: 260,
-};
-
-const SERVICE_MUTED = 'rgba(246, 243, 236, 0.38)';
-const SERVICE_GOLD = '#E2C98A';
+const SCRUB = 0.55;
+const SCROLL_VH = { desktop: 320, tablet: 290, mobile: 240 };
+const CHAPTER_CROSS = 0.032;
+const CHAPTER_WINDOWS = [
+  [0.27, 0.38],
+  [0.38, 0.49],
+  [0.49, 0.60],
+  [0.60, 0.71],
+];
 
 function setScrollHeight(scrollEl, vh) {
   scrollEl.style.height = `${vh}vh`;
@@ -21,311 +21,190 @@ function collectTargets(root) {
     root,
     scrollEl: root.querySelector('[data-video-hero-scroll]'),
     stickyEl: root.querySelector('[data-video-hero-sticky]'),
-    video: root.querySelector('[data-video-hero-video]'),
+    media: root.querySelector('[data-video-hero-video]'),
     intro: root.querySelector('[data-video-hero-intro]'),
     eyebrow: root.querySelector('[data-video-hero-eyebrow]'),
     title: root.querySelector('[data-video-hero-title]'),
     lead: root.querySelector('[data-video-hero-lead]'),
-    closer: root.querySelector('[data-video-hero-closer]'),
     cta: root.querySelector('[data-video-hero-cta]'),
-    scrollHint: root.querySelector('[data-video-hero-scroll-hint]'),
-    services: root.querySelector('[data-video-hero-services]'),
-    servicesTagline: root.querySelector('[data-video-hero-services-tagline]'),
-    servicesList: root.querySelector('[data-video-hero-services-list]'),
-    serviceItems: gsap.utils.toArray(root.querySelectorAll('[data-video-hero-service]')),
-    serviceLine: root.querySelector('[data-video-hero-service-line]'),
-    wordmark: root.querySelector('[data-video-hero-wordmark]'),
-    wordmarkOutline: root.querySelector('[data-video-hero-wordmark-outline]'),
-    wordmarkFill: root.querySelector('[data-video-hero-wordmark-fill]'),
-    wordmarkCloser: root.querySelector('[data-video-hero-wordmark-closer]'),
-    navyFade: root.querySelector('[data-video-hero-navy-fade]'),
-    bottomTransition: root.querySelector('[data-video-hero-bottom-transition]'),
+    hint: root.querySelector('[data-video-hero-scroll-hint]'),
+    chapters: root.querySelector('[data-video-hero-chapters]'),
+    kicker: root.querySelector('[data-video-hero-chapters-kicker]'),
+    chapterItems: gsap.utils.toArray(root.querySelectorAll('[data-video-hero-chapter]')),
+    brand: root.querySelector('[data-video-hero-brand]'),
+    logo: root.querySelector('[data-video-hero-brand-logo]'),
+    brandCloser: root.querySelector('[data-video-hero-brand-closer]'),
+    exitFade: root.querySelector('[data-video-hero-exit-fade]'),
   };
 }
 
-function measureServiceLine(serviceItems, servicesList) {
-  if (!servicesList || !serviceItems.length) return [];
+function cameraAtProgress(progress) {
+  const p = gsap.utils.clamp(0, 1, progress);
 
-  return serviceItems.map((item) => ({
-    x: item.offsetLeft,
-    width: item.offsetWidth,
-  }));
-}
-
-function applyServiceLine(line, positions, index) {
-  const pos = positions[index];
-  if (!line || !pos) return;
-  gsap.set(line, { x: pos.x, width: pos.width, opacity: 1 });
-}
-
-function computeVideoTime(progress, usableDuration, holdEnd = 0.06) {
-  const clamped = gsap.utils.clamp(0, 1, progress);
-  if (clamped <= holdEnd) {
-    return usableDuration * (clamped / holdEnd) * 0.02;
+  if (p <= 0.28) {
+    const t = p / 0.28;
+    return {
+      scale: gsap.utils.interpolate(1.04, 1.09, t),
+      xPercent: gsap.utils.interpolate(0, -1.2, t),
+      yPercent: gsap.utils.interpolate(0, -0.8, t),
+    };
   }
-  const segment = (clamped - holdEnd) / (1 - holdEnd);
-  return usableDuration * (0.02 + segment * 0.98);
-}
 
-function syncVideoTime(video, videoState, progress, usableDuration) {
-  const nextTime = computeVideoTime(progress, usableDuration);
-  videoState.time = nextTime;
-  if (Number.isFinite(nextTime) && Math.abs(video.currentTime - nextTime) > 1 / 60) {
-    video.currentTime = nextTime;
+  if (p <= 0.74) {
+    const t = (p - 0.28) / 0.46;
+    return {
+      scale: gsap.utils.interpolate(1.09, 1.16, t),
+      xPercent: gsap.utils.interpolate(-1.2, -3.2, t),
+      yPercent: gsap.utils.interpolate(-0.8, -2.2, t),
+    };
   }
+
+  const t = (p - 0.74) / 0.26;
+  return {
+    scale: gsap.utils.interpolate(1.16, 1.22, t),
+    xPercent: gsap.utils.interpolate(-3.2, -4.5, t),
+    yPercent: gsap.utils.interpolate(-2.2, -3.2, t),
+  };
 }
 
-function setLandingState(targets) {
+function buildUiTimeline(targets, syncCamera) {
   const {
     intro,
     eyebrow,
     title,
     lead,
-    closer,
     cta,
-    scrollHint,
-    services,
-    servicesTagline,
-    serviceItems,
-    serviceLine,
-    wordmark,
-    wordmarkOutline,
-    wordmarkFill,
-    wordmarkCloser,
-    navyFade,
-    bottomTransition,
-    video,
+    hint,
+    chapters,
+    kicker,
+    chapterItems,
+    brand,
+    logo,
+    brandCloser,
+    exitFade,
   } = targets;
 
-  gsap.set(intro, { opacity: 1, pointerEvents: 'auto' });
-  gsap.set(eyebrow, { opacity: 1, y: 0 });
-  gsap.set(title, { opacity: 1, y: 0, scale: 1, transformOrigin: 'center center' });
-  gsap.set([lead, closer], { opacity: 1, y: 0 });
-  gsap.set(cta, { opacity: 1, y: 0 });
-  gsap.set(scrollHint, { opacity: 1, y: 0 });
-  gsap.set(services, { opacity: 0, clipPath: 'inset(0 0 100% 0)', pointerEvents: 'none' });
-  gsap.set(servicesTagline, { opacity: 0, y: 6 });
-  gsap.set(serviceItems, { opacity: 0.38, color: SERVICE_MUTED });
-  gsap.set(serviceLine, { opacity: 0, scaleX: 0, transformOrigin: 'left center' });
-  gsap.set(wordmark, { opacity: 0, y: 0, pointerEvents: 'none' });
-  gsap.set(wordmarkOutline, { opacity: 0, clipPath: 'inset(0 0 100% 0)' });
-  gsap.set(wordmarkFill, { opacity: 0, clipPath: 'inset(0 0 100% 0)' });
-  gsap.set(wordmarkCloser, { opacity: 0, y: 10 });
-  gsap.set(navyFade, { opacity: 0 });
-  gsap.set(bottomTransition, { opacity: 0 });
-  if (video) gsap.set(video, { opacity: 0 });
-}
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
 
-function buildTimeline(targets, video, videoState, usableDuration) {
-  const {
-    eyebrow,
-    title,
-    lead,
-    closer,
-    cta,
-    scrollHint,
-    intro,
-    services,
-    servicesTagline,
-    serviceItems,
-    serviceLine,
-    servicesList,
-    wordmark,
-    wordmarkOutline,
-    wordmarkFill,
-    wordmarkCloser,
-    navyFade,
-    bottomTransition,
-  } = targets;
+  tl.eventCallback('onUpdate', () => syncCamera(tl.progress()));
 
-  const linePositions = measureServiceLine(serviceItems, servicesList);
-  const tl = gsap.timeline({ defaults: { ease: 'none' } });
+  tl.to(hint, { opacity: 0, y: 8, duration: 0.04 }, 0.08);
+  tl.to(cta, { opacity: 0, y: 10, duration: 0.05 }, 0.10);
+  tl.to(lead, { opacity: 0, duration: 0.06 }, 0.12);
+  tl.to(title, { y: -24, opacity: 0, duration: 0.10, ease: 'power2.inOut' }, 0.14);
+  tl.to(eyebrow, { opacity: 0, duration: 0.05 }, 0.18);
+  tl.to(intro, { opacity: 0, pointerEvents: 'none', duration: 0.04 }, 0.26);
 
-  tl.to(
-    videoState,
-    {
-      time: usableDuration * 0.02,
-      duration: 0.06,
-      ease: 'none',
-      onUpdate: () => {
-        const nextTime = videoState.time;
-        if (Number.isFinite(nextTime) && Math.abs(video.currentTime - nextTime) > 1 / 60) {
-          video.currentTime = nextTime;
-        }
-      },
-    },
-    0,
-  );
+  tl.to(chapters, { autoAlpha: 1, duration: 0.04 }, 0.24);
+  tl.to(kicker, { opacity: 1, duration: 0.05 }, 0.26);
 
-  tl.to(
-    videoState,
-    {
-      time: usableDuration,
-      duration: 0.94,
-      ease: 'none',
-      onUpdate: () => {
-        const nextTime = videoState.time;
-        if (Number.isFinite(nextTime) && Math.abs(video.currentTime - nextTime) > 1 / 60) {
-          video.currentTime = nextTime;
-        }
-      },
-    },
-    0.06,
-  );
+  chapterItems.forEach((chapter, index) => {
+    const [start, end] = CHAPTER_WINDOWS[index];
+    const line = chapter.querySelector('.video-hero__chapter-line');
+    const fadeOutAt = index === chapterItems.length - 1 ? 0.71 : end - 0.02;
 
-  tl.to(scrollHint, { opacity: 0, y: 10, duration: 0.04, ease: 'power1.out' }, 0.06);
-  tl.to(cta, { opacity: 0, y: 14, duration: 0.05, ease: 'power1.out' }, 0.10);
-  tl.to(lead, { opacity: 0, duration: 0.07, ease: 'power1.out' }, 0.12);
-  tl.to(closer, { opacity: 0, duration: 0.07, ease: 'power1.out' }, 0.14);
-  tl.to(title, { y: -32, scale: 0.94, duration: 0.10, ease: 'power2.inOut' }, 0.14);
-  tl.to(eyebrow, { opacity: 0, duration: 0.05, ease: 'power1.out' }, 0.20);
-  tl.to(intro, { opacity: 0, pointerEvents: 'none', duration: 0.04, ease: 'power1.out' }, 0.22);
-
-  tl.to(
-    services,
-    { opacity: 1, clipPath: 'inset(0 0% 0 0)', pointerEvents: 'auto', duration: 0.06, ease: 'power2.out' },
-    0.22,
-  );
-  tl.to(serviceLine, { scaleX: 1, duration: 0.04, ease: 'power2.out' }, 0.24);
-
-  serviceItems.forEach((item, index) => {
-    const start = 0.26 + index * 0.10;
-    const end = start + 0.10;
-    const pos = linePositions[index];
-
-    if (pos) {
-      tl.to(serviceLine, { x: pos.x, width: pos.width, duration: 0.10, ease: 'power2.inOut' }, start);
-    }
-
-    tl.to(
-      item,
-      {
-        opacity: 1,
-        color: SERVICE_GOLD,
-        duration: 0.03,
-        ease: 'power1.out',
-      },
+    tl.fromTo(
+      chapter,
+      { autoAlpha: 0, y: 18 },
+      { autoAlpha: 1, y: 0, duration: CHAPTER_CROSS, ease: 'power2.out' },
       start,
     );
+    tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: CHAPTER_CROSS * 0.85, ease: 'power2.out' }, start);
     tl.to(
-      item,
-      { opacity: 0.38, color: SERVICE_MUTED, duration: 0.03, ease: 'power1.in' },
-      end - 0.02,
+      chapter,
+      { autoAlpha: 0, y: -18, duration: CHAPTER_CROSS, ease: 'power2.in' },
+      fadeOutAt,
     );
+    tl.to(line, { scaleX: 0, duration: CHAPTER_CROSS * 0.7, ease: 'power2.in' }, fadeOutAt);
   });
 
-  tl.to(servicesTagline, { opacity: 1, y: 0, duration: 0.06, ease: 'power2.out' }, 0.42);
-  tl.to(servicesTagline, { opacity: 0, duration: 0.05, ease: 'power1.in' }, 0.64);
+  tl.to(chapters, { autoAlpha: 0, duration: 0.05 }, 0.74);
 
-  tl.to(services, { opacity: 0, clipPath: 'inset(0 0 18% 0)', pointerEvents: 'none', duration: 0.06 }, 0.64);
-  tl.to(serviceLine, { opacity: 0, duration: 0.04 }, 0.64);
-
-  tl.to(wordmark, { opacity: 1, duration: 0.04, ease: 'power1.out' }, 0.64);
-  tl.to(
-    wordmarkOutline,
-    { opacity: 0.72, clipPath: 'inset(0 0 0 0)', duration: 0.06, ease: 'power2.out' },
-    0.64,
+  tl.to(brand, { autoAlpha: 1, duration: 0.04 }, 0.72);
+  tl.fromTo(
+    logo,
+    { autoAlpha: 0, y: 18, scale: 0.96 },
+    { autoAlpha: 1, y: 0, scale: 1, duration: 0.08, ease: 'power2.out' },
+    0.74,
   );
-  tl.to(
-    wordmarkFill,
-    { opacity: 0.92, clipPath: 'inset(0 0 0 0)', duration: 0.10, ease: 'power2.out' },
-    0.72,
+  tl.fromTo(
+    brandCloser,
+    { autoAlpha: 0, y: 10 },
+    { autoAlpha: 1, y: 0, duration: 0.06, ease: 'power2.out' },
+    0.82,
   );
-  tl.to(wordmarkCloser, { opacity: 1, y: 0, duration: 0.06, ease: 'power2.out' }, 0.82);
 
-  tl.to(navyFade, { opacity: 0.72, duration: 0.10, ease: 'power1.in' }, 0.88);
-  tl.to(wordmark, { y: -14, opacity: 0.68, duration: 0.10, ease: 'power1.inOut' }, 0.88);
-  tl.to(wordmarkCloser, { opacity: 0, duration: 0.08, ease: 'power1.in' }, 0.90);
-  tl.to(bottomTransition, { opacity: 1, duration: 0.12, ease: 'power1.in' }, 0.92);
+  tl.to(exitFade, { opacity: 1, duration: 0.09, ease: 'power1.in' }, 0.91);
+  tl.to(logo, { opacity: 0.68, duration: 0.08, ease: 'power1.in' }, 0.91);
+  tl.to(brandCloser, { autoAlpha: 0, duration: 0.06, ease: 'power1.in' }, 0.93);
 
   return tl;
 }
 
-function initStaticReduced(root, targets) {
-  const { scrollEl, stickyEl, video, services, wordmark } = targets;
+function waitForMedia(media) {
+  return new Promise((resolve) => {
+    if (!media) {
+      resolve(false);
+      return;
+    }
+
+    if (media.complete && media.naturalWidth > 0) {
+      resolve(true);
+      return;
+    }
+
+    const finish = (ok) => {
+      media.removeEventListener('load', onLoad);
+      media.removeEventListener('error', onError);
+      resolve(ok);
+    };
+
+    const onLoad = () => finish(media.naturalWidth > 0);
+    const onError = () => finish(false);
+
+    media.addEventListener('load', onLoad, { once: true });
+    media.addEventListener('error', onError, { once: true });
+  });
+}
+
+function initReduced(root, targets) {
+  const { scrollEl, stickyEl, media, chapters, brand, hint } = targets;
 
   scrollEl.style.height = 'auto';
-  stickyEl.style.position = 'relative';
   stickyEl.style.minHeight = '100svh';
+  gsap.set([chapters, brand, hint], { autoAlpha: 0 });
 
-  setLandingState(targets);
-  gsap.set(services, { display: 'none' });
-  gsap.set(wordmark, { display: 'none' });
-
-  if (video) {
-    video.pause();
-    gsap.set(video, { opacity: 1 });
-    video.currentTime = 0;
+  if (media) {
+    gsap.set(media, { clearProps: 'transform' });
   }
 
-  root.classList.add('is-video-hero-mounted', 'is-video-hero-reduced');
+  root.classList.add('is-video-hero-mounted', 'is-video-hero-reduced', 'is-video-ready');
 
   return () => {
     scrollEl.style.height = '';
-    stickyEl.style.position = '';
     stickyEl.style.minHeight = '';
-    gsap.set(services, { clearProps: 'display' });
-    gsap.set(wordmark, { clearProps: 'display' });
     root.classList.remove('is-video-hero-mounted', 'is-video-hero-reduced', 'is-video-ready', 'is-video-error');
   };
 }
 
-function initErrorFallback(root, targets, ctxRef) {
-  const { scrollEl, stickyEl, video } = targets;
+function initErrorFallback(root, targets) {
+  const { scrollEl, stickyEl, media, chapters, brand, hint } = targets;
 
-  root.classList.add('is-video-error');
   scrollEl.style.height = 'auto';
-  stickyEl.style.position = 'relative';
   stickyEl.style.minHeight = '100svh';
+  gsap.set([chapters, brand, hint], { autoAlpha: 0 });
 
-  setLandingState(targets);
-  if (video) {
-    video.pause();
-    gsap.set(video, { opacity: 0 });
+  if (media) {
+    gsap.set(media, { opacity: 0 });
   }
 
-  ctxRef.current?.revert();
-  ctxRef.current = null;
+  root.classList.add('is-video-hero-mounted', 'is-video-error');
 
   return () => {
     scrollEl.style.height = '';
-    stickyEl.style.position = '';
     stickyEl.style.minHeight = '';
-    root.classList.remove('is-video-error', 'is-video-ready', 'is-video-hero-mounted', 'is-video-hero-active');
+    root.classList.remove('is-video-hero-mounted', 'is-video-error', 'is-video-ready', 'is-video-hero-active');
   };
-}
-
-function waitForVideoMetadata(video) {
-  return new Promise((resolve) => {
-    if (!video) {
-      resolve(0);
-      return;
-    }
-
-    if (Number.isFinite(video.duration) && video.duration > 0) {
-      resolve(Math.max(video.duration - 0.04, 0));
-      return;
-    }
-
-    const onReady = () => {
-      cleanup();
-      resolve(Math.max(video.duration - 0.04, 0));
-    };
-
-    const onError = () => {
-      cleanup();
-      resolve(-1);
-    };
-
-    const cleanup = () => {
-      video.removeEventListener('loadedmetadata', onReady);
-      video.removeEventListener('error', onError);
-    };
-
-    video.addEventListener('loadedmetadata', onReady, { once: true });
-    video.addEventListener('error', onError, { once: true });
-    video.load();
-  });
 }
 
 export function initVideoHeroAnimation() {
@@ -333,63 +212,49 @@ export function initVideoHeroAnimation() {
   if (!root) return () => {};
 
   const targets = collectTargets(root);
-  const { scrollEl, stickyEl, video, cta } = targets;
+  const { scrollEl, stickyEl, media, cta } = targets;
 
   if (!scrollEl || !stickyEl) return () => {};
 
   if (prefersReducedMotion()) {
-    return initStaticReduced(root, targets);
+    return initReduced(root, targets);
   }
 
+  let disposed = false;
   let ctx = null;
   let mm = null;
-  let scrollTrigger = null;
+  let mainTrigger = null;
+  let uiTimeline = null;
   let resizeObserver = null;
   let refreshTimer = null;
-  let disposed = false;
   let goldSweepCleanup = () => {};
-  let videoReadyHandler = null;
-  let errorHandler = null;
-  let errorFallbackCleanup = null;
+  let errorCleanup = null;
 
-  const ctxRef = { current: null };
+  const syncCamera = (progress) => {
+    if (!media) return;
 
-  const boot = async () => {
-    const usableDuration = await waitForVideoMetadata(video);
+    const { scale, xPercent, yPercent } = cameraAtProgress(progress);
+    gsap.set(media, {
+      scale,
+      xPercent,
+      yPercent,
+      transformOrigin: '58% center',
+      force3D: true,
+    });
+  };
 
-    if (disposed) return;
+  const markMediaReady = () => {
+    if (disposed || root.classList.contains('is-video-ready')) return;
+    root.classList.add('is-video-ready');
+    gsap.to(media, { opacity: 1, duration: 0.42, ease: 'power2.out' });
+  };
 
-    if (usableDuration < 0) {
-      errorFallbackCleanup = initErrorFallback(root, targets, ctxRef);
-      return;
-    }
+  const setupScroll = () => {
+    if (disposed || errorCleanup) return;
 
-    const videoState = { time: 0 };
-    video.pause();
+    syncCamera(0);
 
-    videoReadyHandler = () => {
-      root.classList.add('is-video-ready');
-      gsap.to(video, { opacity: 1, duration: 0.45, ease: 'power2.out' });
-    };
-
-    if (video.readyState >= 2) {
-      videoReadyHandler();
-    } else {
-      video.addEventListener('loadeddata', videoReadyHandler, { once: true });
-      video.addEventListener('canplay', videoReadyHandler, { once: true });
-    }
-
-    errorHandler = () => {
-      if (errorFallbackCleanup) return;
-      errorFallbackCleanup = initErrorFallback(root, targets, ctxRef);
-      mm?.revert();
-      mm = null;
-    };
-    video.addEventListener('error', errorHandler);
-
-    if (cta) {
-      goldSweepCleanup = bindGoldSweep(cta);
-    }
+    if (cta) goldSweepCleanup = bindGoldSweep(cta);
 
     mm = gsap.matchMedia();
 
@@ -401,20 +266,15 @@ export function initVideoHeroAnimation() {
       },
       (context) => {
         const { desktop, tablet } = context.conditions;
-        const scrollVh = desktop
-          ? SCROLL_VH.desktop
-          : tablet
-            ? SCROLL_VH.tablet
-            : SCROLL_VH.mobile;
+        const scrollVh = desktop ? SCROLL_VH.desktop : tablet ? SCROLL_VH.tablet : SCROLL_VH.mobile;
 
         setScrollHeight(scrollEl, scrollVh);
-        setLandingState(targets);
 
         ctx = gsap.context(() => {
-          const tl = buildTimeline(targets, video, videoState, usableDuration);
+          uiTimeline = buildUiTimeline(targets, syncCamera);
 
-          scrollTrigger = ScrollTrigger.create({
-            animation: tl,
+          mainTrigger = ScrollTrigger.create({
+            animation: uiTimeline,
             trigger: scrollEl,
             start: 'top top',
             end: 'bottom bottom',
@@ -423,29 +283,20 @@ export function initVideoHeroAnimation() {
             pinSpacing: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            onRefresh: () => {
-              const positions = measureServiceLine(targets.serviceItems, targets.servicesList);
-              positions.forEach((pos, index) => {
-                if (scrollTrigger.progress >= 0.26 + index * 0.10) {
-                  applyServiceLine(targets.serviceLine, positions, index);
-                }
-              });
-            },
           });
 
-          syncVideoTime(video, videoState, scrollTrigger.progress, usableDuration);
-          tl.progress(scrollTrigger.progress);
-
+          uiTimeline.progress(mainTrigger.progress);
+          syncCamera(mainTrigger.progress);
           root.classList.add('is-video-hero-active');
         }, root);
 
-        ctxRef.current = ctx;
         root.classList.add('is-video-hero-mounted');
         ScrollTrigger.refresh();
 
         return () => {
-          scrollTrigger?.kill();
-          scrollTrigger = null;
+          mainTrigger?.kill();
+          mainTrigger = null;
+          uiTimeline = null;
           root.classList.remove('is-video-hero-active');
         };
       },
@@ -458,40 +309,46 @@ export function initVideoHeroAnimation() {
     resizeObserver.observe(stickyEl);
   };
 
+  const boot = async () => {
+    const mediaReady = await waitForMedia(media);
+
+    if (disposed) return;
+
+    if (!mediaReady) {
+      errorCleanup = initErrorFallback(root, targets);
+      return;
+    }
+
+    markMediaReady();
+    setupScroll();
+  };
+
   boot();
 
   return () => {
     disposed = true;
     clearTimeout(refreshTimer);
 
-    if (errorFallbackCleanup) {
-      errorFallbackCleanup();
-      errorFallbackCleanup = null;
-    }
-
+    errorCleanup?.();
+    errorCleanup = null;
     goldSweepCleanup();
-    video?.pause();
 
-    if (videoReadyHandler) {
-      video.removeEventListener('loadeddata', videoReadyHandler);
-      video.removeEventListener('canplay', videoReadyHandler);
-    }
-    if (errorHandler) {
-      video.removeEventListener('error', errorHandler);
-    }
+    mainTrigger?.kill();
+    mainTrigger = null;
+    uiTimeline = null;
 
-    scrollTrigger?.kill();
-    scrollTrigger = null;
     ctx?.revert();
     ctx = null;
     mm?.revert();
     mm = null;
+
     resizeObserver?.disconnect();
     resizeObserver = null;
 
     scrollEl.style.height = '';
-    stickyEl.style.removeProperty('position');
     stickyEl.style.removeProperty('min-height');
+    media?.style.removeProperty('transform');
+    media?.style.removeProperty('opacity');
 
     root.classList.remove(
       'is-video-hero-mounted',

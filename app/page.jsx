@@ -15,6 +15,8 @@ import {
   Team,
   ValueLatamRuntime,
   VideoHero,
+  // ImageHero retained for rollback:
+  // ImageHero,
   WhyUs,
   WorkWithUsTeaser,
   BackgroundCanvas,

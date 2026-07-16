@@ -51,7 +51,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-<html lang="es-AR" suppressHydrationWarning>
+<html
+      lang="es-AR"
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+    >
         <head>
         <script
           dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}

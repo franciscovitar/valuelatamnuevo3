@@ -58,6 +58,18 @@ html.vl-motion-enabled {
     overflow: hidden;
   }
 
+  [data-vl-home-section='regulation'] .seals .seal,
+  [data-vl-home-section='regulation'] .seals .seal:hover,
+  [data-vl-home-section='regulation'] .seals .seal:focus,
+  [data-vl-home-section='regulation'] .seals .seal:focus-visible,
+  [data-vl-home-section='regulation'] .seals .seal:active {
+    transform: none;
+    transition: none;
+    box-shadow: 0 18px 42px -30px rgba(0, 0, 0, 0.55);
+    background: #fff;
+    border-color: rgba(255, 255, 255, 0.86);
+  }
+
   [data-vl-home-section='regulation'] .reg-panel-shine {
     position: absolute;
     inset: 0;
