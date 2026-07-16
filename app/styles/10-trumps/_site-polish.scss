@@ -276,6 +276,19 @@ header.nav .nav-links .nav-mobile-cta {
   }
 }
 
+/* Partner logos — sin hover visual */
+.partner-logos .partner-logo:hover,
+.partner-logos .partner-logo:focus,
+.partner-logos .partner-logo:focus-visible,
+.partner-logos .partner-logo:active {
+  transform: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
 /* Sellos regulatorios — sin hover visual (section.reg, no .reg descendiente) */
 [data-vl-home-section='regulation'] .seals .seal,
 [data-vl-home-section='regulation'] .seals .seal:hover,

@@ -49,12 +49,6 @@
   box-shadow: none;
   filter: none;
   transform: none;
-  transition: transform .18s ease, filter .18s ease;
-}
-
-.partner-logo-grid--static .partner-logo:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.06) contrast(1.03);
 }
 
 .partner-logos .partner-logo img {

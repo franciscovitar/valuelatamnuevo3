@@ -9,18 +9,28 @@ import {
 } from './heroThreeGeometry';
 
 const ICE = new THREE.Color(PALETTE.iceBlue);
+const ICE_LIGHT = new THREE.Color(PALETTE.iceLight);
 const GOLD = new THREE.Color(PALETTE.gold);
+const IVORY = new THREE.Color(PALETTE.ivory);
 
-const FIELD_HEIGHT = 7.6;
-const FIELD_MIN_Y = -3.8;
+const FIELD_HEIGHT = 8.4;
+const FIELD_MIN_Y = -4.2;
 
 const LAYER_BOUNDS = {
-  far: { x: [-5.5, 5.5], y: [-3.8, 3.8], z: [-5.0, -1.4], travel: 2.8 },
-  mid: { x: [-4.8, 4.8], y: [-3.8, 3.8], z: [-3.0, -0.3], travel: 4.4 },
-  near: { x: [-4.1, 4.1], y: [-3.8, 3.8], z: [-1.8, 0.5], travel: 6.0 },
+  far: { x: [-6.5, 6.5], y: [-4.2, 4.2], z: [-6.0, -2.0], travel: 2.3 },
+  mid: { x: [-5.5, 5.5], y: [-4.2, 4.2], z: [-2.5, 1.8], travel: 3.9 },
+  near: { x: [-4.4, 4.4], y: [-4.2, 4.2], z: [2.0, 4.8], travel: 5.7 },
+  bokeh: { x: [-3.8, 3.8], y: [-4.2, 4.2], z: [4.8, 6.3], travel: 6.8 },
 };
 
-const HAZE_TRAVEL = 2.1;
+const HAZE_TRAVEL = 1.8;
+
+const COLOR_TYPE = {
+  ICE: 0,
+  ICE_LIGHT: 1,
+  GOLD: 2,
+  IVORY: 3,
+};
 
 function lerp(a, b, t) {
   return a + (b - a) * t;
@@ -33,9 +43,49 @@ function wrapFieldY(baseY, travelY) {
 }
 
 function xIntensityFactor(x) {
-  const t = clamp01((x + 5.5) / 11);
-  if (t <= 0.5) return lerp(0.52, 0.75, t / 0.5);
-  return lerp(0.75, 1.0, (t - 0.5) / 0.5);
+  const t = clamp01((x + 6.5) / 13);
+  if (t <= 0.5) return lerp(0.55, 0.78, t / 0.5);
+  return lerp(0.78, 1.0, (t - 0.5) / 0.5);
+}
+
+function layerBaseStrength(layerKey, rng) {
+  if (layerKey === 'far') return 0.48 + rng() * 0.24;
+  if (layerKey === 'mid') return 0.65 + rng() * 0.23;
+  if (layerKey === 'near') return 0.78 + rng() * 0.22;
+  return 0.18 + rng() * 0.17;
+}
+
+function pickColorType(rng, layerKey) {
+  const roll = rng();
+
+  if (layerKey === 'far') {
+    if (roll > 0.96) return COLOR_TYPE.GOLD;
+    if (roll > 0.92) return COLOR_TYPE.ICE_LIGHT;
+    return COLOR_TYPE.ICE;
+  }
+
+  if (layerKey === 'mid') {
+    if (roll > 0.97) return COLOR_TYPE.GOLD;
+    if (roll > 0.42) return COLOR_TYPE.ICE_LIGHT;
+    return COLOR_TYPE.ICE;
+  }
+
+  if (layerKey === 'near') {
+    if (roll > 0.975) return COLOR_TYPE.GOLD;
+    if (roll > 0.9) return COLOR_TYPE.IVORY;
+    if (roll > 0.28) return COLOR_TYPE.ICE_LIGHT;
+    return COLOR_TYPE.ICE;
+  }
+
+  if (roll > 0.78) return COLOR_TYPE.GOLD;
+  return COLOR_TYPE.ICE_LIGHT;
+}
+
+function colorFromType(type) {
+  if (type === COLOR_TYPE.GOLD) return GOLD;
+  if (type === COLOR_TYPE.ICE_LIGHT) return ICE_LIGHT;
+  if (type === COLOR_TYPE.IVORY) return IVORY;
+  return ICE;
 }
 
 function getQuality() {
@@ -43,20 +93,65 @@ function getQuality() {
   const tablet = window.matchMedia('(min-width: 768px) and (max-width: 1023px)').matches;
   const desktop = !mobile && !tablet;
 
+  if (mobile) {
+    return {
+      mobile: true,
+      tablet: false,
+      desktop: false,
+      farCount: 260,
+      midCount: 80,
+      nearCount: 28,
+      bokehCount: 8,
+      farSize: 0.032,
+      midSize: 0.052,
+      nearSize: 0.074,
+      bokehSize: 0.095,
+      farOpacity: 0.62,
+      midOpacity: 0.72,
+      nearOpacity: 0.8,
+      bokehOpacity: 0.1,
+      dpr: 1,
+    };
+  }
+
+  if (tablet) {
+    return {
+      mobile: false,
+      tablet: true,
+      desktop: false,
+      farCount: 520,
+      midCount: 150,
+      nearCount: 55,
+      bokehCount: 14,
+      farSize: 0.035,
+      midSize: 0.058,
+      nearSize: 0.082,
+      bokehSize: 0.105,
+      farOpacity: 0.65,
+      midOpacity: 0.75,
+      nearOpacity: 0.83,
+      bokehOpacity: 0.11,
+      dpr: 1.1,
+    };
+  }
+
   return {
-    mobile,
-    tablet,
-    desktop,
-    farCount: mobile ? 220 : tablet ? 420 : 780,
-    midCount: mobile ? 60 : tablet ? 110 : 175,
-    nearCount: mobile ? 16 : tablet ? 28 : 45,
-    farSize: mobile ? 0.028 : tablet ? 0.031 : 0.033,
-    midSize: mobile ? 0.042 : tablet ? 0.047 : 0.05,
-    nearSize: mobile ? 0.058 : tablet ? 0.066 : 0.072,
-    farOpacity: mobile ? 0.46 : tablet ? 0.49 : 0.5,
-    midOpacity: mobile ? 0.58 : tablet ? 0.61 : 0.63,
-    nearOpacity: mobile ? 0.6 : tablet ? 0.63 : 0.66,
-    dpr: mobile ? 1 : tablet ? 1.1 : Math.min(window.devicePixelRatio || 1, 1.35),
+    mobile: false,
+    tablet: false,
+    desktop: true,
+    farCount: 900,
+    midCount: 260,
+    nearCount: 90,
+    bokehCount: 22,
+    farSize: 0.038,
+    midSize: 0.064,
+    nearSize: 0.09,
+    bokehSize: 0.115,
+    farOpacity: 0.68,
+    midOpacity: 0.78,
+    nearOpacity: 0.86,
+    bokehOpacity: 0.12,
+    dpr: Math.min(window.devicePixelRatio || 1, 1.35),
   };
 }
 
@@ -69,8 +164,8 @@ function createPointTexture(size = 64) {
 
   const center = size / 2;
   const gradient = ctx.createRadialGradient(center, center, 0, center, center, center);
-  gradient.addColorStop(0, 'rgba(255,255,255,0.95)');
-  gradient.addColorStop(0.35, 'rgba(255,255,255,0.35)');
+  gradient.addColorStop(0, 'rgba(255,255,255,0.98)');
+  gradient.addColorStop(0.28, 'rgba(255,255,255,0.55)');
   gradient.addColorStop(1, 'rgba(255,255,255,0)');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, size, size);
@@ -89,8 +184,8 @@ function createSoftTexture(size = 128) {
 
   const center = size / 2;
   const gradient = ctx.createRadialGradient(center, center, 0, center, center, center);
-  gradient.addColorStop(0, 'rgba(255,255,255,0.55)');
-  gradient.addColorStop(0.45, 'rgba(255,255,255,0.12)');
+  gradient.addColorStop(0, 'rgba(255,255,255,0.42)');
+  gradient.addColorStop(0.35, 'rgba(255,255,255,0.14)');
   gradient.addColorStop(1, 'rgba(255,255,255,0)');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, size, size);
@@ -109,11 +204,11 @@ function sampleFieldPosition(rng, layerKey) {
   };
 }
 
-function createParticleLayer(count, rng, texture, { size, baseOpacity, layerKey }) {
+function createParticleLayer(count, rng, texture, { size, baseOpacity, layerKey, blending }) {
   const positions = new Float32Array(count * 3);
   const basePositions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
-  const meta = new Float32Array(count * 2);
+  const meta = new Float32Array(count * 3);
 
   for (let i = 0; i < count; i += 1) {
     const { x, y, z } = sampleFieldPosition(rng, layerKey);
@@ -124,18 +219,18 @@ function createParticleLayer(count, rng, texture, { size, baseOpacity, layerKey 
     positions[offset + 2] = z;
     basePositions.set([x, y, z], offset);
 
-    const goldish = rng() > 0.87;
-    const source = goldish ? GOLD : ICE;
+    const colorType = pickColorType(rng, layerKey);
+    const source = colorFromType(colorType);
+    const baseStrength = layerBaseStrength(layerKey, rng);
     const xFactor = xIntensityFactor(x);
-    const layerBase = layerKey === 'far' ? 0.22 : layerKey === 'mid' ? 0.32 : 0.38;
-    const dim = (layerBase + rng() * 0.18) * xFactor;
 
-    colors[offset] = source.r * dim;
-    colors[offset + 1] = source.g * dim;
-    colors[offset + 2] = source.b * dim;
+    colors[offset] = source.r * baseStrength * xFactor;
+    colors[offset + 1] = source.g * baseStrength * xFactor;
+    colors[offset + 2] = source.b * baseStrength * xFactor;
 
-    meta[i * 2] = i % 4;
-    meta[i * 2 + 1] = goldish ? 1 : 0;
+    meta[i * 3] = i % 4;
+    meta[i * 3 + 1] = colorType;
+    meta[i * 3 + 2] = baseStrength;
   }
 
   const geometry = new THREE.BufferGeometry();
@@ -146,12 +241,13 @@ function createParticleLayer(count, rng, texture, { size, baseOpacity, layerKey 
     size,
     sizeAttenuation: true,
     map: texture,
-    alphaTest: 0.02,
+    alphaTest: blending === THREE.NormalBlending ? 0.001 : 0.015,
     vertexColors: true,
     transparent: true,
     opacity: baseOpacity,
     depthWrite: false,
-    blending: THREE.AdditiveBlending,
+    depthTest: true,
+    blending,
   });
 
   return {
@@ -182,9 +278,9 @@ function createHazeSprites(softTexture) {
   };
 
   return {
-    blueMain: makeSprite(PALETTE.navyMedium, 0.22, [0.8, 0, -3], [10, 7]),
-    blueSecondary: makeSprite(PALETTE.navyMedium, 0.09, [-2.2, 0.4, -4], [6, 5]),
-    gold: makeSprite(PALETTE.gold, 0.045, [2.0, 0.2, -2.3], [4.5, 3.5]),
+    blueMain: makeSprite(PALETTE.navyMedium, 0.3, [0.8, 0, -3], [11, 7.5]),
+    blueSecondary: makeSprite(PALETTE.navyMedium, 0.14, [-2.2, 0.4, -4], [7, 5.5]),
+    gold: makeSprite(PALETTE.gold, 0.06, [2.0, 0.2, -2.3], [5, 4]),
   };
 }
 
@@ -218,11 +314,11 @@ export function createHeroThreeScene({ canvas, root }) {
 
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.88;
+  renderer.toneMappingExposure = 1.05;
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(PALETTE.blackBlue, 0.042);
+  scene.fog = new THREE.FogExp2(PALETTE.blackBlue, 0.026);
 
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 32);
   camera.position.set(0, 0.05, 8.1);
@@ -244,19 +340,28 @@ export function createHeroThreeScene({ canvas, root }) {
     size: quality.farSize,
     baseOpacity: quality.farOpacity,
     layerKey: 'far',
+    blending: THREE.AdditiveBlending,
   });
   const midParticles = createParticleLayer(quality.midCount, rng, pointTexture, {
     size: quality.midSize,
     baseOpacity: quality.midOpacity,
     layerKey: 'mid',
+    blending: THREE.AdditiveBlending,
   });
   const nearParticles = createParticleLayer(quality.nearCount, rng, pointTexture, {
     size: quality.nearSize,
     baseOpacity: quality.nearOpacity,
     layerKey: 'near',
+    blending: THREE.AdditiveBlending,
   });
-  const haze = createHazeSprites(softTexture);
+  const bokehParticles = createParticleLayer(quality.bokehCount, rng, softTexture, {
+    size: quality.bokehSize,
+    baseOpacity: quality.bokehOpacity,
+    layerKey: 'bokeh',
+    blending: THREE.NormalBlending,
+  });
 
+  const haze = createHazeSprites(softTexture);
   const hazeLayer = new THREE.Group();
   hazeLayer.add(haze.blueMain, haze.blueSecondary, haze.gold);
 
@@ -264,6 +369,7 @@ export function createHeroThreeScene({ canvas, root }) {
     farParticles.points,
     midParticles.points,
     nearParticles.points,
+    bokehParticles.points,
     hazeLayer,
   );
 
@@ -276,43 +382,41 @@ export function createHeroThreeScene({ canvas, root }) {
   let disposed = false;
   let restoredOnce = false;
 
-  const particleLayers = [farParticles, midParticles, nearParticles];
+  const particleLayers = [farParticles, midParticles, nearParticles, bokehParticles];
 
-  function updateParticleLayer(layer, weights, progress, brandT, exitT) {
+  function updateParticleLayer(layer, weights, brandT, exitT, progress) {
     const { positions, basePositions, colors, meta, points, layerKey, baseOpacity } = layer;
     const count = positions.length / 3;
     const travelY = -progress * LAYER_BOUNDS[layerKey].travel;
-    const layerDimBase = layerKey === 'far' ? 0.22 : layerKey === 'mid' ? 0.32 : 0.38;
 
     for (let i = 0; i < count; i += 1) {
       const offset = i * 3;
-      const metaOffset = i * 2;
+      const metaOffset = i * 3;
       const baseX = basePositions[offset];
       const baseY = basePositions[offset + 1];
       const baseZ = basePositions[offset + 2];
       const cluster = meta[metaOffset];
-      const goldish = meta[metaOffset + 1] > 0.5;
-      const chapterBoost = weights[cluster] ?? 0;
+      const colorType = meta[metaOffset + 1];
+      const baseStrength = meta[metaOffset + 2];
+      const chapterBoost = Math.min(0.18, (weights[cluster] ?? 0) * 0.16);
 
       positions[offset] = baseX;
       positions[offset + 1] = wrapFieldY(baseY, travelY);
       positions[offset + 2] = baseZ;
 
-      const source = goldish ? GOLD : ICE;
+      const source = colorFromType(colorType);
       const xFactor = xIntensityFactor(baseX);
-      const brightness =
-        (layerDimBase + chapterBoost * (layerKey === 'far' ? 0.18 : 0.28)) *
-        xFactor *
-        (1 - brandT * 0.14 - exitT * 0.22);
+      const fade = 1 - brandT * 0.1 - exitT * 0.16;
+      const strength = (baseStrength + chapterBoost) * xFactor * fade;
 
-      colors[offset] = source.r * brightness;
-      colors[offset + 1] = source.g * brightness;
-      colors[offset + 2] = source.b * brightness;
+      colors[offset] = source.r * strength;
+      colors[offset + 1] = source.g * strength;
+      colors[offset + 2] = source.b * strength;
     }
 
     points.geometry.attributes.position.needsUpdate = true;
     points.geometry.attributes.color.needsUpdate = true;
-    points.material.opacity = baseOpacity * (1 - brandT * 0.1 - exitT * 0.18);
+    points.material.opacity = baseOpacity * (1 - brandT * 0.08 - exitT * 0.14);
   }
 
   function applySceneState() {
@@ -323,21 +427,21 @@ export function createHeroThreeScene({ canvas, root }) {
     const chapterT = smoothstep(0.27, 0.71, progress);
 
     particleLayers.forEach((layer) => {
-      updateParticleLayer(layer, weights, progress, brandT, exitT);
+      updateParticleLayer(layer, weights, brandT, exitT, progress);
     });
 
     hazeLayer.position.y = -progress * HAZE_TRAVEL;
 
-    haze.blueMain.material.opacity = 0.22 * (1 - brandT * 0.12 - exitT * 0.1);
-    haze.blueSecondary.material.opacity = 0.09 * (1 - brandT * 0.1 - exitT * 0.08);
+    haze.blueMain.material.opacity = 0.3 * (1 - brandT * 0.1 - exitT * 0.08);
+    haze.blueSecondary.material.opacity = 0.14 * (1 - brandT * 0.08 - exitT * 0.06);
     haze.gold.material.opacity =
-      (0.045 + weights[0] * 0.018 + chapterT * 0.012) * (1 - brandT * 0.08 - exitT * 0.12);
+      (0.06 + weights[0] * 0.015 + chapterT * 0.01) * (1 - brandT * 0.06 - exitT * 0.1);
 
-    camera.position.set(0, 0.05, lerp(8.1, 8.5, brandT));
+    camera.position.set(0, 0.05, 8.1);
     camera.lookAt(0, 0, 0);
 
-    scene.fog.density = 0.042 + brandT * 0.014 + exitT * 0.024;
-    renderer.toneMappingExposure = 0.88 - brandT * 0.1 - exitT * 0.14;
+    scene.fog.density = 0.026 + brandT * 0.016 + exitT * 0.028;
+    renderer.toneMappingExposure = 1.05 - brandT * 0.12 - exitT * 0.18;
   }
 
   function draw() {
@@ -424,6 +528,7 @@ export function createHeroThreeScene({ canvas, root }) {
         farParticles: quality.farCount,
         midParticles: quality.midCount,
         nearParticles: quality.nearCount,
+        bokehParticles: quality.bokehCount,
         bloom: false,
         dpr: quality.dpr,
       };

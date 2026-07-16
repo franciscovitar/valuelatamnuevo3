@@ -170,10 +170,10 @@ body:has(.video-hero) header.nav {
   pointer-events: none;
   background: linear-gradient(
     90deg,
-    rgba(1, 4, 10, 0.94) 0%,
-    rgba(2, 7, 14, 0.78) 28%,
-    rgba(2, 7, 14, 0.18) 58%,
-    rgba(1, 4, 10, 0.04) 100%
+    rgba(1, 4, 10, 0.92) 0%,
+    rgba(2, 7, 14, 0.66) 26%,
+    rgba(2, 7, 14, 0.08) 52%,
+    rgba(1, 4, 10, 0) 100%
   );
 }
 
@@ -185,15 +185,15 @@ body:has(.video-hero) header.nav {
   background:
     linear-gradient(
       180deg,
-      rgba(1, 4, 10, 0.46) 0%,
-      transparent 14%,
-      transparent 72%,
-      rgba(1, 4, 10, 0.34) 100%
+      rgba(1, 4, 10, 0.38) 0%,
+      transparent 13%,
+      transparent 75%,
+      rgba(1, 4, 10, 0.28) 100%
     ),
     radial-gradient(
-      ellipse 125% 95% at 68% 48%,
-      transparent 48%,
-      rgba(1, 4, 10, 0.2) 100%
+      ellipse 135% 105% at 64% 48%,
+      transparent 55%,
+      rgba(1, 4, 10, 0.12) 100%
     );
 }
 
