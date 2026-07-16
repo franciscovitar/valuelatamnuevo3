@@ -4,10 +4,12 @@
   position: relative;
   background: #01040a;
   color: var(--paper, #f6f3ec);
+  margin-top: 0;
 }
 
 .video-hero__scroll {
   position: relative;
+  margin-top: 0;
 }
 
 .video-hero__sticky {
@@ -15,6 +17,7 @@
   min-height: 100svh;
   overflow: hidden;
   isolation: isolate;
+  margin-top: 0;
 }
 
 .video-hero__media {
@@ -32,19 +35,26 @@
   pointer-events: none;
   background:
     radial-gradient(
-      circle at 72% 46%,
-      rgba(27, 58, 92, 0.36),
-      transparent 38%
+      ellipse 72% 58% at 74% 44%,
+      rgba(27, 58, 92, 0.28),
+      transparent 62%
     ),
     radial-gradient(
-      circle at 56% 58%,
-      rgba(10, 33, 56, 0.42),
-      transparent 52%
+      ellipse 48% 42% at 68% 52%,
+      rgba(10, 33, 56, 0.22),
+      transparent 68%
     ),
-    radial-gradient(
-      circle at 18% 72%,
-      rgba(6, 19, 33, 0.55),
-      transparent 48%
+    linear-gradient(
+      90deg,
+      #01040a 0%,
+      #01040a 38%,
+      rgba(2, 7, 14, 0.98) 100%
+    ),
+    linear-gradient(
+      180deg,
+      #01040a 0%,
+      rgba(1, 4, 10, 0.96) 78%,
+      #01040a 100%
     ),
     #01040a;
 }
@@ -74,19 +84,20 @@
   .video-hero__css-fallback {
     background:
       radial-gradient(
-        circle at 66% 34%,
-        rgba(27, 58, 92, 0.32),
-        transparent 36%
+        ellipse 68% 48% at 66% 32%,
+        rgba(27, 58, 92, 0.24),
+        transparent 58%
       ),
       radial-gradient(
-        circle at 52% 22%,
-        rgba(10, 33, 56, 0.38),
-        transparent 44%
+        ellipse 80% 36% at 50% 86%,
+        rgba(6, 19, 33, 0.58),
+        transparent 52%
       ),
-      radial-gradient(
-        circle at 50% 88%,
-        rgba(6, 19, 33, 0.62),
-        transparent 42%
+      linear-gradient(
+        180deg,
+        #01040a 0%,
+        rgba(1, 4, 10, 0.97) 55%,
+        #01040a 100%
       ),
       #01040a;
   }

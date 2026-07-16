@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
 const POINTER_QUERY = '(min-width: 981px) and (pointer: fine)';
 
@@ -9,226 +10,15 @@ const CHAPTER_WINDOWS = [
   [0.60, 0.71],
 ];
 
-const VERT = `
-varying vec2 vUv;
+const COLORS = {
+  navy: 0x0a2138,
+  navyDark: 0x061321,
+  navySteel: 0x1b3a5c,
+  navyWarm: 0x0d2844,
+};
 
-void main() {
-  vUv = uv;
-  gl_Position = vec4(position.xy, 0.0, 1.0);
-}
-`;
-
-const FRAG = `
-precision highp float;
-
-varying vec2 vUv;
-
-uniform float uTime;
-uniform float uProgress;
-uniform vec2 uResolution;
-uniform vec2 uPointer;
-uniform float uPointerStrength;
-uniform vec4 uChapterWeights;
-uniform float uBrandProgress;
-uniform float uExitProgress;
-uniform float uMobile;
-
-const vec3 COL_BLACK = vec3(0.0039, 0.0157, 0.0392);
-const vec3 COL_DEEP   = vec3(0.0078, 0.0275, 0.0549);
-const vec3 COL_DARK   = vec3(0.0235, 0.0745, 0.1294);
-const vec3 COL_NAVY   = vec3(0.0392, 0.1294, 0.2196);
-const vec3 COL_MED    = vec3(0.1059, 0.2275, 0.3608);
-const vec3 COL_ICE    = vec3(0.5608, 0.6980, 0.8392);
-const vec3 COL_ICE_LT = vec3(0.6196, 0.7529, 0.9020);
-const vec3 COL_GOLD   = vec3(0.7490, 0.6275, 0.3529);
-const vec3 COL_GOLD_L = vec3(0.8235, 0.7176, 0.4588);
-
-float hash21(vec2 p) {
-  p = fract(p * vec2(234.34, 435.345));
-  p += dot(p, p + 34.23);
-  return fract(p.x * p.y);
-}
-
-float valueNoise(vec2 p) {
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  f = f * f * (3.0 - 2.0 * f);
-  float a = hash21(i);
-  float b = hash21(i + vec2(1.0, 0.0));
-  float c = hash21(i + vec2(0.0, 1.0));
-  float d = hash21(i + vec2(1.0, 1.0));
-  return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
-}
-
-float fbm(vec2 p) {
-  float v = 0.0;
-  float a = 0.5;
-  mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
-  for (int i = 0; i < 3; i++) {
-    v += a * valueNoise(p);
-    p = m * p;
-    a *= 0.5;
-  }
-  return v;
-}
-
-vec2 domainWarp(vec2 p, float t) {
-  float n1 = fbm(p * 1.35 + vec2(t * 0.018, t * 0.012));
-  float n2 = fbm(p * 1.55 + vec2(3.7, 1.9) + t * 0.014);
-  return p + vec2(n1 - 0.5, n2 - 0.5) * 0.085;
-}
-
-float sdSegment(vec2 p, vec2 a, vec2 b) {
-  vec2 pa = p - a;
-  vec2 ba = b - a;
-  float h = clamp(dot(pa, ba) / max(dot(ba, ba), 0.0001), 0.0, 1.0);
-  return length(pa - ba * h);
-}
-
-vec2 bezier2(vec2 a, vec2 b, vec2 c, float t) {
-  float omt = 1.0 - t;
-  return omt * omt * a + 2.0 * omt * t * b + t * t * c;
-}
-
-float sdBezier2(vec2 p, vec2 a, vec2 b, vec2 c) {
-  float d = 1e6;
-  for (int i = 0; i < 16; i++) {
-    float t0 = float(i) / 16.0;
-    float t1 = float(i + 1) / 16.0;
-    d = min(d, sdSegment(p, bezier2(a, b, c, t0), bezier2(a, b, c, t1)));
-  }
-  return d;
-}
-
-float streamPulse(vec2 p, vec2 a, vec2 b, vec2 c, float phase, float width) {
-  float t = fract(phase);
-  vec2 pt = bezier2(a, b, c, t);
-  return exp(-dot(p - pt, p - pt) / (width * width));
-}
-
-void main() {
-  vec2 uv = vUv;
-  vec2 aspect = vec2(uResolution.x / uResolution.y, 1.0);
-  vec2 p = (uv - 0.5) * aspect;
-
-  vec2 pointerUv = uPointer * vec2(0.14, 0.09);
-  vec2 warpCenter = mix(vec2(0.22, 0.0), vec2(0.18, 0.06), uMobile) + pointerUv;
-  float warpDist = length(p - warpCenter);
-  p += (p - warpCenter) * uPointerStrength * 0.016 * exp(-warpDist * warpDist * 10.0);
-
-  float intro = smoothstep(0.0, 0.27, uProgress);
-  float expand = 1.0 + intro * 0.04 + uBrandProgress * 0.025;
-
-  vec2 core = mix(vec2(0.24, 0.02), vec2(0.20, -0.10), uMobile);
-  vec2 formCenter = mix(vec2(0.30, 0.01), vec2(0.22, -0.08), uMobile);
-
-  vec2 q = domainWarp((p - formCenter) / expand, uTime * 0.045 + uProgress * 0.08);
-  float ellDist = length(q * vec2(0.88, 1.05));
-  float density = fbm(q * 2.1 + uTime * 0.022);
-  float mainShape = 1.0 - smoothstep(0.42, 1.08, ellDist + density * 0.18 - intro * 0.06);
-  mainShape *= smoothstep(-0.55, -0.08, p.x + 0.12);
-
-  vec3 base = mix(COL_BLACK, COL_DEEP, smoothstep(-0.55, -0.05, p.x));
-  base = mix(base, COL_DARK, smoothstep(-0.1, 0.35, p.x) * 0.45);
-  base = mix(base, COL_NAVY, smoothstep(0.05, 0.55, p.x + density * 0.08) * 0.35);
-  base = mix(base, COL_MED * 0.35, smoothstep(0.25, 0.65, p.x) * 0.12);
-
-  vec3 formInner = mix(COL_DARK, COL_MED, density * 0.55 + mainShape * 0.35);
-  formInner = mix(formInner, COL_ICE * 0.55, mainShape * (0.18 + intro * 0.12));
-  vec3 color = mix(base, formInner, mainShape * 0.92);
-
-  vec2 c0a = mix(vec2(0.42, -0.38), vec2(0.38, -0.28), uMobile);
-  vec2 c0b = mix(vec2(0.36, -0.08), vec2(0.32, -0.02), uMobile);
-  vec2 c0c = core;
-  vec2 c1a = mix(vec2(0.52, 0.08), vec2(0.46, 0.12), uMobile);
-  vec2 c1b = mix(vec2(0.40, 0.06), vec2(0.34, 0.08), uMobile);
-  vec2 c1c = core;
-  vec2 c2a = mix(vec2(0.48, 0.32), vec2(0.44, 0.22), uMobile);
-  vec2 c2b = mix(vec2(0.36, 0.18), vec2(0.30, 0.14), uMobile);
-  vec2 c2c = core;
-  vec2 c3a = mix(vec2(0.18, -0.22), vec2(0.16, -0.14), uMobile);
-  vec2 c3b = mix(vec2(0.24, -0.02), vec2(0.22, 0.02), uMobile);
-  vec2 c3c = core;
-
-  float d0 = sdBezier2(p, c0a, c0b, c0c);
-  float d1 = sdBezier2(p, c1a, c1b, c1c);
-  float d2 = sdBezier2(p, c2a, c2b, c2c);
-  float d3 = sdBezier2(p, c3a, c3b, c3c);
-
-  float past0 = smoothstep(0.38, 0.42, uProgress);
-  float past1 = smoothstep(0.49, 0.53, uProgress);
-  float past2 = smoothstep(0.60, 0.64, uProgress);
-
-  float w0 = uChapterWeights.x;
-  float w1 = uChapterWeights.y;
-  float w2 = uChapterWeights.z;
-  float w3 = uChapterWeights.w;
-
-  float mem0 = max(w0 * 0.15, past0 * 0.38);
-  float mem1 = max(w1 * 0.15, past1 * 0.38);
-  float mem2 = max(w2 * 0.15, past2 * 0.38);
-  float mem3 = w3 * 0.15 + uBrandProgress * 0.55;
-
-  float s0 = exp(-d0 * d0 / 0.0018) * (mem0 + w0 * 0.85 + uBrandProgress * 0.35);
-  float s1 = exp(-d1 * d1 / 0.0016) * (mem1 + w1 * 0.85 + uBrandProgress * 0.35);
-  float s2 = exp(-d2 * d2 / 0.0016) * (mem2 + w2 * 0.85 + uBrandProgress * 0.35);
-  float s3 = exp(-d3 * d3 / 0.0018) * (mem3 + w3 * 0.85 + uBrandProgress * 0.35);
-
-  float coreLine0 = exp(-d0 * d0 / 0.00035) * (w0 + mem0 * 0.5);
-  float coreLine1 = exp(-d1 * d1 / 0.00032) * (w1 + mem1 * 0.5);
-  float coreLine2 = exp(-d2 * d2 / 0.00032) * (w2 + mem2 * 0.5);
-  float coreLine3 = exp(-d3 * d3 / 0.00035) * (w3 + mem3 * 0.5);
-
-  vec3 streamIce = COL_ICE * 0.55;
-  vec3 streamGold = mix(COL_GOLD, COL_GOLD_L, 0.45);
-
-  color += streamIce * (s0 + s1 + s2 + s3) * 0.22 * mainShape;
-  color += streamGold * (s0 * w0 + s1 * w1 + s2 * w2 + s3 * w3) * 0.42;
-  color += streamGold * (coreLine0 * w0 + coreLine1 * w1 + coreLine2 * w2 + coreLine3 * w3) * 0.18;
-
-  float fluid = fbm(p * 1.8 + vec2(uTime * 0.025, -uTime * 0.018) + uProgress * 0.2);
-  color += COL_ICE * fluid * mainShape * (w1 * 0.08 + w2 * 0.06);
-
-  float order = w3 * 0.12 + uBrandProgress * 0.18;
-  float sym = 1.0 - abs(p.y) * 1.6;
-  color += COL_ICE_LT * sym * order * mainShape * 0.08;
-
-  float pulseSpeed = 0.06 + uTime * 0.035;
-  float p0 = streamPulse(p, c0a, c0b, c0c, pulseSpeed + w0 * 0.2, 0.012) * w0;
-  float p1 = streamPulse(p, c1a, c1b, c1c, pulseSpeed * 1.1 + 0.15 + w1 * 0.2, 0.011) * w1;
-  float p2a = streamPulse(p, c2a, c2b, c2c, pulseSpeed * 0.95 + w2 * 0.15, 0.010) * w2;
-  float p2b = streamPulse(p, c2a, c2b, c2c, pulseSpeed * 0.95 + 0.35 + w2 * 0.15, 0.009) * w2 * 0.7;
-  float p3 = streamPulse(p, c3a, c3b, c3c, pulseSpeed * 1.05 + w3 * 0.18, 0.011) * w3;
-  color += streamGold * (p0 + p1 + p2a + p2b + p3) * (0.55 + uBrandProgress * 0.25);
-
-  float topo = mainShape * (density + intro * 0.08);
-  float contour = abs(fract(topo * 7.5 + fbm(p * 2.4) * 0.35) - 0.5);
-  float contourLine = smoothstep(0.065, 0.0, contour) * mainShape;
-  contourLine *= mix(1.0, 0.45, uMobile);
-  contourLine *= 1.0 - uExitProgress * 0.85;
-  color += COL_ICE * contourLine * 0.07;
-
-  float coreGlow = exp(-dot(p - core, p - core) / 0.018) * (0.12 + uBrandProgress * 0.35);
-  coreGlow += exp(-dot(p - core, p - core) / 0.006) * w0 * 0.12;
-  color += mix(COL_ICE, COL_GOLD, uBrandProgress * 0.65 + w0 * 0.2) * coreGlow;
-
-  float corePulse = exp(-dot(p - core, p - core) / 0.004) * uBrandProgress;
-  color += COL_GOLD * corePulse * (0.25 + sin(uTime * 0.55) * 0.04);
-
-  float breathe = sin(uTime * 0.38) * 0.012 * (1.0 - uBrandProgress * 0.6);
-  color += COL_MED * breathe * mainShape * 0.25;
-
-  float grain = (hash21(gl_FragCoord.xy + uTime) - 0.5) * 0.022;
-  color += grain * (1.0 - uExitProgress * 0.5);
-
-  color = mix(color, COL_BLACK, uExitProgress * 0.72);
-  color *= 1.0 - uExitProgress * 0.28;
-  color = mix(color, COL_BLACK, uBrandProgress * 0.08);
-
-  color = clamp(color, 0.0, 1.0);
-  gl_FragColor = vec4(color, 1.0);
-}
-`;
+const ICE = new THREE.Color(0x8fb2d6);
+const GOLD = new THREE.Color(0xd2b775);
 
 function smoothstep(edge0, edge1, x) {
   const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
@@ -243,17 +33,241 @@ function chapterWeight(progress, start, end, fade = 0.016) {
   return 0;
 }
 
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
 function getQuality() {
   const mobile = window.matchMedia('(max-width: 767px)').matches;
   const tablet = window.matchMedia('(min-width: 768px) and (max-width: 1023px)').matches;
+  const desktop = !mobile && !tablet;
 
   return {
     mobile,
     tablet,
-    dpr: mobile ? 1 : tablet ? Math.min(window.devicePixelRatio || 1, 1.25) : Math.min(window.devicePixelRatio || 1, 1.5),
-    fpsCap: mobile ? 30 : 60,
+    desktop,
+    segments: mobile ? 32 : tablet ? 48 : 64,
+    width: mobile ? 0.44 : desktop ? 0.38 : 0.42,
+    thickness: mobile ? 0.038 : 0.042,
+    dpr: mobile ? 1 : tablet ? 1 : Math.min(window.devicePixelRatio || 1, 1.25),
     pointerEnabled: window.matchMedia(POINTER_QUERY).matches,
   };
+}
+
+function createRibbonGeometry({ points, width, thickness, segments, twist = 0 }) {
+  const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(p.x, p.y, p.z)));
+  const frames = curve.computeFrenetFrames(segments, false);
+
+  const ringVerts = 4;
+  const vertCount = (segments + 1) * ringVerts;
+  const positions = new Float32Array(vertCount * 3);
+  const ribbonProgress = new Float32Array(vertCount);
+  const ringStarts = [];
+
+  const halfW = width * 0.5;
+  const halfT = thickness * 0.5;
+  const normalUp = new THREE.Vector3();
+  const binormal = new THREE.Vector3();
+  const tangent = new THREE.Vector3();
+  const point = new THREE.Vector3();
+  const corner = new THREE.Vector3();
+
+  let vi = 0;
+
+  for (let i = 0; i <= segments; i += 1) {
+    const t = i / segments;
+    curve.getPointAt(t, point);
+    tangent.copy(frames.tangents[i]);
+    normalUp.copy(frames.normals[i]);
+    binormal.copy(frames.binormals[i]);
+
+    if (twist !== 0) {
+      const angle = twist * t * Math.PI * 0.35;
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+      const nr = normalUp.x * cos + binormal.x * sin;
+      const nb = -normalUp.x * sin + binormal.x * cos;
+      normalUp.x = nr;
+      binormal.x = nb;
+      const nr2 = normalUp.y * cos + binormal.y * sin;
+      const nb2 = -normalUp.y * sin + binormal.y * cos;
+      normalUp.y = nr2;
+      binormal.y = nb2;
+    }
+
+    ringStarts.push(vi);
+
+    const offsets = [
+      [halfW, halfT],
+      [-halfW, halfT],
+      [-halfW, -halfT],
+      [halfW, -halfT],
+    ];
+
+    offsets.forEach(([w, th]) => {
+      corner.copy(point);
+      corner.addScaledVector(binormal, w);
+      corner.addScaledVector(normalUp, th);
+      positions[vi * 3] = corner.x;
+      positions[vi * 3 + 1] = corner.y;
+      positions[vi * 3 + 2] = corner.z;
+      ribbonProgress[vi] = t;
+      vi += 1;
+    });
+  }
+
+  const indices = [];
+
+  for (let i = 0; i < segments; i += 1) {
+    const a = ringStarts[i];
+    const b = ringStarts[i + 1];
+
+    indices.push(a, b, b + 1, a, b + 1, a + 1);
+    indices.push(a + 3, a + 2, b + 2, a + 3, b + 2, b + 3);
+    indices.push(a, a + 3, b + 3, a, b + 3, b);
+    indices.push(a + 1, b + 1, b + 2, a + 1, b + 2, a + 2);
+  }
+
+  const start = ringStarts[0];
+  const end = ringStarts[segments];
+  indices.push(start, start + 3, start + 2, start, start + 2, start + 1);
+  indices.push(end, end + 1, end + 2, end, end + 2, end + 3);
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('aRibbonProgress', new THREE.BufferAttribute(ribbonProgress, 1));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+
+  return { geometry, curve };
+}
+
+function setBaseVertexColors(geometry, color) {
+  const count = geometry.attributes.position.count;
+  const colors = new Float32Array(count * 3);
+  for (let i = 0; i < count; i += 1) {
+    colors[i * 3] = color.r;
+    colors[i * 3 + 1] = color.g;
+    colors[i * 3 + 2] = color.b;
+  }
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+}
+
+function initOverlayColors(geometry) {
+  const count = geometry.attributes.position.count;
+  const colors = new Float32Array(count * 3);
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  return colors;
+}
+
+function updateOverlayColors(colorArray, progressAttr, activeWeight, lightPos, memoryWeight) {
+  const iceR = ICE.r;
+  const iceG = ICE.g;
+  const iceB = ICE.b;
+  const goldR = GOLD.r;
+  const goldG = GOLD.g;
+  const goldB = GOLD.b;
+
+  for (let i = 0; i < progressAttr.length; i += 1) {
+    const p = progressAttr[i];
+    const dist = p - lightPos;
+    const band = Math.exp(-(dist * dist) / 0.018) * activeWeight;
+    const memory = memoryWeight * 0.12 * Math.exp(-((p - 0.7) ** 2) / 0.08);
+    const intensity = Math.min(1, band * 0.85 + memory);
+
+    const mix = band / (intensity + 0.0001);
+    const r = lerp(iceR, goldR, mix * activeWeight) * intensity;
+    const g = lerp(iceG, goldG, mix * activeWeight) * intensity;
+    const b = lerp(iceB, goldB, mix * activeWeight) * intensity;
+
+    colorArray[i * 3] = r;
+    colorArray[i * 3 + 1] = g;
+    colorArray[i * 3 + 2] = b;
+  }
+}
+
+const RIBBON_DEFS = [
+  {
+    name: 'financiamiento',
+    color: COLORS.navyDark,
+    twist: 0.08,
+    basePos: { x: 0, y: 0, z: 0 },
+    baseRot: { x: 0.04, y: -0.12, z: 0.02 },
+    brandPull: { x: 0.06, y: -0.04, z: 0.02 },
+    points: [
+      { x: 1.35, y: -1.35, z: -0.55 },
+      { x: 0.95, y: -0.55, z: -0.28 },
+      { x: 0.45, y: 0.25, z: -0.08 },
+      { x: 0.05, y: 0.85, z: 0.06 },
+      { x: -0.25, y: 1.15, z: 0.12 },
+      { x: -0.45, y: 1.05, z: 0.08 },
+    ],
+  },
+  {
+    name: 'liquidez',
+    color: COLORS.navySteel,
+    twist: -0.05,
+    basePos: { x: 0.05, y: -0.05, z: 0.04 },
+    baseRot: { x: -0.02, y: -0.08, z: -0.01 },
+    brandPull: { x: 0.05, y: 0.02, z: 0.01 },
+    points: [
+      { x: 1.55, y: 0.05, z: -0.35 },
+      { x: 1.05, y: 0.22, z: -0.12 },
+      { x: 0.45, y: 0.12, z: 0.05 },
+      { x: -0.05, y: 0.35, z: 0.14 },
+      { x: -0.45, y: 0.72, z: 0.1 },
+      { x: -0.68, y: 0.95, z: 0.06 },
+    ],
+  },
+  {
+    name: 'medios',
+    color: COLORS.navy,
+    twist: 0.04,
+    basePos: { x: -0.04, y: 0.06, z: -0.03 },
+    baseRot: { x: 0.03, y: -0.1, z: 0.015 },
+    brandPull: { x: 0.04, y: -0.03, z: 0.02 },
+    points: [
+      { x: 1.45, y: 1.15, z: -0.45 },
+      { x: 1.0, y: 0.88, z: -0.18 },
+      { x: 0.4, y: 0.58, z: 0.04 },
+      { x: -0.08, y: 0.42, z: 0.16 },
+      { x: -0.42, y: 0.55, z: 0.12 },
+      { x: -0.58, y: 0.88, z: 0.08 },
+    ],
+  },
+  {
+    name: 'ia',
+    color: COLORS.navyWarm,
+    twist: -0.07,
+    basePos: { x: 0.02, y: 0.02, z: -0.06 },
+    baseRot: { x: -0.03, y: -0.14, z: 0.025 },
+    brandPull: { x: 0.07, y: -0.02, z: 0.04 },
+    points: [
+      { x: 1.65, y: 0.35, z: -1.05 },
+      { x: 1.15, y: 0.18, z: -0.62 },
+      { x: 0.55, y: 0.42, z: -0.28 },
+      { x: 0.02, y: 0.58, z: -0.05 },
+      { x: -0.32, y: 0.82, z: 0.04 },
+      { x: -0.5, y: 1.0, z: 0.02 },
+    ],
+  },
+];
+
+function cameraState(progress, mobile) {
+  const brandT = smoothstep(0.72, 0.93, progress);
+  const exitT = smoothstep(0.91, 1, progress);
+  const introT = smoothstep(0, 0.27, progress);
+  const chapterT = smoothstep(0.27, 0.71, progress);
+
+  const posX = lerp(1.85, 1.55, chapterT) + brandT * 0.2 + exitT * 0.12;
+  const posY = lerp(0.42, 0.3, chapterT) - brandT * 0.05 + (mobile ? 0.18 : 0);
+  const posZ = lerp(3.85, 3.05, chapterT) + brandT * 0.4 + exitT * 0.22;
+
+  const lookX = lerp(0.35, 0.18, chapterT) + brandT * 0.02;
+  const lookY = lerp(0.38, 0.48, chapterT) + (mobile ? 0.1 : 0);
+  const lookZ = lerp(-0.05, 0.05, chapterT);
+
+  return { posX, posY, posZ, lookX, lookY, lookZ, brandT, exitT, introT };
 }
 
 export function createHeroThreeScene({ canvas, root }) {
@@ -270,10 +284,10 @@ export function createHeroThreeScene({ canvas, root }) {
   try {
     renderer = new THREE.WebGLRenderer({
       canvas,
-      alpha: false,
+      alpha: true,
       antialias: false,
       powerPreference: 'high-performance',
-      premultipliedAlpha: false,
+      premultipliedAlpha: true,
     });
   } catch {
     return null;
@@ -284,34 +298,101 @@ export function createHeroThreeScene({ canvas, root }) {
     return null;
   }
 
-  renderer.setClearColor(0x01040a, 1);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.9;
+  renderer.setClearColor(0x000000, 0);
 
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  const geometry = new THREE.PlaneGeometry(2, 2);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.15, 32);
+  const sculptureGroup = new THREE.Group();
+  scene.add(sculptureGroup);
 
-  const uniforms = {
-    uTime: { value: 0 },
-    uProgress: { value: 0 },
-    uResolution: { value: new THREE.Vector2(1, 1) },
-    uPointer: { value: new THREE.Vector2(0, 0) },
-    uPointerStrength: { value: 0 },
-    uChapterWeights: { value: new THREE.Vector4(0, 0, 0, 0) },
-    uBrandProgress: { value: 0 },
-    uExitProgress: { value: 0 },
-    uMobile: { value: quality.mobile ? 1 : 0 },
-  };
+  const pmremGenerator = new THREE.PMREMGenerator(renderer);
+  pmremGenerator.compileEquirectangularShader();
+  const envScene = new RoomEnvironment();
+  const envRT = pmremGenerator.fromScene(envScene, 0.04);
+  scene.environment = envRT.texture;
+  envScene.dispose?.();
 
-  const material = new THREE.ShaderMaterial({
-    vertexShader: VERT,
-    fragmentShader: FRAG,
-    uniforms,
-    depthWrite: false,
-    depthTest: false,
+  const hemi = new THREE.HemisphereLight(0x8fb2d6, 0x01040a, 0.38);
+  const key = new THREE.DirectionalLight(0x9ec0e6, 0.48);
+  key.position.set(2.8, 4.2, 3.5);
+  const fill = new THREE.DirectionalLight(0x1b3a5c, 0.22);
+  fill.position.set(-2.5, 1.2, 2.8);
+  const accent = new THREE.PointLight(0xd2b775, 0, 9);
+  accent.position.set(0.4, 0.9, 0.6);
+  scene.add(hemi, key, fill, accent);
+
+  const ribbons = [];
+  const tempColor = new THREE.Color();
+
+  RIBBON_DEFS.forEach((def, index) => {
+    const { geometry } = createRibbonGeometry({
+      points: def.points,
+      width: quality.width,
+      thickness: quality.thickness,
+      segments: quality.segments,
+      twist: def.twist,
+    });
+
+    tempColor.setHex(def.color);
+    setBaseVertexColors(geometry, tempColor);
+
+    const material = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      metalness: 0.45,
+      roughness: 0.22,
+      clearcoat: 0.8,
+      clearcoatRoughness: 0.24,
+      side: THREE.DoubleSide,
+      vertexColors: true,
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+
+    const overlayGeo = geometry.clone();
+    const overlayColors = initOverlayColors(overlayGeo);
+    const overlayMat = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.55,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+    const overlay = new THREE.Mesh(overlayGeo, overlayMat);
+
+    const group = new THREE.Group();
+    group.add(mesh, overlay);
+    group.position.set(def.basePos.x, def.basePos.y, def.basePos.z);
+    group.rotation.set(def.baseRot.x, def.baseRot.y, def.baseRot.z);
+    sculptureGroup.add(group);
+
+    ribbons.push({
+      group,
+      mesh,
+      overlay,
+      overlayColors,
+      progressAttr: overlayGeo.attributes.aRibbonProgress.array,
+      def,
+      index,
+    });
   });
 
-  const mesh = new THREE.Mesh(geometry, material);
-  const scene = new THREE.Scene();
-  scene.add(mesh);
+  if (quality.mobile) {
+    sculptureGroup.position.set(0.35, 0.42, 0);
+    sculptureGroup.rotation.y = 0.38;
+    sculptureGroup.scale.setScalar(0.88);
+  } else if (quality.tablet) {
+    sculptureGroup.position.set(0.42, 0.05, 0);
+    sculptureGroup.rotation.y = 0.42;
+    sculptureGroup.scale.setScalar(0.94);
+  } else {
+    sculptureGroup.position.set(0.12, -0.05, 0);
+    sculptureGroup.rotation.y = 0.48;
+  }
 
   let targetProgress = 0;
   let currentProgress = 0;
@@ -321,73 +402,117 @@ export function createHeroThreeScene({ canvas, root }) {
   let pointerStrengthCurrent = 0;
 
   let rafId = 0;
-  let running = false;
   let visible = true;
   let disposed = false;
   let restoredOnce = false;
-  let lastFrame = 0;
-  const frameInterval = 1000 / quality.fpsCap;
 
-  function updateUniformsFromProgress(progress) {
-    const p = THREE.MathUtils.clamp(progress, 0, 1);
-    uniforms.uProgress.value = p;
-    uniforms.uChapterWeights.value.set(
-      chapterWeight(p, CHAPTER_WINDOWS[0][0], CHAPTER_WINDOWS[0][1]),
-      chapterWeight(p, CHAPTER_WINDOWS[1][0], CHAPTER_WINDOWS[1][1]),
-      chapterWeight(p, CHAPTER_WINDOWS[2][0], CHAPTER_WINDOWS[2][1]),
-      chapterWeight(p, CHAPTER_WINDOWS[3][0], CHAPTER_WINDOWS[3][1]),
+  const lookAt = new THREE.Vector3();
+
+  function applySceneState() {
+    const p = currentProgress;
+    const weights = CHAPTER_WINDOWS.map(([start, end]) => chapterWeight(p, start, end));
+    const brandT = smoothstep(0.72, 0.93, p);
+    const exitT = smoothstep(0.91, 1, p);
+    const alignT = weights[3] * 0.6 + brandT * 0.4;
+
+    ribbons.forEach((ribbon, i) => {
+      const w = weights[i];
+      const [, end] = CHAPTER_WINDOWS[i];
+      const past = p > end ? smoothstep(end, end + 0.04, p) : 0;
+
+      let lightPos = 0.08;
+      if (w > 0) {
+        const [start] = CHAPTER_WINDOWS[i];
+        const span = CHAPTER_WINDOWS[i][1] - start;
+        lightPos = 0.1 + ((p - start) / span) * 0.78;
+      } else if (past > 0) {
+        lightPos = 0.82;
+      }
+
+      updateOverlayColors(ribbon.overlayColors, ribbon.progressAttr, w, lightPos, past);
+      ribbon.overlay.geometry.attributes.color.needsUpdate = true;
+
+      const lift = i === 0 ? w * 0.07 : 0;
+      const fluid = i === 1 ? w * 0.04 : 0;
+
+      ribbon.group.rotation.x = ribbon.def.baseRot.x + w * 0.05 + alignT * 0.025 + lift;
+      ribbon.group.rotation.y = ribbon.def.baseRot.y + w * 0.035 - alignT * 0.02;
+      ribbon.group.rotation.z = ribbon.def.baseRot.z + (i === 3 ? w * 0.02 : 0);
+
+      ribbon.group.position.x = ribbon.def.basePos.x - brandT * ribbon.def.brandPull.x;
+      ribbon.group.position.y = ribbon.def.basePos.y + lift * 0.5 + fluid - brandT * ribbon.def.brandPull.y;
+      ribbon.group.position.z = ribbon.def.basePos.z - brandT * ribbon.def.brandPull.z;
+
+      ribbon.group.scale.setScalar(1 + w * 0.025 - exitT * 0.02);
+    });
+
+    sculptureGroup.rotation.y = 0.48 + pointerCurrent.x * 0.025 * pointerStrengthCurrent - alignT * 0.018;
+    sculptureGroup.rotation.x = pointerCurrent.y * 0.015 * pointerStrengthCurrent + brandT * 0.012;
+    sculptureGroup.position.y = (quality.mobile ? 0.42 : -0.08) - exitT * 0.12 - brandT * 0.04;
+
+    const cam = cameraState(p, quality.mobile);
+    camera.position.set(
+      cam.posX + pointerCurrent.x * 0.06 * pointerStrengthCurrent,
+      cam.posY + pointerCurrent.y * 0.04 * pointerStrengthCurrent,
+      cam.posZ,
     );
-    uniforms.uBrandProgress.value = smoothstep(0.72, 0.93, p);
-    uniforms.uExitProgress.value = smoothstep(0.91, 1, p);
+    lookAt.set(cam.lookX, cam.lookY, cam.lookZ);
+    camera.lookAt(lookAt);
+
+    accent.intensity = weights.reduce((sum, w) => sum + w, 0) * 0.22 + brandT * 0.18;
+    hemi.intensity = 0.38 - exitT * 0.12;
+    key.intensity = 0.48 - exitT * 0.16;
+    renderer.toneMappingExposure = 0.9 - exitT * 0.22 - brandT * 0.04;
+  }
+
+  function renderFrame() {
+    rafId = 0;
+
+    currentProgress += (targetProgress - currentProgress) * 0.14;
+    pointerCurrent.x += (pointerTarget.x - pointerCurrent.x) * 0.08;
+    pointerCurrent.y += (pointerTarget.y - pointerCurrent.y) * 0.08;
+    pointerStrengthCurrent += (pointerStrengthTarget - pointerStrengthCurrent) * 0.06;
+
+    applySceneState();
+    renderer.render(scene, camera);
+
+    const settling =
+      Math.abs(targetProgress - currentProgress) > 0.0005 ||
+      Math.abs(pointerTarget.x - pointerCurrent.x) > 0.0005 ||
+      Math.abs(pointerTarget.y - pointerCurrent.y) > 0.0005 ||
+      Math.abs(pointerStrengthTarget - pointerStrengthCurrent) > 0.0005;
+
+    if (settling && !disposed && visible) {
+      invalidate();
+    }
+  }
+
+  function invalidate() {
+    if (disposed || !visible) return;
+    if (rafId) return;
+    rafId = requestAnimationFrame(renderFrame);
   }
 
   function resize() {
     if (disposed) return;
+    quality = getQuality();
     const width = canvas.clientWidth || root.clientWidth || 1;
     const height = canvas.clientHeight || root.clientHeight || 1;
     renderer.setPixelRatio(quality.dpr);
     renderer.setSize(width, height, false);
-    uniforms.uResolution.value.set(width * quality.dpr, height * quality.dpr);
-    uniforms.uMobile.value = window.matchMedia('(max-width: 767px)').matches ? 1 : 0;
-  }
-
-  function renderFrame(time) {
-    const dt = lastFrame ? time - lastFrame : 16;
-    lastFrame = time;
-
-    currentProgress += (targetProgress - currentProgress) * Math.min(1, dt * 0.014);
-    pointerCurrent.x += (pointerTarget.x - pointerCurrent.x) * 0.06;
-    pointerCurrent.y += (pointerTarget.y - pointerCurrent.y) * 0.06;
-    pointerStrengthCurrent += (pointerStrengthTarget - pointerStrengthCurrent) * 0.05;
-
-    uniforms.uTime.value = time * 0.001;
-    updateUniformsFromProgress(currentProgress);
-    uniforms.uPointer.value.set(pointerCurrent.x, pointerCurrent.y);
-    uniforms.uPointerStrength.value = pointerStrengthCurrent;
-
-    renderer.render(scene, camera);
-  }
-
-  function tick(time) {
-    if (!running || disposed) return;
-    rafId = requestAnimationFrame(tick);
-    if (!visible || document.hidden) return;
-    if (time - (tick.last || 0) < frameInterval) return;
-    tick.last = time;
-    renderFrame(time);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    invalidate();
   }
 
   const intersectionObserver = new IntersectionObserver(
     (entries) => {
       visible = entries.some((entry) => entry.isIntersecting);
+      if (visible) invalidate();
     },
     { threshold: 0.05 },
   );
   intersectionObserver.observe(root);
-
-  function onVisibilityChange() {
-    if (document.hidden) lastFrame = 0;
-  }
 
   function onPointerMove(event) {
     if (!quality.pointerEnabled || !visible) return;
@@ -398,17 +523,20 @@ export function createHeroThreeScene({ canvas, root }) {
     pointerTarget.x = THREE.MathUtils.clamp(pointerTarget.x, -1, 1);
     pointerTarget.y = THREE.MathUtils.clamp(pointerTarget.y, -1, 1);
     pointerStrengthTarget = 1;
+    invalidate();
   }
 
   function onPointerLeave() {
     pointerTarget.x = 0;
     pointerTarget.y = 0;
     pointerStrengthTarget = 0;
+    invalidate();
   }
 
   function onContextLost(event) {
     event.preventDefault();
-    pause();
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = 0;
     root.classList.add('is-webgl-error');
     root.classList.remove('is-webgl-ready');
   }
@@ -420,28 +548,28 @@ export function createHeroThreeScene({ canvas, root }) {
     renderOnce();
     root.classList.remove('is-webgl-error');
     root.classList.add('is-webgl-ready');
-    start();
   }
 
   canvas.addEventListener('webglcontextlost', onContextLost);
   canvas.addEventListener('webglcontextrestored', onContextRestored);
-  document.addEventListener('visibilitychange', onVisibilityChange);
   if (quality.pointerEnabled) {
     root.addEventListener('pointermove', onPointerMove);
     root.addEventListener('pointerleave', onPointerLeave);
   }
 
   resize();
-  updateUniformsFromProgress(0);
+  applySceneState();
 
   return {
     setProgress(progress) {
       targetProgress = THREE.MathUtils.clamp(progress, 0, 1);
+      invalidate();
     },
 
     setPointer(x, y) {
       pointerTarget.x = THREE.MathUtils.clamp(x, -1, 1);
       pointerTarget.y = THREE.MathUtils.clamp(y, -1, 1);
+      invalidate();
     },
 
     resize,
@@ -451,48 +579,50 @@ export function createHeroThreeScene({ canvas, root }) {
       pointerCurrent.x = pointerTarget.x;
       pointerCurrent.y = pointerTarget.y;
       pointerStrengthCurrent = pointerStrengthTarget;
-      renderFrame(performance.now());
-    },
-
-    start() {
-      if (running || disposed) return;
-      running = true;
-      lastFrame = 0;
-      tick.last = 0;
-      rafId = requestAnimationFrame(tick);
-    },
-
-    pause() {
-      running = false;
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = 0;
+      applySceneState();
+      renderer.render(scene, camera);
     },
 
     destroy() {
       if (disposed) return;
       disposed = true;
-      pause();
+
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = 0;
 
       intersectionObserver.disconnect();
       canvas.removeEventListener('webglcontextlost', onContextLost);
       canvas.removeEventListener('webglcontextrestored', onContextRestored);
-      document.removeEventListener('visibilitychange', onVisibilityChange);
       root.removeEventListener('pointermove', onPointerMove);
       root.removeEventListener('pointerleave', onPointerLeave);
 
-      geometry.dispose();
-      material.dispose();
+      ribbons.forEach((ribbon) => {
+        ribbon.mesh.geometry.dispose();
+        ribbon.mesh.material.dispose();
+        ribbon.overlay.geometry.dispose();
+        ribbon.overlay.material.dispose();
+      });
+
+      envRT.dispose();
+      pmremGenerator.dispose();
       renderer.dispose();
 
       root.classList.remove('is-webgl-ready', 'is-webgl-error');
     },
 
     getStats() {
+      let triangles = 0;
+      ribbons.forEach((ribbon) => {
+        const geo = ribbon.mesh.geometry;
+        triangles += geo.index ? geo.index.count / 3 : 0;
+      });
       return {
-        drawCalls: 1,
-        triangles: 2,
+        ribbons: ribbons.length,
+        overlays: ribbons.length,
+        segments: quality.segments,
+        drawCalls: ribbons.length * 2,
+        triangles: Math.round(triangles * 2),
         dpr: quality.dpr,
-        noiseOctaves: 3,
       };
     },
   };

@@ -243,7 +243,6 @@ export function initVideoHeroAnimation() {
     if (sceneController) {
       sceneController.renderOnce();
       root.classList.add('is-webgl-ready', 'is-video-ready');
-      sceneController.start();
     } else {
       root.classList.add('is-webgl-error', 'is-video-ready');
     }
