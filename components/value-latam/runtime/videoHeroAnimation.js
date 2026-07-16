@@ -6,6 +6,8 @@ import { createHeroThreeScene } from './heroThreeScene';
 const SCRUB = 0.34;
 const START_OFFSET_PX = 16;
 const END_OFFSET_PX = 28;
+const SCENE_TAIL_START = 0.84;
+const SCENE_TAIL_MAX = 0.24;
 const SCROLL_VH = { desktop: 290, tablet: 270, mobile: 225 };
 const CHAPTER_CROSS = 0.032;
 const CHAPTER_WINDOWS = [
@@ -42,7 +44,25 @@ function collectTargets(root) {
   };
 }
 
-function buildUiTimeline(targets, syncScene) {
+function computeSceneProgress(trigger) {
+  if (!trigger) return 0;
+
+  const uiProgress = trigger.progress;
+  if (uiProgress < SCENE_TAIL_START) return uiProgress;
+
+  const scrollSpan = Math.max(trigger.end - trigger.start, 1);
+  const scrolled = Math.max(0, trigger.scroll() - trigger.start);
+  const inHeroTail = Math.max(0, scrolled - scrollSpan * SCENE_TAIL_START);
+  const postHeroScroll = Math.max(0, trigger.scroll() - trigger.end);
+  const tailRange =
+    scrollSpan * (1 - SCENE_TAIL_START) + Math.max(window.innerHeight * 0.48, 400);
+  const tail =
+    Math.min((inHeroTail + postHeroScroll * 0.85) / tailRange, 1) * SCENE_TAIL_MAX;
+
+  return Math.min(1 + SCENE_TAIL_MAX, uiProgress + tail);
+}
+
+function buildUiTimeline(targets) {
   const {
     intro,
     eyebrow,
@@ -60,8 +80,6 @@ function buildUiTimeline(targets, syncScene) {
   } = targets;
 
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
-
-  tl.eventCallback('onUpdate', () => syncScene(tl.progress()));
 
   tl.to(hint, { opacity: 0, y: 8, duration: 0.035, ease: 'power1.out' }, 0);
   tl.to(title, { y: -24, opacity: 0, duration: 0.18, ease: 'power2.inOut' }, 0);
@@ -193,7 +211,7 @@ export function initVideoHeroAnimation() {
         setScrollHeight(scrollEl, scrollVh);
 
         ctx = gsap.context(() => {
-          uiTimeline = buildUiTimeline(targets, syncScene);
+          uiTimeline = buildUiTimeline(targets);
 
           mainTrigger = ScrollTrigger.create({
             animation: uiTimeline,
@@ -205,10 +223,13 @@ export function initVideoHeroAnimation() {
             pinSpacing: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              syncScene(computeSceneProgress(self));
+            },
           });
 
           uiTimeline.progress(mainTrigger.progress);
-          syncScene(mainTrigger.progress);
+          syncScene(computeSceneProgress(mainTrigger));
           sceneController?.renderOnce();
           root.classList.add('is-video-hero-active');
         }, root);

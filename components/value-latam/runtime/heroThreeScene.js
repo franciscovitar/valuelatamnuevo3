@@ -25,12 +25,16 @@ const LAYER_BOUNDS = {
 };
 
 const HAZE_TRAVEL = 1.8;
+const SCENE_PROGRESS_MAX = 1.24;
 
 const CLOUD_CLUSTERS = [
   { cx: 2.4, cy: 0.6, cz: -3.2, rx: 3.8, ry: 2.6, rz: 1.8 },
   { cx: 1.8, cy: 2.6, cz: -4.0, rx: 3.2, ry: 1.6, rz: 1.4 },
   { cx: 3.0, cy: -1.2, cz: -1.8, rx: 2.8, ry: 2.2, rz: 1.6 },
   { cx: -0.8, cy: 1.0, cz: -2.8, rx: 2.0, ry: 2.4, rz: 1.2 },
+  { cx: -3.4, cy: 0.3, cz: -3.3, rx: 3.1, ry: 2.5, rz: 1.7 },
+  { cx: -2.6, cy: 2.1, cz: -2.1, rx: 2.5, ry: 1.9, rz: 1.3 },
+  { cx: -4.1, cy: -0.8, cz: -4.0, rx: 2.3, ry: 2.1, rz: 1.5 },
 ];
 
 const COLOR_TYPE = {
@@ -65,7 +69,7 @@ const PARTICLE_VERTEX_SHADER = `
 
     float sizeMul = aKind > 0.5 ? uSparkleScale : 1.0;
     float pointSize = aSize * uPointScale * sizeMul / vDepth;
-    gl_PointSize = clamp(pointSize, 0.45, 52.0);
+    gl_PointSize = clamp(pointSize, 0.65, 52.0);
   }
 `;
 
@@ -83,26 +87,24 @@ const PARTICLE_FRAGMENT_SHADER = `
   void main() {
     vec2 uv = gl_PointCoord - 0.5;
     float r2 = dot(uv, uv);
-    float r = sqrt(r2);
 
-    float core = exp(-r2 * 180.0);
-    float inner = exp(-r2 * 44.0) * 0.21;
-    float outer = exp(-r2 * 12.0) * 0.06;
-    float alpha = (core * 0.92 + inner + outer) * vOpacity * uLayerOpacity;
+    float core = exp(-r2 * 2400.0);
+    float rim = exp(-r2 * 620.0) * 0.01;
+    float alpha = (core + rim) * vOpacity * uLayerOpacity;
 
     if (vKind > 0.5) {
-      float crossH = exp(-abs(uv.y) * 100.0) * exp(-abs(uv.x) * 24.0) * 0.035;
-      float crossV = exp(-abs(uv.x) * 100.0) * exp(-abs(uv.y) * 24.0) * 0.035;
-      alpha += (crossH + crossV + core * 0.18) * vOpacity * uLayerOpacity;
+      float crossH = exp(-abs(uv.y) * 320.0) * exp(-abs(uv.x) * 88.0) * 0.016;
+      float crossV = exp(-abs(uv.x) * 320.0) * exp(-abs(uv.y) * 88.0) * 0.016;
+      alpha += (crossH + crossV + core * 0.2) * vOpacity * uLayerOpacity;
     }
 
     alpha = clamp(alpha, 0.0, 1.0);
-    if (alpha < 0.0015) discard;
+    if (alpha < 0.0008) discard;
 
     float fogFactor = 1.0 - clamp(exp(-uFogDensity * uFogDensity * vDepth * vDepth), 0.0, 1.0);
-    vec3 lit = vColor * (0.88 + core * 0.22);
-    lit = mix(lit, uFogColor, fogFactor * uFogMix);
-    alpha *= 1.0 - fogFactor * uFogMix * 0.72;
+    vec3 lit = vColor * (1.14 + core * 0.82);
+    lit = mix(lit, uFogColor, fogFactor * uFogMix * 0.5);
+    alpha *= 1.0 - fogFactor * uFogMix * 0.18;
 
     gl_FragColor = vec4(lit, alpha);
   }
@@ -152,8 +154,9 @@ function wrapFieldY(baseY, travelY) {
 
 function xIntensityFactor(x) {
   const t = clamp01((x + 6.5) / 13);
-  if (t <= 0.5) return lerp(0.55, 0.78, t / 0.5);
-  return lerp(0.78, 1.0, (t - 0.5) / 0.5);
+  if (t <= 0.42) return lerp(0.76, 0.88, t / 0.42);
+  if (t <= 0.58) return lerp(0.88, 0.94, (t - 0.42) / 0.16);
+  return lerp(0.94, 1.0, (t - 0.58) / 0.42);
 }
 
 function sampleParticleOpacity(rng) {
@@ -171,7 +174,22 @@ function sampleParticleOpacity(rng) {
     return lerp(0.28, 0.54, Math.pow(rng(), 0.85));
   }
 
-  return lerp(0.045, 0.27, Math.pow(rng(), 2.4));
+  return lerp(0.14, 0.46, Math.pow(rng(), 1.72));
+}
+
+function sampleUniformX(rng, bounds) {
+  const mid = (bounds.x[0] + bounds.x[1]) * 0.5;
+  const roll = rng();
+
+  if (roll < 0.38) {
+    return lerp(bounds.x[0], mid, Math.pow(rng(), 0.82));
+  }
+
+  if (roll < 0.72) {
+    return lerp(bounds.x[0], bounds.x[1], rng());
+  }
+
+  return lerp(mid, bounds.x[1], Math.pow(rng(), 0.88));
 }
 
 function sampleSizePx(layerKey, rng) {
@@ -179,16 +197,16 @@ function sampleSizePx(layerKey, rng) {
   const body = Math.pow(u, 0.82);
 
   if (layerKey === 'far') {
-    const size = lerp(0.65, 1.25, body);
-    return u > 0.985 ? Math.min(size + lerp(0, 0.35, (u - 0.985) / 0.015), 1.6) : size;
+    const size = lerp(0.78, 1.42, body);
+    return u > 0.985 ? Math.min(size + lerp(0, 0.42, (u - 0.985) / 0.015), 1.85) : size;
   }
   if (layerKey === 'mid') {
-    const size = lerp(1.0, 2.05, body);
-    return u > 0.972 ? Math.min(size + lerp(0, 0.55, (u - 0.972) / 0.028), 2.6) : size;
+    const size = lerp(1.08, 2.18, body);
+    return u > 0.972 ? Math.min(size + lerp(0, 0.62, (u - 0.972) / 0.028), 2.75) : size;
   }
   if (layerKey === 'near') {
-    const size = lerp(1.7, 3.2, body);
-    return u > 0.965 ? Math.min(size + lerp(0, 1.0, (u - 0.965) / 0.035), 4.2) : size;
+    const size = lerp(1.82, 3.35, body);
+    return u > 0.965 ? Math.min(size + lerp(0, 1.08, (u - 0.965) / 0.035), 4.45) : size;
   }
   return lerp(10, 22, Math.pow(rng(), 0.72));
 }
@@ -237,7 +255,7 @@ function sampleOrganicPosition(rng, layerKey) {
 
   if (rng() >= clusterChance) {
     return {
-      x: lerp(bounds.x[0], bounds.x[1], rng()),
+      x: sampleUniformX(rng, bounds),
       y: lerp(bounds.y[0], bounds.y[1], rng()),
       z: lerp(bounds.z[0], bounds.z[1], rng()),
     };
@@ -321,9 +339,9 @@ function getQuality() {
     midCount: 160,
     nearCount: 48,
     bokehCount: 10,
-    farOpacity: 0.58,
-    midOpacity: 0.7,
-    nearOpacity: 0.8,
+    farOpacity: 0.72,
+    midOpacity: 0.84,
+    nearOpacity: 0.94,
     bokehOpacity: 0.075,
     dpr: Math.min(window.devicePixelRatio || 1, 1.35),
   };
@@ -402,7 +420,7 @@ function createShaderParticleLayer(count, rng, { baseOpacity, layerKey, fogMix }
     const source = colorFromType(colorType);
     const particleOpacity = sampleParticleOpacity(rng);
     const xFactor = xIntensityFactor(x);
-    const colorGain = lerp(0.72, 1.08, Math.pow(rng(), 1.6)) * xFactor;
+    const colorGain = lerp(1.0, 1.38, Math.pow(rng(), 1.22)) * xFactor;
 
     colors[offset] = source.r * colorGain;
     colors[offset + 1] = source.g * colorGain;
@@ -560,7 +578,7 @@ export function createHeroThreeScene({ canvas, root }) {
 
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 1.1;
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
@@ -584,17 +602,17 @@ export function createHeroThreeScene({ canvas, root }) {
   const farParticles = createShaderParticleLayer(quality.farCount, rng, {
     baseOpacity: quality.farOpacity,
     layerKey: 'far',
-    fogMix: 0.92,
+    fogMix: 0.68,
   });
   const midParticles = createShaderParticleLayer(quality.midCount, rng, {
     baseOpacity: quality.midOpacity,
     layerKey: 'mid',
-    fogMix: 0.58,
+    fogMix: 0.46,
   });
   const nearParticles = createShaderParticleLayer(quality.nearCount, rng, {
     baseOpacity: quality.nearOpacity,
     layerKey: 'near',
-    fogMix: 0.28,
+    fogMix: 0.18,
   });
   const bokehParticles = createBokehLayer(quality.bokehCount, rng, {
     baseOpacity: quality.bokehOpacity,
@@ -696,7 +714,7 @@ export function createHeroThreeScene({ canvas, root }) {
     camera.lookAt(0, 0, 0);
 
     scene.fog.density = 0.026 + brandT * 0.016 + exitT * 0.028;
-    renderer.toneMappingExposure = 1.05 - brandT * 0.12 - exitT * 0.18;
+    renderer.toneMappingExposure = 1.1 - brandT * 0.12 - exitT * 0.18;
   }
 
   function draw() {
@@ -745,7 +763,7 @@ export function createHeroThreeScene({ canvas, root }) {
 
   return {
     setProgress(progress) {
-      currentProgress = clamp01(progress);
+      currentProgress = Math.max(0, Math.min(SCENE_PROGRESS_MAX, progress));
       if (visible) draw();
     },
 

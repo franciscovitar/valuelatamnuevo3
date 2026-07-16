@@ -150,7 +150,11 @@
   }
 
   .process-route-stage--mobile {
-    margin: 0 0 16px 12px;
+    margin: 8px 0 22px;
+  }
+
+  .process-route-progress-mobile {
+    display: none !important;
   }
 
   .process-route__mobile .step.is-route-step-active .n {
