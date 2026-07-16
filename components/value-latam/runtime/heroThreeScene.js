@@ -85,14 +85,14 @@ const PARTICLE_FRAGMENT_SHADER = `
     float r2 = dot(uv, uv);
     float r = sqrt(r2);
 
-    float core = exp(-r2 * 140.0);
-    float inner = exp(-r2 * 32.0) * 0.28;
-    float outer = exp(-r2 * 9.5) * 0.1;
+    float core = exp(-r2 * 180.0);
+    float inner = exp(-r2 * 44.0) * 0.21;
+    float outer = exp(-r2 * 12.0) * 0.06;
     float alpha = (core * 0.92 + inner + outer) * vOpacity * uLayerOpacity;
 
     if (vKind > 0.5) {
-      float crossH = exp(-abs(uv.y) * 92.0) * exp(-abs(uv.x) * 20.0) * 0.06;
-      float crossV = exp(-abs(uv.x) * 92.0) * exp(-abs(uv.y) * 20.0) * 0.06;
+      float crossH = exp(-abs(uv.y) * 100.0) * exp(-abs(uv.x) * 24.0) * 0.035;
+      float crossV = exp(-abs(uv.x) * 100.0) * exp(-abs(uv.y) * 24.0) * 0.035;
       alpha += (crossH + crossV + core * 0.18) * vOpacity * uLayerOpacity;
     }
 
@@ -158,10 +158,20 @@ function xIntensityFactor(x) {
 
 function sampleParticleOpacity(rng) {
   const roll = rng();
-  if (roll >= 0.98) return lerp(0.86, 1.0, rng());
-  if (roll >= 0.92) return lerp(0.68, 0.86, Math.pow(rng(), 0.55));
-  if (roll >= 0.7) return lerp(0.38, 0.68, Math.pow(rng(), 0.75));
-  return lerp(0.08, 0.38, Math.pow(rng(), 2.2));
+
+  if (roll >= 0.992) {
+    return lerp(0.82, 0.96, rng());
+  }
+
+  if (roll >= 0.96) {
+    return lerp(0.58, 0.78, Math.pow(rng(), 0.65));
+  }
+
+  if (roll >= 0.82) {
+    return lerp(0.28, 0.54, Math.pow(rng(), 0.85));
+  }
+
+  return lerp(0.045, 0.27, Math.pow(rng(), 2.4));
 }
 
 function sampleSizePx(layerKey, rng) {
@@ -169,18 +179,18 @@ function sampleSizePx(layerKey, rng) {
   const body = Math.pow(u, 0.82);
 
   if (layerKey === 'far') {
-    const size = lerp(0.7, 1.5, body);
-    return u > 0.985 ? size + lerp(0, 0.5, (u - 0.985) / 0.015) : size;
+    const size = lerp(0.65, 1.25, body);
+    return u > 0.985 ? Math.min(size + lerp(0, 0.35, (u - 0.985) / 0.015), 1.6) : size;
   }
   if (layerKey === 'mid') {
-    const size = lerp(1.2, 2.5, body);
-    return u > 0.972 ? size + lerp(0, 0.7, (u - 0.972) / 0.028) : size;
+    const size = lerp(1.0, 2.05, body);
+    return u > 0.972 ? Math.min(size + lerp(0, 0.55, (u - 0.972) / 0.028), 2.6) : size;
   }
   if (layerKey === 'near') {
-    const size = lerp(2.0, 4.0, body);
-    return u > 0.965 ? size + lerp(0, 1.5, (u - 0.965) / 0.035) : size;
+    const size = lerp(1.7, 3.2, body);
+    return u > 0.965 ? Math.min(size + lerp(0, 1.0, (u - 0.965) / 0.035), 4.2) : size;
   }
-  return lerp(12, 30, Math.pow(rng(), 0.72));
+  return lerp(10, 22, Math.pow(rng(), 0.72));
 }
 
 function pickColorType(rng, layerKey) {
@@ -222,8 +232,10 @@ function clampToBounds(value, min, max) {
 
 function sampleOrganicPosition(rng, layerKey) {
   const bounds = LAYER_BOUNDS[layerKey];
+  const clusterChance =
+    layerKey === 'far' ? 0.14 : layerKey === 'mid' ? 0.1 : 0.05;
 
-  if (rng() >= 0.28) {
+  if (rng() >= clusterChance) {
     return {
       x: lerp(bounds.x[0], bounds.x[1], rng()),
       y: lerp(bounds.y[0], bounds.y[1], rng()),
@@ -272,14 +284,14 @@ function getQuality() {
       mobile: true,
       tablet: false,
       desktop: false,
-      farCount: 260,
-      midCount: 80,
-      nearCount: 28,
-      bokehCount: 8,
-      farOpacity: 0.62,
-      midOpacity: 0.72,
-      nearOpacity: 0.8,
-      bokehOpacity: 0.1,
+      farCount: 180,
+      midCount: 44,
+      nearCount: 14,
+      bokehCount: 4,
+      farOpacity: 0.52,
+      midOpacity: 0.64,
+      nearOpacity: 0.72,
+      bokehOpacity: 0.055,
       dpr: 1,
     };
   }
@@ -289,14 +301,14 @@ function getQuality() {
       mobile: false,
       tablet: true,
       desktop: false,
-      farCount: 520,
-      midCount: 150,
-      nearCount: 55,
-      bokehCount: 14,
-      farOpacity: 0.65,
-      midOpacity: 0.75,
-      nearOpacity: 0.83,
-      bokehOpacity: 0.11,
+      farCount: 380,
+      midCount: 92,
+      nearCount: 28,
+      bokehCount: 6,
+      farOpacity: 0.56,
+      midOpacity: 0.68,
+      nearOpacity: 0.77,
+      bokehOpacity: 0.07,
       dpr: 1.1,
     };
   }
@@ -305,14 +317,14 @@ function getQuality() {
     mobile: false,
     tablet: false,
     desktop: true,
-    farCount: 900,
-    midCount: 260,
-    nearCount: 90,
-    bokehCount: 22,
-    farOpacity: 0.68,
-    midOpacity: 0.78,
-    nearOpacity: 0.86,
-    bokehOpacity: 0.12,
+    farCount: 680,
+    midCount: 160,
+    nearCount: 48,
+    bokehCount: 10,
+    farOpacity: 0.58,
+    midOpacity: 0.7,
+    nearOpacity: 0.8,
+    bokehOpacity: 0.075,
     dpr: Math.min(window.devicePixelRatio || 1, 1.35),
   };
 }
@@ -353,7 +365,7 @@ function createShaderMaterial({
   return new THREE.ShaderMaterial({
     uniforms: {
       uPointScale: { value: 1 },
-      uSparkleScale: { value: 1.38 },
+      uSparkleScale: { value: 1.18 },
       uLayerOpacity: { value: baseOpacity },
       uFogColor: { value: FOG_COLOR.clone() },
       uFogDensity: { value: 0.026 },
@@ -398,7 +410,7 @@ function createShaderParticleLayer(count, rng, { baseOpacity, layerKey, fogMix }
 
     aSizes[i] = sampleSizePx(layerKey, rng);
     aOpacities[i] = particleOpacity;
-    aKinds[i] = rng() < 0.05 ? 1 : 0;
+    aKinds[i] = rng() < 0.018 ? 1 : 0;
 
     meta[i * 3] = i % 4;
     meta[i * 3 + 1] = colorType;
@@ -512,9 +524,9 @@ function createHazeSprites(softTexture) {
   };
 
   return {
-    blueMain: makeSprite(PALETTE.navyMedium, 0.3, [0.8, 0, -3], [11, 7.5]),
-    blueSecondary: makeSprite(PALETTE.navyMedium, 0.14, [-2.2, 0.4, -4], [7, 5.5]),
-    gold: makeSprite(PALETTE.gold, 0.06, [2.0, 0.2, -2.3], [5, 4]),
+    blueMain: makeSprite(PALETTE.navyMedium, 0.24, [0.8, 0, -3], [11, 7.5]),
+    blueSecondary: makeSprite(PALETTE.navyMedium, 0.1, [-2.2, 0.4, -4], [7, 5.5]),
+    gold: makeSprite(PALETTE.gold, 0.045, [2.0, 0.2, -2.3], [5, 4]),
   };
 }
 
@@ -675,10 +687,10 @@ export function createHeroThreeScene({ canvas, root }) {
 
     hazeLayer.position.y = -progress * HAZE_TRAVEL;
 
-    haze.blueMain.material.opacity = 0.3 * (1 - brandT * 0.1 - exitT * 0.08);
-    haze.blueSecondary.material.opacity = 0.14 * (1 - brandT * 0.08 - exitT * 0.06);
+    haze.blueMain.material.opacity = 0.24 * (1 - brandT * 0.1 - exitT * 0.08);
+    haze.blueSecondary.material.opacity = 0.1 * (1 - brandT * 0.08 - exitT * 0.06);
     haze.gold.material.opacity =
-      (0.06 + weights[0] * 0.015 + chapterT * 0.01) * (1 - brandT * 0.06 - exitT * 0.1);
+      (0.045 + weights[0] * 0.015 + chapterT * 0.01) * (1 - brandT * 0.06 - exitT * 0.1);
 
     camera.position.set(0, 0.05, 8.1);
     camera.lookAt(0, 0, 0);

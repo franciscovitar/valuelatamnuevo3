@@ -1,11 +1,12 @@
 import { gsap, ScrollTrigger } from '@/lib/scroll/gsap';
-import { scrollToTop } from '@/lib/scroll';
 import { bindGoldSweep } from '@/lib/motion/uiEffects';
 import { prefersReducedMotion } from '@/lib/motion/tokens';
 import { createHeroThreeScene } from './heroThreeScene';
 
-const SCRUB = 0.55;
-const SCROLL_VH = { desktop: 320, tablet: 290, mobile: 240 };
+const SCRUB = 0.34;
+const START_OFFSET_PX = 16;
+const END_OFFSET_PX = 28;
+const SCROLL_VH = { desktop: 290, tablet: 270, mobile: 225 };
 const CHAPTER_CROSS = 0.032;
 const CHAPTER_WINDOWS = [
   [0.27, 0.38],
@@ -13,23 +14,6 @@ const CHAPTER_WINDOWS = [
   [0.49, 0.60],
   [0.60, 0.71],
 ];
-
-function shouldResetHeroScroll() {
-  if (typeof window === 'undefined') return false;
-
-  return window.location.pathname === '/' && !window.location.hash;
-}
-
-function resetHeroScrollPosition() {
-  if (!shouldResetHeroScroll()) return;
-
-  if ('scrollRestoration' in window.history) {
-    window.history.scrollRestoration = 'manual';
-  }
-
-  ScrollTrigger.clearScrollMemory?.();
-  scrollToTop({ immediate: true });
-}
 
 function setScrollHeight(scrollEl, vh) {
   scrollEl.style.height = `${vh}vh`;
@@ -79,15 +63,15 @@ function buildUiTimeline(targets, syncScene) {
 
   tl.eventCallback('onUpdate', () => syncScene(tl.progress()));
 
-  tl.to(hint, { opacity: 0, y: 8, duration: 0.04 }, 0.08);
-  tl.to(cta, { opacity: 0, y: 10, duration: 0.05 }, 0.10);
-  tl.to(lead, { opacity: 0, duration: 0.06 }, 0.12);
-  tl.to(title, { y: -24, opacity: 0, duration: 0.10, ease: 'power2.inOut' }, 0.14);
-  tl.to(eyebrow, { opacity: 0, duration: 0.05 }, 0.18);
-  tl.to(intro, { opacity: 0, pointerEvents: 'none', duration: 0.04 }, 0.26);
+  tl.to(hint, { opacity: 0, y: 8, duration: 0.035, ease: 'power1.out' }, 0);
+  tl.to(title, { y: -24, opacity: 0, duration: 0.18, ease: 'power2.inOut' }, 0);
+  tl.to(cta, { opacity: 0, y: 10, duration: 0.06 }, 0.025);
+  tl.to(lead, { opacity: 0, duration: 0.075 }, 0.055);
+  tl.to(eyebrow, { opacity: 0, duration: 0.06 }, 0.13);
+  tl.to(intro, { opacity: 0, pointerEvents: 'none', duration: 0.035 }, 0.235);
 
-  tl.to(chapters, { autoAlpha: 1, duration: 0.04 }, 0.24);
-  tl.to(kicker, { opacity: 1, duration: 0.05 }, 0.26);
+  tl.to(chapters, { autoAlpha: 1, duration: 0.04 }, 0.225);
+  tl.to(kicker, { opacity: 1, duration: 0.04 }, 0.245);
 
   chapterItems.forEach((chapter, index) => {
     const [start, end] = CHAPTER_WINDOWS[index];
@@ -109,25 +93,25 @@ function buildUiTimeline(targets, syncScene) {
     tl.to(line, { scaleX: 0, duration: CHAPTER_CROSS * 0.7, ease: 'power2.in' }, fadeOutAt);
   });
 
-  tl.to(chapters, { autoAlpha: 0, duration: 0.05 }, 0.74);
+  tl.to(chapters, { autoAlpha: 0, duration: 0.04 }, 0.72);
 
-  tl.to(brand, { autoAlpha: 1, duration: 0.04 }, 0.72);
+  tl.to(brand, { autoAlpha: 1, duration: 0.035 }, 0.715);
   tl.fromTo(
     logo,
-    { autoAlpha: 0, y: 18, scale: 0.96 },
-    { autoAlpha: 1, y: 0, scale: 1, duration: 0.08, ease: 'power2.out' },
-    0.74,
+    { autoAlpha: 0, y: 16, scale: 0.97 },
+    { autoAlpha: 1, y: 0, scale: 1, duration: 0.065, ease: 'power2.out' },
+    0.735,
   );
   tl.fromTo(
     brandCloser,
-    { autoAlpha: 0, y: 10 },
-    { autoAlpha: 1, y: 0, duration: 0.06, ease: 'power2.out' },
-    0.82,
+    { autoAlpha: 0, y: 8 },
+    { autoAlpha: 1, y: 0, duration: 0.05, ease: 'power2.out' },
+    0.795,
   );
 
-  tl.to(exitFade, { opacity: 1, duration: 0.09, ease: 'power1.in' }, 0.91);
-  tl.to(logo, { opacity: 0.68, duration: 0.08, ease: 'power1.in' }, 0.91);
-  tl.to(brandCloser, { autoAlpha: 0, duration: 0.06, ease: 'power1.in' }, 0.93);
+  tl.to(exitFade, { opacity: 1, duration: 0.075, ease: 'power1.inOut' }, 0.855);
+  tl.to(logo, { opacity: 0.58, duration: 0.06, ease: 'power1.in' }, 0.87);
+  tl.to(brandCloser, { autoAlpha: 0, duration: 0.05, ease: 'power1.in' }, 0.875);
 
   return tl;
 }
@@ -167,8 +151,6 @@ export function initVideoHeroAnimation() {
   const { scrollEl, stickyEl, canvas, cta } = targets;
 
   if (!scrollEl || !stickyEl) return () => {};
-
-  resetHeroScrollPosition();
 
   if (prefersReducedMotion()) {
     return initReduced(root, targets);
@@ -216,8 +198,8 @@ export function initVideoHeroAnimation() {
           mainTrigger = ScrollTrigger.create({
             animation: uiTimeline,
             trigger: scrollEl,
-            start: 'top top',
-            end: 'bottom bottom',
+            start: `top top+=${START_OFFSET_PX}`,
+            end: `bottom bottom+=${END_OFFSET_PX}`,
             scrub: SCRUB,
             pin: stickyEl,
             pinSpacing: true,
@@ -225,16 +207,8 @@ export function initVideoHeroAnimation() {
             invalidateOnRefresh: true,
           });
 
-          if (shouldResetHeroScroll()) {
-            scrollToTop({ immediate: true });
-            mainTrigger.scroll(0);
-            uiTimeline.progress(0);
-            syncScene(0);
-          } else {
-            uiTimeline.progress(mainTrigger.progress);
-            syncScene(mainTrigger.progress);
-          }
-
+          uiTimeline.progress(mainTrigger.progress);
+          syncScene(mainTrigger.progress);
           sceneController?.renderOnce();
           root.classList.add('is-video-hero-active');
         }, root);

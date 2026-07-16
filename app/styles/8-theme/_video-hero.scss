@@ -6,7 +6,7 @@ body:has(.video-hero) header.nav {
 
 .video-hero {
   position: relative;
-  background: #01040a;
+  background: #0a2138;
   color: var(--paper, #f6f3ec);
   margin-top: 0;
 }
@@ -14,6 +14,7 @@ body:has(.video-hero) header.nav {
 .video-hero__scroll {
   position: relative;
   margin-top: 0;
+  background: transparent;
 }
 
 .video-hero__sticky {
@@ -203,9 +204,15 @@ body:has(.video-hero) header.nav {
   right: 0;
   bottom: 0;
   z-index: 4;
-  height: clamp(96px, 18vh, 180px);
+  height: clamp(130px, 22vh, 220px);
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 0%, rgba(1, 4, 10, 0.72) 72%, #01040a 100%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(2, 7, 14, 0.28) 30%,
+    rgba(6, 22, 42, 0.76) 78%,
+    #0a2138 100%
+  );
 }
 
 .video-hero__exit-fade {
@@ -214,7 +221,13 @@ body:has(.video-hero) header.nav {
   z-index: 8;
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(180deg, rgba(1, 4, 10, 0.08) 0%, rgba(1, 4, 10, 0.82) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(1, 4, 10, 0.03) 0%,
+    rgba(3, 12, 22, 0.34) 54%,
+    rgba(6, 22, 42, 0.84) 84%,
+    #0a2138 100%
+  );
 }
 
 .video-hero__stage {
@@ -394,7 +407,7 @@ body:has(.video-hero) header.nav {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: calc(72px + env(safe-area-inset-top, 0px)) 24px 96px;
+  padding: calc(72px + env(safe-area-inset-top, 0px)) 24px 64px;
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
@@ -523,4 +536,19 @@ body:has(.video-hero) header.nav {
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+body:has(.video-hero) .pin-spacer {
+  background: #0a2138;
+}
+
+body:has(.video-hero) .metrics {
+  background: linear-gradient(
+    180deg,
+    #0a2138 0%,
+    rgba(8, 27, 48, 0.76) 80px,
+    rgba(6, 22, 42, 0.32) 170px,
+    transparent 280px
+  );
+  border-top-color: rgba(246, 243, 236, 0.055);
 }
