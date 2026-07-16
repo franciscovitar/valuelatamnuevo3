@@ -1,4 +1,5 @@
 import { gsap, ScrollTrigger } from '@/lib/scroll/gsap';
+import { scrollToTop } from '@/lib/scroll';
 import { bindGoldSweep } from '@/lib/motion/uiEffects';
 import { prefersReducedMotion } from '@/lib/motion/tokens';
 import { createHeroThreeScene } from './heroThreeScene';
@@ -12,6 +13,23 @@ const CHAPTER_WINDOWS = [
   [0.49, 0.60],
   [0.60, 0.71],
 ];
+
+function shouldResetHeroScroll() {
+  if (typeof window === 'undefined') return false;
+
+  return window.location.pathname === '/' && !window.location.hash;
+}
+
+function resetHeroScrollPosition() {
+  if (!shouldResetHeroScroll()) return;
+
+  if ('scrollRestoration' in window.history) {
+    window.history.scrollRestoration = 'manual';
+  }
+
+  ScrollTrigger.clearScrollMemory?.();
+  scrollToTop({ immediate: true });
+}
 
 function setScrollHeight(scrollEl, vh) {
   scrollEl.style.height = `${vh}vh`;
@@ -150,6 +168,8 @@ export function initVideoHeroAnimation() {
 
   if (!scrollEl || !stickyEl) return () => {};
 
+  resetHeroScrollPosition();
+
   if (prefersReducedMotion()) {
     return initReduced(root, targets);
   }
@@ -205,8 +225,16 @@ export function initVideoHeroAnimation() {
             invalidateOnRefresh: true,
           });
 
-          uiTimeline.progress(mainTrigger.progress);
-          syncScene(mainTrigger.progress);
+          if (shouldResetHeroScroll()) {
+            scrollToTop({ immediate: true });
+            mainTrigger.scroll(0);
+            uiTimeline.progress(0);
+            syncScene(0);
+          } else {
+            uiTimeline.progress(mainTrigger.progress);
+            syncScene(mainTrigger.progress);
+          }
+
           sceneController?.renderOnce();
           root.classList.add('is-video-hero-active');
         }, root);

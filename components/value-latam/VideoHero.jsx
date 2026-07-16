@@ -93,7 +93,7 @@ export default function VideoHero() {
               <h1 className="video-hero__title" data-video-hero-title>
                 Finanzas que impulsan
                 <br />
-                tu empresa.
+                tu empresa
               </h1>
               <p className="video-hero__lead" data-video-hero-lead>
                 Financiamiento, liquidez, medios de pago e IA conectados en una sola estrategia.

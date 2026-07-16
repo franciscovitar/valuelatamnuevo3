@@ -12,6 +12,7 @@ const ICE = new THREE.Color(PALETTE.iceBlue);
 const ICE_LIGHT = new THREE.Color(PALETTE.iceLight);
 const GOLD = new THREE.Color(PALETTE.gold);
 const IVORY = new THREE.Color(PALETTE.ivory);
+const FOG_COLOR = new THREE.Color(PALETTE.blackBlue);
 
 const FIELD_HEIGHT = 8.4;
 const FIELD_MIN_Y = -4.2;
@@ -25,12 +26,119 @@ const LAYER_BOUNDS = {
 
 const HAZE_TRAVEL = 1.8;
 
+const CLOUD_CLUSTERS = [
+  { cx: 2.4, cy: 0.6, cz: -3.2, rx: 3.8, ry: 2.6, rz: 1.8 },
+  { cx: 1.8, cy: 2.6, cz: -4.0, rx: 3.2, ry: 1.6, rz: 1.4 },
+  { cx: 3.0, cy: -1.2, cz: -1.8, rx: 2.8, ry: 2.2, rz: 1.6 },
+  { cx: -0.8, cy: 1.0, cz: -2.8, rx: 2.0, ry: 2.4, rz: 1.2 },
+];
+
 const COLOR_TYPE = {
   ICE: 0,
   ICE_LIGHT: 1,
   GOLD: 2,
   IVORY: 3,
 };
+
+const PARTICLE_VERTEX_SHADER = `
+  attribute float aSize;
+  attribute float aOpacity;
+  attribute float aKind;
+  attribute vec3 color;
+
+  uniform float uPointScale;
+  uniform float uSparkleScale;
+
+  varying vec3 vColor;
+  varying float vOpacity;
+  varying float vKind;
+  varying float vDepth;
+
+  void main() {
+    vColor = color;
+    vOpacity = aOpacity;
+    vKind = aKind;
+
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+    vDepth = max(-mvPosition.z, 0.15);
+    gl_Position = projectionMatrix * mvPosition;
+
+    float sizeMul = aKind > 0.5 ? uSparkleScale : 1.0;
+    float pointSize = aSize * uPointScale * sizeMul / vDepth;
+    gl_PointSize = clamp(pointSize, 0.45, 52.0);
+  }
+`;
+
+const PARTICLE_FRAGMENT_SHADER = `
+  uniform float uLayerOpacity;
+  uniform vec3 uFogColor;
+  uniform float uFogDensity;
+  uniform float uFogMix;
+
+  varying vec3 vColor;
+  varying float vOpacity;
+  varying float vKind;
+  varying float vDepth;
+
+  void main() {
+    vec2 uv = gl_PointCoord - 0.5;
+    float r2 = dot(uv, uv);
+    float r = sqrt(r2);
+
+    float core = exp(-r2 * 140.0);
+    float inner = exp(-r2 * 32.0) * 0.28;
+    float outer = exp(-r2 * 9.5) * 0.1;
+    float alpha = (core * 0.92 + inner + outer) * vOpacity * uLayerOpacity;
+
+    if (vKind > 0.5) {
+      float crossH = exp(-abs(uv.y) * 92.0) * exp(-abs(uv.x) * 20.0) * 0.06;
+      float crossV = exp(-abs(uv.x) * 92.0) * exp(-abs(uv.y) * 20.0) * 0.06;
+      alpha += (crossH + crossV + core * 0.18) * vOpacity * uLayerOpacity;
+    }
+
+    alpha = clamp(alpha, 0.0, 1.0);
+    if (alpha < 0.0015) discard;
+
+    float fogFactor = 1.0 - clamp(exp(-uFogDensity * uFogDensity * vDepth * vDepth), 0.0, 1.0);
+    vec3 lit = vColor * (0.88 + core * 0.22);
+    lit = mix(lit, uFogColor, fogFactor * uFogMix);
+    alpha *= 1.0 - fogFactor * uFogMix * 0.72;
+
+    gl_FragColor = vec4(lit, alpha);
+  }
+`;
+
+const BOKEH_FRAGMENT_SHADER = `
+  uniform float uLayerOpacity;
+  uniform vec3 uFogColor;
+  uniform float uFogDensity;
+  uniform float uFogMix;
+
+  varying vec3 vColor;
+  varying float vOpacity;
+  varying float vKind;
+  varying float vDepth;
+
+  void main() {
+    vec2 uv = gl_PointCoord - 0.5;
+    float r2 = dot(uv, uv);
+
+    float center = exp(-r2 * 4.2) * 0.22;
+    float mid = exp(-r2 * 1.6) * 0.14;
+    float edge = exp(-r2 * 0.55) * 0.08;
+    float alpha = (center + mid + edge) * vOpacity * uLayerOpacity;
+
+    alpha = clamp(alpha, 0.0, 1.0);
+    if (alpha < 0.0008) discard;
+
+    float fogFactor = 1.0 - clamp(exp(-uFogDensity * uFogDensity * vDepth * vDepth), 0.0, 1.0);
+    vec3 lit = vColor * 0.92;
+    lit = mix(lit, uFogColor, fogFactor * uFogMix * 0.35);
+    alpha *= 1.0 - fogFactor * 0.18;
+
+    gl_FragColor = vec4(lit, alpha);
+  }
+`;
 
 function lerp(a, b, t) {
   return a + (b - a) * t;
@@ -48,36 +156,56 @@ function xIntensityFactor(x) {
   return lerp(0.78, 1.0, (t - 0.5) / 0.5);
 }
 
-function layerBaseStrength(layerKey, rng) {
-  if (layerKey === 'far') return 0.48 + rng() * 0.24;
-  if (layerKey === 'mid') return 0.65 + rng() * 0.23;
-  if (layerKey === 'near') return 0.78 + rng() * 0.22;
-  return 0.18 + rng() * 0.17;
+function sampleParticleOpacity(rng) {
+  const roll = rng();
+  if (roll >= 0.98) return lerp(0.86, 1.0, rng());
+  if (roll >= 0.92) return lerp(0.68, 0.86, Math.pow(rng(), 0.55));
+  if (roll >= 0.7) return lerp(0.38, 0.68, Math.pow(rng(), 0.75));
+  return lerp(0.08, 0.38, Math.pow(rng(), 2.2));
+}
+
+function sampleSizePx(layerKey, rng) {
+  const u = rng();
+  const body = Math.pow(u, 0.82);
+
+  if (layerKey === 'far') {
+    const size = lerp(0.7, 1.5, body);
+    return u > 0.985 ? size + lerp(0, 0.5, (u - 0.985) / 0.015) : size;
+  }
+  if (layerKey === 'mid') {
+    const size = lerp(1.2, 2.5, body);
+    return u > 0.972 ? size + lerp(0, 0.7, (u - 0.972) / 0.028) : size;
+  }
+  if (layerKey === 'near') {
+    const size = lerp(2.0, 4.0, body);
+    return u > 0.965 ? size + lerp(0, 1.5, (u - 0.965) / 0.035) : size;
+  }
+  return lerp(12, 30, Math.pow(rng(), 0.72));
 }
 
 function pickColorType(rng, layerKey) {
   const roll = rng();
 
   if (layerKey === 'far') {
-    if (roll > 0.96) return COLOR_TYPE.GOLD;
-    if (roll > 0.92) return COLOR_TYPE.ICE_LIGHT;
+    if (roll > 0.992) return COLOR_TYPE.GOLD;
+    if (roll > 0.84) return COLOR_TYPE.ICE_LIGHT;
     return COLOR_TYPE.ICE;
   }
 
   if (layerKey === 'mid') {
-    if (roll > 0.97) return COLOR_TYPE.GOLD;
-    if (roll > 0.42) return COLOR_TYPE.ICE_LIGHT;
+    if (roll > 0.985) return COLOR_TYPE.GOLD;
+    if (roll > 0.36) return COLOR_TYPE.ICE_LIGHT;
     return COLOR_TYPE.ICE;
   }
 
   if (layerKey === 'near') {
-    if (roll > 0.975) return COLOR_TYPE.GOLD;
+    if (roll > 0.972) return COLOR_TYPE.GOLD;
     if (roll > 0.9) return COLOR_TYPE.IVORY;
-    if (roll > 0.28) return COLOR_TYPE.ICE_LIGHT;
+    if (roll > 0.32) return COLOR_TYPE.ICE_LIGHT;
     return COLOR_TYPE.ICE;
   }
 
-  if (roll > 0.78) return COLOR_TYPE.GOLD;
+  if (roll > 0.88) return COLOR_TYPE.GOLD;
   return COLOR_TYPE.ICE_LIGHT;
 }
 
@@ -86,6 +214,52 @@ function colorFromType(type) {
   if (type === COLOR_TYPE.ICE_LIGHT) return ICE_LIGHT;
   if (type === COLOR_TYPE.IVORY) return IVORY;
   return ICE;
+}
+
+function clampToBounds(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function sampleOrganicPosition(rng, layerKey) {
+  const bounds = LAYER_BOUNDS[layerKey];
+
+  if (rng() >= 0.28) {
+    return {
+      x: lerp(bounds.x[0], bounds.x[1], rng()),
+      y: lerp(bounds.y[0], bounds.y[1], rng()),
+      z: lerp(bounds.z[0], bounds.z[1], rng()),
+    };
+  }
+
+  const cloud = CLOUD_CLUSTERS[Math.floor(rng() * CLOUD_CLUSTERS.length)];
+  const jitter = () => (rng() + rng() + rng() - 1.5) / 1.5;
+
+  return {
+    x: clampToBounds(cloud.cx + jitter() * cloud.rx, bounds.x[0], bounds.x[1]),
+    y: clampToBounds(cloud.cy + jitter() * cloud.ry, bounds.y[0], bounds.y[1]),
+    z: clampToBounds(cloud.cz + jitter() * cloud.rz, bounds.z[0], bounds.z[1]),
+  };
+}
+
+function sampleBokehPosition(rng, layerKey) {
+  const bounds = LAYER_BOUNDS[layerKey];
+  let x;
+  let y;
+
+  if (rng() < 0.38) {
+    const edge = rng() < 0.5 ? bounds.x[0] : bounds.x[1];
+    x = edge + (rng() < 0.5 ? -1 : 1) * rng() * 0.55;
+    y = lerp(bounds.y[0], bounds.y[1], rng());
+  } else {
+    x = lerp(bounds.x[0], bounds.x[1], rng());
+    y = lerp(bounds.y[0], bounds.y[1], rng());
+  }
+
+  return {
+    x: clampToBounds(x, bounds.x[0], bounds.x[1]),
+    y: clampToBounds(y, bounds.y[0], bounds.y[1]),
+    z: lerp(bounds.z[0], bounds.z[1], rng()),
+  };
 }
 
 function getQuality() {
@@ -102,10 +276,6 @@ function getQuality() {
       midCount: 80,
       nearCount: 28,
       bokehCount: 8,
-      farSize: 0.032,
-      midSize: 0.052,
-      nearSize: 0.074,
-      bokehSize: 0.095,
       farOpacity: 0.62,
       midOpacity: 0.72,
       nearOpacity: 0.8,
@@ -123,10 +293,6 @@ function getQuality() {
       midCount: 150,
       nearCount: 55,
       bokehCount: 14,
-      farSize: 0.035,
-      midSize: 0.058,
-      nearSize: 0.082,
-      bokehSize: 0.105,
       farOpacity: 0.65,
       midOpacity: 0.75,
       nearOpacity: 0.83,
@@ -143,10 +309,6 @@ function getQuality() {
     midCount: 260,
     nearCount: 90,
     bokehCount: 22,
-    farSize: 0.038,
-    midSize: 0.064,
-    nearSize: 0.09,
-    bokehSize: 0.115,
     farOpacity: 0.68,
     midOpacity: 0.78,
     nearOpacity: 0.86,
@@ -155,7 +317,7 @@ function getQuality() {
   };
 }
 
-function createPointTexture(size = 64) {
+function createSoftTexture(size = 192) {
   const canvas = document.createElement('canvas');
   canvas.width = size;
   canvas.height = size;
@@ -164,8 +326,10 @@ function createPointTexture(size = 64) {
 
   const center = size / 2;
   const gradient = ctx.createRadialGradient(center, center, 0, center, center, center);
-  gradient.addColorStop(0, 'rgba(255,255,255,0.98)');
-  gradient.addColorStop(0.28, 'rgba(255,255,255,0.55)');
+  gradient.addColorStop(0, 'rgba(255,255,255,0.28)');
+  gradient.addColorStop(0.18, 'rgba(255,255,255,0.14)');
+  gradient.addColorStop(0.42, 'rgba(255,255,255,0.05)');
+  gradient.addColorStop(0.72, 'rgba(255,255,255,0.012)');
   gradient.addColorStop(1, 'rgba(255,255,255,0)');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, size, size);
@@ -175,43 +339,46 @@ function createPointTexture(size = 64) {
   return texture;
 }
 
-function createSoftTexture(size = 128) {
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return null;
-
-  const center = size / 2;
-  const gradient = ctx.createRadialGradient(center, center, 0, center, center, center);
-  gradient.addColorStop(0, 'rgba(255,255,255,0.42)');
-  gradient.addColorStop(0.35, 'rgba(255,255,255,0.14)');
-  gradient.addColorStop(1, 'rgba(255,255,255,0)');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, size, size);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
+function computePointScale(camera, height, dpr) {
+  const fovRad = (camera.fov * Math.PI) / 180;
+  return (height * dpr) / (2 * Math.tan(fovRad * 0.5));
 }
 
-function sampleFieldPosition(rng, layerKey) {
-  const bounds = LAYER_BOUNDS[layerKey];
-  return {
-    x: lerp(bounds.x[0], bounds.x[1], rng()),
-    y: lerp(bounds.y[0], bounds.y[1], rng()),
-    z: lerp(bounds.z[0], bounds.z[1], rng()),
-  };
+function createShaderMaterial({
+  fragmentShader,
+  baseOpacity,
+  blending,
+  fogMix,
+}) {
+  return new THREE.ShaderMaterial({
+    uniforms: {
+      uPointScale: { value: 1 },
+      uSparkleScale: { value: 1.38 },
+      uLayerOpacity: { value: baseOpacity },
+      uFogColor: { value: FOG_COLOR.clone() },
+      uFogDensity: { value: 0.026 },
+      uFogMix: { value: fogMix },
+    },
+    vertexShader: PARTICLE_VERTEX_SHADER,
+    fragmentShader,
+    transparent: true,
+    depthWrite: false,
+    depthTest: true,
+    blending,
+  });
 }
 
-function createParticleLayer(count, rng, texture, { size, baseOpacity, layerKey, blending }) {
+function createShaderParticleLayer(count, rng, { baseOpacity, layerKey, fogMix }) {
   const positions = new Float32Array(count * 3);
   const basePositions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
+  const aSizes = new Float32Array(count);
+  const aOpacities = new Float32Array(count);
+  const aKinds = new Float32Array(count);
   const meta = new Float32Array(count * 3);
 
   for (let i = 0; i < count; i += 1) {
-    const { x, y, z } = sampleFieldPosition(rng, layerKey);
+    const { x, y, z } = sampleOrganicPosition(rng, layerKey);
     const offset = i * 3;
 
     positions[offset] = x;
@@ -221,33 +388,35 @@ function createParticleLayer(count, rng, texture, { size, baseOpacity, layerKey,
 
     const colorType = pickColorType(rng, layerKey);
     const source = colorFromType(colorType);
-    const baseStrength = layerBaseStrength(layerKey, rng);
+    const particleOpacity = sampleParticleOpacity(rng);
     const xFactor = xIntensityFactor(x);
+    const colorGain = lerp(0.72, 1.08, Math.pow(rng(), 1.6)) * xFactor;
 
-    colors[offset] = source.r * baseStrength * xFactor;
-    colors[offset + 1] = source.g * baseStrength * xFactor;
-    colors[offset + 2] = source.b * baseStrength * xFactor;
+    colors[offset] = source.r * colorGain;
+    colors[offset + 1] = source.g * colorGain;
+    colors[offset + 2] = source.b * colorGain;
+
+    aSizes[i] = sampleSizePx(layerKey, rng);
+    aOpacities[i] = particleOpacity;
+    aKinds[i] = rng() < 0.05 ? 1 : 0;
 
     meta[i * 3] = i % 4;
     meta[i * 3 + 1] = colorType;
-    meta[i * 3 + 2] = baseStrength;
+    meta[i * 3 + 2] = colorGain;
   }
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  geometry.setAttribute('aSize', new THREE.BufferAttribute(aSizes, 1));
+  geometry.setAttribute('aOpacity', new THREE.BufferAttribute(aOpacities, 1));
+  geometry.setAttribute('aKind', new THREE.BufferAttribute(aKinds, 1));
 
-  const material = new THREE.PointsMaterial({
-    size,
-    sizeAttenuation: true,
-    map: texture,
-    alphaTest: blending === THREE.NormalBlending ? 0.001 : 0.015,
-    vertexColors: true,
-    transparent: true,
-    opacity: baseOpacity,
-    depthWrite: false,
-    depthTest: true,
-    blending,
+  const material = createShaderMaterial({
+    fragmentShader: PARTICLE_FRAGMENT_SHADER,
+    baseOpacity,
+    blending: THREE.AdditiveBlending,
+    fogMix,
   });
 
   return {
@@ -255,9 +424,74 @@ function createParticleLayer(count, rng, texture, { size, baseOpacity, layerKey,
     positions,
     basePositions,
     colors,
+    aOpacities,
     meta,
     layerKey,
     baseOpacity,
+    isBokeh: false,
+  };
+}
+
+function createBokehLayer(count, rng, { baseOpacity }) {
+  const positions = new Float32Array(count * 3);
+  const basePositions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+  const aSizes = new Float32Array(count);
+  const aOpacities = new Float32Array(count);
+  const aKinds = new Float32Array(count);
+  const meta = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i += 1) {
+    const { x, y, z } = sampleBokehPosition(rng, 'bokeh');
+    const offset = i * 3;
+
+    positions[offset] = x;
+    positions[offset + 1] = y;
+    positions[offset + 2] = z;
+    basePositions.set([x, y, z], offset);
+
+    const colorType = pickColorType(rng, 'bokeh');
+    const source = colorFromType(colorType);
+    const xFactor = xIntensityFactor(x);
+    const colorGain = lerp(0.55, 0.82, Math.pow(rng(), 1.4)) * xFactor;
+
+    colors[offset] = source.r * colorGain;
+    colors[offset + 1] = source.g * colorGain;
+    colors[offset + 2] = source.b * colorGain;
+
+    aSizes[i] = sampleSizePx('bokeh', rng);
+    aOpacities[i] = lerp(0.025, 0.09, Math.pow(rng(), 1.35));
+    aKinds[i] = 0;
+
+    meta[i * 3] = i % 4;
+    meta[i * 3 + 1] = colorType;
+    meta[i * 3 + 2] = colorGain;
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  geometry.setAttribute('aSize', new THREE.BufferAttribute(aSizes, 1));
+  geometry.setAttribute('aOpacity', new THREE.BufferAttribute(aOpacities, 1));
+  geometry.setAttribute('aKind', new THREE.BufferAttribute(aKinds, 1));
+
+  const material = createShaderMaterial({
+    fragmentShader: BOKEH_FRAGMENT_SHADER,
+    baseOpacity,
+    blending: THREE.NormalBlending,
+    fogMix: 0.22,
+  });
+
+  return {
+    points: new THREE.Points(geometry, material),
+    positions,
+    basePositions,
+    colors,
+    aOpacities,
+    meta,
+    layerKey: 'bokeh',
+    baseOpacity,
+    isBokeh: true,
   };
 }
 
@@ -328,37 +562,30 @@ export function createHeroThreeScene({ canvas, root }) {
   fieldRoot.position.set(0, 0, 0);
   scene.add(fieldRoot);
 
-  const pointTexture = createPointTexture();
   const softTexture = createSoftTexture();
-  if (!pointTexture || !softTexture) {
+  if (!softTexture) {
     renderer.dispose();
     return null;
   }
 
   const rng = createRng(42857);
-  const farParticles = createParticleLayer(quality.farCount, rng, pointTexture, {
-    size: quality.farSize,
+  const farParticles = createShaderParticleLayer(quality.farCount, rng, {
     baseOpacity: quality.farOpacity,
     layerKey: 'far',
-    blending: THREE.AdditiveBlending,
+    fogMix: 0.92,
   });
-  const midParticles = createParticleLayer(quality.midCount, rng, pointTexture, {
-    size: quality.midSize,
+  const midParticles = createShaderParticleLayer(quality.midCount, rng, {
     baseOpacity: quality.midOpacity,
     layerKey: 'mid',
-    blending: THREE.AdditiveBlending,
+    fogMix: 0.58,
   });
-  const nearParticles = createParticleLayer(quality.nearCount, rng, pointTexture, {
-    size: quality.nearSize,
+  const nearParticles = createShaderParticleLayer(quality.nearCount, rng, {
     baseOpacity: quality.nearOpacity,
     layerKey: 'near',
-    blending: THREE.AdditiveBlending,
+    fogMix: 0.28,
   });
-  const bokehParticles = createParticleLayer(quality.bokehCount, rng, softTexture, {
-    size: quality.bokehSize,
+  const bokehParticles = createBokehLayer(quality.bokehCount, rng, {
     baseOpacity: quality.bokehOpacity,
-    layerKey: 'bokeh',
-    blending: THREE.NormalBlending,
   });
 
   const haze = createHazeSprites(softTexture);
@@ -384,10 +611,26 @@ export function createHeroThreeScene({ canvas, root }) {
 
   const particleLayers = [farParticles, midParticles, nearParticles, bokehParticles];
 
+  function syncShaderUniforms(brandT, exitT) {
+    const fogDensity = 0.026 + brandT * 0.016 + exitT * 0.028;
+    const height = canvas.clientHeight || root.clientHeight || 1;
+    const pointScale = computePointScale(camera, height, quality.dpr);
+
+    particleLayers.forEach((layer) => {
+      const { uniforms } = layer.points.material;
+      uniforms.uPointScale.value = pointScale;
+      uniforms.uFogDensity.value = fogDensity;
+      uniforms.uLayerOpacity.value =
+        layer.baseOpacity * (1 - brandT * 0.08 - exitT * 0.14);
+    });
+  }
+
   function updateParticleLayer(layer, weights, brandT, exitT, progress) {
-    const { positions, basePositions, colors, meta, points, layerKey, baseOpacity } = layer;
+    const { positions, basePositions, colors, meta, points, layerKey } = layer;
     const count = positions.length / 3;
     const travelY = -progress * LAYER_BOUNDS[layerKey].travel;
+    const fade = 1 - brandT * 0.1 - exitT * 0.16;
+    const chapterCap = layer.isBokeh ? 0.06 : 0.14;
 
     for (let i = 0; i < count; i += 1) {
       const offset = i * 3;
@@ -397,8 +640,8 @@ export function createHeroThreeScene({ canvas, root }) {
       const baseZ = basePositions[offset + 2];
       const cluster = meta[metaOffset];
       const colorType = meta[metaOffset + 1];
-      const baseStrength = meta[metaOffset + 2];
-      const chapterBoost = Math.min(0.18, (weights[cluster] ?? 0) * 0.16);
+      const colorGain = meta[metaOffset + 2];
+      const chapterBoost = Math.min(chapterCap, (weights[cluster] ?? 0) * (chapterCap * 0.85));
 
       positions[offset] = baseX;
       positions[offset + 1] = wrapFieldY(baseY, travelY);
@@ -406,8 +649,7 @@ export function createHeroThreeScene({ canvas, root }) {
 
       const source = colorFromType(colorType);
       const xFactor = xIntensityFactor(baseX);
-      const fade = 1 - brandT * 0.1 - exitT * 0.16;
-      const strength = (baseStrength + chapterBoost) * xFactor * fade;
+      const strength = (colorGain + chapterBoost) * xFactor * fade;
 
       colors[offset] = source.r * strength;
       colors[offset + 1] = source.g * strength;
@@ -416,7 +658,6 @@ export function createHeroThreeScene({ canvas, root }) {
 
     points.geometry.attributes.position.needsUpdate = true;
     points.geometry.attributes.color.needsUpdate = true;
-    points.material.opacity = baseOpacity * (1 - brandT * 0.08 - exitT * 0.14);
   }
 
   function applySceneState() {
@@ -429,6 +670,8 @@ export function createHeroThreeScene({ canvas, root }) {
     particleLayers.forEach((layer) => {
       updateParticleLayer(layer, weights, brandT, exitT, progress);
     });
+
+    syncShaderUniforms(brandT, exitT);
 
     hazeLayer.position.y = -progress * HAZE_TRAVEL;
 
@@ -516,7 +759,6 @@ export function createHeroThreeScene({ canvas, root }) {
       haze.blueMain.material.dispose();
       haze.blueSecondary.material.dispose();
       haze.gold.material.dispose();
-      pointTexture.dispose();
       softTexture.dispose();
       renderer.dispose();
 
