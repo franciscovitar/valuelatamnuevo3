@@ -1,6 +1,7 @@
 import { gsap, ScrollTrigger } from '@/lib/scroll/gsap';
 import { bindGoldSweep } from '@/lib/motion/uiEffects';
 import { prefersReducedMotion } from '@/lib/motion/tokens';
+import { createHeroThreeScene } from './heroThreeScene';
 
 const SCRUB = 0.55;
 const SCROLL_VH = { desktop: 320, tablet: 290, mobile: 240 };
@@ -21,7 +22,9 @@ function collectTargets(root) {
     root,
     scrollEl: root.querySelector('[data-video-hero-scroll]'),
     stickyEl: root.querySelector('[data-video-hero-sticky]'),
-    media: root.querySelector('[data-video-hero-video]'),
+    canvas: root.querySelector('[data-video-hero-canvas]'),
+    fallback: root.querySelector('[data-video-hero-fallback]'),
+    fallbackImage: root.querySelector('[data-video-hero-fallback-image]'),
     intro: root.querySelector('[data-video-hero-intro]'),
     eyebrow: root.querySelector('[data-video-hero-eyebrow]'),
     title: root.querySelector('[data-video-hero-title]'),
@@ -38,36 +41,7 @@ function collectTargets(root) {
   };
 }
 
-function cameraAtProgress(progress) {
-  const p = gsap.utils.clamp(0, 1, progress);
-
-  if (p <= 0.28) {
-    const t = p / 0.28;
-    return {
-      scale: gsap.utils.interpolate(1.04, 1.09, t),
-      xPercent: gsap.utils.interpolate(0, -1.2, t),
-      yPercent: gsap.utils.interpolate(0, -0.8, t),
-    };
-  }
-
-  if (p <= 0.74) {
-    const t = (p - 0.28) / 0.46;
-    return {
-      scale: gsap.utils.interpolate(1.09, 1.16, t),
-      xPercent: gsap.utils.interpolate(-1.2, -3.2, t),
-      yPercent: gsap.utils.interpolate(-0.8, -2.2, t),
-    };
-  }
-
-  const t = (p - 0.74) / 0.26;
-  return {
-    scale: gsap.utils.interpolate(1.16, 1.22, t),
-    xPercent: gsap.utils.interpolate(-3.2, -4.5, t),
-    yPercent: gsap.utils.interpolate(-2.2, -3.2, t),
-  };
-}
-
-function buildUiTimeline(targets, syncCamera) {
+function buildUiTimeline(targets, syncScene) {
   const {
     intro,
     eyebrow,
@@ -86,7 +60,7 @@ function buildUiTimeline(targets, syncCamera) {
 
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
 
-  tl.eventCallback('onUpdate', () => syncCamera(tl.progress()));
+  tl.eventCallback('onUpdate', () => syncScene(tl.progress()));
 
   tl.to(hint, { opacity: 0, y: 8, duration: 0.04 }, 0.08);
   tl.to(cta, { opacity: 0, y: 10, duration: 0.05 }, 0.10);
@@ -141,69 +115,76 @@ function buildUiTimeline(targets, syncCamera) {
   return tl;
 }
 
-function waitForMedia(media) {
+function waitForFallbackImage(image) {
   return new Promise((resolve) => {
-    if (!media) {
+    if (!image) {
       resolve(false);
       return;
     }
 
-    if (media.complete && media.naturalWidth > 0) {
+    if (image.complete && image.naturalWidth > 0) {
       resolve(true);
       return;
     }
 
     const finish = (ok) => {
-      media.removeEventListener('load', onLoad);
-      media.removeEventListener('error', onError);
+      image.removeEventListener('load', onLoad);
+      image.removeEventListener('error', onError);
       resolve(ok);
     };
 
-    const onLoad = () => finish(media.naturalWidth > 0);
+    const onLoad = () => finish(image.naturalWidth > 0);
     const onError = () => finish(false);
 
-    media.addEventListener('load', onLoad, { once: true });
-    media.addEventListener('error', onError, { once: true });
+    image.addEventListener('load', onLoad, { once: true });
+    image.addEventListener('error', onError, { once: true });
   });
 }
 
 function initReduced(root, targets) {
-  const { scrollEl, stickyEl, media, chapters, brand, hint } = targets;
+  const { scrollEl, stickyEl, fallbackImage, chapters, brand, hint } = targets;
 
   scrollEl.style.height = 'auto';
   stickyEl.style.minHeight = '100svh';
   gsap.set([chapters, brand, hint], { autoAlpha: 0 });
 
-  if (media) {
-    gsap.set(media, { clearProps: 'transform' });
+  if (fallbackImage) {
+    gsap.set(fallbackImage, { clearProps: 'transform' });
   }
 
-  root.classList.add('is-video-hero-mounted', 'is-video-hero-reduced', 'is-video-ready');
+  root.classList.add(
+    'is-video-hero-mounted',
+    'is-video-hero-reduced',
+    'is-video-ready',
+    'is-webgl-reduced',
+  );
 
   return () => {
     scrollEl.style.height = '';
     stickyEl.style.minHeight = '';
-    root.classList.remove('is-video-hero-mounted', 'is-video-hero-reduced', 'is-video-ready', 'is-video-error');
+    root.classList.remove(
+      'is-video-hero-mounted',
+      'is-video-hero-reduced',
+      'is-video-ready',
+      'is-video-error',
+      'is-webgl-reduced',
+    );
   };
 }
 
-function initErrorFallback(root, targets) {
-  const { scrollEl, stickyEl, media, chapters, brand, hint } = targets;
+function initStaticFallback(root, targets) {
+  const { fallbackImage } = targets;
 
-  scrollEl.style.height = 'auto';
-  stickyEl.style.minHeight = '100svh';
-  gsap.set([chapters, brand, hint], { autoAlpha: 0 });
-
-  if (media) {
-    gsap.set(media, { opacity: 0 });
+  if (fallbackImage) {
+    gsap.set(fallbackImage, { scale: 1, transformOrigin: '58% center' });
   }
 
-  root.classList.add('is-video-hero-mounted', 'is-video-error');
+  root.classList.add('is-webgl-error');
 
-  return () => {
-    scrollEl.style.height = '';
-    stickyEl.style.minHeight = '';
-    root.classList.remove('is-video-hero-mounted', 'is-video-error', 'is-video-ready', 'is-video-hero-active');
+  return (progress = 0) => {
+    if (!fallbackImage) return;
+    const scale = 1 + progress * 0.03;
+    gsap.set(fallbackImage, { scale, transformOrigin: '58% center', force3D: true });
   };
 }
 
@@ -212,7 +193,7 @@ export function initVideoHeroAnimation() {
   if (!root) return () => {};
 
   const targets = collectTargets(root);
-  const { scrollEl, stickyEl, media, cta } = targets;
+  const { scrollEl, stickyEl, canvas, fallbackImage, cta } = targets;
 
   if (!scrollEl || !stickyEl) return () => {};
 
@@ -228,31 +209,35 @@ export function initVideoHeroAnimation() {
   let resizeObserver = null;
   let refreshTimer = null;
   let goldSweepCleanup = () => {};
-  let errorCleanup = null;
+  let reducedCleanup = null;
+  let sceneController = null;
+  let syncStaticFallback = null;
 
-  const syncCamera = (progress) => {
-    if (!media) return;
-
-    const { scale, xPercent, yPercent } = cameraAtProgress(progress);
-    gsap.set(media, {
-      scale,
-      xPercent,
-      yPercent,
-      transformOrigin: '58% center',
-      force3D: true,
-    });
-  };
-
-  const markMediaReady = () => {
+  const markFallbackReady = () => {
     if (disposed || root.classList.contains('is-video-ready')) return;
     root.classList.add('is-video-ready');
-    gsap.to(media, { opacity: 1, duration: 0.42, ease: 'power2.out' });
+    if (fallbackImage) {
+      gsap.to(fallbackImage, { opacity: 1, duration: 0.42, ease: 'power2.out' });
+    }
+  };
+
+  const markWebglReady = () => {
+    if (disposed || root.classList.contains('is-webgl-ready')) return;
+    root.classList.add('is-webgl-ready');
+  };
+
+  const syncScene = (progress) => {
+    if (sceneController) {
+      sceneController.setProgress(progress);
+      return;
+    }
+    syncStaticFallback?.(progress);
   };
 
   const setupScroll = () => {
-    if (disposed || errorCleanup) return;
+    if (disposed || reducedCleanup) return;
 
-    syncCamera(0);
+    syncScene(0);
 
     if (cta) goldSweepCleanup = bindGoldSweep(cta);
 
@@ -271,7 +256,7 @@ export function initVideoHeroAnimation() {
         setScrollHeight(scrollEl, scrollVh);
 
         ctx = gsap.context(() => {
-          uiTimeline = buildUiTimeline(targets, syncCamera);
+          uiTimeline = buildUiTimeline(targets, syncScene);
 
           mainTrigger = ScrollTrigger.create({
             animation: uiTimeline,
@@ -286,7 +271,8 @@ export function initVideoHeroAnimation() {
           });
 
           uiTimeline.progress(mainTrigger.progress);
-          syncCamera(mainTrigger.progress);
+          syncScene(mainTrigger.progress);
+          sceneController?.renderOnce();
           root.classList.add('is-video-hero-active');
         }, root);
 
@@ -303,6 +289,7 @@ export function initVideoHeroAnimation() {
     );
 
     resizeObserver = new ResizeObserver(() => {
+      sceneController?.resize();
       clearTimeout(refreshTimer);
       refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 120);
     });
@@ -310,16 +297,32 @@ export function initVideoHeroAnimation() {
   };
 
   const boot = async () => {
-    const mediaReady = await waitForMedia(media);
+    const fallbackReady = await waitForFallbackImage(fallbackImage);
 
     if (disposed) return;
 
-    if (!mediaReady) {
-      errorCleanup = initErrorFallback(root, targets);
+    if (!fallbackReady) {
+      reducedCleanup = initReduced(root, targets);
       return;
     }
 
-    markMediaReady();
+    markFallbackReady();
+
+    sceneController = createHeroThreeScene({
+      canvas,
+      root,
+      fallback: targets.fallback,
+    });
+
+    if (sceneController) {
+      sceneController.renderOnce();
+      markWebglReady();
+      sceneController.start();
+    } else {
+      syncStaticFallback = initStaticFallback(root, targets);
+      root.classList.add('is-webgl-error');
+    }
+
     setupScroll();
   };
 
@@ -329,9 +332,13 @@ export function initVideoHeroAnimation() {
     disposed = true;
     clearTimeout(refreshTimer);
 
-    errorCleanup?.();
-    errorCleanup = null;
+    reducedCleanup?.();
+    reducedCleanup = null;
     goldSweepCleanup();
+
+    sceneController?.destroy();
+    sceneController = null;
+    syncStaticFallback = null;
 
     mainTrigger?.kill();
     mainTrigger = null;
@@ -347,8 +354,8 @@ export function initVideoHeroAnimation() {
 
     scrollEl.style.height = '';
     stickyEl.style.removeProperty('min-height');
-    media?.style.removeProperty('transform');
-    media?.style.removeProperty('opacity');
+    fallbackImage?.style.removeProperty('transform');
+    fallbackImage?.style.removeProperty('opacity');
 
     root.classList.remove(
       'is-video-hero-mounted',
@@ -356,6 +363,9 @@ export function initVideoHeroAnimation() {
       'is-video-ready',
       'is-video-error',
       'is-video-hero-reduced',
+      'is-webgl-ready',
+      'is-webgl-error',
+      'is-webgl-reduced',
     );
   };
 }

@@ -32,11 +32,14 @@ export default function VideoHero() {
       <div className="video-hero__scroll" data-video-hero-scroll>
         <div className="video-hero__sticky" data-video-hero-sticky>
           <div className="video-hero__media">
-            <picture className="video-hero__picture">
+            <picture
+              className="video-hero__fallback"
+              data-video-hero-fallback
+            >
               <source media="(max-width: 767px)" srcSet="/hero-city-mobile.webp" />
               <img
-                className="video-hero__video"
-                data-video-hero-video
+                className="video-hero__fallback-image"
+                data-video-hero-fallback-image
                 src="/hero-city-desktop.webp"
                 alt=""
                 aria-hidden="true"
@@ -45,6 +48,12 @@ export default function VideoHero() {
                 draggable={false}
               />
             </picture>
+
+            <canvas
+              className="video-hero__canvas"
+              data-video-hero-canvas
+              aria-hidden="true"
+            />
           </div>
 
           <div className="video-hero__overlay" aria-hidden="true" />

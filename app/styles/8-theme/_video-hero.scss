@@ -25,35 +25,53 @@
   background: #01040a;
 }
 
-.video-hero__picture {
-  position: absolute;
-  inset: 0;
-  display: block;
-}
-
-.video-hero__video {
+.video-hero__fallback,
+.video-hero__fallback-image {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  display: block;
+}
+
+.video-hero__fallback-image {
   object-fit: cover;
   object-position: 58% center;
   pointer-events: none;
   opacity: 1;
-  will-change: transform;
   backface-visibility: hidden;
 }
 
-.video-hero.is-video-hero-reduced .video-hero__video {
-  will-change: auto;
+.video-hero__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.video-hero.is-webgl-ready .video-hero__canvas {
+  opacity: 1;
+}
+
+.video-hero.is-webgl-error .video-hero__canvas,
+.video-hero.is-webgl-reduced .video-hero__canvas {
+  opacity: 0;
+}
+
+.video-hero.is-video-hero-reduced .video-hero__fallback-image {
   transform: none !important;
 }
 
-.video-hero:not(.is-video-ready):not(.is-video-hero-reduced) .video-hero__video {
+.video-hero:not(.is-video-ready):not(.is-video-hero-reduced) .video-hero__fallback-image {
   opacity: 0.92;
 }
 
-.video-hero.is-video-ready .video-hero__video {
+.video-hero.is-video-ready .video-hero__fallback-image {
   opacity: 1;
 }
 
@@ -64,10 +82,10 @@
   pointer-events: none;
   background: linear-gradient(
     90deg,
-    rgba(1, 4, 10, 0.9) 0%,
-    rgba(2, 7, 14, 0.72) 34%,
-    rgba(2, 7, 14, 0.28) 65%,
-    rgba(1, 4, 10, 0.14) 100%
+    rgba(1, 4, 10, 0.92) 0%,
+    rgba(2, 7, 14, 0.78) 32%,
+    rgba(2, 7, 14, 0.34) 62%,
+    rgba(1, 4, 10, 0.18) 100%
   );
 }
 
@@ -343,7 +361,7 @@
 }
 
 @media (max-width: 767px) {
-  .video-hero__video {
+  .video-hero__fallback-image {
     object-position: 62% center;
   }
 
@@ -402,13 +420,6 @@
   }
 }
 
-.video-hero.is-video-error .video-hero__video {
-  opacity: 0;
-}
-
-.video-hero.is-video-error .video-hero__chapters,
-.video-hero.is-video-error .video-hero__brand,
-.video-hero.is-video-error .video-hero__scroll-hint {
-  visibility: hidden !important;
-  opacity: 0 !important;
+.video-hero.is-webgl-error .video-hero__fallback-image {
+  opacity: 1;
 }
