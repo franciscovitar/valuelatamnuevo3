@@ -43,17 +43,54 @@ export default function Payments() {
           <div className="pay-group" data-pay-group={index} key={label}>
             <span className="pay-group-label">{label}</span>
             <div className="pay-features">
-              {items.map(([summary, text]) => <details className="pay-feat" key={summary}><summary>{summary}</summary><p>{text}</p></details>)}
+              {items.map(([summary, text]) => (
+                <details className="pay-feat" key={summary}>
+                  <summary>{summary}</summary>
+                  <p>{text}</p>
+                </details>
+              ))}
             </div>
           </div>
         ))}
         <div className="pay-pillars">
-          <div className="pillar" data-pay-block="pillar-cold"><span className="pill-tag">Lo disruptivo · cómo lo hacemos</span><h3>Apuntamos al costo 0.</h3><p>Echeq por <b>cuenta comitente</b> del mercado de capitales, y transferencias y QR por la <b>nueva PSP</b>. Así sacamos las comisiones e impuestos del medio. Salí de Mercado Pago y dejá de pagar de más.</p></div>
-          <div className="pillar pillar-gold" data-pay-block="pillar-gold"><span className="pill-tag">El camino al costo 0</span><h3>Optimización fiscal e impositiva</h3><p>Tenemos un <b>estudio contable propio de optimización fiscal e impositiva</b>, disponible para los clientes que operan con nosotros. Te mostramos, paso a paso, cómo pagar menos impuestos de forma inteligente y en regla. Es la pieza que completa el costo cero.</p></div>
+          <div className="pillar" data-pay-block="pillar-cold">
+            <span className="pill-tag">Lo disruptivo · cómo lo hacemos</span>
+            <h3>Apuntamos al costo 0.</h3>
+            <p>
+              Echeq por <b>cuenta comitente</b> del mercado de capitales, y transferencias y QR por la <b>nueva PSP</b>.
+              Así sacamos las comisiones e impuestos del medio. Salí de Mercado Pago y dejá de pagar de más.
+            </p>
+          </div>
+          <div className="pillar pillar-gold" data-pay-block="pillar-gold">
+            <span className="pill-tag">El camino al costo 0</span>
+            <h3>Optimización fiscal e impositiva</h3>
+            <p>
+              Tenemos un <b>estudio contable propio de optimización fiscal e impositiva</b>, disponible para los clientes
+              que operan con nosotros. Te mostramos, paso a paso, cómo pagar menos impuestos de forma inteligente y en
+              regla. Es la pieza que completa el costo cero.
+            </p>
+          </div>
         </div>
-        <div className="pay-giros" data-pay-block="giros"><h4>¿Operás con el exterior?</h4><p>También estructuramos tus pagos y giros internacionales —proveedores del exterior, factoring internacional, subrogación de deuda y asesoría cambiaria— por canales habilitados y dentro del marco normativo vigente.</p></div>
-        <div className="pay-support" data-pay-block="support"><span className="pay-group-label">Respaldo</span><p>Atención de <b>personas reales</b>, no bots ni menús eternos: te acompañamos por WhatsApp y mail mientras dejamos toda la operación montada. Todo 100% digital, con la solidez de un Agente Productor registrado en la CNV. <b>Invertir, cobrar y pagar en un solo lugar.</b></p></div>
-        <div className="fin-cta" data-pay-block="cta"><Link className="btn btn-primary" href="/#contacto">Quiero apuntar al costo 0 en mis pagos</Link></div>
+        <div className="pay-giros" data-pay-block="giros">
+          <h4>¿Operás con el exterior?</h4>
+          <p>
+            También estructuramos tus pagos y giros internacionales —proveedores del exterior, factoring internacional,
+            subrogación de deuda y asesoría cambiaria— por canales habilitados y dentro del marco normativo vigente.
+          </p>
+        </div>
+        <div className="pay-support" data-pay-block="support">
+          <span className="pay-group-label">Respaldo</span>
+          <p>
+            Atención de <b>personas reales</b>, no bots ni menús eternos: te acompañamos por WhatsApp y mail mientras
+            dejamos toda la operación montada. Todo 100% digital, con la solidez de un Agente Productor registrado en la
+            CNV. <b>Invertir, cobrar y pagar en un solo lugar.</b>
+          </p>
+        </div>
+        <div className="fin-cta" data-pay-block="cta">
+          <Link className="btn btn-primary" href="/#contacto">
+            Quiero apuntar al costo 0 en mis pagos
+          </Link>
+        </div>
       </div>
     </section>
   );

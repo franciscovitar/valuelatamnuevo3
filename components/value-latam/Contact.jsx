@@ -10,7 +10,7 @@ export default function Contact() {
       <div className="wrap cta-grid">
         <div>
           <span className="eyebrow">Empecemos hoy</span>
-          <h2 className="serif">Sea cual sea tu próximo paso, lo damos con vos.</h2>
+          <h2 className="serif">Sea cual sea tu próximo paso, lo damos con vos</h2>
           <p className="sub">
             Financiamiento, inversión y liquidez, medios de pago o automatización con IA: en cualquiera de
             las cuatro, la gestión es gratuita y solo cobramos por resultados. Empezá sin riesgo.
@@ -65,7 +65,7 @@ export default function Contact() {
             <input id="website" name="website" tabIndex={-1} autoComplete="off" />
           </div>
           <button className="btn btn-primary" type="submit">
-            Agendar una llamada
+            Agendar llamada
           </button>
           <p aria-live="polite" className="vl2-form-feedback" />
           <p className="legal">

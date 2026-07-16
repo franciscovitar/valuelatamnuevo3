@@ -13,13 +13,6 @@ export default function Footer() {
             <p className="blurb">
               Consultoría financiera integral para empresas. Experiencia senior para ejecutar con claridad en contextos volátiles.
             </p>
-            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: 13 }}>
-              {contact.email}
-              <br />
-              WhatsApp {contact.whatsappLabel}
-              <br />
-              {contact.address}
-            </p>
           </div>
           <div>
             <h5>Soluciones</h5>
@@ -42,10 +35,14 @@ export default function Footer() {
           <div>
             <h5>Contacto</h5>
             <ul>
-              <li><Link href="/#contacto">Agendar una llamada</Link></li>
-              <li><a href={'mailto:' + contact.email}>{contact.email}</a></li>
-              <li><a href={contact.whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
-              <li>Mariano Castex 499 · Piso 3 · Of. 303</li>
+              <li><Link href="/#contacto">Agendar llamada</Link></li>
+              <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+              <li>
+                <a href={contact.whatsappUrl} target="_blank" rel="noopener noreferrer">
+                  WhatsApp {contact.whatsappLabel}
+                </a>
+              </li>
+              <li>{contact.address}</li>
             </ul>
           </div>
         </div>

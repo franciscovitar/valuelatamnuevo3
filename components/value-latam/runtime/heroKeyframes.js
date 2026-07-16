@@ -57,6 +57,7 @@ export const HERO_THEME = {
   },
 };
 
+/** Referencia histórica Figma — no es el estado de carga. */
 export const HERO_STATES = {
   s1: {
     figma: '45:2199',
@@ -64,10 +65,10 @@ export const HERO_STATES = {
     lines: { x: [706.81, 887.81, 1068.81, 1249.81], opacity: 0 },
     radial: { opacity: 0 },
     cards: [
-      { x: 681, y: -288, opacity: 0 },
-      { x: 865, y: 1130, opacity: 0 },
-      { x: 1045, y: -119, opacity: 0 },
-      { x: 1228, y: 964, opacity: 0 },
+      { x: 681, y: -288, opacity: 0, scale: 1, rotate: 0 },
+      { x: 865, y: 1130, opacity: 0, scale: 1, rotate: 0 },
+      { x: 1045, y: -119, opacity: 0, scale: 1, rotate: 0 },
+      { x: 1228, y: 964, opacity: 0, scale: 1, rotate: 0 },
     ],
     smoke: { y: 220, opacity: 0 },
     theme: 0,
@@ -78,10 +79,10 @@ export const HERO_STATES = {
     lines: { x: [660.81, 811.81, 962.81, 1113.81], opacity: 1 },
     radial: { opacity: 1 },
     cards: [
-      { x: 639, y: 128, opacity: 1 },
-      { x: 788, y: 693, opacity: 1 },
-      { x: 940, y: 280, opacity: 1 },
-      { x: 1091, y: 506, opacity: 1 },
+      { x: 639, y: 128, opacity: 1, scale: 1, rotate: 0 },
+      { x: 788, y: 693, opacity: 1, scale: 1, rotate: 0 },
+      { x: 940, y: 280, opacity: 1, scale: 1, rotate: 0 },
+      { x: 1091, y: 506, opacity: 1, scale: 1, rotate: 0 },
     ],
     smoke: { y: 220, opacity: 0.3 },
     theme: 0,
@@ -92,10 +93,10 @@ export const HERO_STATES = {
     lines: { x: [660.81, 811.81, 962.81, 1113.81], opacity: 1 },
     radial: { opacity: 1 },
     cards: [
-      { x: 639, y: 190, opacity: 1 },
-      { x: 788, y: 623, opacity: 1 },
-      { x: 940, y: 318, opacity: 1 },
-      { x: 1091, y: 531, opacity: 1 },
+      { x: 639, y: 190, opacity: 1, scale: 1, rotate: 0 },
+      { x: 788, y: 623, opacity: 1, scale: 1, rotate: 0 },
+      { x: 940, y: 318, opacity: 1, scale: 1, rotate: 0 },
+      { x: 1091, y: 531, opacity: 1, scale: 1, rotate: 0 },
     ],
     smoke: { y: -158, opacity: 0.3 },
     theme: 1,
@@ -106,32 +107,128 @@ export const HERO_STATES = {
     lines: { x: [660.81, 811.81, 962.81, 1113.81], opacity: 1 },
     radial: { opacity: 1 },
     cards: [
-      { x: 639, y: 177, opacity: 1 },
-      { x: 788, y: 637, opacity: 1 },
-      { x: 940, y: 330, opacity: 1 },
-      { x: 1091, y: 518, opacity: 1 },
+      { x: 639, y: 177, opacity: 1, scale: 1, rotate: 0 },
+      { x: 788, y: 637, opacity: 1, scale: 1, rotate: 0 },
+      { x: 940, y: 330, opacity: 1, scale: 1, rotate: 0 },
+      { x: 1091, y: 518, opacity: 1, scale: 1, rotate: 0 },
     ],
     smoke: { y: -158, opacity: 0.3 },
     theme: 1,
   },
 };
 
-/** Timeline normalizada 0–1, tramos sin superposición. */
+/** Portada inmediata — presencia FIND sin mostrar la composición final completa. */
+export const HERO_LANDING_STATE = {
+  content: {
+    x: 104,
+    y: 0,
+    opacity: 1,
+  },
+  lines: {
+    x: [706.81, 887.81, 1068.81, 1249.81],
+    opacity: 0.12,
+  },
+  radial: {
+    opacity: 0.42,
+  },
+  cards: [
+    {
+      x: 654,
+      y: 164,
+      opacity: 0.72,
+      scale: 0.965,
+      rotate: -0.6,
+    },
+    {
+      x: 830,
+      y: 750,
+      opacity: 0.18,
+      scale: 0.93,
+      rotate: 0.8,
+    },
+    {
+      x: 1010,
+      y: 236,
+      opacity: 0.14,
+      scale: 0.92,
+      rotate: -0.7,
+    },
+    {
+      x: 1180,
+      y: 570,
+      opacity: 0.1,
+      scale: 0.9,
+      rotate: 0.7,
+    },
+  ],
+  smoke: {
+    y: 245,
+    opacity: 0.06,
+  },
+  theme: 0,
+};
+
+/** Micro-offsets del copy en landing — se resuelven al construir la escena. */
+export const HERO_COPY_STATES = {
+  landing: {
+    eyebrow: { y: 0, opacity: 1 },
+    titleLines: [
+      { y: 0, opacity: 1 },
+      { y: 0, opacity: 1 },
+      { y: 0, opacity: 1 },
+    ],
+    leadLine: { y: 6, opacity: 0.76 },
+    leadCloser: { y: 12, opacity: 0.58 },
+  },
+  built: {
+    eyebrow: { y: 0, opacity: 1 },
+    titleLines: [
+      { y: 0, opacity: 1 },
+      { y: 0, opacity: 1 },
+      { y: 0, opacity: 1 },
+    ],
+    leadLine: { y: 0, opacity: 1 },
+    leadCloser: { y: 0, opacity: 1 },
+  },
+  handoff: {
+    eyebrow: { y: -4, opacity: 0.82 },
+    titleLines: [
+      { y: -6, opacity: 0.8 },
+      { y: -8, opacity: 0.78 },
+      { y: -10, opacity: 0.76 },
+    ],
+    leadLine: { y: -12, opacity: 0.68 },
+    leadCloser: { y: -14, opacity: 0.62 },
+  },
+};
+
+/** Profundidad por card — planos más lejanos se mueven más lento. */
+export const HERO_CARD_DEPTH = [0.72, 1, 0.86, 0.94];
+
+/** Handoff hacia Métricas — sin quinta escena ni pantalla vacía. */
+export const HERO_HANDOFF = {
+  content: { x: 150, y: -18, opacity: 0.86 },
+  radial: { opacity: 0.62 },
+  cards: [
+    { x: 639, y: 162, opacity: 0.88, scale: 0.985, rotate: 0 },
+    { x: 788, y: 652, opacity: 0.84, scale: 0.978, rotate: 0 },
+    { x: 940, y: 312, opacity: 0.86, scale: 0.982, rotate: 0 },
+    { x: 1091, y: 528, opacity: 0.84, scale: 0.978, rotate: 0 },
+  ],
+  smoke: { y: -120, opacity: 0.1 },
+  camera: 0.965,
+};
+
+/** Timeline normalizada 0–1. */
 export const HERO_TIMELINE = {
-  holdS1: [0, 0.05],
-  s1ToS2: [0.05, 0.46],
-  holdS2: [0.46, 0.56],
-  s2ToS3: [0.56, 0.80],
-  s3ToS4: [0.80, 0.92],
-  holdS4: [0.92, 1],
+  holdLanding: [0, 0.06],
+  landingToS2: [0.06, 0.5],
+  holdS2: [0.5, 0.58],
+  s2ToS3: [0.58, 0.78],
+  s3ToS4: [0.78, 0.9],
+  holdS4: [0.9, 0.94],
+  handoff: [0.94, 1],
 };
 
 export const HERO_SCROLL_DESKTOP_VH = 390;
 export const HERO_SCROLL_MOBILE_VH = 300;
-
-/** Flotado idle en estado final — capa interna, no interfiere con scroll. */
-export const HERO_CARD_FLOAT = {
-  amplitude: [2.5, -2, 3, -2.5],
-  duration: [3.8, 4.2, 3.6, 4.5],
-  delay: [0, 0.4, 0.25, 0.55],
-};

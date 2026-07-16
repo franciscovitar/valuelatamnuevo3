@@ -59,12 +59,12 @@ export const navLinks = [
 
 export const introHome = {
   eyebrow: 'Consultoría financiera integral para empresas',
-  title: 'El centro financiero de tu empresa.',
+  title: 'El centro financiero de tu empresa',
   lead: 'Financiamiento, liquidez, pagos e IA. Un solo socio para toda la operación.',
 };
 
 export const whyUsHome = {
-  title: 'El brazo financiero y operativo de tu empresa.',
+  title: 'El brazo financiero y operativo de tu empresa',
   body: 'Integramos financiamiento, inversión, medios de pago e IA en un solo interlocutor. Sin cobrar por adelantado: cobramos por resultados.',
   bullets: [
     'Experiencia senior en financiamiento, inversión, pagos y procesos.',
@@ -174,18 +174,18 @@ export const processCloserHome =
   'Un solo interlocutor para toda tu operación. En financiamiento, los honorarios se definen sobre la línea efectivamente disponible.';
 
 export const workTeaser = {
-  title: 'Referí operaciones bajo nuestra estructura CNV.',
-  body: '¿Sos asesor, contador o consultor? Asociate como referenciador: vos ponés la relación, nosotros la ejecución y el respaldo regulatorio.',
-  cta: 'Conocer el programa de referenciadores',
+  title: 'Referí operaciones bajo nuestra estructura CNV',
+  body: 'Sumá financiamiento, inversión, pagos e IA a tu propuesta. Vos cuidás la relación; nosotros ejecutamos y damos respaldo.',
+  cta: 'Ver programa',
 };
 
 export const workFeatures = [
-  ['Referí operaciones', 'Traés a tus clientes y nosotros estructuramos financiamiento, inversión, pagos y procesos.'],
-  ['Gestioná tu cartera', 'Administrás tu propia cartera de clientes, con nuestro acompañamiento y herramientas.'],
-  ['Bajo nuestra estructura', 'Operás respaldado por nuestra matrícula de Agente Productor CNV y nuestros convenios.', true],
-  ['Ingresos por resultados', 'Un esquema de comisiones transparente, por cada operación que se cierra.'],
-  ['Tecnología y soporte', 'Te damos análisis, materiales y backoffice para que te enfoques en la relación.'],
-  ['Sin montar estructura propia', 'No necesitás tu propia ALyC ni matrícula: te sumás a la nuestra.'],
+  ['Referí operaciones', 'Traé a tus clientes; nosotros estructuramos y ejecutamos cada operación.'],
+  ['Gestioná tu cartera', 'Administrá tus clientes con acompañamiento, análisis y herramientas.'],
+  ['Bajo nuestra estructura', 'Operá con el respaldo de nuestra matrícula de Agente Productor CNV.', true],
+  ['Ingresos por resultados', 'Recibí comisiones claras por cada operación cerrada.'],
+  ['Tecnología y soporte', 'Contá con materiales, análisis y backoffice para enfocarte en la relación.'],
+  ['Sin estructura propia', 'Sumate sin abrir una ALyC ni tramitar una matrícula propia.'],
 ];
 
 export const workFaqs = [

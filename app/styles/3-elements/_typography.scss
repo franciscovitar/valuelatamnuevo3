@@ -1,12 +1,12 @@
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
 
 .eyebrow {
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-sans);
   font-size: 12px;
-  letter-spacing: .18em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--brass);
-  font-weight: 500;
 }
 
 .serif {
@@ -41,4 +41,4 @@ li {
   line-height: 1.6;
 }
 
-.mono { font-family: var(--font-mono), monospace; }
+.mono { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }

@@ -11,7 +11,7 @@ export default function AIProcesses() {
       id="ia"
     >
       <div className="wrap">
-        <SectionHeading eyebrow="Unidad 04 · Agentic AI" title="La gestión diaria de tu empresa, ejecutada por agentes de IA." />
+        <SectionHeading eyebrow="Unidad 04 · Agentic AI" title="La gestión diaria de tu empresa, ejecutada por agentes de IA" />
         <p className="ai-lede">No es una herramienta más: es una capa de inteligencia que opera las tareas administrativas y de gestión de tu empresa de punta a punta. Diseñamos e implementamos agentes que trabajan sobre tus datos, tus procesos y tu operación diaria, para que tu equipo deje de hacer tareas repetitivas y se enfoque en lo importante.</p>
 
         <div className="ai-story">
@@ -44,11 +44,11 @@ export default function AIProcesses() {
                 </div>
                 <div className="gain-cards">
                   <div className="gain" data-ai-gain="0">
-                    <div className="gnum">−<span className="cv" data-count="80">0</span>%</div>
+                    <div className="gnum">−<span className="cv" data-count="80">80</span>%</div>
                     <p>menos tiempo en tareas manuales y repetitivas</p>
                   </div>
                   <div className="gain" data-ai-gain="1">
-                    <div className="gnum">×<span className="cv" data-count="10">0</span></div>
+                    <div className="gnum">×<span className="cv" data-count="10">10</span></div>
                     <p>más velocidad de respuesta operativa</p>
                   </div>
                   <div className="gain" data-ai-gain="2">
@@ -56,7 +56,7 @@ export default function AIProcesses() {
                     <p>monitoreo y alertas sobre toda tu operación</p>
                   </div>
                   <div className="gain" data-ai-gain="3">
-                    <div className="gnum"><span className="cv" data-count="99.9" data-dec="1">0</span>%</div>
+                    <div className="gnum"><span className="cv" data-count="99.9" data-dec="1">99.9</span>%</div>
                     <p>de precisión en la carga y el procesamiento de datos</p>
                   </div>
                 </div>
@@ -66,7 +66,7 @@ export default function AIProcesses() {
 
         <div className="join-section-sub ai-delivery">
           <span className="join-sub-eyebrow">Cómo lo entregamos</span>
-          <h3 className="join-h3">Del diagnóstico al agente funcionando.</h3>
+          <h3 className="join-h3">Del diagnóstico al agente funcionando</h3>
           <p className="fin-lede" style={{ margin: '10px 0 0' }}>Antes de automatizar, mapeamos tu operación y te mostramos el plan. Estos entregables, con identidad Value Latam, hacen visible el valor antes de hablar de precio.</p>
           <div aria-hidden="true" className="ai-delivery-line">
             <span className="ai-delivery-line__fill" />
@@ -78,7 +78,7 @@ export default function AIProcesses() {
           </div>
           <p className="ai-delivery-closer">El entregable final no es un PDF: es el agente funcionando en tu operación.</p>
         </div>
-        <div className="ai-band"><p className="tagline">Tu equipo deja de cargar datos. <b>Empieza a tomar decisiones.</b></p><Link className="btn btn-primary" href="/#contacto">Quiero automatizar mis procesos</Link></div>
+        <div className="ai-band"><p className="tagline">Tu equipo deja de cargar datos. <b>Empieza a tomar decisiones.</b></p><Link className="btn btn-primary" href="/#contacto">Automatizar procesos</Link></div>
       </div>
     </section>
   );

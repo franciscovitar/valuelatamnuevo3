@@ -113,7 +113,7 @@ html.vl-motion-enabled {
     transition: none;
   }
 
-  [data-vl-home-section='team'] .person a.li:hover {
+  [data-vl-home-section='team'] .person .person-linkedin:focus-visible {
     color: inherit;
   }
 

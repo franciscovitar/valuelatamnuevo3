@@ -10,7 +10,7 @@ export default function Liquidity() {
       id="liquidez"
     >
       <div className="wrap">
-        <SectionHeading eyebrow="Unidad 02 · Inversión & Liquidez" title="Dos negocios: la liquidez de tu empresa y el patrimonio de los socios." />
+        <SectionHeading eyebrow="Unidad 02 · Inversión & Liquidez" title="Dos negocios: la liquidez de tu empresa y el patrimonio de los socios" />
 
         <p className="fin-lede">
           Somos especialistas en dos frentes distintos y complementarios. Por un lado, la gestión de liquidez de tu empresa. Por el otro, el portfolio manager del patrimonio de los socios. En ambos, diseñamos la estrategia y ejecutamos por vos: vos confirmás.
@@ -49,7 +49,7 @@ export default function Liquidity() {
         </div>
 
         <div className="fin-cta">
-          <Link className="btn btn-primary" href="/#contacto">Quiero que gestionen mi liquidez</Link>
+          <Link className="btn btn-primary" href="/#contacto">Gestionar mi liquidez</Link>
         </div>
       </div>
     </section>

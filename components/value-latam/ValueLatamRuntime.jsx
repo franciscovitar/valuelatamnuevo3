@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { initHeaderMotion } from './runtime/headerMotion';
 import { initMicroInteractions } from './runtime/microInteractions';
 import { initCoverAnimation } from './runtime/coverAnimation';
 import { initLeadCapture } from './runtime/leadCapture';
@@ -15,6 +16,7 @@ export default function ValueLatamRuntime() {
     const cleanups = [
       initRevealCounters(),
       initNavigationCards(),
+      initHeaderMotion(),
       initMicroInteractions(),
       initLeadCapture(),
       initSoundToggle(),

@@ -10,7 +10,8 @@
 }
 
 @mixin mono-label {
-  font-family: var(--font-mono), monospace;
-  letter-spacing: .16em;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: .12em;
   text-transform: uppercase;
 }

@@ -1,0 +1,172 @@
+// Efectos editoriales por sección — no afecta al Hero (.cover-hero)
+
+.vl-tx-word,
+.vl-tx-char,
+.vl-tx-phrase {
+  display: inline;
+}
+
+.vl-tx-line {
+  display: block;
+  overflow: hidden;
+}
+
+.vl-tx-line__inner {
+  display: block;
+  will-change: transform;
+}
+
+.vl-text-paint .vl-tx-word {
+  transition: color 0.01s linear;
+}
+
+.vl-metric-sep {
+  display: block;
+  width: 1px;
+  height: 100%;
+  min-height: 72px;
+  margin-bottom: 12px;
+  background: rgba(246, 243, 236, 0.18);
+  transform-origin: top center;
+  transform: scaleY(0);
+}
+
+.vl-metric-halo {
+  position: absolute;
+  inset: -18px -8px auto;
+  height: 120px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle, rgba(143, 178, 214, 0.14) 0%, transparent 72%);
+}
+
+.metric {
+  position: relative;
+}
+
+.vl-metric-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.vl-metric-mask__inner {
+  display: inline-block;
+}
+
+.vl-partners-clip {
+  overflow: hidden;
+}
+
+.vl-spotlight-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(143, 178, 214, 0.16), transparent 68%);
+  z-index: 0;
+}
+
+.vl-spotlight-card {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.vl-spotlight-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vl-gold-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.vl-gold-sweep__shine {
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 45%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transform: skewX(-18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(210, 183, 117, 0.42),
+    transparent
+  );
+}
+
+.vl-gold-sweep.is-sweeping .vl-gold-sweep__shine {
+  animation: vlGoldSweep 0.62s ease-out forwards;
+}
+
+@keyframes vlGoldSweep {
+  0% {
+    left: -120%;
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    left: 140%;
+    opacity: 0;
+  }
+}
+
+.vl-nav-topline {
+  display: block;
+  height: 1px;
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(0);
+  background: rgba(246, 243, 236, 0.14);
+}
+
+.vl-referral-halo {
+  position: absolute;
+  inset: auto 12% 18% 12%;
+  height: 140px;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(191, 160, 90, 0.12) 0%, transparent 72%);
+}
+
+.vl-form-row {
+  will-change: transform, opacity;
+}
+
+.vl-sol-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+.sol-card {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vl-gold-sweep.is-sweeping .vl-gold-sweep__shine {
+    animation: none;
+    opacity: 0;
+  }
+
+  .vl-metric-sep,
+  .vl-metric-halo,
+  .vl-spotlight-glow,
+  .vl-referral-halo,
+  .vl-sol-ambient {
+    opacity: 0 !important;
+    transform: none !important;
+  }
+}

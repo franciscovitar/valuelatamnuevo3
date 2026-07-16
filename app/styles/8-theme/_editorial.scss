@@ -31,7 +31,7 @@ section { padding: 108px 0; }
 .nav-links a { display: inline-flex; align-items: baseline; gap: 6px; }
 
 .nidx {
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-sans);
   font-size: 10px;
   color: var(--brass);
   letter-spacing: .05em;
@@ -39,7 +39,7 @@ section { padding: 108px 0; }
 
 .btn-ghost:not(.no-arrow)::after {
   content: "\2197";
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-sans);
   font-size: .95em;
   line-height: 1;
   transition: transform .2s ease;
@@ -66,7 +66,7 @@ section { padding: 108px 0; }
   position: absolute;
   top: 30px;
   right: 28px;
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-sans);
   font-size: 22px;
   line-height: 1;
   color: var(--brass);
@@ -98,7 +98,7 @@ section { padding: 108px 0; }
 }
 
 .frow span:first-child {
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-sans);
   font-size: 10.5px;
   letter-spacing: .08em;
   text-transform: uppercase;

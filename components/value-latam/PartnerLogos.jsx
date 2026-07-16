@@ -19,7 +19,7 @@ export default function PartnerLogos() {
       <div className="wrap">
         <div className="sec-head partner-head">
           <span className="eyebrow">Red de trabajo</span>
-          <h2 className="serif">Empresas y aliados con los que trabajamos.</h2>
+          <h2 className="serif">Empresas y aliados con los que trabajamos</h2>
         </div>
 
         <div className="partner-logo-grid partner-logo-grid--static">

@@ -6,7 +6,7 @@
 
   .trust-inner{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
 
-  .trust .label{font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);white-space:nowrap}
+  .trust .label{font-family: var(--font-sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);white-space:nowrap}
 
   .trust .logos{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 

@@ -35,7 +35,7 @@ function ProcessHome({ steps }) {
           <div className="wrap">
             <div className="sec-head">
               <span className="eyebrow">Nuestro proceso</span>
-              <h2 className="serif">Cómo empezamos a trabajar juntos.</h2>
+              <h2 className="serif">Cómo empezamos a trabajar juntos</h2>
             </div>
 
             <div aria-hidden="true" className="process-story-progress">
@@ -131,7 +131,7 @@ function ProcessRoute({ steps }) {
           <div className="wrap">
             <div className="sec-head">
               <span className="eyebrow">Nuestro proceso</span>
-              <h2 className="serif">Cómo trabajamos con tu empresa, paso a paso.</h2>
+              <h2 className="serif">Cómo trabajamos con tu empresa, paso a paso</h2>
             </div>
 
             <div aria-live="polite" className="process-route-stage">
@@ -174,7 +174,7 @@ function ProcessRoute({ steps }) {
       <div className="process-route__mobile wrap">
         <SectionHeading
           eyebrow="Nuestro proceso"
-          title="Cómo trabajamos con tu empresa, paso a paso."
+          title="Cómo trabajamos con tu empresa, paso a paso"
         />
         <div aria-hidden="true" className="process-route-progress-mobile">
           <span className="process-route-progress-mobile__fill" />

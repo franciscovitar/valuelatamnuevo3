@@ -12,7 +12,7 @@ export default function Metrics() {
       <div className="wrap">
         <div className="sec-head" style={{ marginBottom: 24 }}>
           <span className="eyebrow">Resultados</span>
-          <h2 className="serif">Experiencia que se mide en estructuras cerradas.</h2>
+          <h2 className="serif">Experiencia que se mide en estructuras cerradas</h2>
         </div>
 
         <div className="metrics-grid">

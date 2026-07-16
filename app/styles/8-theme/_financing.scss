@@ -41,7 +41,7 @@
   border: 1px solid rgba(246, 243, 236, .22);
   border-radius: 7px;
   padding: 12px 22px;
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-sans);
   font-weight: 600;
   font-size: 15px;
   letter-spacing: .14em;
@@ -52,7 +52,7 @@
 
 .join-section-sub { margin-top: 52px; }
 .join-sub-eyebrow {
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-sans);
   font-size: 11px;
   letter-spacing: .22em;
   text-transform: uppercase;

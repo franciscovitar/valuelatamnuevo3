@@ -16,15 +16,15 @@
 
   .hub-unit:hover{border-color:#8fb2d6;background:rgba(143,178,214,.22);transform:translateY(-1px)}
 
-  .un-go{font-family:var(--font-mono), monospace;font-size:10px;letter-spacing:.06em;color:#8fb2d6;font-weight:400}
+  .un-go{font-family: var(--font-sans);font-size:10px;letter-spacing:.06em;color:#8fb2d6;font-weight:400}
 
-  .hub-hint{text-align:center;color:rgba(246,243,236,.6);font-family:var(--font-mono), monospace;font-size:12px;margin-top:12px}
+  .hub-hint{text-align:center;color:rgba(246,243,236,.6);font-family: var(--font-sans);font-size:12px;margin-top:12px}
 
   .model-unit{animation:popIn .4s ease both}
 
   .mu-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
-  .mu-ey{font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8fb2d6}
+  .mu-ey{font-family: var(--font-sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8fb2d6}
 
   .mu-title{font-family:var(--font-fraunces), serif;font-size:clamp(22px,2.6vw,30px);color:var(--paper);margin-top:4px;line-height:1.1}
 
@@ -80,11 +80,11 @@
 
   .hero-model{margin-top:42px}
 
-  .hm-eyebrow{display:block;text-align:center;font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8fb2d6;margin-bottom:10px}
+  .hm-eyebrow{display:block;text-align:center;font-family: var(--font-sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8fb2d6;margin-bottom:10px}
 
   /* experiencia guiada de cada unidad */
 
-  .mu-guide{text-align:center;color:rgba(246,243,236,.7);font-family:var(--font-mono), monospace;font-size:12.5px;letter-spacing:.02em;margin:14px 0 0}
+  .mu-guide{text-align:center;color:rgba(246,243,236,.7);font-family: var(--font-sans);font-size:12.5px;letter-spacing:.02em;margin:14px 0 0}
 
   .mu-guide b{color:#8fb2d6}
 

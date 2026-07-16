@@ -103,13 +103,13 @@ export default function Header() {
           ))}
 
           <Link className="btn btn-primary nav-mobile-cta" href="/#contacto">
-            Agendar una reunión
+            Agendar reunión
           </Link>
         </nav>
 
         <div className="nav-cta">
           <Link className="btn btn-primary" href="/#contacto">
-            Agendar una reunión
+            Agendar reunión
           </Link>
         </div>
 

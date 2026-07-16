@@ -30,7 +30,7 @@
 
   .subunit::before{content:'';position:absolute;left:-26px;top:-20px;width:26px;height:56px;border-left:2px solid rgba(143,178,214,.35);border-bottom:2px solid rgba(143,178,214,.35);border-bottom-left-radius:12px}
 
-  .subunit .su-tag{font-family:var(--font-mono), monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8fb2d6}
+  .subunit .su-tag{font-family: var(--font-sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8fb2d6}
 
   .subunit h3{font-family:var(--font-fraunces), serif;font-weight:500;color:var(--paper);font-size:clamp(19px,2.1vw,25px);margin:9px 0 10px;line-height:1.18}
 
@@ -38,7 +38,7 @@
 
   .su-metrics{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 
-  .su-metric{border:1px solid rgba(143,178,214,.30);border-radius:999px;padding:7px 14px;font-family:var(--font-mono), monospace;font-size:12px;color:rgba(246,243,236,.85)}
+  .su-metric{border:1px solid rgba(143,178,214,.30);border-radius:999px;padding:7px 14px;font-family: var(--font-sans);font-size:12px;color:rgba(246,243,236,.85)}
 
   .su-metric b{color:#8fb2d6;font-weight:600}
 

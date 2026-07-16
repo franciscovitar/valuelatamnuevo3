@@ -14,7 +14,7 @@ export default function Solutions() {
           <div className="wrap">
             <div className="sec-head">
               <span className="eyebrow">Qué hacemos</span>
-              <h2 className="serif">Cuatro unidades. Un solo socio.</h2>
+              <h2 className="serif">Cuatro unidades. Un solo socio</h2>
             </div>
 
             <div aria-hidden="true" className="sol-story-progress">

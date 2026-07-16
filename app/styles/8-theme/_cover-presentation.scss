@@ -4,11 +4,13 @@
 
 .cover-hero {
   --hero-accent: #8fb2d6;
+  --hero-bg: #0a2138;
   --hero-card-bg: rgba(10, 22, 36, 0.7);
   --hero-card-border: rgba(143, 178, 214, 0.15);
   --hero-glow: rgba(143, 178, 214, 0.3);
   --hero-line-accent: #8fb2d6;
   --hero-stage-scale: 1;
+  --hero-camera-scale: 1;
   --hero-font-inter: 'Inter', system-ui, sans-serif;
   --hero-font-poppins: 'Poppins', system-ui, sans-serif;
   --hero-font-hanken: 'Hanken Grotesk', system-ui, sans-serif;
@@ -17,7 +19,7 @@
   position: relative;
   z-index: 2;
   padding: 0;
-  background: #02060d;
+  background: var(--hero-bg);
   isolation: isolate;
 }
 
@@ -32,7 +34,7 @@
   height: 100svh;
   min-height: 0;
   overflow: hidden;
-  background: #02060d;
+  background: var(--hero-bg);
 }
 
 .cover-hero__viewport {
@@ -47,33 +49,66 @@
   top: 50%;
   width: 1440px;
   height: 900px;
-  transform: translate(-50%, -50%) scale(var(--hero-stage-scale));
+  transform: translate(-50%, -50%) scale(calc(var(--hero-stage-scale) * var(--hero-camera-scale, 1)));
   transform-origin: center center;
-  background: #02060d;
+  background: var(--hero-bg);
   overflow: hidden;
+  perspective: 1280px;
 }
 
-// Estado 01 — CSS seguro antes de GSAP
+// Landing visible antes de GSAP — presencia inmediata, no frame vacío
 .cover-hero:not(.is-cover-mounted) {
   .cover-hero__content {
-    transform: translateX(-471px);
+    transform: translate(104px, 0);
     opacity: 1;
   }
 
-  .cover-hero__card {
-    opacity: 0;
+  .cover-hero__eyebrow,
+  .cover-hero__title-line {
+    opacity: 1;
+  }
+
+  .cover-hero__lead-line {
+    opacity: 0.76;
+    transform: translateY(6px);
+  }
+
+  .cover-hero__lead-closer {
+    opacity: 0.58;
+    transform: translateY(12px);
   }
 
   .cover-hero__radial {
-    opacity: 0;
+    opacity: 0.42;
   }
 
   .cover-hero__line {
-    opacity: 0;
+    opacity: 0.12;
   }
 
   .cover-hero__smoke {
-    opacity: 0;
+    opacity: 0.06;
+    transform: translateY(245px);
+  }
+
+  .cover-hero__card:nth-child(1) {
+    opacity: 0.72;
+    transform: translate(654px, 164px) scale(0.965) rotate(-0.6deg);
+  }
+
+  .cover-hero__card:nth-child(2) {
+    opacity: 0.18;
+    transform: translate(830px, 750px) scale(0.93) rotate(0.8deg);
+  }
+
+  .cover-hero__card:nth-child(3) {
+    opacity: 0.14;
+    transform: translate(1010px, 236px) scale(0.92) rotate(-0.7deg);
+  }
+
+  .cover-hero__card:nth-child(4) {
+    opacity: 0.1;
+    transform: translate(1180px, 570px) scale(0.9) rotate(0.7deg);
   }
 }
 
@@ -153,6 +188,7 @@
   left: 0;
   width: 280px;
   opacity: 0;
+  transform-origin: 48px 52px;
   will-change: transform, opacity;
 }
 
@@ -170,7 +206,7 @@
   height: 48px;
   border-radius: 999px;
   border: 1px solid var(--hero-accent);
-  background: #02060d;
+  background: var(--hero-bg);
   box-shadow: 0 0 10px var(--hero-glow);
   display: grid;
   place-items: center;
@@ -300,6 +336,13 @@
   will-change: transform, opacity;
 }
 
+.cover-hero__eyebrow,
+.cover-hero__title-line,
+.cover-hero__lead-line,
+.cover-hero__lead-closer {
+  will-change: transform, opacity;
+}
+
 .cover-hero__eyebrow {
   display: flex;
   align-items: center;
@@ -393,11 +436,15 @@
 .cover-hero.is-cover-active .cover-hero__card,
 .cover-hero.is-cover-active .cover-hero__content,
 .cover-hero.is-cover-active .cover-hero__smoke,
-.cover-hero.is-cover-active .cover-hero__line {
+.cover-hero.is-cover-active .cover-hero__line,
+.cover-hero.is-cover-active .cover-hero__eyebrow,
+.cover-hero.is-cover-active .cover-hero__title-line,
+.cover-hero.is-cover-active .cover-hero__lead-line,
+.cover-hero.is-cover-active .cover-hero__lead-closer {
   will-change: transform, opacity;
 }
 
-.cover-hero.is-cover-active .cover-hero__card-float {
+.cover-hero.is-cover-active .cover-hero__design-stage {
   will-change: transform;
 }
 
@@ -474,7 +521,7 @@
   }
 
   .cover-hero:not(.is-cover-mounted) .cover-hero__content {
-    transform: none;
+    transform: translate(104px, 0);
   }
 }
 

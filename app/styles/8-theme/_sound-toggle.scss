@@ -1,4 +1,4 @@
-.sound-toggle{position:fixed;right:18px;bottom:18px;z-index:60;display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:var(--paper);border:1px solid rgba(246,243,236,.18);border-radius:30px;padding:10px 16px;font-family:var(--font-mono), monospace;font-size:12px;letter-spacing:.06em;cursor:pointer;box-shadow:0 12px 30px -12px rgba(11,33,41,.45);transition:transform .2s}
+.sound-toggle{position:fixed;right:18px;bottom:18px;z-index:60;display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:var(--paper);border:1px solid rgba(246,243,236,.18);border-radius:30px;padding:10px 16px;font-family: var(--font-sans);font-size:12px;letter-spacing:.06em;cursor:pointer;box-shadow:0 12px 30px -12px rgba(11,33,41,.45);transition:transform .2s}
 
   .sound-toggle:hover{transform:translateY(-2px)}
 
