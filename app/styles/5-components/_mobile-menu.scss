@@ -114,8 +114,18 @@
 
   header.nav .nav-links > a:not(.nav-mobile-cta):hover {
     color: #fff;
-    border-bottom-color: rgba(219, 184, 105, 0.35);
+    border-bottom-color: rgba(148, 176, 198, 0.13);
     padding-left: 0;
+  }
+
+  header.nav .nav-links > a:not(.nav-mobile-cta).is-active,
+  header.nav .nav-links > a:not(.nav-mobile-cta).is-active:hover {
+    border-bottom-color: rgba(148, 176, 198, 0.13);
+  }
+
+  header.nav .nav-links > a:not(.nav-mobile-cta) .vl-nav-indicator,
+  header.nav .nav-dropdown__menu a .vl-nav-indicator {
+    display: none !important;
   }
 
   header.nav .nav-links > a:not(.nav-mobile-cta)::after {

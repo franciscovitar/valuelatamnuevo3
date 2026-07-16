@@ -170,10 +170,10 @@ body:has(.video-hero) header.nav {
   pointer-events: none;
   background: linear-gradient(
     90deg,
-    rgba(1, 4, 10, 0.92) 0%,
-    rgba(2, 7, 14, 0.78) 32%,
-    rgba(2, 7, 14, 0.34) 62%,
-    rgba(1, 4, 10, 0.18) 100%
+    rgba(1, 4, 10, 0.94) 0%,
+    rgba(2, 7, 14, 0.84) 30%,
+    rgba(2, 7, 14, 0.26) 58%,
+    rgba(1, 4, 10, 0.1) 100%
   );
 }
 
@@ -183,8 +183,8 @@ body:has(.video-hero) header.nav {
   z-index: 3;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(1, 4, 10, 0.58) 0%, transparent 16%, transparent 68%, rgba(1, 4, 10, 0.42) 100%),
-    radial-gradient(ellipse 120% 90% at 72% 50%, transparent 36%, rgba(1, 4, 10, 0.34) 100%);
+    linear-gradient(180deg, rgba(1, 4, 10, 0.52) 0%, transparent 14%, transparent 70%, rgba(1, 4, 10, 0.38) 100%),
+    radial-gradient(ellipse 110% 85% at 78% 48%, transparent 42%, rgba(1, 4, 10, 0.28) 100%);
 }
 
 .video-hero__floor {

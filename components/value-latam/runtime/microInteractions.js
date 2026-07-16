@@ -142,6 +142,7 @@ function ensureNavIndicator(element) {
 
 function enhanceNavLink(element) {
   if (isMotionExcluded(element)) return () => {};
+  if (!window.matchMedia(DESKTOP_NAV).matches) return () => {};
 
   element.classList.add('vl-micro', 'vl-micro-nav');
   const indicator = ensureNavIndicator(element);
