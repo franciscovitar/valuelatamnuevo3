@@ -464,20 +464,17 @@ body:has(.video-hero) header.nav {
 @media (max-width: 1023px) {
   .video-hero__intro {
     transform: translateY(calc(-50% - 16px));
+    box-sizing: border-box;
+    padding-inline: clamp(22px, 4vw, 32px);
   }
 
-  .video-hero__stage {
+  .video-hero__chapters {
     box-sizing: border-box;
     padding-inline: clamp(22px, 4vw, 32px);
   }
 }
 
 @media (max-width: 767px) {
-  .video-hero__stage {
-    width: 100%;
-    padding-inline: 22px;
-  }
-
   .video-hero__intro {
     left: 0;
     right: 0;
@@ -488,6 +485,11 @@ body:has(.video-hero) header.nav {
     bottom: 18%;
     transform: none;
     padding-top: calc(64px + env(safe-area-inset-top, 0px));
+    padding-inline: max(22px, env(safe-area-inset-left, 0px)) max(22px, env(safe-area-inset-right, 0px));
+  }
+
+  .video-hero__chapters {
+    padding-inline: max(22px, env(safe-area-inset-left, 0px)) max(22px, env(safe-area-inset-right, 0px));
   }
 
   .video-hero__lead {
@@ -514,7 +516,7 @@ body:has(.video-hero) header.nav {
   }
 
   .video-hero__scroll-hint {
-    left: 22px;
+    left: max(22px, env(safe-area-inset-left, 0px));
   }
 
   .video-hero__cta {
