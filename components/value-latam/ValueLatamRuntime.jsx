@@ -3,7 +3,9 @@
 import { useEffect } from 'react';
 import { initHeaderMotion } from './runtime/headerMotion';
 import { initMicroInteractions } from './runtime/microInteractions';
-import { initCoverAnimation } from './runtime/coverAnimation';
+// Legacy Hero animation retained for rollback:
+// import { initCoverAnimation } from './runtime/coverAnimation';
+import { initVideoHeroAnimation } from './runtime/videoHeroAnimation';
 import { initLeadCapture } from './runtime/leadCapture';
 import { initNavigationCards } from './runtime/navigationCards';
 import { initRevealCounters } from './runtime/revealCounters';
@@ -20,7 +22,9 @@ export default function ValueLatamRuntime() {
       initMicroInteractions(),
       initLeadCapture(),
       initSoundToggle(),
-      initCoverAnimation(),
+      // Legacy Hero animation retained for rollback:
+      // initCoverAnimation(),
+      initVideoHeroAnimation(),
     ];
 
     return () => {
