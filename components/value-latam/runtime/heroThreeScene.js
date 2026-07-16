@@ -1,37 +1,22 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import {
+  CHAPTER_WINDOWS,
+  PALETTE,
+  cameraKeyframes,
+  chapterWeight,
+  createRng,
+  interpolateKeyframes,
+  smoothstep,
+} from './heroThreeGeometry';
 
 const POINTER_QUERY = '(min-width: 981px) and (pointer: fine)';
 
-const CHAPTER_WINDOWS = [
-  [0.27, 0.38],
-  [0.38, 0.49],
-  [0.49, 0.60],
-  [0.60, 0.71],
-];
-
-const COLORS = {
-  navy: 0x0a2138,
-  navyDark: 0x061321,
-  navySteel: 0x1b3a5c,
-  navyWarm: 0x0d2844,
-};
-
-const ICE = new THREE.Color(0x8fb2d6);
-const GOLD = new THREE.Color(0xd2b775);
-
-function smoothstep(edge0, edge1, x) {
-  const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
-  return t * t * (3 - 2 * t);
-}
-
-function chapterWeight(progress, start, end, fade = 0.016) {
-  if (progress < start - fade) return 0;
-  if (progress < start + fade) return smoothstep(start - fade, start + fade, progress);
-  if (progress < end - fade) return 1;
-  if (progress < end + fade) return 1 - smoothstep(end - fade, end + fade, progress);
-  return 0;
-}
+const ICE = new THREE.Color(PALETTE.iceBlue);
+const GOLD = new THREE.Color(PALETTE.gold);
 
 function lerp(a, b, t) {
   return a + (b - a) * t;
@@ -46,228 +31,244 @@ function getQuality() {
     mobile,
     tablet,
     desktop,
-    segments: mobile ? 32 : tablet ? 48 : 64,
-    width: mobile ? 0.44 : desktop ? 0.38 : 0.42,
-    thickness: mobile ? 0.038 : 0.042,
-    dpr: mobile ? 1 : tablet ? 1 : Math.min(window.devicePixelRatio || 1, 1.25),
+    filamentCount: mobile ? 8 : tablet ? 11 : 14,
+    tubeSegments: mobile ? 48 : tablet ? 64 : 80,
+    tubeRadial: mobile ? 6 : tablet ? 8 : 10,
+    tubeRadius: mobile ? 0.014 : tablet ? 0.016 : 0.018,
+    particleCount: mobile ? 72 : tablet ? 160 : 320,
+    arcCount: mobile ? 4 : tablet ? 7 : 10,
+    dpr: mobile ? 1 : tablet ? 1.1 : Math.min(window.devicePixelRatio || 1, 1.35),
+    bloom: desktop,
     pointerEnabled: window.matchMedia(POINTER_QUERY).matches,
   };
 }
 
-function createRibbonGeometry({ points, width, thickness, segments, twist = 0 }) {
-  const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(p.x, p.y, p.z)));
-  const frames = curve.computeFrenetFrames(segments, false);
+function generateFilamentPoints(index, total, rng) {
+  const points = [];
+  const nodeCount = 8 + (index % 3);
+  const yMin = -1.95;
+  const yMax = 2.45;
+  const phase = index * 0.81 + rng() * 0.6;
+  const lane = index / Math.max(total - 1, 1);
+  const baseX = 0.42 + lane * 0.38 + (rng() - 0.5) * 0.12;
+  const baseZ = -0.32 + (index % 4) * 0.11 + (rng() - 0.5) * 0.28;
+  const ampX = 0.14 + rng() * 0.2;
+  const ampZ = 0.1 + rng() * 0.16;
 
-  const ringVerts = 4;
-  const vertCount = (segments + 1) * ringVerts;
-  const positions = new Float32Array(vertCount * 3);
-  const ribbonProgress = new Float32Array(vertCount);
-  const ringStarts = [];
+  for (let i = 0; i < nodeCount; i += 1) {
+    const t = i / (nodeCount - 1);
+    const y = yMin + t * (yMax - yMin);
+    const pinch = 0.88 + Math.sin(t * Math.PI) * 0.14;
+    const weaveX =
+      Math.sin(t * Math.PI * (2.05 + index * 0.11) + phase) * ampX * pinch +
+      Math.sin(t * Math.PI * 4.2 + phase * 1.3) * ampX * 0.22;
+    const weaveZ =
+      Math.cos(t * Math.PI * 1.65 + phase * 0.85) * ampZ +
+      Math.sin(t * Math.PI * 3.1 + phase) * ampZ * 0.35;
 
-  const halfW = width * 0.5;
-  const halfT = thickness * 0.5;
-  const normalUp = new THREE.Vector3();
-  const binormal = new THREE.Vector3();
-  const tangent = new THREE.Vector3();
-  const point = new THREE.Vector3();
-  const corner = new THREE.Vector3();
-
-  let vi = 0;
-
-  for (let i = 0; i <= segments; i += 1) {
-    const t = i / segments;
-    curve.getPointAt(t, point);
-    tangent.copy(frames.tangents[i]);
-    normalUp.copy(frames.normals[i]);
-    binormal.copy(frames.binormals[i]);
-
-    if (twist !== 0) {
-      const angle = twist * t * Math.PI * 0.35;
-      const cos = Math.cos(angle);
-      const sin = Math.sin(angle);
-      const nr = normalUp.x * cos + binormal.x * sin;
-      const nb = -normalUp.x * sin + binormal.x * cos;
-      normalUp.x = nr;
-      binormal.x = nb;
-      const nr2 = normalUp.y * cos + binormal.y * sin;
-      const nb2 = -normalUp.y * sin + binormal.y * cos;
-      normalUp.y = nr2;
-      binormal.y = nb2;
-    }
-
-    ringStarts.push(vi);
-
-    const offsets = [
-      [halfW, halfT],
-      [-halfW, halfT],
-      [-halfW, -halfT],
-      [halfW, -halfT],
-    ];
-
-    offsets.forEach(([w, th]) => {
-      corner.copy(point);
-      corner.addScaledVector(binormal, w);
-      corner.addScaledVector(normalUp, th);
-      positions[vi * 3] = corner.x;
-      positions[vi * 3 + 1] = corner.y;
-      positions[vi * 3 + 2] = corner.z;
-      ribbonProgress[vi] = t;
-      vi += 1;
-    });
+    points.push(new THREE.Vector3(baseX + weaveX, y, baseZ + weaveZ));
   }
 
-  const indices = [];
-
-  for (let i = 0; i < segments; i += 1) {
-    const a = ringStarts[i];
-    const b = ringStarts[i + 1];
-
-    indices.push(a, b, b + 1, a, b + 1, a + 1);
-    indices.push(a + 3, a + 2, b + 2, a + 3, b + 2, b + 3);
-    indices.push(a, a + 3, b + 3, a, b + 3, b);
-    indices.push(a + 1, b + 1, b + 2, a + 1, b + 2, a + 2);
-  }
-
-  const start = ringStarts[0];
-  const end = ringStarts[segments];
-  indices.push(start, start + 3, start + 2, start, start + 2, start + 1);
-  indices.push(end, end + 1, end + 2, end, end + 2, end + 3);
-
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('aRibbonProgress', new THREE.BufferAttribute(ribbonProgress, 1));
-  geometry.setIndex(indices);
-  geometry.computeVertexNormals();
-
-  return { geometry, curve };
+  return points;
 }
 
-function setBaseVertexColors(geometry, color) {
+function initTubeColors(geometry, baseColor, progressAttr) {
   const count = geometry.attributes.position.count;
   const colors = new Float32Array(count * 3);
   for (let i = 0; i < count; i += 1) {
-    colors[i * 3] = color.r;
-    colors[i * 3 + 1] = color.g;
-    colors[i * 3 + 2] = color.b;
+    colors[i * 3] = baseColor.r;
+    colors[i * 3 + 1] = baseColor.g;
+    colors[i * 3 + 2] = baseColor.b;
   }
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  return { colors, progressAttr };
 }
 
-function initOverlayColors(geometry) {
-  const count = geometry.attributes.position.count;
-  const colors = new Float32Array(count * 3);
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-  return colors;
-}
-
-function updateOverlayColors(colorArray, progressAttr, activeWeight, lightPos, memoryWeight) {
-  const iceR = ICE.r;
-  const iceG = ICE.g;
-  const iceB = ICE.b;
-  const goldR = GOLD.r;
-  const goldG = GOLD.g;
-  const goldB = GOLD.b;
-
+function updateEmissiveColors(colorArray, progressAttr, activeWeight, lightPos, memory) {
   for (let i = 0; i < progressAttr.length; i += 1) {
     const p = progressAttr[i];
     const dist = p - lightPos;
-    const band = Math.exp(-(dist * dist) / 0.018) * activeWeight;
-    const memory = memoryWeight * 0.12 * Math.exp(-((p - 0.7) ** 2) / 0.08);
-    const intensity = Math.min(1, band * 0.85 + memory);
+    const band = Math.exp(-(dist * dist) / 0.022) * activeWeight;
+    const mem = memory * 0.14 * Math.exp(-((p - 0.65) ** 2) / 0.1);
+    const intensity = Math.min(1, band * 0.9 + mem);
 
-    const mix = band / (intensity + 0.0001);
-    const r = lerp(iceR, goldR, mix * activeWeight) * intensity;
-    const g = lerp(iceG, goldG, mix * activeWeight) * intensity;
-    const b = lerp(iceB, goldB, mix * activeWeight) * intensity;
-
-    colorArray[i * 3] = r;
-    colorArray[i * 3 + 1] = g;
-    colorArray[i * 3 + 2] = b;
+    const mix = activeWeight > 0.01 ? band / (intensity + 0.0001) : 0;
+    colorArray[i * 3] = lerp(ICE.r, GOLD.r, mix) * intensity;
+    colorArray[i * 3 + 1] = lerp(ICE.g, GOLD.g, mix) * intensity;
+    colorArray[i * 3 + 2] = lerp(ICE.b, GOLD.b, mix) * intensity;
   }
 }
 
-const RIBBON_DEFS = [
-  {
-    name: 'financiamiento',
-    color: COLORS.navyDark,
-    twist: 0.08,
-    basePos: { x: 0, y: 0, z: 0 },
-    baseRot: { x: 0.04, y: -0.12, z: 0.02 },
-    brandPull: { x: 0.06, y: -0.04, z: 0.02 },
-    points: [
-      { x: 1.35, y: -1.35, z: -0.55 },
-      { x: 0.95, y: -0.55, z: -0.28 },
-      { x: 0.45, y: 0.25, z: -0.08 },
-      { x: 0.05, y: 0.85, z: 0.06 },
-      { x: -0.25, y: 1.15, z: 0.12 },
-      { x: -0.45, y: 1.05, z: 0.08 },
-    ],
-  },
-  {
-    name: 'liquidez',
-    color: COLORS.navySteel,
-    twist: -0.05,
-    basePos: { x: 0.05, y: -0.05, z: 0.04 },
-    baseRot: { x: -0.02, y: -0.08, z: -0.01 },
-    brandPull: { x: 0.05, y: 0.02, z: 0.01 },
-    points: [
-      { x: 1.55, y: 0.05, z: -0.35 },
-      { x: 1.05, y: 0.22, z: -0.12 },
-      { x: 0.45, y: 0.12, z: 0.05 },
-      { x: -0.05, y: 0.35, z: 0.14 },
-      { x: -0.45, y: 0.72, z: 0.1 },
-      { x: -0.68, y: 0.95, z: 0.06 },
-    ],
-  },
-  {
-    name: 'medios',
-    color: COLORS.navy,
-    twist: 0.04,
-    basePos: { x: -0.04, y: 0.06, z: -0.03 },
-    baseRot: { x: 0.03, y: -0.1, z: 0.015 },
-    brandPull: { x: 0.04, y: -0.03, z: 0.02 },
-    points: [
-      { x: 1.45, y: 1.15, z: -0.45 },
-      { x: 1.0, y: 0.88, z: -0.18 },
-      { x: 0.4, y: 0.58, z: 0.04 },
-      { x: -0.08, y: 0.42, z: 0.16 },
-      { x: -0.42, y: 0.55, z: 0.12 },
-      { x: -0.58, y: 0.88, z: 0.08 },
-    ],
-  },
-  {
-    name: 'ia',
-    color: COLORS.navyWarm,
-    twist: -0.07,
-    basePos: { x: 0.02, y: 0.02, z: -0.06 },
-    baseRot: { x: -0.03, y: -0.14, z: 0.025 },
-    brandPull: { x: 0.07, y: -0.02, z: 0.04 },
-    points: [
-      { x: 1.65, y: 0.35, z: -1.05 },
-      { x: 1.15, y: 0.18, z: -0.62 },
-      { x: 0.55, y: 0.42, z: -0.28 },
-      { x: 0.02, y: 0.58, z: -0.05 },
-      { x: -0.32, y: 0.82, z: 0.04 },
-      { x: -0.5, y: 1.0, z: 0.02 },
-    ],
-  },
-];
+function createFilament(def, quality) {
+  const curve = new THREE.CatmullRomCurve3(def.points, false, 'catmullrom', 0.42);
+  const geometry = new THREE.TubeGeometry(
+    curve,
+    quality.tubeSegments,
+    def.radius * quality.tubeRadius / 0.018,
+    quality.tubeRadial,
+    false,
+  );
 
-function cameraState(progress, mobile) {
-  const brandT = smoothstep(0.72, 0.93, progress);
-  const exitT = smoothstep(0.91, 1, progress);
-  const introT = smoothstep(0, 0.27, progress);
-  const chapterT = smoothstep(0.27, 0.71, progress);
+  const progressAttr = new Float32Array(geometry.attributes.position.count);
+  const positions = geometry.attributes.position;
+  let yMin = Infinity;
+  let yMax = -Infinity;
 
-  const posX = lerp(1.85, 1.55, chapterT) + brandT * 0.2 + exitT * 0.12;
-  const posY = lerp(0.42, 0.3, chapterT) - brandT * 0.05 + (mobile ? 0.18 : 0);
-  const posZ = lerp(3.85, 3.05, chapterT) + brandT * 0.4 + exitT * 0.22;
+  for (let i = 0; i < positions.count; i += 1) {
+    const y = positions.getY(i);
+    yMin = Math.min(yMin, y);
+    yMax = Math.max(yMax, y);
+  }
 
-  const lookX = lerp(0.35, 0.18, chapterT) + brandT * 0.02;
-  const lookY = lerp(0.38, 0.48, chapterT) + (mobile ? 0.1 : 0);
-  const lookZ = lerp(-0.05, 0.05, chapterT);
+  const ySpan = yMax - yMin || 1;
+  for (let i = 0; i < positions.count; i += 1) {
+    progressAttr[i] = (positions.getY(i) - yMin) / ySpan;
+  }
+  geometry.setAttribute('aProgress', new THREE.BufferAttribute(progressAttr, 1));
 
-  return { posX, posY, posZ, lookX, lookY, lookZ, brandT, exitT, introT };
+  const baseColor = new THREE.Color(def.baseHex);
+  const { colors } = initTubeColors(geometry, baseColor, progressAttr);
+
+  const material = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff,
+    metalness: 0.52,
+    roughness: 0.28,
+    clearcoat: 0.65,
+    clearcoatRoughness: 0.32,
+    transparent: true,
+    opacity: 0.94,
+    vertexColors: true,
+    side: THREE.DoubleSide,
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+
+  const glowGeo = geometry.clone();
+  const glowColors = new Float32Array(colors.length);
+  glowGeo.setAttribute('color', new THREE.BufferAttribute(glowColors, 3));
+
+  const glowMat = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.48,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  });
+
+  const glow = new THREE.Mesh(glowGeo, glowMat);
+  const group = new THREE.Group();
+  group.add(mesh, glow);
+
+  return {
+    group,
+    mesh,
+    glow,
+    glowColors,
+    progressAttr: glowGeo.attributes.aProgress.array,
+    curve,
+    def,
+    spreadAxis: def.spreadAxis,
+    spreadAmount: def.spreadAmount,
+  };
+}
+
+function buildFilaments(count, quality, rng) {
+  const palette = [PALETTE.navyDark, PALETTE.navy, PALETTE.navyMedium, 0x0d2844];
+  const filaments = [];
+
+  for (let i = 0; i < count; i += 1) {
+    const points = generateFilamentPoints(i, count, rng);
+    filaments.push(
+      createFilament(
+        {
+          index: i,
+          chapter: i % 4,
+          points,
+          baseHex: palette[i % palette.length],
+          radius: 0.82 + (i % 3) * 0.12 + rng() * 0.18,
+          spreadAxis: i % 2 === 0 ? 'x' : 'z',
+          spreadAmount: 0.06 + (i % 5) * 0.018,
+          phase: rng() * Math.PI * 2,
+        },
+        quality,
+      ),
+    );
+  }
+
+  return filaments;
+}
+
+function createParticleField(count, rng, bounds) {
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+  const seeds = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i += 1) {
+    const cluster = i % 4;
+    const angle = rng() * Math.PI * 2;
+    const radius = 0.15 + rng() * 0.55;
+    const y = lerp(bounds.yMin, bounds.yMax, rng());
+
+    positions[i * 3] = bounds.cx + Math.cos(angle) * radius + (rng() - 0.5) * 0.35;
+    positions[i * 3 + 1] = y;
+    positions[i * 3 + 2] = bounds.cz + Math.sin(angle) * radius * 0.65 + (rng() - 0.5) * 0.28;
+
+    const goldish = rng() > 0.82;
+    const c = goldish ? GOLD : ICE;
+    const dim = 0.35 + rng() * 0.55;
+    colors[i * 3] = c.r * dim;
+    colors[i * 3 + 1] = c.g * dim;
+    colors[i * 3 + 2] = c.b * dim;
+
+    seeds[i * 3] = rng() * Math.PI * 2;
+    seeds[i * 3 + 1] = 0.4 + rng() * 0.8;
+    seeds[i * 3 + 2] = cluster;
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const material = new THREE.PointsMaterial({
+    size: 0.028,
+    sizeAttenuation: true,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.72,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+
+  return { points: new THREE.Points(geometry, material), seeds, positions, basePositions: positions.slice(), colors };
+}
+
+function createArcLines(count, rng) {
+  const group = new THREE.Group();
+  const material = new THREE.LineBasicMaterial({
+    color: PALETTE.iceBlue,
+    transparent: true,
+    opacity: 0.14,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+
+  for (let i = 0; i < count; i += 1) {
+    const y = -0.6 + (i / Math.max(count - 1, 1)) * 2.4;
+    const pts = [];
+    const segments = 12;
+    for (let s = 0; s <= segments; s += 1) {
+      const t = s / segments;
+      const x = 0.35 + t * 0.95 + Math.sin(t * Math.PI * 2 + i) * 0.08;
+      const z = -0.2 + Math.sin(t * Math.PI + rng() * 0.5) * 0.35;
+      pts.push(new THREE.Vector3(x, y + Math.sin(t * Math.PI) * 0.12, z));
+    }
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    group.add(new THREE.Line(geo, material.clone()));
+  }
+
+  return group;
 }
 
 export function createHeroThreeScene({ canvas, root }) {
@@ -285,7 +286,7 @@ export function createHeroThreeScene({ canvas, root }) {
     renderer = new THREE.WebGLRenderer({
       canvas,
       alpha: true,
-      antialias: false,
+      antialias: quality.desktop,
       powerPreference: 'high-performance',
       premultipliedAlpha: true,
     });
@@ -300,12 +301,16 @@ export function createHeroThreeScene({ canvas, root }) {
 
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.9;
+  renderer.toneMappingExposure = 0.88;
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(42, 1, 0.15, 32);
+  scene.fog = new THREE.FogExp2(PALETTE.blackBlue, 0.075);
+
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.12, 40);
   const sculptureGroup = new THREE.Group();
+  const filamentGroup = new THREE.Group();
+  sculptureGroup.add(filamentGroup);
   scene.add(sculptureGroup);
 
   const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -315,86 +320,51 @@ export function createHeroThreeScene({ canvas, root }) {
   scene.environment = envRT.texture;
   envScene.dispose?.();
 
-  const hemi = new THREE.HemisphereLight(0x8fb2d6, 0x01040a, 0.38);
-  const key = new THREE.DirectionalLight(0x9ec0e6, 0.48);
-  key.position.set(2.8, 4.2, 3.5);
-  const fill = new THREE.DirectionalLight(0x1b3a5c, 0.22);
-  fill.position.set(-2.5, 1.2, 2.8);
-  const accent = new THREE.PointLight(0xd2b775, 0, 9);
-  accent.position.set(0.4, 0.9, 0.6);
-  scene.add(hemi, key, fill, accent);
+  const hemi = new THREE.HemisphereLight(PALETTE.iceBlue, PALETTE.blackBlue, 0.34);
+  const key = new THREE.DirectionalLight(0x9ec0e6, 0.42);
+  key.position.set(2.4, 4.8, 3.2);
+  const rim = new THREE.DirectionalLight(PALETTE.gold, 0.18);
+  rim.position.set(-1.8, 2.2, -2.4);
+  const accent = new THREE.PointLight(PALETTE.gold, 0.15, 8);
+  accent.position.set(0.85, 1.2, 0.35);
+  scene.add(hemi, key, rim, accent);
 
-  const ribbons = [];
-  const tempColor = new THREE.Color();
+  const rng = createRng(42857);
+  const filaments = buildFilaments(quality.filamentCount, quality, rng);
+  filaments.forEach((filament) => filamentGroup.add(filament.group));
 
-  RIBBON_DEFS.forEach((def, index) => {
-    const { geometry } = createRibbonGeometry({
-      points: def.points,
-      width: quality.width,
-      thickness: quality.thickness,
-      segments: quality.segments,
-      twist: def.twist,
-    });
+  const arcLines = createArcLines(quality.arcCount, rng);
+  sculptureGroup.add(arcLines);
 
-    tempColor.setHex(def.color);
-    setBaseVertexColors(geometry, tempColor);
-
-    const material = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      metalness: 0.45,
-      roughness: 0.22,
-      clearcoat: 0.8,
-      clearcoatRoughness: 0.24,
-      side: THREE.DoubleSide,
-      vertexColors: true,
-    });
-
-    const mesh = new THREE.Mesh(geometry, material);
-
-    const overlayGeo = geometry.clone();
-    const overlayColors = initOverlayColors(overlayGeo);
-    const overlayMat = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.55,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-    });
-    const overlay = new THREE.Mesh(overlayGeo, overlayMat);
-
-    const group = new THREE.Group();
-    group.add(mesh, overlay);
-    group.position.set(def.basePos.x, def.basePos.y, def.basePos.z);
-    group.rotation.set(def.baseRot.x, def.baseRot.y, def.baseRot.z);
-    sculptureGroup.add(group);
-
-    ribbons.push({
-      group,
-      mesh,
-      overlay,
-      overlayColors,
-      progressAttr: overlayGeo.attributes.aRibbonProgress.array,
-      def,
-      index,
-    });
-  });
+  const particleField = createParticleField(
+    quality.particleCount,
+    rng,
+    { cx: 0.72, cz: -0.08, yMin: -1.4, yMax: 2.1 },
+  );
+  sculptureGroup.add(particleField.points);
 
   if (quality.mobile) {
-    sculptureGroup.position.set(0.35, 0.42, 0);
-    sculptureGroup.rotation.y = 0.38;
-    sculptureGroup.scale.setScalar(0.88);
+    sculptureGroup.position.set(0.28, 0.35, 0);
+    sculptureGroup.rotation.y = 0.32;
+    sculptureGroup.scale.setScalar(0.86);
   } else if (quality.tablet) {
-    sculptureGroup.position.set(0.42, 0.05, 0);
-    sculptureGroup.rotation.y = 0.42;
-    sculptureGroup.scale.setScalar(0.94);
+    sculptureGroup.position.set(0.38, 0.08, 0);
+    sculptureGroup.rotation.y = 0.38;
+    sculptureGroup.scale.setScalar(0.92);
   } else {
-    sculptureGroup.position.set(0.12, -0.05, 0);
-    sculptureGroup.rotation.y = 0.48;
+    sculptureGroup.position.set(0.18, -0.08, 0);
+    sculptureGroup.rotation.y = 0.42;
   }
 
-  let targetProgress = 0;
+  let composer = null;
+  let bloomPass = null;
+  if (quality.bloom) {
+    composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.32, 0.42, 0.84);
+    composer.addPass(bloomPass);
+  }
+
   let currentProgress = 0;
   let pointerTarget = { x: 0, y: 0 };
   let pointerCurrent = { x: 0, y: 0 };
@@ -406,85 +376,145 @@ export function createHeroThreeScene({ canvas, root }) {
   let disposed = false;
   let restoredOnce = false;
 
+  const camPos = [0, 0, 0];
+  const camLook = [0, 0, 0];
   const lookAt = new THREE.Vector3();
+  const camKeys = cameraKeyframes();
 
   function applySceneState() {
     const p = currentProgress;
     const weights = CHAPTER_WINDOWS.map(([start, end]) => chapterWeight(p, start, end));
     const brandT = smoothstep(0.72, 0.93, p);
-    const exitT = smoothstep(0.91, 1, p);
-    const alignT = weights[3] * 0.6 + brandT * 0.4;
+    const exitT = smoothstep(0.93, 1, p);
+    const introT = smoothstep(0, 0.25, p);
+    const chapterT = smoothstep(0.27, 0.71, p);
+    const flowT = smoothstep(0.38, 0.49, p);
+    const connectT = smoothstep(0.49, 0.6, p);
+    const aiT = smoothstep(0.6, 0.71, p);
 
-    ribbons.forEach((ribbon, i) => {
-      const w = weights[i];
-      const [, end] = CHAPTER_WINDOWS[i];
-      const past = p > end ? smoothstep(end, end + 0.04, p) : 0;
+    interpolateKeyframes(camKeys, p, camPos, camLook);
 
-      let lightPos = 0.08;
+    filaments.forEach((filament) => {
+      const chapter = filament.def.chapter;
+      const w = weights[chapter];
+      const [, end] = CHAPTER_WINDOWS[chapter];
+      const past = p > end ? smoothstep(end, end + 0.035, p) : 0;
+
+      let lightPos = 0.06;
       if (w > 0) {
-        const [start] = CHAPTER_WINDOWS[i];
-        const span = CHAPTER_WINDOWS[i][1] - start;
-        lightPos = 0.1 + ((p - start) / span) * 0.78;
+        const [start] = CHAPTER_WINDOWS[chapter];
+        const span = CHAPTER_WINDOWS[chapter][1] - start;
+        lightPos = 0.08 + ((p - start) / span) * 0.82;
       } else if (past > 0) {
-        lightPos = 0.82;
+        lightPos = 0.86;
       }
 
-      updateOverlayColors(ribbon.overlayColors, ribbon.progressAttr, w, lightPos, past);
-      ribbon.overlay.geometry.attributes.color.needsUpdate = true;
+      updateEmissiveColors(filament.glowColors, filament.progressAttr, w, lightPos, past);
+      filament.glow.geometry.attributes.color.needsUpdate = true;
 
-      const lift = i === 0 ? w * 0.07 : 0;
-      const fluid = i === 1 ? w * 0.04 : 0;
+      const spread =
+        w * filament.spreadAmount +
+        flowT * (chapter === 1 ? 0.035 : 0) +
+        connectT * (chapter === 2 ? 0.04 : 0) +
+        aiT * (chapter === 3 ? 0.045 : 0);
 
-      ribbon.group.rotation.x = ribbon.def.baseRot.x + w * 0.05 + alignT * 0.025 + lift;
-      ribbon.group.rotation.y = ribbon.def.baseRot.y + w * 0.035 - alignT * 0.02;
-      ribbon.group.rotation.z = ribbon.def.baseRot.z + (i === 3 ? w * 0.02 : 0);
+      const openX = filament.spreadAxis === 'x' ? spread : spread * 0.35;
+      const openZ = filament.spreadAxis === 'z' ? spread : spread * 0.35;
 
-      ribbon.group.position.x = ribbon.def.basePos.x - brandT * ribbon.def.brandPull.x;
-      ribbon.group.position.y = ribbon.def.basePos.y + lift * 0.5 + fluid - brandT * ribbon.def.brandPull.y;
-      ribbon.group.position.z = ribbon.def.basePos.z - brandT * ribbon.def.brandPull.z;
+      filament.group.position.x = Math.sin(filament.def.phase + p * 0.6) * openX * 0.4;
+      filament.group.position.z = Math.cos(filament.def.phase + p * 0.45) * openZ * 0.35;
+      filament.group.rotation.z = w * 0.018 - brandT * 0.008;
 
-      ribbon.group.scale.setScalar(1 + w * 0.025 - exitT * 0.02);
+      const baseOpacity = 0.88 - exitT * 0.35;
+      filament.mesh.material.opacity = baseOpacity;
+      filament.glow.material.opacity = 0.42 + w * 0.22 - exitT * 0.18;
     });
 
-    sculptureGroup.rotation.y = 0.48 + pointerCurrent.x * 0.025 * pointerStrengthCurrent - alignT * 0.018;
-    sculptureGroup.rotation.x = pointerCurrent.y * 0.015 * pointerStrengthCurrent + brandT * 0.012;
-    sculptureGroup.position.y = (quality.mobile ? 0.42 : -0.08) - exitT * 0.12 - brandT * 0.04;
+    const travelY = lerp(0, -1.35, chapterT) - brandT * 0.22 - exitT * 0.18;
+    sculptureGroup.position.y = (quality.mobile ? 0.35 : -0.08) + travelY;
+    sculptureGroup.rotation.y =
+      (quality.mobile ? 0.32 : 0.42) +
+      pointerCurrent.x * 0.022 * pointerStrengthCurrent +
+      chapterT * 0.38 -
+      brandT * 0.12;
+    sculptureGroup.rotation.x =
+      pointerCurrent.y * 0.014 * pointerStrengthCurrent + introT * 0.012 - brandT * 0.008;
 
-    const cam = cameraState(p, quality.mobile);
+    arcLines.rotation.y = chapterT * 0.08;
+    arcLines.children.forEach((line, i) => {
+      line.material.opacity = 0.08 + weights[i % 4] * 0.08 + aiT * 0.04 - exitT * 0.06;
+    });
+
+    const pPos = particleField.positions;
+    const pBase = particleField.basePositions;
+    const pCol = particleField.colors;
+    const pSeeds = particleField.seeds;
+    for (let i = 0; i < quality.particleCount; i += 1) {
+      const cluster = pSeeds[i * 3 + 2];
+      const clusterWeight = weights[cluster] ?? 0;
+      const drift = Math.sin(pSeeds[i * 3] + p * 4.5) * 0.018 * (0.35 + clusterWeight);
+      const driftY = Math.cos(pSeeds[i * 3 + 1] + p * 3.2) * 0.012 * clusterWeight;
+
+      pPos[i * 3] = pBase[i * 3] + drift;
+      pPos[i * 3 + 1] = pBase[i * 3 + 1] + driftY;
+      pPos[i * 3 + 2] = pBase[i * 3 + 2] + drift * 0.45;
+
+      const goldish = pSeeds[i * 3 + 1] > 0.95;
+      const boost = clusterWeight * 0.55 + brandT * 0.08;
+      const c = goldish ? GOLD : ICE;
+      const dim = (0.28 + boost) * (1 - exitT * 0.55);
+      pCol[i * 3] = c.r * dim;
+      pCol[i * 3 + 1] = c.g * dim;
+      pCol[i * 3 + 2] = c.b * dim;
+    }
+    particleField.points.geometry.attributes.position.needsUpdate = true;
+    particleField.points.geometry.attributes.color.needsUpdate = true;
+    particleField.points.material.opacity = 0.55 + chapterT * 0.22 - exitT * 0.35;
+
     camera.position.set(
-      cam.posX + pointerCurrent.x * 0.06 * pointerStrengthCurrent,
-      cam.posY + pointerCurrent.y * 0.04 * pointerStrengthCurrent,
-      cam.posZ,
+      camPos[0] + pointerCurrent.x * 0.05 * pointerStrengthCurrent,
+      camPos[1] + pointerCurrent.y * 0.035 * pointerStrengthCurrent,
+      camPos[2],
     );
-    lookAt.set(cam.lookX, cam.lookY, cam.lookZ);
+    lookAt.set(camLook[0], camLook[1], camLook[2]);
     camera.lookAt(lookAt);
 
-    accent.intensity = weights.reduce((sum, w) => sum + w, 0) * 0.22 + brandT * 0.18;
-    hemi.intensity = 0.38 - exitT * 0.12;
-    key.intensity = 0.48 - exitT * 0.16;
-    renderer.toneMappingExposure = 0.9 - exitT * 0.22 - brandT * 0.04;
+    accent.intensity = 0.12 + weights.reduce((sum, w) => sum + w, 0) * 0.18 + aiT * 0.08;
+    key.intensity = 0.42 - exitT * 0.14 - brandT * 0.06;
+    rim.intensity = 0.18 + chapterT * 0.08 - exitT * 0.1;
+    hemi.intensity = 0.34 - exitT * 0.1;
+    scene.fog.density = 0.075 + exitT * 0.04;
+    renderer.toneMappingExposure = 0.88 - exitT * 0.2 - brandT * 0.05;
+
+    if (bloomPass) {
+      bloomPass.strength = 0.28 + weights.reduce((sum, w) => sum + w, 0) * 0.08 - exitT * 0.16;
+    }
   }
 
   function renderFrame() {
     rafId = 0;
 
-    currentProgress += (targetProgress - currentProgress) * 0.14;
-    pointerCurrent.x += (pointerTarget.x - pointerCurrent.x) * 0.08;
-    pointerCurrent.y += (pointerTarget.y - pointerCurrent.y) * 0.08;
-    pointerStrengthCurrent += (pointerStrengthTarget - pointerStrengthCurrent) * 0.06;
+    pointerCurrent.x += (pointerTarget.x - pointerCurrent.x) * 0.09;
+    pointerCurrent.y += (pointerTarget.y - pointerCurrent.y) * 0.09;
+    pointerStrengthCurrent += (pointerStrengthTarget - pointerStrengthCurrent) * 0.07;
 
     applySceneState();
-    renderer.render(scene, camera);
+
+    if (composer) composer.render();
+    else renderer.render(scene, camera);
 
     const settling =
-      Math.abs(targetProgress - currentProgress) > 0.0005 ||
-      Math.abs(pointerTarget.x - pointerCurrent.x) > 0.0005 ||
-      Math.abs(pointerTarget.y - pointerCurrent.y) > 0.0005 ||
-      Math.abs(pointerStrengthTarget - pointerStrengthCurrent) > 0.0005;
+      Math.abs(pointerTarget.x - pointerCurrent.x) > 0.0004 ||
+      Math.abs(pointerTarget.y - pointerCurrent.y) > 0.0004 ||
+      Math.abs(pointerStrengthTarget - pointerStrengthCurrent) > 0.0004;
 
-    if (settling && !disposed && visible) {
-      invalidate();
-    }
+    if (settling && !disposed && visible) invalidate();
+  }
+
+  function render() {
+    applySceneState();
+    if (composer) composer.render();
+    else renderer.render(scene, camera);
   }
 
   function invalidate() {
@@ -502,7 +532,12 @@ export function createHeroThreeScene({ canvas, root }) {
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    invalidate();
+    if (composer) {
+      composer.setSize(width, height);
+      composer.setPixelRatio(quality.dpr);
+      bloomPass?.setSize(width, height);
+    }
+    render();
   }
 
   const intersectionObserver = new IntersectionObserver(
@@ -518,10 +553,8 @@ export function createHeroThreeScene({ canvas, root }) {
     if (!quality.pointerEnabled || !visible) return;
     const rect = root.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
-    pointerTarget.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    pointerTarget.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
-    pointerTarget.x = THREE.MathUtils.clamp(pointerTarget.x, -1, 1);
-    pointerTarget.y = THREE.MathUtils.clamp(pointerTarget.y, -1, 1);
+    pointerTarget.x = THREE.MathUtils.clamp(((event.clientX - rect.left) / rect.width) * 2 - 1, -1, 1);
+    pointerTarget.y = THREE.MathUtils.clamp(-(((event.clientY - rect.top) / rect.height) * 2 - 1), -1, 1);
     pointerStrengthTarget = 1;
     invalidate();
   }
@@ -558,29 +591,20 @@ export function createHeroThreeScene({ canvas, root }) {
   }
 
   resize();
-  applySceneState();
 
   return {
     setProgress(progress) {
-      targetProgress = THREE.MathUtils.clamp(progress, 0, 1);
-      invalidate();
-    },
-
-    setPointer(x, y) {
-      pointerTarget.x = THREE.MathUtils.clamp(x, -1, 1);
-      pointerTarget.y = THREE.MathUtils.clamp(y, -1, 1);
-      invalidate();
+      currentProgress = THREE.MathUtils.clamp(progress, 0, 1);
+      render();
     },
 
     resize,
 
     renderOnce() {
-      currentProgress = targetProgress;
       pointerCurrent.x = pointerTarget.x;
       pointerCurrent.y = pointerTarget.y;
       pointerStrengthCurrent = pointerStrengthTarget;
-      applySceneState();
-      renderer.render(scene, camera);
+      render();
     },
 
     destroy() {
@@ -596,13 +620,22 @@ export function createHeroThreeScene({ canvas, root }) {
       root.removeEventListener('pointermove', onPointerMove);
       root.removeEventListener('pointerleave', onPointerLeave);
 
-      ribbons.forEach((ribbon) => {
-        ribbon.mesh.geometry.dispose();
-        ribbon.mesh.material.dispose();
-        ribbon.overlay.geometry.dispose();
-        ribbon.overlay.material.dispose();
+      filaments.forEach((filament) => {
+        filament.mesh.geometry.dispose();
+        filament.mesh.material.dispose();
+        filament.glow.geometry.dispose();
+        filament.glow.material.dispose();
       });
 
+      arcLines.children.forEach((line) => {
+        line.geometry.dispose();
+        line.material.dispose();
+      });
+
+      particleField.points.geometry.dispose();
+      particleField.points.material.dispose();
+
+      composer?.dispose();
       envRT.dispose();
       pmremGenerator.dispose();
       renderer.dispose();
@@ -611,17 +644,11 @@ export function createHeroThreeScene({ canvas, root }) {
     },
 
     getStats() {
-      let triangles = 0;
-      ribbons.forEach((ribbon) => {
-        const geo = ribbon.mesh.geometry;
-        triangles += geo.index ? geo.index.count / 3 : 0;
-      });
       return {
-        ribbons: ribbons.length,
-        overlays: ribbons.length,
-        segments: quality.segments,
-        drawCalls: ribbons.length * 2,
-        triangles: Math.round(triangles * 2),
+        filaments: filaments.length,
+        particles: quality.particleCount,
+        tubeSegments: quality.tubeSegments,
+        bloom: quality.bloom,
         dpr: quality.dpr,
       };
     },

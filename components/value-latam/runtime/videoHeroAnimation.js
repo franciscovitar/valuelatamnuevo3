@@ -23,6 +23,7 @@ function collectTargets(root) {
     scrollEl: root.querySelector('[data-video-hero-scroll]'),
     stickyEl: root.querySelector('[data-video-hero-sticky]'),
     canvas: root.querySelector('[data-video-hero-canvas]'),
+    imageFallback: root.querySelector('[data-video-hero-fallback]'),
     intro: root.querySelector('[data-video-hero-intro]'),
     eyebrow: root.querySelector('[data-video-hero-eyebrow]'),
     title: root.querySelector('[data-video-hero-title]'),
@@ -114,11 +115,12 @@ function buildUiTimeline(targets, syncScene) {
 }
 
 function initReduced(root, targets) {
-  const { scrollEl, stickyEl, chapters, brand, hint } = targets;
+  const { scrollEl, stickyEl, chapters, brand, hint, imageFallback } = targets;
 
   scrollEl.style.height = 'auto';
   stickyEl.style.minHeight = '100svh';
   gsap.set([chapters, brand, hint], { autoAlpha: 0 });
+  if (imageFallback) gsap.set(imageFallback, { autoAlpha: 1 });
 
   root.classList.add(
     'is-video-hero-mounted',
@@ -283,6 +285,7 @@ export function initVideoHeroAnimation() {
       'is-video-hero-active',
       'is-video-ready',
       'is-video-hero-reduced',
+      'is-image-hero-ready',
       'is-webgl-ready',
       'is-webgl-error',
       'is-webgl-reduced',

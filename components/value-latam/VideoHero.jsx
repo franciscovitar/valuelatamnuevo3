@@ -43,6 +43,40 @@ export default function VideoHero() {
               data-video-hero-canvas
               aria-hidden="true"
             />
+
+            <div
+              className="video-hero__image-system"
+              data-video-hero-fallback
+              aria-hidden="true"
+            >
+              <div className="video-hero__image-base" data-video-hero-image-base>
+                <img
+                  src="/hero1.png"
+                  alt=""
+                  width={1920}
+                  height={1080}
+                  decoding="async"
+                  draggable={false}
+                />
+              </div>
+
+              {['hero2', 'hero3', 'hero4', 'hero5'].map((asset, index) => (
+                <div
+                  key={asset}
+                  className="video-hero__image-layer"
+                  data-video-hero-image-layer={index}
+                >
+                  <img
+                    src={`/${asset}.png`}
+                    alt=""
+                    width={1920}
+                    height={1080}
+                    decoding="async"
+                    draggable={false}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="video-hero__overlay" aria-hidden="true" />

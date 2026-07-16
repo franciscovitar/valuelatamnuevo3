@@ -1,5 +1,9 @@
 // Video Hero — editorial left-rail, scroll-scrubbed
 
+body:has(.video-hero) header.nav {
+  border-bottom: none;
+}
+
 .video-hero {
   position: relative;
   background: #01040a;
@@ -68,11 +72,16 @@
   display: block;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.45s ease;
 }
 
 .video-hero.is-webgl-ready .video-hero__canvas {
   opacity: 1;
+}
+
+.video-hero.is-webgl-ready .video-hero__image-system {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .video-hero.is-webgl-error .video-hero__canvas,
@@ -80,7 +89,58 @@
   opacity: 0;
 }
 
+.video-hero.is-webgl-error .video-hero__image-system,
+.video-hero.is-webgl-reduced .video-hero__image-system {
+  opacity: 1;
+  visibility: visible;
+}
+
+.video-hero__image-system {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease;
+}
+
+.video-hero__image-base,
+.video-hero__image-layer {
+  position: absolute;
+  inset: -5%;
+  overflow: hidden;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 74% 48%;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}
+
+.video-hero__image-layer {
+  visibility: hidden;
+  opacity: 0;
+}
+
 @media (max-width: 767px) {
+  .video-hero__image-base img,
+  .video-hero__image-layer img {
+    object-position: 62% 42%;
+  }
+
+  .video-hero__image-base,
+  .video-hero__image-layer {
+    inset: -3%;
+  }
+
   .video-hero__css-fallback {
     background:
       radial-gradient(
@@ -426,6 +486,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .video-hero.is-video-hero-reduced .video-hero__image-layer {
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+
+  .video-hero.is-video-hero-reduced .video-hero__image-base {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .video-hero.is-video-hero-reduced .video-hero__chapters,
   .video-hero.is-video-hero-reduced .video-hero__brand,
   .video-hero.is-video-hero-reduced .video-hero__scroll-hint {
