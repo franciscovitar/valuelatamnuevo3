@@ -23,8 +23,6 @@ function collectTargets(root) {
     scrollEl: root.querySelector('[data-video-hero-scroll]'),
     stickyEl: root.querySelector('[data-video-hero-sticky]'),
     canvas: root.querySelector('[data-video-hero-canvas]'),
-    fallback: root.querySelector('[data-video-hero-fallback]'),
-    fallbackImage: root.querySelector('[data-video-hero-fallback-image]'),
     intro: root.querySelector('[data-video-hero-intro]'),
     eyebrow: root.querySelector('[data-video-hero-eyebrow]'),
     title: root.querySelector('[data-video-hero-title]'),
@@ -115,42 +113,12 @@ function buildUiTimeline(targets, syncScene) {
   return tl;
 }
 
-function waitForFallbackImage(image) {
-  return new Promise((resolve) => {
-    if (!image) {
-      resolve(false);
-      return;
-    }
-
-    if (image.complete && image.naturalWidth > 0) {
-      resolve(true);
-      return;
-    }
-
-    const finish = (ok) => {
-      image.removeEventListener('load', onLoad);
-      image.removeEventListener('error', onError);
-      resolve(ok);
-    };
-
-    const onLoad = () => finish(image.naturalWidth > 0);
-    const onError = () => finish(false);
-
-    image.addEventListener('load', onLoad, { once: true });
-    image.addEventListener('error', onError, { once: true });
-  });
-}
-
 function initReduced(root, targets) {
-  const { scrollEl, stickyEl, fallbackImage, chapters, brand, hint } = targets;
+  const { scrollEl, stickyEl, chapters, brand, hint } = targets;
 
   scrollEl.style.height = 'auto';
   stickyEl.style.minHeight = '100svh';
   gsap.set([chapters, brand, hint], { autoAlpha: 0 });
-
-  if (fallbackImage) {
-    gsap.set(fallbackImage, { clearProps: 'transform' });
-  }
 
   root.classList.add(
     'is-video-hero-mounted',
@@ -166,25 +134,8 @@ function initReduced(root, targets) {
       'is-video-hero-mounted',
       'is-video-hero-reduced',
       'is-video-ready',
-      'is-video-error',
       'is-webgl-reduced',
     );
-  };
-}
-
-function initStaticFallback(root, targets) {
-  const { fallbackImage } = targets;
-
-  if (fallbackImage) {
-    gsap.set(fallbackImage, { scale: 1, transformOrigin: '58% center' });
-  }
-
-  root.classList.add('is-webgl-error');
-
-  return (progress = 0) => {
-    if (!fallbackImage) return;
-    const scale = 1 + progress * 0.03;
-    gsap.set(fallbackImage, { scale, transformOrigin: '58% center', force3D: true });
   };
 }
 
@@ -193,7 +144,7 @@ export function initVideoHeroAnimation() {
   if (!root) return () => {};
 
   const targets = collectTargets(root);
-  const { scrollEl, stickyEl, canvas, fallbackImage, cta } = targets;
+  const { scrollEl, stickyEl, canvas, cta } = targets;
 
   if (!scrollEl || !stickyEl) return () => {};
 
@@ -211,27 +162,9 @@ export function initVideoHeroAnimation() {
   let goldSweepCleanup = () => {};
   let reducedCleanup = null;
   let sceneController = null;
-  let syncStaticFallback = null;
-
-  const markFallbackReady = () => {
-    if (disposed || root.classList.contains('is-video-ready')) return;
-    root.classList.add('is-video-ready');
-    if (fallbackImage) {
-      gsap.to(fallbackImage, { opacity: 1, duration: 0.42, ease: 'power2.out' });
-    }
-  };
-
-  const markWebglReady = () => {
-    if (disposed || root.classList.contains('is-webgl-ready')) return;
-    root.classList.add('is-webgl-ready');
-  };
 
   const syncScene = (progress) => {
-    if (sceneController) {
-      sceneController.setProgress(progress);
-      return;
-    }
-    syncStaticFallback?.(progress);
+    sceneController?.setProgress(progress);
   };
 
   const setupScroll = () => {
@@ -296,31 +229,23 @@ export function initVideoHeroAnimation() {
     resizeObserver.observe(stickyEl);
   };
 
-  const boot = async () => {
-    const fallbackReady = await waitForFallbackImage(fallbackImage);
-
+  const boot = () => {
     if (disposed) return;
 
-    if (!fallbackReady) {
-      reducedCleanup = initReduced(root, targets);
+    if (!canvas) {
+      root.classList.add('is-webgl-error', 'is-video-ready');
+      setupScroll();
       return;
     }
 
-    markFallbackReady();
-
-    sceneController = createHeroThreeScene({
-      canvas,
-      root,
-      fallback: targets.fallback,
-    });
+    sceneController = createHeroThreeScene({ canvas, root });
 
     if (sceneController) {
       sceneController.renderOnce();
-      markWebglReady();
+      root.classList.add('is-webgl-ready', 'is-video-ready');
       sceneController.start();
     } else {
-      syncStaticFallback = initStaticFallback(root, targets);
-      root.classList.add('is-webgl-error');
+      root.classList.add('is-webgl-error', 'is-video-ready');
     }
 
     setupScroll();
@@ -338,7 +263,6 @@ export function initVideoHeroAnimation() {
 
     sceneController?.destroy();
     sceneController = null;
-    syncStaticFallback = null;
 
     mainTrigger?.kill();
     mainTrigger = null;
@@ -354,14 +278,11 @@ export function initVideoHeroAnimation() {
 
     scrollEl.style.height = '';
     stickyEl.style.removeProperty('min-height');
-    fallbackImage?.style.removeProperty('transform');
-    fallbackImage?.style.removeProperty('opacity');
 
     root.classList.remove(
       'is-video-hero-mounted',
       'is-video-hero-active',
       'is-video-ready',
-      'is-video-error',
       'is-video-hero-reduced',
       'is-webgl-ready',
       'is-webgl-error',

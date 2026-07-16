@@ -32,22 +32,11 @@ export default function VideoHero() {
       <div className="video-hero__scroll" data-video-hero-scroll>
         <div className="video-hero__sticky" data-video-hero-sticky>
           <div className="video-hero__media">
-            <picture
-              className="video-hero__fallback"
-              data-video-hero-fallback
-            >
-              <source media="(max-width: 767px)" srcSet="/hero-city-mobile.webp" />
-              <img
-                className="video-hero__fallback-image"
-                data-video-hero-fallback-image
-                src="/hero-city-desktop.webp"
-                alt=""
-                aria-hidden="true"
-                fetchPriority="high"
-                decoding="async"
-                draggable={false}
-              />
-            </picture>
+            <div
+              className="video-hero__css-fallback"
+              data-video-hero-css-fallback
+              aria-hidden="true"
+            />
 
             <canvas
               className="video-hero__canvas"
