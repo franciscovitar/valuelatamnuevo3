@@ -33,12 +33,12 @@ function getQuality() {
     desktop,
     filamentCount: mobile ? 8 : tablet ? 11 : 14,
     tubeSegments: mobile ? 48 : tablet ? 64 : 80,
-    tubeRadial: mobile ? 6 : tablet ? 8 : 10,
+    tubeRadial: mobile ? 6 : tablet ? 6 : 7,
     tubeRadius: mobile ? 0.014 : tablet ? 0.016 : 0.018,
     particleCount: mobile ? 72 : tablet ? 160 : 320,
     arcCount: mobile ? 4 : tablet ? 7 : 10,
     dpr: mobile ? 1 : tablet ? 1.1 : Math.min(window.devicePixelRatio || 1, 1.35),
-    bloom: desktop,
+    bloom: false,
     pointerEnabled: window.matchMedia(POINTER_QUERY).matches,
   };
 }
@@ -50,10 +50,10 @@ function generateFilamentPoints(index, total, rng) {
   const yMax = 2.45;
   const phase = index * 0.81 + rng() * 0.6;
   const lane = index / Math.max(total - 1, 1);
-  const baseX = 0.42 + lane * 0.38 + (rng() - 0.5) * 0.12;
-  const baseZ = -0.32 + (index % 4) * 0.11 + (rng() - 0.5) * 0.28;
-  const ampX = 0.14 + rng() * 0.2;
-  const ampZ = 0.1 + rng() * 0.16;
+  const baseX = 0.36 + lane * 0.5 + (rng() - 0.5) * 0.16;
+  const baseZ = -0.52 + (index % 4) * 0.18 + (rng() - 0.5) * 0.36;
+  const ampX = 0.11 + rng() * 0.15;
+  const ampZ = 0.08 + rng() * 0.13;
 
   for (let i = 0; i < nodeCount; i += 1) {
     const t = i / (nodeCount - 1);
@@ -90,12 +90,12 @@ function updateEmissiveColors(colorArray, progressAttr, activeWeight, lightPos, 
     const dist = p - lightPos;
     const band = Math.exp(-(dist * dist) / 0.022) * activeWeight;
     const mem = memory * 0.14 * Math.exp(-((p - 0.65) ** 2) / 0.1);
-    const intensity = Math.min(1, band * 0.9 + mem);
+    const intensity = Math.min(0.72, band * 0.62 + mem * 0.85);
 
-    const mix = activeWeight > 0.01 ? band / (intensity + 0.0001) : 0;
-    colorArray[i * 3] = lerp(ICE.r, GOLD.r, mix) * intensity;
-    colorArray[i * 3 + 1] = lerp(ICE.g, GOLD.g, mix) * intensity;
-    colorArray[i * 3 + 2] = lerp(ICE.b, GOLD.b, mix) * intensity;
+    const mix = activeWeight > 0.01 ? Math.min(1, band * 1.15) : 0;
+    colorArray[i * 3] = lerp(ICE.r * 0.55, GOLD.r * 0.82, mix) * intensity;
+    colorArray[i * 3 + 1] = lerp(ICE.g * 0.55, GOLD.g * 0.82, mix) * intensity;
+    colorArray[i * 3 + 2] = lerp(ICE.b * 0.55, GOLD.b * 0.82, mix) * intensity;
   }
 }
 
@@ -104,7 +104,7 @@ function createFilament(def, quality) {
   const geometry = new THREE.TubeGeometry(
     curve,
     quality.tubeSegments,
-    def.radius * quality.tubeRadius / 0.018,
+    def.radius * quality.tubeRadius,
     quality.tubeRadial,
     false,
   );
@@ -131,12 +131,12 @@ function createFilament(def, quality) {
 
   const material = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
-    metalness: 0.52,
-    roughness: 0.28,
-    clearcoat: 0.65,
-    clearcoatRoughness: 0.32,
+    metalness: 0.18,
+    roughness: 0.68,
+    clearcoat: 0.14,
+    clearcoatRoughness: 0.62,
     transparent: true,
-    opacity: 0.94,
+    opacity: 0.48,
     vertexColors: true,
     side: THREE.DoubleSide,
   });
@@ -151,7 +151,7 @@ function createFilament(def, quality) {
     color: 0xffffff,
     vertexColors: true,
     transparent: true,
-    opacity: 0.48,
+    opacity: 0.58,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
     side: THREE.DoubleSide,
@@ -187,9 +187,9 @@ function buildFilaments(count, quality, rng) {
           chapter: i % 4,
           points,
           baseHex: palette[i % palette.length],
-          radius: 0.82 + (i % 3) * 0.12 + rng() * 0.18,
+          radius: 0.82 + (i % 3) * 0.1 + rng() * 0.14,
           spreadAxis: i % 2 === 0 ? 'x' : 'z',
-          spreadAmount: 0.06 + (i % 5) * 0.018,
+          spreadAmount: 0.08 + (i % 5) * 0.022,
           phase: rng() * Math.PI * 2,
         },
         quality,
@@ -236,7 +236,7 @@ function createParticleField(count, rng, bounds) {
     sizeAttenuation: true,
     vertexColors: true,
     transparent: true,
-    opacity: 0.72,
+    opacity: 0.32,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
   });
@@ -249,7 +249,7 @@ function createArcLines(count, rng) {
   const material = new THREE.LineBasicMaterial({
     color: PALETTE.iceBlue,
     transparent: true,
-    opacity: 0.14,
+    opacity: 0.06,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
   });
@@ -394,6 +394,11 @@ export function createHeroThreeScene({ canvas, root }) {
 
     interpolateKeyframes(camKeys, p, camPos, camLook);
 
+    const chapterPull = chapterT * (1 - brandT * 0.4);
+    camPos[0] += 0.12 + chapterPull * 0.08;
+    camPos[1] += chapterPull * 0.22;
+    camPos[2] += chapterPull * 1.85;
+
     filaments.forEach((filament) => {
       const chapter = filament.def.chapter;
       const w = weights[chapter];
@@ -425,9 +430,9 @@ export function createHeroThreeScene({ canvas, root }) {
       filament.group.position.z = Math.cos(filament.def.phase + p * 0.45) * openZ * 0.35;
       filament.group.rotation.z = w * 0.018 - brandT * 0.008;
 
-      const baseOpacity = 0.88 - exitT * 0.35;
+      const baseOpacity = 0.42 - exitT * 0.22;
       filament.mesh.material.opacity = baseOpacity;
-      filament.glow.material.opacity = 0.42 + w * 0.22 - exitT * 0.18;
+      filament.glow.material.opacity = 0.52 + w * 0.28 - exitT * 0.22;
     });
 
     const travelY = lerp(0, -1.35, chapterT) - brandT * 0.22 - exitT * 0.18;
@@ -442,7 +447,7 @@ export function createHeroThreeScene({ canvas, root }) {
 
     arcLines.rotation.y = chapterT * 0.08;
     arcLines.children.forEach((line, i) => {
-      line.material.opacity = 0.08 + weights[i % 4] * 0.08 + aiT * 0.04 - exitT * 0.06;
+      line.material.opacity = 0.03 + weights[i % 4] * 0.04 + aiT * 0.02 - exitT * 0.02;
     });
 
     const pPos = particleField.positions;
@@ -462,14 +467,14 @@ export function createHeroThreeScene({ canvas, root }) {
       const goldish = pSeeds[i * 3 + 1] > 0.95;
       const boost = clusterWeight * 0.55 + brandT * 0.08;
       const c = goldish ? GOLD : ICE;
-      const dim = (0.28 + boost) * (1 - exitT * 0.55);
+      const dim = (0.14 + boost * 0.35) * (1 - exitT * 0.55);
       pCol[i * 3] = c.r * dim;
       pCol[i * 3 + 1] = c.g * dim;
       pCol[i * 3 + 2] = c.b * dim;
     }
     particleField.points.geometry.attributes.position.needsUpdate = true;
     particleField.points.geometry.attributes.color.needsUpdate = true;
-    particleField.points.material.opacity = 0.55 + chapterT * 0.22 - exitT * 0.35;
+    particleField.points.material.opacity = 0.22 + chapterT * 0.12 - exitT * 0.16;
 
     camera.position.set(
       camPos[0] + pointerCurrent.x * 0.05 * pointerStrengthCurrent,
