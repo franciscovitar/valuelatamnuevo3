@@ -1,9 +1,71 @@
-.sound-toggle{position:fixed;right:18px;bottom:18px;z-index:60;display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:var(--paper);border:1px solid rgba(246,243,236,.18);border-radius:30px;padding:10px 16px;font-family: var(--font-sans);font-size:12px;letter-spacing:.06em;cursor:pointer;box-shadow:0 12px 30px -12px rgba(11,33,41,.45);transition:transform .2s}
+.sound-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 72px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid rgba(246, 243, 236, 0.18);
+  border-radius: 30px;
+  padding: 10px 16px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  box-shadow: 0 12px 30px -12px rgba(11, 33, 41, 0.45);
+  transition: transform 0.2s;
+}
 
-  .sound-toggle:hover{transform:translateY(-2px)}
+.sound-toggle:hover {
+  transform: translateY(-2px);
+}
 
-  .sound-toggle .sicon{width:13px;height:13px;border-radius:50%;border:2px solid var(--brass-2);transition:background .25s,box-shadow .25s}
+.sound-toggle .sicon {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid var(--brass-2);
+  transition: background 0.25s, box-shadow 0.25s;
+}
 
-  .sound-toggle.on .sicon{background:var(--brass-2);box-shadow:0 0 10px var(--brass-2)}
+.sound-toggle.is-on .sicon {
+  background: var(--brass-2);
+  box-shadow:
+    0 0 0 4px rgba(210, 183, 117, 0.08),
+    0 0 14px rgba(210, 183, 117, 0.48);
+  animation: sound-toggle-breathe 2.8s ease-in-out infinite;
+}
 
-  @media(max-width:560px){.sound-toggle .slabel{display:none}.sound-toggle{padding:12px;right:14px;bottom:14px}}
+@keyframes sound-toggle-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(0.92);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 560px) {
+  .sound-toggle .slabel {
+    display: none;
+  }
+
+  .sound-toggle {
+    padding: 12px;
+    right: max(14px, env(safe-area-inset-right, 0px));
+    bottom: max(72px, calc(58px + env(safe-area-inset-bottom, 0px)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sound-toggle.is-on .sicon {
+    animation: none;
+  }
+}
