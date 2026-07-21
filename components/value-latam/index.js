@@ -12,6 +12,8 @@ export { default as CoverStory } from './CoverStory';
 
 export { default as VideoHero } from './VideoHero';
 
+export { default as CityVideo } from './CityVideo';
+
 export { default as ImageHero } from './ImageHero';
 
 export { default as Intro } from './Intro';

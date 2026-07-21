@@ -15,6 +15,7 @@ import {
   Team,
   ValueLatamRuntime,
   VideoHero,
+  CityVideo,
   // ImageHero retained for rollback:
   // ImageHero,
   WhyUs,
@@ -34,6 +35,7 @@ export default function Home() {
         */}
         <VideoHero />
         <Metrics />
+        <CityVideo />
         <PartnerLogos />
         <Solutions />
         <WhyUs />
