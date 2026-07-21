@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 
 const CITY_REVEAL_EASE = [0.22, 1, 0.36, 1];
-const REVEAL_DELAY_S = 0.48;
+const REVEAL_DELAY_S = 0.12;
 
 const cityHorizontalReveal = {
   hidden: {
@@ -16,7 +16,7 @@ const cityHorizontalReveal = {
     opacity: 1,
     clipPath: 'inset(0 0% 0 0)',
     scale: 1,
-    transition: { duration: 1.15, delay: REVEAL_DELAY_S, ease: CITY_REVEAL_EASE },
+    transition: { duration: 1.05, delay: REVEAL_DELAY_S, ease: CITY_REVEAL_EASE },
   },
 };
 
@@ -35,12 +35,11 @@ export default function CityVideo() {
 
     const revealObserver = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.28) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
           setInView(true);
-          section.classList.add('is-inview');
         }
       },
-      { threshold: [0, 0.28, 0.45], rootMargin: '0px 0px -14% 0px' },
+      { threshold: [0, 0.1, 0.25], rootMargin: '0px 0px -8% 0px' },
     );
 
     revealObserver.observe(section);

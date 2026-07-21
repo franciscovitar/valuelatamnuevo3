@@ -1,12 +1,16 @@
-// City video — transición cinematográfica hero → métricas (reveal horizontal)
+// City video — bloque cinematográfico post-métricas
 
 .city-video {
   position: relative;
   z-index: 1;
-  padding-top: clamp(28px, 4.5vw, 52px);
-  padding-bottom: clamp(52px, 7vw, 96px);
+  padding-top: clamp(12px, 2vw, 24px);
+  padding-bottom: clamp(24px, 3.5vw, 52px);
   overflow: clip;
   background: transparent;
+}
+
+.metrics + .city-video {
+  padding-top: clamp(20px, 3vw, 36px);
 }
 
 .city-video::before {
@@ -27,25 +31,14 @@
 .city-video__reveal {
   position: relative;
   z-index: 1;
-  width: min(92vw, 1640px);
+  width: min(96vw, 1760px);
   margin: 0 auto;
-  will-change: clip-path, transform, opacity;
-}
-
-.city-video.is-inview .city-video__reveal {
-  opacity: 1;
-  clip-path: inset(0 0 0 0);
-  transform: scale(1);
-  transition:
-    opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.48s,
-    clip-path 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.48s,
-    transform 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.48s;
 }
 
 .city-video__frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 8.6;
+  aspect-ratio: 16 / 7.8;
   overflow: hidden;
   background: transparent;
   border: 0;
@@ -67,30 +60,23 @@
   background:
     linear-gradient(
       180deg,
-      rgba(1, 4, 10, 0.08) 0%,
-      rgba(1, 4, 10, 0) 28%,
-      rgba(1, 4, 10, 0) 68%,
-      rgba(1, 4, 10, 0.18) 100%
+      rgba(2, 7, 14, 0.12) 0%,
+      rgba(2, 7, 14, 0) 22%,
+      rgba(2, 7, 14, 0) 72%,
+      rgba(2, 7, 14, 0.22) 100%
     ),
-    linear-gradient(
-      90deg,
-      rgba(10, 33, 56, 0.10) 0%,
-      transparent 18%,
-      transparent 82%,
-      rgba(10, 33, 56, 0.10) 100%
-    );
+    rgba(10, 33, 56, 0.04);
 }
 
 @media (max-width: 1024px) {
   .city-video__frame {
-    aspect-ratio: 16 / 9.5;
+    aspect-ratio: 16 / 9;
   }
 }
 
 @media (max-width: 600px) {
   .city-video {
-    padding-top: clamp(22px, 5vw, 32px);
-    padding-bottom: clamp(40px, 6vw, 56px);
+    padding-bottom: clamp(20px, 3vw, 40px);
   }
 
   .city-video__reveal {
@@ -99,7 +85,7 @@
   }
 
   .city-video__frame {
-    aspect-ratio: 4 / 5.75;
+    aspect-ratio: 4 / 5;
     border-radius: 2px;
   }
 
@@ -109,11 +95,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .city-video__reveal,
-  .city-video.is-inview .city-video__reveal {
+  .city-video__reveal {
     clip-path: none !important;
     transform: none !important;
     opacity: 1 !important;
-    transition: none !important;
   }
 }
