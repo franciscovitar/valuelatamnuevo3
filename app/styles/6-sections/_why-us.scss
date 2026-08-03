@@ -16,7 +16,7 @@
 
   .edge li::before{content:"-";color:var(--brass);font-weight:700}
 
-  .pullquote{background:var(--ink);color:var(--paper);border-radius:3px;padding:42px 38px;position:relative}
+  .pullquote{background:var(--ink);color:var(--paper);border-radius:var(--radius-card-premium);padding:42px 38px;position:relative}
 
   .pullquote .q{font-family:var(--font-fraunces), serif;font-size:25px;line-height:1.34;font-weight:500}
 

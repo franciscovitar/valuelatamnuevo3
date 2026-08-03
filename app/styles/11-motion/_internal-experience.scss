@@ -303,7 +303,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
 
 [data-vl-gsap-root='payments'] .pay-group {
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-card-premium);
   padding: 8px 10px 12px;
   margin-inline: -10px;
   transition: box-shadow 0.3s ease;

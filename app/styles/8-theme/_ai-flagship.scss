@@ -24,7 +24,7 @@
 
   .gain-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
-  .gain{background:var(--ink-2);border:1px solid var(--line-dark);border-radius:5px;padding:24px 22px;transition:transform .2s,border-color .2s}
+  .gain{background:var(--ink-2);border:1px solid var(--line-dark);border-radius:var(--radius-card-premium);padding:24px 22px;transition:transform .2s,border-color .2s}
 
   .gain:hover{transform:translateY(-3px);border-color:var(--azure)}
 

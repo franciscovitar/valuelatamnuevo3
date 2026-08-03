@@ -27,9 +27,9 @@ export default function Home() {
   return (
     <>
       <StructuredData />
-      <BackgroundCanvas />
       <Header />
       <main>
+        <BackgroundCanvas />
         {/* Legacy Hero retained for rollback:
         <CoverStory />
         */}

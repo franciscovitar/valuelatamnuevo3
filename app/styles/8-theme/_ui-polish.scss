@@ -69,11 +69,11 @@
 
   .termsheet, .gain, .jcard, .subunit, .metric, .step, .feat, .pay-hero, .pillar, .pillar-gold,
 
-  .pay-giros, .pay-support, .reassure, .panel, .gico, .edge-card{ border-radius:22px; }
+  .pay-giros, .pay-support, .reassure, .panel, .gico, .edge-card{ border-radius: var(--radius-card-premium); }
 
-  .cta form{ border-radius:24px; }
+  .cta form{ border-radius: var(--radius-card-premium); }
 
-  .pay-feat{ border-radius:16px; }
+  .pay-feat{ border-radius: var(--radius-card-premium); }
 
   .field input, .field select, .field textarea{ border-radius:14px; }
 
@@ -115,7 +115,7 @@
   margin-top: 28px;
   padding: 24px 26px;
   border: 1px solid rgba(246, 243, 236, 0.12);
-  border-radius: 18px;
+  border-radius: var(--radius-card-premium);
   background: rgba(255, 255, 255, 0.025);
 }
 
@@ -132,7 +132,7 @@
     width: 100%;
     box-sizing: border-box;
     padding: 24px 20px;
-    border-radius: 18px;
+    border-radius: var(--radius-card-premium);
   }
 
   [data-vl-internal-page='medios-de-pago'] .pay-hero p {
@@ -149,7 +149,7 @@
     box-sizing: border-box;
     margin-top: 24px;
     padding: 23px 20px;
-    border-radius: 18px;
+    border-radius: var(--radius-card-premium);
   }
 
   [data-vl-internal-page='medios-de-pago'] .pay-support p {
@@ -161,7 +161,7 @@
   [data-vl-internal-page='medios-de-pago'] .pay-giros {
     margin-top: 24px;
     padding: 20px 18px;
-    border-radius: 18px;
+    border-radius: var(--radius-card-premium);
   }
 
   [data-vl-internal-page='medios-de-pago'] .pay-giros p {

@@ -8,7 +8,7 @@
   .cta .reassure{margin-top:30px;display:flex;flex-direction:column;gap:14px}
   .cta .reassure div{display:flex;gap:12px;align-items:center;font-size:15px;color:var(--paper)}
   .cta .reassure .tick{color:var(--brass-2);font-weight:700}
-  form{background:var(--ink-2);border:1px solid var(--line-dark);border-radius:3px;padding:30px}
+  form{background:var(--ink-2);border:1px solid var(--line-dark);border-radius:var(--radius-card-premium);padding:30px}
   .field{margin-bottom:16px}
   .field label{display:block;font-size:13px;color:var(--slate-light);margin-bottom:7px;font-weight:500}
   .field input,.field select,.field textarea{

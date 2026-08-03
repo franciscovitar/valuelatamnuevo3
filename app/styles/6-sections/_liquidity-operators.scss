@@ -54,7 +54,7 @@
   margin: 0;
   background: transparent;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--radius-card-premium);
   box-shadow: none;
   overflow: hidden;
 }
@@ -66,7 +66,7 @@
   max-width: var(--liq-logo-size);
   max-height: var(--liq-logo-size);
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: var(--radius-card-premium);
   box-shadow: none;
   filter: none;
 }
@@ -110,7 +110,7 @@
 
   .finan .liquidity-operators__logo,
   .finan .liquidity-operators__logo img {
-    border-radius: 9px;
+    border-radius: var(--radius-card-premium);
   }
 }
 
