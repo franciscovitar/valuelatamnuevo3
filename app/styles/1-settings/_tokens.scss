@@ -18,4 +18,24 @@
   --font-fraunces: var(--font-sans);
   --font-hanken: var(--font-sans);
   --font-mono: 'IBM Plex Mono';
+
+  /* Premium interaction tokens */
+  --radius-card-premium: 18px;
+  --radius-pill: 999px;
+
+  --border-brass-soft: color-mix(in srgb, var(--brass) 24%, transparent);
+  --border-brass-hover: color-mix(in srgb, var(--brass-2) 48%, transparent);
+
+  --shadow-card-premium: 0 18px 44px rgba(0, 0, 0, 0.30);
+  --shadow-card-premium-hover: 0 24px 56px rgba(0, 0, 0, 0.38);
+
+  --shadow-brass-soft: 0 12px 32px color-mix(in srgb, var(--brass) 22%, transparent);
+  --shadow-brass-hover: 0 16px 40px color-mix(in srgb, var(--brass-2) 34%, transparent);
+
+  --surface-card-premium:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--ink-2) 88%, transparent),
+      color-mix(in srgb, var(--ink) 96%, transparent)
+    );
 }

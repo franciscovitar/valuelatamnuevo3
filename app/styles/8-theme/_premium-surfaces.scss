@@ -1,0 +1,140 @@
+// Superficies premium — bordes, profundidad y hover (sin pelear con GSAP/Motion)
+
+/* ---------- Base surfaces (informativas + interactivas) ---------- */
+.sol-card,
+.sol-ficha,
+.ficha,
+.biz,
+.person,
+.gain,
+.jcard,
+.feat,
+.feat-list,
+.pillar,
+.pillar-gold,
+.pay-hero,
+.pay-feat,
+.pay-giros,
+.pay-support,
+.client,
+.termsheet {
+  border-radius: var(--radius-card-premium);
+  border: 1px solid var(--border-brass-soft);
+  background: var(--surface-card-premium);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .045),
+    var(--shadow-card-premium);
+}
+
+.sol-card,
+.gain,
+.pay-feat,
+.pillar,
+.ficha,
+.jcard,
+.biz,
+.person {
+  transition:
+    border-color 240ms ease,
+    box-shadow 240ms ease,
+    background 240ms ease;
+}
+
+/* Interactivas: solo borde/sombra/elevación ligera con puntero fino.
+   No aplicar transform a nodos con tilt GSAP ni a micro-cards Motion. */
+@media (hover: hover) and (pointer: fine) {
+  .sol-card:hover,
+  .sol-card:focus-within,
+  .gain:hover,
+  .gain:focus-within,
+  .pay-feat:hover,
+  .pay-feat:focus-within,
+  .pillar:hover,
+  .pillar:focus-within,
+  .ficha:hover,
+  .ficha:focus-within,
+  .jcard:hover,
+  .jcard:focus-within,
+  .biz:hover,
+  .biz:focus-within,
+  .person:hover,
+  .person:focus-within {
+    border-color: var(--border-brass-hover);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .06),
+      var(--shadow-card-premium-hover),
+      0 0 28px color-mix(in srgb, var(--brass) 10%, transparent);
+  }
+
+  .sol-card:hover,
+  .sol-card:focus-within,
+  .gain:hover,
+  .gain:focus-within,
+  .pay-feat:hover,
+  .pay-feat:focus-within,
+  .pillar:hover,
+  .pillar:focus-within,
+  .ficha:hover,
+  .ficha:focus-within {
+    transform: translateY(-2px);
+  }
+
+  /* GSAP tilt / spotlight: superficie sí, desplazamiento CSS no */
+  [data-vl-gsap-tilt]:hover,
+  [data-vl-gsap-tilt]:focus-within {
+    transform: none;
+  }
+}
+
+html.vl-motion-enabled {
+  .sol-card.vl-micro-card:hover,
+  .sol-card.vl-micro-card:focus-within,
+  .gain.vl-micro-card:hover,
+  .gain.vl-micro-card:focus-within,
+  .pay-feat.vl-micro-card:hover,
+  .pay-feat.vl-micro-card:focus-within,
+  .pillar.vl-micro-card:hover,
+  .pillar.vl-micro-card:focus-within,
+  .ficha.vl-micro-card:hover,
+  .ficha.vl-micro-card:focus-within,
+  .jcard.vl-micro-card:hover,
+  .jcard.vl-micro-card:focus-within,
+  .biz.vl-micro-card:hover,
+  .biz.vl-micro-card:focus-within,
+  .person.vl-micro-card:hover,
+  .person.vl-micro-card:focus-within {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sol-card,
+  .gain,
+  .pay-feat,
+  .pillar,
+  .ficha,
+  .jcard,
+  .biz,
+  .person {
+    transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  }
+
+  .sol-card:hover,
+  .sol-card:focus-within,
+  .gain:hover,
+  .gain:focus-within,
+  .pay-feat:hover,
+  .pay-feat:focus-within,
+  .pillar:hover,
+  .pillar:focus-within,
+  .ficha:hover,
+  .ficha:focus-within,
+  .jcard:hover,
+  .jcard:focus-within,
+  .biz:hover,
+  .biz:focus-within,
+  .person:hover,
+  .person:focus-within {
+    transform: none;
+  }
+}

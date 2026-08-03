@@ -1,19 +1,93 @@
 // Botones
 
-/* ---------- BUTTONS ---------- */
-  .btn{
-    display:inline-flex;align-items:center;gap:.5em;
-    font-weight:600;font-size:15px;letter-spacing:.01em;
-    padding:14px 24px;border-radius:2px;border:1px solid transparent;
-    transition:transform .16s var(--ease-out),background .2s ease,color .2s ease,border-color .2s ease;
-    cursor:pointer;
-  }
-  .btn-primary{background:var(--brass);color:var(--ink)}
-  .btn-primary:hover{background:var(--brass-2);transform:translateY(-1px)}
-  .btn-ghost{border-color:var(--line-dark);color:var(--paper)}
-  .btn-ghost:hover{border-color:var(--brass);color:var(--brass-2)}
-  .btn-ghost-dark{border-color:var(--line-light);color:var(--ink)}
-  .btn-ghost-dark:hover{border-color:var(--brass);color:var(--brass)}
-  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
-    outline:2px solid var(--brass);outline-offset:3px;
+/* ---------- BUTTONS ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: .01em;
+  padding: 14px 24px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  transition:
+    transform 240ms var(--ease-out),
+    background 240ms ease,
+    color 240ms ease,
+    border-color 240ms ease,
+    box-shadow 240ms ease;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--brass);
+  color: var(--ink);
+}
+
+.btn-primary:hover {
+  background: var(--brass-2);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  border-color: var(--line-dark);
+  color: var(--paper);
+  background: transparent;
+}
+
+.btn-ghost:hover {
+  border-color: var(--border-brass-hover);
+  background: color-mix(in srgb, var(--brass-2) 88%, white);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.btn-ghost-dark {
+  border-color: var(--line-light);
+  color: var(--ink);
+  background: transparent;
+}
+
+.btn-ghost-dark:hover {
+  border-color: var(--brass);
+  background: color-mix(in srgb, var(--brass-2) 88%, white);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.btn-primary:focus-visible,
+.btn-ghost:focus-visible,
+.btn-ghost-dark:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn-primary,
+  .btn-ghost,
+  .btn-ghost-dark {
+    transition: background 160ms ease, color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
   }
+
+  .btn-primary:hover,
+  .btn-primary:active,
+  .btn-ghost:hover,
+  .btn-ghost-dark:hover {
+    transform: none;
+  }
+}

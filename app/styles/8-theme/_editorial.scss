@@ -42,10 +42,13 @@ section { padding: 108px 0; }
   font-family: var(--font-sans);
   font-size: .95em;
   line-height: 1;
-  transition: transform .2s ease;
+  transition: transform 250ms ease;
 }
 
-.btn-ghost:not(.no-arrow):hover::after { transform: translate(2px, -2px); }
+.btn-ghost:not(.no-arrow):hover::after,
+.btn-ghost:not(.no-arrow):focus-visible::after {
+  transform: translateX(3px);
+}
 
 .sol-card { position: relative; }
 
@@ -116,5 +119,6 @@ section { padding: 108px 0; }
   .hero-copy { animation: none; }
   .kinetic .w { opacity: 1; transform: none; animation: none; }
   .btn:hover::after { transform: none; }
-  .btn-ghost:not(.no-arrow):hover::after { transform: none; }
+  .btn-ghost:not(.no-arrow):hover::after,
+  .btn-ghost:not(.no-arrow):focus-visible::after { transform: none; }
 }

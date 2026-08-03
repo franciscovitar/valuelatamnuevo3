@@ -70,6 +70,7 @@ header.nav {
 
 .nav-links a,
 .nav-dropdown__trigger {
+  position: relative;
   color: var(--slate-light);
   font-family: inherit;
   font-size: clamp(13px, 1.05vw, 15px);
@@ -81,10 +82,65 @@ header.nav {
 }
 
 .nav-links a:hover,
+.nav-links a:focus-visible,
+.nav-links a.is-active,
 .nav-dropdown:hover .nav-dropdown__trigger,
 .nav-dropdown:focus-within .nav-dropdown__trigger,
-.nav-dropdown.is-open .nav-dropdown__trigger {
+.nav-dropdown.is-open .nav-dropdown__trigger,
+.nav-dropdown.is-active-group .nav-dropdown__trigger {
   color: var(--paper);
+}
+
+/* Desktop: línea inferior animada (no interferir con menú móvil) */
+@media (min-width: 981px) {
+  .nav-links > a::after,
+  .nav-dropdown__trigger::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 1px;
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        color-mix(in srgb, var(--brass-2) 85%, transparent),
+        transparent
+      );
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 200ms ease;
+    transition-delay: 0ms;
+    pointer-events: none;
+  }
+
+  .nav-links > a:hover::after,
+  .nav-links > a:focus-visible::after,
+  .nav-dropdown:hover .nav-dropdown__trigger::before,
+  .nav-dropdown:focus-within .nav-dropdown__trigger::before {
+    transition-delay: 90ms;
+    transform: scaleX(1);
+  }
+
+  .nav-links > a.is-active::after,
+  .nav-dropdown.is-active-group .nav-dropdown__trigger::before,
+  .nav-dropdown.is-open .nav-dropdown__trigger::before {
+    transition-delay: 0ms;
+    transform: scaleX(1);
+  }
+
+  /* Evitar doble subrayado con el indicador JS existente */
+  .nav-links > a .vl-nav-indicator {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-links > a::after,
+  .nav-dropdown__trigger::before {
+    transition: none;
+  }
 }
 
 .nav-dropdown {
