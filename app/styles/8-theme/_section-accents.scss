@@ -1,42 +1,4 @@
-// Acentos de sección — líneas de eyebrow, brillos ambientales, responsive
-
-/* ---------- Eyebrow / kicker line (solo sec-head, no hero) ---------- */
-.sec-head > .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: fit-content;
-  max-width: 100%;
-}
-
-.sec-head > .eyebrow::after {
-  content: '';
-  display: block;
-  width: clamp(44px, 8vw, 120px);
-  height: 1px;
-  flex: 0 0 auto;
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--brass) 38%, transparent),
-      transparent
-    );
-}
-
-/* ---------- Brillos ambientales (2–3 zonas, muy tenues) ---------- */
-.solutions,
-.process,
-.ai {
-  background-image:
-    radial-gradient(
-      ellipse at top,
-      color-mix(in srgb, var(--brass) 10%, transparent) 0%,
-      transparent 68%
-    );
-  background-repeat: no-repeat;
-  background-size: 100% 72%;
-  background-position: center top;
-}
+// Acentos de sección — flechas y reduced-motion (sin líneas de eyebrow ni brillos dorados)
 
 /* ---------- Flechas de botones ghost (editorial) ---------- */
 .btn-ghost:not(.no-arrow)::after {
@@ -46,37 +8,6 @@
 .btn-ghost:not(.no-arrow):hover::after,
 .btn-ghost:not(.no-arrow):focus-visible::after {
   transform: translateX(3px);
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 760px) {
-  .sec-head > .eyebrow {
-    gap: 10px;
-  }
-
-  .sec-head > .eyebrow::after {
-    width: clamp(36px, 16vw, 72px);
-  }
-
-  .solutions,
-  .process,
-  .ai {
-    background-size: 100% 48%;
-  }
-
-  .sol-card,
-  .biz,
-  .person,
-  .gain,
-  .jcard,
-  .feat,
-  .pillar,
-  .pay-feat,
-  .pay-hero,
-  .pay-support,
-  .pay-giros {
-    border-radius: 16px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

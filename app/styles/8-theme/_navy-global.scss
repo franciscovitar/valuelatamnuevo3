@@ -36,10 +36,10 @@ html{background:#03090f}
 
   /* paneles translucidos (para que el fondo se vea a traves) */
   .sol-ficha,.sol-card,.gain,.cycle,.pullquote,.person{
-    background:var(--surface-card-premium);
-    border:1px solid var(--border-brass-soft);
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(246,243,236,.12);
   }
-  .sol-ficha:hover,.sol-card:hover,.gain:hover{border-color:var(--border-brass-hover)}
+  .sol-ficha:hover,.sol-card:hover,.gain:hover{border-color:var(--brass-2)}
   .tabs{background:rgba(255,255,255,.06);border:1px solid rgba(246,243,236,.14)}
   .tab[aria-selected="true"]{background:var(--brass);color:#0e2336}
 
@@ -49,11 +49,7 @@ html{background:#03090f}
   /* nav navy reforzado */
   header.nav{background:rgba(14,35,54,.88);border-bottom:1px solid rgba(246,243,236,.12)}
   /* planillas que quedaban en blanco - panel translucido legible */
-  .feat,.client{
-    background:var(--surface-card-premium);
-    border:1px solid var(--border-brass-soft);
-    border-radius:var(--radius-card-premium);
-  }
+  .feat,.client{background:rgba(255,255,255,.05);border:1px solid rgba(246,243,236,.12);border-radius:6px}
   .client h3,.feat h4,.feat .fh h4{color:var(--paper)}
   .client ul li,.client p,.feat p{color:rgba(246,243,236,.82)}
   /* proceso: 6 pasos en grilla 3x2 */

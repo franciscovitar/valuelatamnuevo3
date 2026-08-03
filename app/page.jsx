@@ -35,7 +35,7 @@ export default function Home() {
         */}
         <VideoHero />
         <Metrics />
-        <CityVideo />
+        {/* <CityVideo /> */}
         <PartnerLogos />
         <Solutions />
         <WhyUs />

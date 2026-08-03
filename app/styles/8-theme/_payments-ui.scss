@@ -29,14 +29,7 @@
 
   .pay-feat-hint{color:rgba(246,243,236,.6);font-family:var(--font-mono), monospace;font-size:12px;margin-top:26px}
 
-  .pay-feat{
-    background:var(--surface-card-premium);
-    border:1px solid var(--border-brass-soft);
-    border-radius:var(--radius-card-premium);
-    overflow:hidden;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.045), var(--shadow-card-premium);
-    transition:border-color 240ms ease, box-shadow 240ms ease, transform 240ms ease;
-  }
+  .pay-feat{background:rgba(255,255,255,.05);border:1px solid rgba(246,243,236,.12);border-radius:9px;overflow:hidden;transition:border-color .2s}
 
   .pay-feat[open]{border-color:rgba(143,178,214,.5)}
 
@@ -54,14 +47,7 @@
 
   .pay-pillars{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
 
-  .pillar{
-    background:var(--surface-card-premium);
-    border:1px solid var(--border-brass-soft);
-    border-radius:var(--radius-card-premium);
-    padding:34px 32px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.045), var(--shadow-card-premium);
-    transition:border-color 240ms ease, box-shadow 240ms ease, transform 240ms ease;
-  }
+  .pillar{background:rgba(143,178,214,.07);border:1px solid rgba(143,178,214,.3);border-radius:14px;padding:34px 32px}
 
   .pillar-gold{background:rgba(191,160,90,.08);border-color:rgba(191,160,90,.4)}
 
