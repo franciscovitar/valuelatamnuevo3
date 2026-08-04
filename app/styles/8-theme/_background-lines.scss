@@ -24,6 +24,14 @@
   vector-effect: non-scaling-stroke;
 }
 
+.vl-bg-lines__path--history {
+  opacity: 0.62;
+}
+
+.vl-bg-lines__path--active {
+  opacity: 1;
+}
+
 .vl-bg-lines__path--outer {
   stroke: rgba(128, 151, 178, 0.22);
   stroke-width: 1.15;
@@ -51,18 +59,6 @@
   animation: vl-bg-lines-shared-float 16.8s ease-in-out -4.2s infinite;
 }
 
-.vl-bg-lines__line-group--outer.is-floating {
-  animation: vl-bg-lines-local-outer 13.8s ease-in-out -2.1s infinite;
-}
-
-.vl-bg-lines__line-group--middle.is-floating {
-  animation: vl-bg-lines-local-middle 15.6s ease-in-out -6.3s infinite;
-}
-
-.vl-bg-lines__line-group--inner.is-floating {
-  animation: vl-bg-lines-local-inner 17.2s ease-in-out -8.5s infinite;
-}
-
 @keyframes vl-bg-lines-shared-float {
   0% {
     transform: translate(0px, 0px);
@@ -81,68 +77,6 @@
   }
 }
 
-@keyframes vl-bg-lines-local-outer {
-  0% {
-    transform: translate(0px, 0px);
-  }
-  18% {
-    transform: translate(var(--fx1), var(--fy1));
-  }
-  43% {
-    transform: translate(var(--fx2), var(--fy2));
-  }
-  67% {
-    transform: translate(var(--fx3), var(--fy3));
-  }
-  84% {
-    transform: translate(var(--fx4), var(--fy4));
-  }
-  100% {
-    transform: translate(0px, 0px);
-  }
-}
-
-@keyframes vl-bg-lines-local-middle {
-  0% {
-    transform: translate(0px, 0px);
-  }
-  24% {
-    transform: translate(var(--fx1), var(--fy1));
-  }
-  46% {
-    transform: translate(var(--fx2), var(--fy2));
-  }
-  71% {
-    transform: translate(var(--fx3), var(--fy3));
-  }
-  86% {
-    transform: translate(var(--fx4), var(--fy4));
-  }
-  100% {
-    transform: translate(0px, 0px);
-  }
-}
-
-@keyframes vl-bg-lines-local-inner {
-  0% {
-    transform: translate(0px, 0px);
-  }
-  20% {
-    transform: translate(var(--fx1), var(--fy1));
-  }
-  48% {
-    transform: translate(var(--fx2), var(--fy2));
-  }
-  70% {
-    transform: translate(var(--fx3), var(--fy3));
-  }
-  88% {
-    transform: translate(var(--fx4), var(--fy4));
-  }
-  100% {
-    transform: translate(0px, 0px);
-  }
-}
 
 .vl-bg-lines__node,
 .vl-bg-lines__shared-node {
@@ -157,6 +91,25 @@
 .vl-bg-lines__node-core {
   fill: rgba(214, 227, 242, 1);
   opacity: 0.78;
+}
+
+.vl-bg-lines__debug-overlay {
+  pointer-events: none;
+}
+
+.vl-bg-lines__debug-box {
+  fill: rgba(214, 227, 242, 0.04);
+  stroke: rgba(214, 227, 242, 0.4);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  shape-rendering: geometricPrecision;
+}
+
+.vl-bg-lines__debug-head {
+  fill: rgba(216, 178, 90, 0.3);
+  stroke: rgba(216, 178, 90, 0.75);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
 @media (prefers-reduced-motion: reduce) {
