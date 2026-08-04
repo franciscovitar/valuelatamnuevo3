@@ -15,6 +15,17 @@
   z-index: 1;
 }
 
+.line-lab__master-path {
+  fill: none;
+  stroke: var(--master-route-color, rgba(205, 216, 232, 1));
+  stroke-width: 0.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
 .line-lab__path {
   fill: none;
   stroke-linecap: round;
@@ -37,15 +48,9 @@
   stroke-width: 0.9;
 }
 
-.line-lab__guides line {
-  stroke: rgba(143, 178, 214, 0.25);
-  stroke-width: 0.75;
-  vector-effect: non-scaling-stroke;
-  pointer-events: none;
-}
-
-// Node terminal markers rendered as plain HTML circles so they stay pixel-perfect
-// regardless of the SVG's non-uniform viewBox scaling.
+// Tip ("head") markers and debug head/tail markers rendered as plain HTML
+// elements so they stay pixel-perfect regardless of the SVG's non-uniform
+// viewBox scaling.
 .line-lab__nodes {
   position: fixed;
   inset: 0;
@@ -57,8 +62,8 @@
 
 .line-lab__node {
   position: absolute;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   transform: translate(-50%, -50%);
 }
 
@@ -66,61 +71,40 @@
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--node-color);
-  opacity: 0.18;
-  filter: blur(1.6px);
+  opacity: 0.16;
+  filter: blur(1.2px);
 }
 
 .line-lab__node-core {
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 2px;
-  height: 2px;
+  width: 1.75px;
+  height: 1.75px;
   border-radius: 50%;
   background: var(--node-color);
   opacity: 0.85;
 }
 
-// Edit-mode drag handles — plain HTML buttons for reliable touch targets.
-.line-lab__handles {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100svh;
-  z-index: 4;
+.line-lab__debug-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(230, 236, 245, 0.6);
 }
 
-.line-lab__handle {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background: transparent;
-  transform: translate(-50%, -50%);
-  cursor: grab;
-  touch-action: none;
+.line-lab__debug-point--head {
+  background: rgba(120, 200, 255, 0.35);
+}
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--handle-color);
-    box-shadow: 0 0 0 1px rgba(2, 7, 14, 0.6);
-  }
-
-  &:active {
-    cursor: grabbing;
-  }
+.line-lab__debug-point--tail {
+  background: rgba(255, 170, 120, 0.35);
 }
 
 .line-lab__scroll-root {
@@ -169,22 +153,13 @@
   color: rgba(230, 236, 245, 0.7);
 }
 
-.line-lab__row select {
-  padding: 0.25rem 0.35rem;
-  border-radius: 4px;
-  border: 1px solid rgba(143, 178, 214, 0.22);
-  background: rgba(8, 14, 24, 0.9);
-  color: rgba(230, 236, 245, 0.88);
-  font-size: 0.75rem;
-}
-
 .line-lab__mode-toggle {
   display: flex;
   gap: 0.35rem;
 }
 
 .line-lab__mode-toggle button,
-.line-lab__keyframe-buttons button {
+.line-lab__checkpoint-buttons button {
   padding: 0.3rem 0.55rem;
   border: 1px solid rgba(143, 178, 214, 0.22);
   border-radius: 4px;
@@ -195,16 +170,31 @@
 }
 
 .line-lab__mode-toggle button[aria-pressed='true'],
-.line-lab__keyframe-buttons button[aria-pressed='true'] {
+.line-lab__checkpoint-buttons button[aria-pressed='true'] {
   background: rgba(143, 178, 214, 0.32);
   border-color: rgba(143, 178, 214, 0.5);
 }
 
-.line-lab__keyframe-buttons {
+.line-lab__checkpoint-buttons {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 0.3rem;
   margin: 0.6rem 0;
+}
+
+.line-lab__uvalues {
+  margin: 0.4rem 0;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid rgba(143, 178, 214, 0.16);
+  border-radius: 4px;
+  background: rgba(143, 178, 214, 0.05);
+}
+
+.line-lab__uvalue-row {
+  margin: 0.15rem 0;
+  font-size: 0.72rem;
+  color: rgba(230, 236, 245, 0.7);
+  font-variant-numeric: tabular-nums;
 }
 
 .line-lab__actions {
@@ -243,11 +233,6 @@
 @media (max-width: 640px) {
   .line-lab__panel {
     width: min(280px, 88vw);
-  }
-
-  .line-lab__handle {
-    width: 24px;
-    height: 24px;
   }
 }
 
