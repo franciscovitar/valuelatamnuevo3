@@ -48,6 +48,78 @@
   stroke-width: 0.9;
 }
 
+.line-lab__line-group {
+  transform-box: view-box;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.line-lab__line-group--outer.is-floating {
+  animation: line-lab-float-outer 11.8s ease-in-out -2.4s infinite;
+}
+
+.line-lab__line-group--middle.is-floating {
+  animation: line-lab-float-middle 9.7s ease-in-out -5.1s infinite;
+}
+
+.line-lab__line-group--inner.is-floating {
+  animation: line-lab-float-inner 13.1s ease-in-out -7.3s infinite;
+}
+
+@keyframes line-lab-float-outer {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  22% {
+    transform: translate(2.2px, -1.1px);
+  }
+  48% {
+    transform: translate(-1.4px, 1.3px);
+  }
+  73% {
+    transform: translate(1.1px, 0.6px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes line-lab-float-middle {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  27% {
+    transform: translate(-1.8px, 1px);
+  }
+  52% {
+    transform: translate(2px, -1.2px);
+  }
+  78% {
+    transform: translate(-0.8px, -0.4px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes line-lab-float-inner {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  24% {
+    transform: translate(1.4px, 1.2px);
+  }
+  49% {
+    transform: translate(-2.1px, -0.8px);
+  }
+  76% {
+    transform: translate(0.7px, -1.3px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
 // Tip ("head") markers and debug head/tail markers are native SVG circles so
 // they live in world coordinates and move with the camera exactly like the
 // trail paths — no manual percentage conversion needed.
@@ -205,7 +277,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .line-lab__svg {
-    opacity: 0.6;
+  .line-lab__line-group--outer.is-floating,
+  .line-lab__line-group--middle.is-floating,
+  .line-lab__line-group--inner.is-floating {
+    animation: none;
+    transform: translate(0px, 0px);
   }
 }
