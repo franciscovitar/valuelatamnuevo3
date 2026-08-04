@@ -4,12 +4,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ensureGsapPlugins } from '@/lib/scroll/gsap';
 import {
   LINE_KEYS,
-  VIEWBOX_SIZE,
+  WORLD_WIDTH,
+  VIEWPORT_HEIGHT,
   MASTER_PATH_D,
   MASTER_ROUTE_OPACITY,
   NODE_COLOR,
   CHECKPOINTS,
-  resolveLineWindow,
+  resolveLineState,
+  resolveCameraTop,
   routesToJson,
   createLabScrollController,
 } from '@/lib/line-lab/trionnLinesEngine';
@@ -27,10 +29,12 @@ export default function TrionnLinesLab() {
   const [copyStatus, setCopyStatus] = useState(null);
   const scrollRootRef = useRef(null);
 
-  const lineWindows = useMemo(() => {
+  const cameraTop = useMemo(() => resolveCameraTop(progress), [progress]);
+
+  const lineStates = useMemo(() => {
     const result = {};
     LINE_KEYS.forEach((key) => {
-      result[key] = resolveLineWindow(progress, key);
+      result[key] = resolveLineState(progress, key);
     });
     return result;
   }, [progress]);
@@ -82,7 +86,7 @@ export default function TrionnLinesLab() {
     <div className="line-lab">
       <svg
         className="line-lab__svg"
-        viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
+        viewBox={`0 ${cameraTop} ${WORLD_WIDTH} ${VIEWPORT_HEIGHT}`}
         preserveAspectRatio="none"
         aria-hidden="true"
       >
@@ -95,53 +99,38 @@ export default function TrionnLinesLab() {
             style={{ opacity: showMasterRoute ? MASTER_ROUTE_OPACITY : 0 }}
           />
         ))}
+
         {LINE_KEYS.map((key) => (
           <path
             key={`trail-${key}`}
             data-visible-trail={key}
-            d={lineWindows[key].trailD}
+            d={lineStates[key].trailD}
             className={`line-lab__path line-lab__path--${key}`}
           />
         ))}
-      </svg>
 
-      <div className="line-lab__nodes">
         {LINE_KEYS.map((key) => {
-          const { headPoint, hideNode } = lineWindows[key];
-          if (hideNode) return null;
+          const [cx, cy] = lineStates[key].headPoint;
           return (
-            <span
-              key={`node-${key}`}
-              className="line-lab__node"
-              style={{
-                '--node-color': NODE_COLOR[key],
-                left: `${headPoint[0] * 100}%`,
-                top: `${headPoint[1] * 100}%`,
-              }}
-            >
-              <span className="line-lab__node-halo" />
-              <span className="line-lab__node-core" />
-            </span>
+            <g key={`node-${key}`} className="line-lab__node" style={{ '--node-color': NODE_COLOR[key] }}>
+              <circle cx={cx} cy={cy} r={4.5} className="line-lab__node-halo" />
+              <circle cx={cx} cy={cy} r={1.8} className="line-lab__node-core" />
+            </g>
           );
         })}
 
         {showHeadTail &&
           LINE_KEYS.map((key) => {
-            const { headPoint, tailPoint } = lineWindows[key];
+            const [hx, hy] = lineStates[key].headPoint;
+            const [tx, ty] = lineStates[key].tailPoint;
             return (
-              <span key={`debug-head-${key}`}>
-                <span
-                  className="line-lab__debug-point line-lab__debug-point--head"
-                  style={{ left: `${headPoint[0] * 100}%`, top: `${headPoint[1] * 100}%` }}
-                />
-                <span
-                  className="line-lab__debug-point line-lab__debug-point--tail"
-                  style={{ left: `${tailPoint[0] * 100}%`, top: `${tailPoint[1] * 100}%` }}
-                />
-              </span>
+              <g key={`debug-${key}`}>
+                <circle cx={hx} cy={hy} r={6} className="line-lab__debug-point line-lab__debug-point--head" />
+                <circle cx={tx} cy={ty} r={6} className="line-lab__debug-point line-lab__debug-point--tail" />
+              </g>
             );
           })}
-      </div>
+      </svg>
 
       {mode === 'scroll' && <div ref={scrollRootRef} className="line-lab__scroll-root" />}
 
@@ -151,7 +140,7 @@ export default function TrionnLinesLab() {
           className="line-lab__panel-toggle"
           onClick={() => setPanelCollapsed((value) => !value)}
         >
-          Line Lab · Snake {panelCollapsed ? '▸' : '▾'}
+          Line Lab · Gravity {panelCollapsed ? '▸' : '▾'}
         </button>
 
         {!panelCollapsed && (
@@ -215,11 +204,17 @@ export default function TrionnLinesLab() {
 
             {showHeadTail && (
               <div className="line-lab__uvalues">
-                {LINE_KEYS.map((key) => (
-                  <p key={key} className="line-lab__uvalue-row">
-                    {key}: headU={lineWindows[key].headU.toFixed(3)} · tailU={lineWindows[key].tailU.toFixed(3)}
-                  </p>
-                ))}
+                <p className="line-lab__uvalue-row">cameraTop={cameraTop.toFixed(1)}</p>
+                {LINE_KEYS.map((key) => {
+                  const state = lineStates[key];
+                  const headScreenY = state.headWorldY - cameraTop;
+                  return (
+                    <p key={key} className="line-lab__uvalue-row">
+                      {key}: headWorldY={state.headWorldY.toFixed(1)} · tailWorldY={state.tailWorldY.toFixed(1)} · headU=
+                      {state.headU.toFixed(3)} · tailU={state.tailU.toFixed(3)} · headScreenY={headScreenY.toFixed(1)}
+                    </p>
+                  );
+                })}
               </div>
             )}
 

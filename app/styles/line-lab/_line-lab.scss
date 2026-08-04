@@ -48,68 +48,36 @@
   stroke-width: 0.9;
 }
 
-// Tip ("head") markers and debug head/tail markers rendered as plain HTML
-// elements so they stay pixel-perfect regardless of the SVG's non-uniform
-// viewBox scaling.
-.line-lab__nodes {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100svh;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.line-lab__node {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  transform: translate(-50%, -50%);
-}
-
+// Tip ("head") markers and debug head/tail markers are native SVG circles so
+// they live in world coordinates and move with the camera exactly like the
+// trail paths — no manual percentage conversion needed.
 .line-lab__node-halo {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--node-color);
+  fill: var(--node-color);
   opacity: 0.16;
-  filter: blur(1.2px);
 }
 
 .line-lab__node-core {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 1.75px;
-  height: 1.75px;
-  border-radius: 50%;
-  background: var(--node-color);
+  fill: var(--node-color);
   opacity: 0.85;
 }
 
 .line-lab__debug-point {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid rgba(230, 236, 245, 0.6);
+  stroke: rgba(230, 236, 245, 0.6);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
 }
 
 .line-lab__debug-point--head {
-  background: rgba(120, 200, 255, 0.35);
+  fill: rgba(120, 200, 255, 0.35);
 }
 
 .line-lab__debug-point--tail {
-  background: rgba(255, 170, 120, 0.35);
+  fill: rgba(255, 170, 120, 0.35);
 }
 
 .line-lab__scroll-root {
   position: relative;
-  height: 500vh;
+  height: 650vh;
   z-index: 0;
 }
 
