@@ -62,33 +62,33 @@
 }
 
 .line-lab__lines-world.is-floating .line-lab__shared-float {
-  animation: line-lab-shared-float 14.6s ease-in-out -4.2s infinite;
+  animation: line-lab-shared-float 16.8s ease-in-out -4.2s infinite;
 }
 
 .line-lab__line-group--outer.is-floating {
-  animation: line-lab-local-outer 8.8s ease-in-out -2.1s infinite;
+  animation: line-lab-local-outer 13.8s ease-in-out -2.1s infinite;
 }
 
 .line-lab__line-group--middle.is-floating {
-  animation: line-lab-local-middle 10.4s ease-in-out -6.3s infinite;
+  animation: line-lab-local-middle 15.6s ease-in-out -6.3s infinite;
 }
 
 .line-lab__line-group--inner.is-floating {
-  animation: line-lab-local-inner 12.1s ease-in-out -8.5s infinite;
+  animation: line-lab-local-inner 17.2s ease-in-out -8.5s infinite;
 }
 
 @keyframes line-lab-shared-float {
   0% {
     transform: translate(0px, 0px);
   }
-  21% {
-    transform: translate(1.6px, -0.7px);
+  24% {
+    transform: translate(1.1px, -0.5px);
   }
-  47% {
-    transform: translate(-1.2px, 1.1px);
+  51% {
+    transform: translate(-0.9px, 0.7px);
   }
-  72% {
-    transform: translate(0.8px, 0.4px);
+  76% {
+    transform: translate(0.6px, 0.3px);
   }
   100% {
     transform: translate(0px, 0px);

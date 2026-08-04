@@ -22,9 +22,9 @@ import { validateRoutes } from '@/lib/line-lab/poseValidation';
 const CHECKPOINT_EPSILON = 0.0005;
 
 const LOCAL_FLOAT_BASE = {
-  outer: { fx1: 4.2, fy1: -1.6, fx2: -3.4, fy2: 2.1, fx3: 1.7, fy3: 0.8, fx4: -1.89, fy4: 0.735 },
-  middle: { fx1: -3.1, fy1: 1.9, fx2: 3.6, fy2: -2.4, fx3: -1.2, fy3: -0.7, fx4: 1.45, fy4: 0.6 },
-  inner: { fx1: 4.5, fy1: 0.9, fx2: -3.2, fy2: -1.9, fx3: 1.6, fy3: -1.2, fx4: -1.8, fy4: 0.85 },
+  outer: { fx1: 0.9, fy1: -0.35, fx2: -0.72, fy2: 0.45, fx3: 0.41, fy3: 0.2, fx4: -0.28, fy4: 0.14 },
+  middle: { fx1: -0.7, fy1: 0.38, fx2: 0.7, fy2: -0.5, fx3: -0.28, fy3: -0.16, fx4: 0.2, fy4: 0.11 },
+  inner: { fx1: 1.0, fy1: 0.24, fx2: -0.82, fy2: -0.4, fx3: 0.33, fy3: -0.23, fx4: -0.22, fy4: 0.12 },
 };
 
 function buildLocalFloatVars(lineKey, localFloatStrength) {
