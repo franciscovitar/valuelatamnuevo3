@@ -1,498 +1,311 @@
 'use client';
 
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ensureGsapPlugins } from '@/lib/scroll/gsap';
-import { prefersReducedMotion } from '@/lib/motion/tokens';
 import {
-  DEFAULT_PARAMS,
+  CONTROL_KEYS,
   KEYFRAMES,
+  LINE_KEYS,
+  NODE_COLOR,
+  VIEWBOX_SIZE,
+  buildPathD,
   clearStoredKeyframes,
-  createTrionnLinesEngine,
-  destroyTrionnLinesEngine,
-  enterEditMode,
-  exitEditMode,
-  hitTestEditHandle,
-  jumpToKeyframeProgress,
-  keyframeToJson,
-  normFromClient,
-  pauseScroll,
-  restoreKeyframes,
-  resumeScroll,
+  cloneKeyframes,
+  createLabScrollController,
+  keyframesToJson,
+  loadStoredKeyframes,
+  normFromViewport,
+  resolveOpacity,
+  resolvePoseAtProgress,
   saveStoredKeyframes,
-  setEditControl,
-  setEngineParams,
 } from '@/lib/line-lab/trionnLinesEngine';
+import { validateKeyframes } from '@/lib/line-lab/poseValidation';
 
-function LineLabDebugPanel({ engineRef, onRefresh }) {
-  const [progress, setProgress] = useState(0);
-  const [keyframeIndex, setKeyframeIndex] = useState(0);
-  const [params, setParams] = useState({ ...DEFAULT_PARAMS, reveal: 1 });
-  const [editMode, setEditMode] = useState(false);
-  const [editKeyframe, setEditKeyframe] = useState(0);
-  const [showBezierControls, setShowBezierControls] = useState(false);
-  const [showTarget, setShowTarget] = useState(false);
-  const [showCurrent, setShowCurrent] = useState(false);
-  const [floatEnabled, setFloatEnabled] = useState(true);
-  const [paused, setPaused] = useState(false);
-  const [copyStatus, setCopyStatus] = useState('');
-  const [refVisible, setRefVisible] = useState(false);
-  const [refOpacity, setRefOpacity] = useState(0.45);
-  const [refUrl, setRefUrl] = useState(null);
-
-  const sync = useCallback(() => {
-    const engine = engineRef.current;
-    if (!engine) return;
-    setProgress(engine.manualProgress ?? engine.scrollProgress);
-    setKeyframeIndex(engine.keyframeIndex);
-    setParams({ ...engine.params });
-    setEditMode(engine.editMode);
-    setEditKeyframe(engine.editKeyframeIndex);
-    setShowBezierControls(engine.showBezierControls);
-    setShowTarget(engine.showTarget);
-    setShowCurrent(engine.showCurrent);
-    setFloatEnabled(engine.floatEnabled);
-    setPaused(engine.paused);
-  }, [engineRef]);
-
-  useEffect(() => {
-    sync();
-    const id = setInterval(sync, 200);
-    return () => clearInterval(id);
-  }, [sync]);
-
-  useEffect(() => {
-    return () => {
-      if (refUrl) URL.revokeObjectURL(refUrl);
-    };
-  }, [refUrl]);
-
-  const applyParams = (partial) => {
-    const engine = engineRef.current;
-    if (!engine) return;
-    setEngineParams(engine, partial);
-    setParams((p) => ({ ...p, ...partial }));
-  };
-
-  const copyText = async (text, label) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopyStatus(label);
-      setTimeout(() => setCopyStatus(''), 1600);
-    } catch {
-      setCopyStatus('Error al copiar');
-    }
-  };
-
-  const onRefFile = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (refUrl) URL.revokeObjectURL(refUrl);
-    setRefUrl(URL.createObjectURL(file));
-    setRefVisible(true);
-  };
-
-  const toggleEdit = () => {
-    const engine = engineRef.current;
-    if (!engine) return;
-    if (engine.editMode) {
-      exitEditMode(engine);
-      setEditMode(false);
-    } else {
-      enterEditMode(engine, editKeyframe);
-      setEditMode(true);
-      setPaused(true);
-    }
-  };
-
-  return (
-    <>
-      {refUrl && refVisible ? (
-        <img
-          src={refUrl}
-          alt=""
-          className="line-lab__ref-overlay"
-          style={{ opacity: refOpacity }}
-          aria-hidden="true"
-        />
-      ) : null}
-
-      <aside className="line-lab__debug" aria-label="Bezier lab debug">
-        <h2>Bézier Lab · K0–K5</h2>
-
-        <div className="line-lab__debug-row">
-          <label>Progreso secuencia</label>
-          <span>{(progress * 100).toFixed(1)}%</span>
-        </div>
-        <div className="line-lab__debug-row">
-          <label>Keyframe</label>
-          <span>
-            {keyframeIndex + 1} / {KEYFRAMES.length}
-          </span>
-        </div>
-
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-progress">Progreso manual</label>
-          <input
-            id="ll-progress"
-            type="range"
-            min="0"
-            max="1"
-            step="0.001"
-            value={progress}
-            onChange={(e) => {
-              const v = Number(e.target.value);
-              setProgress(v);
-              jumpToKeyframeProgress(engineRef.current, v);
-            }}
-          />
-        </div>
-
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-kf-edit">Editar keyframe</label>
-          <select
-            id="ll-kf-edit"
-            value={editKeyframe}
-            onChange={(e) => {
-              const v = Number(e.target.value);
-              setEditKeyframe(v);
-              const engine = engineRef.current;
-              if (engine) engine.editKeyframeIndex = v;
-            }}
-          >
-            {KEYFRAMES.map((kf, i) => (
-              <option key={kf.id} value={i}>
-                {kf.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-edit">Editor draggable</label>
-          <input id="ll-edit" type="checkbox" checked={editMode} onChange={toggleEdit} />
-        </div>
-
-        <p className="line-lab__debug-hint">Easing por punto</p>
-        {[
-          ['easeP0', 'p0', 0.02, 0.06],
-          ['easeCp1', 'cp1', 0.03, 0.08],
-          ['easeCp2', 'cp2', 0.07, 0.16],
-          ['easeP3', 'p3', 0.1, 0.2],
-        ].map(([key, label, min, max]) => (
-          <div key={key} className="line-lab__debug-row">
-            <label htmlFor={key}>{label}</label>
-            <input
-              id={key}
-              type="range"
-              min={min}
-              max={max}
-              step="0.005"
-              value={params[key]}
-              onChange={(e) => applyParams({ [key]: Number(e.target.value) })}
-            />
-          </div>
-        ))}
-
-        <p className="line-lab__debug-hint">Flotación</p>
-        {[
-          ['floatP0', 'p0 amp', 1, 3],
-          ['floatCp1X', 'cp1 X', 10, 20],
-          ['floatCp1Y', 'cp1 Y', 7, 14],
-          ['floatCp2X', 'cp2 X', 12, 24],
-          ['floatCp2Y', 'cp2 Y', 8, 16],
-          ['floatP3', 'p3 amp', 3, 7],
-        ].map(([key, label, min, max]) => (
-          <div key={key} className="line-lab__debug-row">
-            <label htmlFor={key}>{label}</label>
-            <input
-              id={key}
-              type="range"
-              min={min}
-              max={max}
-              step="0.5"
-              value={params[key]}
-              onChange={(e) => applyParams({ [key]: Number(e.target.value) })}
-            />
-          </div>
-        ))}
-
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-float-speed">Float speed</label>
-          <input
-            id="ll-float-speed"
-            type="range"
-            min="0.00015"
-            max="0.0005"
-            step="0.00001"
-            value={params.floatSpeed}
-            onChange={(e) => applyParams({ floatSpeed: Number(e.target.value) })}
-          />
-        </div>
-
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-float-on">Flotación</label>
-          <input
-            id="ll-float-on"
-            type="checkbox"
-            checked={floatEnabled}
-            onChange={(e) => {
-              const engine = engineRef.current;
-              if (engine) engine.floatEnabled = e.target.checked;
-              setFloatEnabled(e.target.checked);
-            }}
-          />
-        </div>
-
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-bezier">Controles Bézier</label>
-          <input
-            id="ll-bezier"
-            type="checkbox"
-            checked={showBezierControls}
-            onChange={(e) => {
-              const engine = engineRef.current;
-              if (engine) engine.showBezierControls = e.target.checked;
-              setShowBezierControls(e.target.checked);
-            }}
-          />
-        </div>
-
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-target">Target</label>
-          <input
-            id="ll-target"
-            type="checkbox"
-            checked={showTarget}
-            onChange={(e) => {
-              const engine = engineRef.current;
-              if (engine) engine.showTarget = e.target.checked;
-              setShowTarget(e.target.checked);
-            }}
-          />
-        </div>
-
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-current">Current</label>
-          <input
-            id="ll-current"
-            type="checkbox"
-            checked={showCurrent}
-            onChange={(e) => {
-              const engine = engineRef.current;
-              if (engine) engine.showCurrent = e.target.checked;
-              setShowCurrent(e.target.checked);
-            }}
-          />
-        </div>
-
-        <p className="line-lab__debug-hint">Referencia visual</p>
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-ref-file">Cargar imagen</label>
-          <input id="ll-ref-file" type="file" accept="image/*" onChange={onRefFile} />
-        </div>
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-ref-op">Opacidad ref</label>
-          <input
-            id="ll-ref-op"
-            type="range"
-            min="0"
-            max="1"
-            step="0.05"
-            value={refOpacity}
-            onChange={(e) => setRefOpacity(Number(e.target.value))}
-          />
-        </div>
-        <div className="line-lab__debug-row">
-          <label htmlFor="ll-ref-vis">Mostrar ref</label>
-          <input
-            id="ll-ref-vis"
-            type="checkbox"
-            checked={refVisible}
-            onChange={(e) => setRefVisible(e.target.checked)}
-          />
-        </div>
-
-        <div className="line-lab__debug-actions">
-          <button type="button" onClick={() => resumeScroll(engineRef.current)}>
-            Reanudar scroll
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              if (engineRef.current?.paused) resumeScroll(engineRef.current);
-              else pauseScroll(engineRef.current);
-              sync();
-            }}
-          >
-            {paused ? 'Scroll activo' : 'Pausar scroll'}
-          </button>
-          <button type="button" onClick={onRefresh}>
-            Refresh ST
-          </button>
-        </div>
-
-        <div className="line-lab__debug-actions">
-          <button
-            type="button"
-            onClick={() =>
-              copyText(
-                JSON.stringify(keyframeToJson(engineRef.current?.keyframes[editKeyframe] ?? KEYFRAMES[editKeyframe]), null, 2),
-                'Keyframe copiado',
-              )
-            }
-          >
-            Copiar keyframe
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              copyText(
-                JSON.stringify(engineRef.current?.keyframes.map(keyframeToJson) ?? KEYFRAMES.map(keyframeToJson), null, 2),
-                'Todos copiados',
-              )
-            }
-          >
-            Copiar todos
-          </button>
-          <button type="button" onClick={() => restoreKeyframes(engineRef.current)}>
-            Restaurar
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              saveStoredKeyframes(engineRef.current?.keyframes ?? KEYFRAMES);
-              setCopyStatus('Guardado local');
-            }}
-          >
-            Guardar local
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              clearStoredKeyframes();
-              restoreKeyframes(engineRef.current);
-              setCopyStatus('Local borrado');
-            }}
-          >
-            Borrar local
-          </button>
-        </div>
-
-        <p className="line-lab__debug-value">
-          reveal {params.reveal.toFixed(2)} · sin undraw · sin path range
-        </p>
-        {copyStatus ? <p className="line-lab__debug-status">{copyStatus}</p> : null}
-      </aside>
-    </>
-  );
-}
-
-function TrionnLinesLabInner() {
-  const searchParams = useSearchParams();
-  const debug = searchParams.get('debug') === '1';
-  const canvasRef = useRef(null);
-  const scrollRef = useRef(null);
-  const engineRef = useRef(null);
-  const initRef = useRef(false);
-  const dragRef = useRef(null);
-
-  const refreshScrollTrigger = useCallback(() => {
-    ensureGsapPlugins();
-    import('@/lib/scroll/gsap').then(({ ScrollTrigger }) => ScrollTrigger.refresh());
-  }, []);
-
-  useEffect(() => {
-    if (initRef.current) return;
-    const canvas = canvasRef.current;
-    const scrollRoot = scrollRef.current;
-    if (!canvas || !scrollRoot) return;
-
-    initRef.current = true;
-    ensureGsapPlugins();
-    engineRef.current = createTrionnLinesEngine(canvas, scrollRoot, {
-      reduced: prefersReducedMotion(),
-      debug,
-    });
-
-    return () => {
-      destroyTrionnLinesEngine(engineRef.current);
-      engineRef.current = null;
-      initRef.current = false;
-    };
-  }, [debug]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || !debug) return undefined;
-
-    const onPointerDown = (e) => {
-      const engine = engineRef.current;
-      if (!engine?.editMode) return;
-      const hit = hitTestEditHandle(engine, e.clientX, e.clientY);
-      if (!hit) return;
-      dragRef.current = hit;
-      canvas.setPointerCapture(e.pointerId);
-    };
-
-    const onPointerMove = (e) => {
-      const engine = engineRef.current;
-      const drag = dragRef.current;
-      if (!engine?.editMode || !drag) return;
-      const [nx, ny] = normFromClient(engine, e.clientX, e.clientY);
-      setEditControl(engine, drag.keyframeIndex, drag.lineKey, drag.controlKey, nx, ny);
-      engine.render();
-    };
-
-    const onPointerUp = (e) => {
-      dragRef.current = null;
-      canvas.releasePointerCapture(e.pointerId);
-    };
-
-    canvas.addEventListener('pointerdown', onPointerDown);
-    canvas.addEventListener('pointermove', onPointerMove);
-    canvas.addEventListener('pointerup', onPointerUp);
-    canvas.addEventListener('pointercancel', onPointerUp);
-
-    return () => {
-      canvas.removeEventListener('pointerdown', onPointerDown);
-      canvas.removeEventListener('pointermove', onPointerMove);
-      canvas.removeEventListener('pointerup', onPointerUp);
-      canvas.removeEventListener('pointercancel', onPointerUp);
-    };
-  }, [debug]);
-
-  return (
-    <div className="line-lab">
-      <canvas
-        ref={canvasRef}
-        className={`line-lab__canvas${debug ? ' line-lab__canvas--debug' : ''}`}
-        aria-hidden="true"
-      />
-
-      <div ref={scrollRef} className="line-lab__scroll line-lab__scroll--sequence" id="line-lab-scroll-root">
-        <div className="line-lab__sequence-spacer" aria-hidden="true" />
-        <section className="line-lab__section line-lab__section--sticky">
-          <div className="line-lab__panel">
-            <span className="line-lab__index">Secuencia K0–K5</span>
-            <h1 className="line-lab__title">Convergencia 4.0–6.0 s</h1>
-            <p className="line-lab__hint">
-              Tres Bézier completas siempre visibles. La punta conduce; sin borrado de cola.
-            </p>
-          </div>
-        </section>
-        <div className="line-lab__sequence-spacer" aria-hidden="true" />
-      </div>
-
-      {debug ? <LineLabDebugPanel engineRef={engineRef} onRefresh={refreshScrollTrigger} /> : null}
-    </div>
-  );
-}
+const HANDLE_COLOR = { p0: '#6b8fb8', cp1: '#8fb2d6', cp2: '#c49a3a', p3: '#e8dcc8' };
+const STATUS_TIMEOUT_MS = 1500;
 
 export default function TrionnLinesLab() {
+  const scrollRootRef = useRef(null);
+  const dragRef = useRef(null);
+  const statusTimeoutRef = useRef(null);
+
+  const [keyframes, setKeyframes] = useState(() => loadStoredKeyframes() || cloneKeyframes(KEYFRAMES));
+  const [mode, setMode] = useState('manual');
+  const [progress, setProgress] = useState(0);
+  const [editKeyframeIndex, setEditKeyframeIndex] = useState(0);
+  const [showControlPoints, setShowControlPoints] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [panelCollapsed, setPanelCollapsed] = useState(false);
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
+  const [copyStatus, setCopyStatus] = useState('');
+
+  const pose = useMemo(() => resolvePoseAtProgress(progress, keyframes), [progress, keyframes]);
+  const opacity = useMemo(() => resolveOpacity(progress), [progress]);
+
+  const showStatus = useCallback((text) => {
+    setCopyStatus(text);
+    clearTimeout(statusTimeoutRef.current);
+    statusTimeoutRef.current = setTimeout(() => setCopyStatus(''), STATUS_TIMEOUT_MS);
+  }, []);
+
+  useEffect(() => () => clearTimeout(statusTimeoutRef.current), []);
+
+  // Dev-only pose validation — never runs in production, never blocks rendering.
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') return;
+    const warnings = validateKeyframes(keyframes);
+    if (warnings.length) {
+      console.warn('[line-lab] pose validation:', warnings);
+    }
+  }, [keyframes]);
+
+  useEffect(() => {
+    const update = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  // Exactly one ScrollTrigger, only while in scroll mode; slider and scroll never drive progress at once.
+  useEffect(() => {
+    if (mode !== 'scroll') return undefined;
+    const scrollRoot = scrollRootRef.current;
+    if (!scrollRoot) return undefined;
+    ensureGsapPlugins();
+    const trigger = createLabScrollController(scrollRoot, setProgress);
+    return () => trigger.kill();
+  }, [mode]);
+
+  const handlePointerDown = useCallback(
+    (lineKey, controlKey) => (e) => {
+      e.currentTarget.setPointerCapture(e.pointerId);
+      dragRef.current = { lineKey, controlKey };
+    },
+    [],
+  );
+
+  const handlePointerMove = useCallback(
+    (e) => {
+      const drag = dragRef.current;
+      if (!drag) return;
+      const [nx, ny] = normFromViewport(e.clientX, e.clientY);
+      setKeyframes((prev) => {
+        const next = cloneKeyframes(prev);
+        next[editKeyframeIndex][drag.lineKey][drag.controlKey] = [nx, ny];
+        saveStoredKeyframes(next);
+        return next;
+      });
+    },
+    [editKeyframeIndex],
+  );
+
+  const handlePointerUp = useCallback((e) => {
+    dragRef.current = null;
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* noop */
+    }
+  }, []);
+
+  const handleRestore = useCallback(() => {
+    clearStoredKeyframes();
+    setKeyframes(cloneKeyframes(KEYFRAMES));
+    showStatus('Restaurado');
+  }, [showStatus]);
+
+  const handleCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(keyframesToJson(keyframes));
+      showStatus('Copiado');
+    } catch {
+      showStatus('Error al copiar');
+    }
+  }, [keyframes, showStatus]);
+
+  const jumpToProgress = useCallback((value) => {
+    setMode('manual');
+    setProgress(value);
+  }, []);
+
   return (
-    <Suspense fallback={<div className="line-lab" style={{ minHeight: '100vh' }} />}>
-      <TrionnLinesLabInner />
-    </Suspense>
+    <div className="line-lab" data-mode={mode}>
+      <svg
+        className="line-lab__svg"
+        viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
+        preserveAspectRatio="none"
+        style={{ opacity }}
+        aria-hidden="true"
+      >
+        {LINE_KEYS.map((lineKey) => (
+          <path key={lineKey} className={`line-lab__path line-lab__path--${lineKey}`} d={buildPathD(pose[lineKey])} />
+        ))}
+
+        {editMode && showControlPoints
+          ? LINE_KEYS.map((lineKey) => {
+              const curve = keyframes[editKeyframeIndex][lineKey];
+              return (
+                <g key={`guides-${lineKey}`} className="line-lab__guides">
+                  <line
+                    x1={curve.p0[0] * VIEWBOX_SIZE}
+                    y1={curve.p0[1] * VIEWBOX_SIZE}
+                    x2={curve.cp1[0] * VIEWBOX_SIZE}
+                    y2={curve.cp1[1] * VIEWBOX_SIZE}
+                  />
+                  <line
+                    x1={curve.cp2[0] * VIEWBOX_SIZE}
+                    y1={curve.cp2[1] * VIEWBOX_SIZE}
+                    x2={curve.p3[0] * VIEWBOX_SIZE}
+                    y2={curve.p3[1] * VIEWBOX_SIZE}
+                  />
+                </g>
+              );
+            })
+          : null}
+      </svg>
+
+      <div className="line-lab__nodes" aria-hidden="true">
+        {LINE_KEYS.map((lineKey) => (
+          <span
+            key={lineKey}
+            className="line-lab__node"
+            style={{
+              left: `${pose[lineKey].p3[0] * 100}%`,
+              top: `${pose[lineKey].p3[1] * 100}%`,
+              opacity,
+              '--node-color': NODE_COLOR[lineKey],
+            }}
+          >
+            <span className="line-lab__node-halo" />
+            <span className="line-lab__node-core" />
+          </span>
+        ))}
+      </div>
+
+      {editMode ? (
+        <div className="line-lab__handles">
+          {LINE_KEYS.flatMap((lineKey) =>
+            CONTROL_KEYS.map((controlKey) => {
+              const point = keyframes[editKeyframeIndex][lineKey][controlKey];
+              return (
+                <button
+                  key={`${lineKey}-${controlKey}`}
+                  type="button"
+                  className="line-lab__handle"
+                  style={{
+                    left: `${point[0] * 100}%`,
+                    top: `${point[1] * 100}%`,
+                    '--handle-color': HANDLE_COLOR[controlKey],
+                  }}
+                  onPointerDown={handlePointerDown(lineKey, controlKey)}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={handlePointerUp}
+                  onPointerCancel={handlePointerUp}
+                  aria-label={`${lineKey} ${controlKey}`}
+                />
+              );
+            }),
+          )}
+        </div>
+      ) : null}
+
+      {mode === 'scroll' ? <div ref={scrollRootRef} className="line-lab__scroll-root" aria-hidden="true" /> : null}
+
+      <aside className={`line-lab__panel${panelCollapsed ? ' is-collapsed' : ''}`}>
+        <button type="button" className="line-lab__panel-toggle" onClick={() => setPanelCollapsed((v) => !v)}>
+          {panelCollapsed ? 'Line Lab ▸' : 'Line Lab · K0–K8 ▾'}
+        </button>
+
+        {panelCollapsed ? null : (
+          <div className="line-lab__panel-body">
+            <div className="line-lab__row">
+              <span>Progreso</span>
+              <strong>{(progress * 100).toFixed(1)}%</strong>
+            </div>
+
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.001"
+              value={progress}
+              onChange={(e) => jumpToProgress(Number(e.target.value))}
+            />
+
+            <div className="line-lab__row">
+              <span>Modo</span>
+              <div className="line-lab__mode-toggle">
+                <button type="button" aria-pressed={mode === 'manual'} onClick={() => setMode('manual')}>
+                  Manual
+                </button>
+                <button type="button" aria-pressed={mode === 'scroll'} onClick={() => setMode('scroll')}>
+                  Scroll
+                </button>
+              </div>
+            </div>
+
+            <div className="line-lab__keyframe-buttons">
+              {keyframes.map((kf) => (
+                <button
+                  key={kf.id}
+                  type="button"
+                  aria-pressed={mode === 'manual' && Math.abs(progress - kf.progress) < 0.001}
+                  onClick={() => jumpToProgress(kf.progress)}
+                  title={kf.name}
+                >
+                  {kf.id}
+                </button>
+              ))}
+            </div>
+
+            <label className="line-lab__row">
+              <span>Editar keyframe</span>
+              <select
+                value={editKeyframeIndex}
+                onChange={(e) => {
+                  const index = Number(e.target.value);
+                  setEditKeyframeIndex(index);
+                  jumpToProgress(keyframes[index].progress);
+                }}
+              >
+                {keyframes.map((kf, index) => (
+                  <option key={kf.id} value={index}>
+                    {kf.id}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="line-lab__row">
+              <span>Mostrar puntos de control</span>
+              <input
+                type="checkbox"
+                checked={showControlPoints}
+                onChange={(e) => setShowControlPoints(e.target.checked)}
+              />
+            </label>
+
+            <label className="line-lab__row">
+              <span>Modo edición</span>
+              <input type="checkbox" checked={editMode} onChange={(e) => setEditMode(e.target.checked)} />
+            </label>
+
+            <div className="line-lab__actions">
+              <button type="button" onClick={handleRestore}>
+                Restaurar valores originales
+              </button>
+              <button type="button" onClick={handleCopy}>
+                Copiar keyframes JSON
+              </button>
+            </div>
+
+            <p className="line-lab__viewport">
+              {viewport.width} × {viewport.height}
+            </p>
+            {copyStatus ? <p className="line-lab__status">{copyStatus}</p> : null}
+          </div>
+        )}
+      </aside>
+    </div>
   );
 }

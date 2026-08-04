@@ -20,7 +20,6 @@ import {
   // ImageHero,
   WhyUs,
   WorkWithUsTeaser,
-  BackgroundCanvas,
 } from '@/components/value-latam';
 
 export default function Home() {
@@ -29,7 +28,6 @@ export default function Home() {
       <StructuredData />
       <Header />
       <main>
-        <BackgroundCanvas />
         {/* Legacy Hero retained for rollback:
         <CoverStory />
         */}
