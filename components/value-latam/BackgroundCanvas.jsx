@@ -29,17 +29,17 @@ export default function BackgroundCanvas() {
           <circle
             className="vl-bg-lines__tip vl-bg-lines__tip--primary"
             data-vl-bg-tip="primary"
-            r="2"
+            r="2.1"
           />
           <circle
             className="vl-bg-lines__tip vl-bg-lines__tip--secondary"
             data-vl-bg-tip="secondary"
-            r="1.8"
+            r="1.9"
           />
           <circle
             className="vl-bg-lines__tip vl-bg-lines__tip--brass"
             data-vl-bg-tip="brass"
-            r="1.6"
+            r="1.7"
           />
         </g>
       </svg>
