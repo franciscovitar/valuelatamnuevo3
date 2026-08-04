@@ -1,5 +1,6 @@
 import HomeScrollExperience from '@/components/scroll/HomeScrollExperience';
 import {
+  BackgroundCanvas,
   Contact,
   // Legacy Hero retained for rollback:
   // CoverStory,
@@ -28,6 +29,7 @@ export default function Home() {
       <StructuredData />
       <Header />
       <main>
+        <BackgroundCanvas />
         {/* Legacy Hero retained for rollback:
         <CoverStory />
         */}

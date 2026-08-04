@@ -1,5 +1,3 @@
-// Líneas de fondo — capa fija al viewport, la escena WebGL controla su propia opacidad.
-
 .vl-bg-lines-layer {
   position: fixed;
   inset: 0;
@@ -8,22 +6,169 @@
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-}
-
-.vl-bg-lines-layer canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
   opacity: 0;
 }
 
-.vl-bg-lines-layer.is-reduced canvas,
-.vl-bg-lines-layer.vl-bg-lines-layer--error canvas {
-  display: none;
+.vl-bg-lines {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.vl-bg-lines__path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.vl-bg-lines__path--outer {
+  stroke: rgba(128, 151, 178, 0.22);
+  stroke-width: 1.15;
+}
+
+.vl-bg-lines__path--middle {
+  stroke: rgba(137, 161, 188, 0.16);
+  stroke-width: 1;
+}
+
+.vl-bg-lines__path--inner {
+  stroke: rgba(151, 172, 195, 0.11);
+  stroke-width: 0.9;
+}
+
+.vl-bg-lines__world,
+.vl-bg-lines__shared-float,
+.vl-bg-lines__line-group {
+  transform-box: view-box;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.vl-bg-lines__world.is-floating .vl-bg-lines__shared-float {
+  animation: vl-bg-lines-shared-float 16.8s ease-in-out -4.2s infinite;
+}
+
+.vl-bg-lines__line-group--outer.is-floating {
+  animation: vl-bg-lines-local-outer 13.8s ease-in-out -2.1s infinite;
+}
+
+.vl-bg-lines__line-group--middle.is-floating {
+  animation: vl-bg-lines-local-middle 15.6s ease-in-out -6.3s infinite;
+}
+
+.vl-bg-lines__line-group--inner.is-floating {
+  animation: vl-bg-lines-local-inner 17.2s ease-in-out -8.5s infinite;
+}
+
+@keyframes vl-bg-lines-shared-float {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  24% {
+    transform: translate(1.1px, -0.5px);
+  }
+  51% {
+    transform: translate(-0.9px, 0.7px);
+  }
+  76% {
+    transform: translate(0.6px, 0.3px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes vl-bg-lines-local-outer {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  18% {
+    transform: translate(var(--fx1), var(--fy1));
+  }
+  43% {
+    transform: translate(var(--fx2), var(--fy2));
+  }
+  67% {
+    transform: translate(var(--fx3), var(--fy3));
+  }
+  84% {
+    transform: translate(var(--fx4), var(--fy4));
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes vl-bg-lines-local-middle {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  24% {
+    transform: translate(var(--fx1), var(--fy1));
+  }
+  46% {
+    transform: translate(var(--fx2), var(--fy2));
+  }
+  71% {
+    transform: translate(var(--fx3), var(--fy3));
+  }
+  86% {
+    transform: translate(var(--fx4), var(--fy4));
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes vl-bg-lines-local-inner {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  20% {
+    transform: translate(var(--fx1), var(--fy1));
+  }
+  48% {
+    transform: translate(var(--fx2), var(--fy2));
+  }
+  70% {
+    transform: translate(var(--fx3), var(--fy3));
+  }
+  88% {
+    transform: translate(var(--fx4), var(--fy4));
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+.vl-bg-lines__node,
+.vl-bg-lines__shared-node {
+  shape-rendering: geometricPrecision;
+}
+
+.vl-bg-lines__node-halo {
+  fill: rgba(214, 227, 242, 1);
+  opacity: 0.1;
+}
+
+.vl-bg-lines__node-core {
+  fill: rgba(214, 227, 242, 1);
+  opacity: 0.78;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vl-bg-lines-layer canvas {
-    display: none;
+  .vl-bg-lines-layer {
+    opacity: 0 !important;
+  }
+
+  .vl-bg-lines__world.is-floating .vl-bg-lines__shared-float,
+  .vl-bg-lines__line-group--outer.is-floating,
+  .vl-bg-lines__line-group--middle.is-floating,
+  .vl-bg-lines__line-group--inner.is-floating {
+    animation: none;
+    transform: translate(0px, 0px);
   }
 }
