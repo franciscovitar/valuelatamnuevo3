@@ -311,3 +311,23 @@ header.nav .nav-links .nav-mobile-cta {
   transform: none !important;
   filter: none !important;
 }
+
+/* Opaque content surfaces above decorative background lines */
+[data-vl-home-section='why-us'] .pullquote {
+  background-color: #102136;
+  background-image: none;
+}
+
+[data-vl-home-section='solutions'] .sol-card {
+  background-color: #17263a;
+  background-image: none;
+}
+
+[data-vl-home-section='team'] .person,
+[data-vl-home-section='team'] .person:hover,
+[data-vl-home-section='team'] .person:focus,
+[data-vl-home-section='team'] .person:focus-within,
+[data-vl-home-section='team'] .person:active {
+  background-color: #102134 !important;
+  background-image: none !important;
+}
