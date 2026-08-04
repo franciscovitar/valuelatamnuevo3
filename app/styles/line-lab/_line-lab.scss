@@ -48,89 +48,129 @@
   stroke-width: 0.9;
 }
 
+.line-lab__convergence-marker {
+  fill: rgba(214, 227, 242, 0.25);
+  shape-rendering: geometricPrecision;
+}
+
+.line-lab__lines-world,
+.line-lab__shared-float,
 .line-lab__line-group {
   transform-box: view-box;
   transform-origin: center;
   will-change: transform;
 }
 
+.line-lab__lines-world.is-floating .line-lab__shared-float {
+  animation: line-lab-shared-float 14.6s ease-in-out -4.2s infinite;
+}
+
 .line-lab__line-group--outer.is-floating {
-  animation: line-lab-float-outer 11.8s ease-in-out -2.4s infinite;
+  animation: line-lab-local-outer 8.8s ease-in-out -2.1s infinite;
 }
 
 .line-lab__line-group--middle.is-floating {
-  animation: line-lab-float-middle 9.7s ease-in-out -5.1s infinite;
+  animation: line-lab-local-middle 10.4s ease-in-out -6.3s infinite;
 }
 
 .line-lab__line-group--inner.is-floating {
-  animation: line-lab-float-inner 13.1s ease-in-out -7.3s infinite;
+  animation: line-lab-local-inner 12.1s ease-in-out -8.5s infinite;
 }
 
-@keyframes line-lab-float-outer {
+@keyframes line-lab-shared-float {
   0% {
     transform: translate(0px, 0px);
   }
-  22% {
-    transform: translate(2.2px, -1.1px);
+  21% {
+    transform: translate(1.6px, -0.7px);
   }
-  48% {
-    transform: translate(-1.4px, 1.3px);
+  47% {
+    transform: translate(-1.2px, 1.1px);
   }
-  73% {
-    transform: translate(1.1px, 0.6px);
+  72% {
+    transform: translate(0.8px, 0.4px);
   }
   100% {
     transform: translate(0px, 0px);
   }
 }
 
-@keyframes line-lab-float-middle {
+@keyframes line-lab-local-outer {
   0% {
     transform: translate(0px, 0px);
   }
-  27% {
-    transform: translate(-1.8px, 1px);
+  18% {
+    transform: translate(var(--fx1), var(--fy1));
   }
-  52% {
-    transform: translate(2px, -1.2px);
+  43% {
+    transform: translate(var(--fx2), var(--fy2));
   }
-  78% {
-    transform: translate(-0.8px, -0.4px);
+  67% {
+    transform: translate(var(--fx3), var(--fy3));
+  }
+  84% {
+    transform: translate(var(--fx4), var(--fy4));
   }
   100% {
     transform: translate(0px, 0px);
   }
 }
 
-@keyframes line-lab-float-inner {
+@keyframes line-lab-local-middle {
   0% {
     transform: translate(0px, 0px);
   }
   24% {
-    transform: translate(1.4px, 1.2px);
+    transform: translate(var(--fx1), var(--fy1));
   }
-  49% {
-    transform: translate(-2.1px, -0.8px);
+  46% {
+    transform: translate(var(--fx2), var(--fy2));
   }
-  76% {
-    transform: translate(0.7px, -1.3px);
+  71% {
+    transform: translate(var(--fx3), var(--fy3));
+  }
+  86% {
+    transform: translate(var(--fx4), var(--fy4));
   }
   100% {
     transform: translate(0px, 0px);
   }
 }
 
-// Tip ("head") markers and debug head/tail markers are native SVG circles so
-// they live in world coordinates and move with the camera exactly like the
-// trail paths — no manual percentage conversion needed.
+@keyframes line-lab-local-inner {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  20% {
+    transform: translate(var(--fx1), var(--fy1));
+  }
+  48% {
+    transform: translate(var(--fx2), var(--fy2));
+  }
+  70% {
+    transform: translate(var(--fx3), var(--fy3));
+  }
+  88% {
+    transform: translate(var(--fx4), var(--fy4));
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+.line-lab__node,
+.line-lab__shared-node {
+  shape-rendering: geometricPrecision;
+}
+
 .line-lab__node-halo {
   fill: var(--node-color);
-  opacity: 0.16;
+  opacity: 0.1;
 }
 
 .line-lab__node-core {
   fill: var(--node-color);
-  opacity: 0.85;
+  opacity: 0.78;
 }
 
 .line-lab__debug-point {
@@ -277,6 +317,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .line-lab__lines-world.is-floating .line-lab__shared-float,
   .line-lab__line-group--outer.is-floating,
   .line-lab__line-group--middle.is-floating,
   .line-lab__line-group--inner.is-floating {
