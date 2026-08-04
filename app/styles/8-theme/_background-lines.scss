@@ -1,137 +1,29 @@
-// Líneas de fondo — capa absoluta en main (altura real del documento)
-
-main:has(.vl-bg-lines-layer) {
-  position: relative;
-}
-
-main:has(.vl-bg-lines-layer) > :not(.vl-bg-lines-layer) {
-  position: relative;
-  z-index: 1;
-}
+// Líneas de fondo — capa fija al viewport, la escena WebGL controla su propia opacidad.
 
 .vl-bg-lines-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100svh;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  -webkit-mask-image: linear-gradient(
-    180deg,
-    transparent 0%,
-    #000 5%,
-    #000 95%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    180deg,
-    transparent 0%,
-    #000 5%,
-    #000 95%,
-    transparent 100%
-  );
 }
 
-.vl-bg-lines-layer.is-ready {
-  opacity: 1;
-}
-
-.vl-bg-lines-layer.is-reduced {
-  opacity: 0.18;
-}
-
-.vl-bg-lines {
+.vl-bg-lines-layer canvas {
   display: block;
   width: 100%;
   height: 100%;
-  overflow: visible;
-}
-
-.vl-bg-lines__path {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
-}
-
-.vl-bg-lines__path--primary {
-  stroke: rgba(143, 178, 214, 0.24);
-  stroke-width: 1.15px;
-}
-
-.vl-bg-lines__path--secondary {
-  stroke: rgba(143, 178, 214, 0.14);
-  stroke-width: 0.95px;
-}
-
-.vl-bg-lines__path--brass {
-  stroke: rgba(196, 154, 58, 0.12);
-  stroke-width: 0.9px;
-}
-
-.vl-bg-lines__tip {
   opacity: 0;
 }
 
-.vl-bg-lines-layer.is-ready .vl-bg-lines__tip {
-  opacity: 1;
-}
-
-.vl-bg-lines__tip--primary {
-  fill: rgba(143, 178, 214, 0.28);
-}
-
-.vl-bg-lines__tip--secondary {
-  fill: rgba(143, 178, 214, 0.18);
-}
-
-.vl-bg-lines__tip--brass {
-  fill: rgba(196, 154, 58, 0.14);
-}
-
-@media (max-width: 1024px) {
-  .vl-bg-lines__path--primary {
-    stroke: rgba(143, 178, 214, 0.2);
-    stroke-width: 1.05px;
-  }
-
-  .vl-bg-lines__path--secondary {
-    stroke: rgba(143, 178, 214, 0.12);
-    stroke-width: 0.9px;
-  }
-
-  .vl-bg-lines__path--brass {
-    stroke: rgba(196, 154, 58, 0.1);
-    stroke-width: 0.85px;
-  }
-}
-
-@media (max-width: 760px) {
-  .vl-bg-lines__path--brass,
-  .vl-bg-lines__tip--brass {
-    display: none;
-  }
-
-  .vl-bg-lines__path--primary {
-    stroke: rgba(143, 178, 214, 0.17);
-    stroke-width: 1px;
-  }
-
-  .vl-bg-lines__path--secondary {
-    stroke: rgba(143, 178, 214, 0.1);
-    stroke-width: 0.85px;
-  }
+.vl-bg-lines-layer.is-reduced canvas,
+.vl-bg-lines-layer.vl-bg-lines-layer--error canvas {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vl-bg-lines-layer:not(.is-reduced) {
-    opacity: 0;
-  }
-
-  .vl-bg-lines-layer.is-reduced {
-    opacity: 0.14;
+  .vl-bg-lines-layer canvas {
+    display: none;
   }
 }
