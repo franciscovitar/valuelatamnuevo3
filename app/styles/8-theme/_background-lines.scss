@@ -1,4 +1,4 @@
-// Líneas de fondo — escenas locales absolutas en main
+// Líneas de fondo — capa absoluta en main (altura real del documento)
 
 main:has(.vl-bg-lines-layer) {
   position: relative;
@@ -22,15 +22,15 @@ main:has(.vl-bg-lines-layer) > :not(.vl-bg-lines-layer) {
   -webkit-mask-image: linear-gradient(
     180deg,
     transparent 0%,
-    #000 4%,
-    #000 96%,
+    #000 5%,
+    #000 95%,
     transparent 100%
   );
   mask-image: linear-gradient(
     180deg,
     transparent 0%,
-    #000 4%,
-    #000 96%,
+    #000 5%,
+    #000 95%,
     transparent 100%
   );
 }
@@ -40,7 +40,7 @@ main:has(.vl-bg-lines-layer) > :not(.vl-bg-lines-layer) {
 }
 
 .vl-bg-lines-layer.is-reduced {
-  opacity: 0.16;
+  opacity: 0.18;
 }
 
 .vl-bg-lines {
@@ -48,11 +48,6 @@ main:has(.vl-bg-lines-layer) > :not(.vl-bg-lines-layer) {
   width: 100%;
   height: 100%;
   overflow: visible;
-}
-
-.vl-bg-line-scene {
-  opacity: 0;
-  will-change: opacity;
 }
 
 .vl-bg-lines__path {
@@ -63,50 +58,54 @@ main:has(.vl-bg-lines-layer) > :not(.vl-bg-lines-layer) {
 }
 
 .vl-bg-lines__path--primary {
-  stroke: rgba(143, 178, 214, 0.26);
+  stroke: rgba(143, 178, 214, 0.24);
   stroke-width: 1.15px;
 }
 
 .vl-bg-lines__path--secondary {
-  stroke: rgba(143, 178, 214, 0.15);
-  stroke-width: 0.92px;
+  stroke: rgba(143, 178, 214, 0.14);
+  stroke-width: 0.95px;
 }
 
 .vl-bg-lines__path--brass {
   stroke: rgba(196, 154, 58, 0.12);
-  stroke-width: 0.88px;
+  stroke-width: 0.9px;
 }
 
 .vl-bg-lines__tip {
   opacity: 0;
 }
 
+.vl-bg-lines-layer.is-ready .vl-bg-lines__tip {
+  opacity: 1;
+}
+
 .vl-bg-lines__tip--primary {
-  fill: rgba(143, 178, 214, 0.26);
+  fill: rgba(143, 178, 214, 0.28);
 }
 
 .vl-bg-lines__tip--secondary {
-  fill: rgba(143, 178, 214, 0.16);
+  fill: rgba(143, 178, 214, 0.18);
 }
 
 .vl-bg-lines__tip--brass {
-  fill: rgba(196, 154, 58, 0.13);
+  fill: rgba(196, 154, 58, 0.14);
 }
 
 @media (max-width: 1024px) {
   .vl-bg-lines__path--primary {
-    stroke: rgba(143, 178, 214, 0.22);
+    stroke: rgba(143, 178, 214, 0.2);
     stroke-width: 1.05px;
   }
 
   .vl-bg-lines__path--secondary {
-    stroke: rgba(143, 178, 214, 0.13);
-    stroke-width: 0.88px;
+    stroke: rgba(143, 178, 214, 0.12);
+    stroke-width: 0.9px;
   }
 
   .vl-bg-lines__path--brass {
     stroke: rgba(196, 154, 58, 0.1);
-    stroke-width: 0.84px;
+    stroke-width: 0.85px;
   }
 }
 
@@ -117,12 +116,12 @@ main:has(.vl-bg-lines-layer) > :not(.vl-bg-lines-layer) {
   }
 
   .vl-bg-lines__path--primary {
-    stroke: rgba(143, 178, 214, 0.18);
+    stroke: rgba(143, 178, 214, 0.17);
     stroke-width: 1px;
   }
 
   .vl-bg-lines__path--secondary {
-    stroke: rgba(143, 178, 214, 0.11);
+    stroke: rgba(143, 178, 214, 0.1);
     stroke-width: 0.85px;
   }
 }
@@ -133,6 +132,6 @@ main:has(.vl-bg-lines-layer) > :not(.vl-bg-lines-layer) {
   }
 
   .vl-bg-lines-layer.is-reduced {
-    opacity: 0.12;
+    opacity: 0.14;
   }
 }
