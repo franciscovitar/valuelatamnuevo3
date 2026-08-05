@@ -2,11 +2,15 @@
 
 import SmoothScrollProvider from './SmoothScrollProvider';
 import PageTransitionProvider from './PageTransitionProvider';
+import AmbientParticleField from '@/components/value-latam/AmbientParticleField';
 
 export default function AppProviders({ children }) {
   return (
     <SmoothScrollProvider>
-      <PageTransitionProvider>{children}</PageTransitionProvider>
+      <AmbientParticleField />
+      <div className="vl-app-content">
+        <PageTransitionProvider>{children}</PageTransitionProvider>
+      </div>
     </SmoothScrollProvider>
   );
 }
