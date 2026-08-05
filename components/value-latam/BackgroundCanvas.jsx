@@ -16,19 +16,36 @@ export default function BackgroundCanvas() {
         <defs>
           {lineKeys.map((lineKey) => (
             <linearGradient
-              id={`vl-active-gradient-${lineKey}`}
-              data-vl-active-gradient={lineKey}
+              id={`vl-history-gradient-${lineKey}`}
+              data-vl-history-gradient={lineKey}
               gradientUnits="userSpaceOnUse"
-              key={`gradient-${lineKey}`}
+              key={`history-${lineKey}`}
               x1="0"
               y1="0"
-              x2="0"
+              x2="1"
               y2="1"
             >
               <stop offset="0%" stopOpacity="0" />
-              <stop offset="24%" stopOpacity="0.18" />
-              <stop offset="52%" stopOpacity="0.58" />
-              <stop offset="78%" stopOpacity="0.88" />
+              <stop offset="18%" stopOpacity="0.12" />
+              <stop offset="58%" stopOpacity="0.46" />
+              <stop offset="100%" stopOpacity="0.72" />
+            </linearGradient>
+          ))}
+
+          {lineKeys.map((lineKey) => (
+            <linearGradient
+              id={`vl-active-gradient-${lineKey}`}
+              data-vl-active-gradient={lineKey}
+              gradientUnits="userSpaceOnUse"
+              key={`active-${lineKey}`}
+              x1="0"
+              y1="0"
+              x2="1"
+              y2="1"
+            >
+              <stop offset="0%" stopOpacity="0.04" />
+              <stop offset="34%" stopOpacity="0.28" />
+              <stop offset="70%" stopOpacity="0.78" />
               <stop offset="100%" stopOpacity="1" />
             </linearGradient>
           ))}
@@ -38,72 +55,33 @@ export default function BackgroundCanvas() {
           className="vl-bg-lines__world"
           data-vl-bg-lines-world
         >
-          <g
-            className="vl-bg-lines__shared-float"
-            data-vl-bg-lines-shared-float
-          >
-            {lineKeys.map((lineKey) => (
-              <g
-                key={lineKey}
-                data-vl-line-group={lineKey}
-                className={
-                  `vl-bg-lines__line-group `
-                  + `vl-bg-lines__line-group--${lineKey}`
-                }
-              >
-                <path
-                  data-vl-history-trail={lineKey}
-                  className={
-                    `vl-bg-lines__path `
-                    + `vl-bg-lines__path--history `
-                    + `vl-bg-lines__path--${lineKey}`
-                  }
-                />
-                <path
-                  data-vl-active-trail={lineKey}
-                  className={
-                    `vl-bg-lines__path `
-                    + `vl-bg-lines__path--active `
-                    + `vl-bg-lines__path--${lineKey}`
-                  }
-                />
-
-                <g
-                  data-vl-node={lineKey}
-                  className="vl-bg-lines__node"
-                >
-                  <ellipse
-                    data-vl-node-halo={lineKey}
-                    className="vl-bg-lines__node-halo"
-                  />
-                  <ellipse
-                    data-vl-node-core={lineKey}
-                    className="vl-bg-lines__node-core"
-                  />
-                </g>
-              </g>
-            ))}
-
+          {lineKeys.map((lineKey) => (
             <g
-              data-vl-shared-node
-              className="vl-bg-lines__shared-node"
+              key={lineKey}
+              data-vl-line-group={lineKey}
+              className={
+                `vl-bg-lines__line-group `
+                + `vl-bg-lines__line-group--${lineKey}`
+              }
             >
-              <ellipse
-                data-vl-shared-node-halo
-                className="vl-bg-lines__node-halo"
+              <path
+                data-vl-history-trail={lineKey}
+                className={
+                  `vl-bg-lines__path `
+                  + `vl-bg-lines__path--history `
+                  + `vl-bg-lines__path--${lineKey}`
+                }
               />
-              <ellipse
-                data-vl-shared-node-core
-                className="vl-bg-lines__node-core"
+              <path
+                data-vl-active-trail={lineKey}
+                className={
+                  `vl-bg-lines__path `
+                  + `vl-bg-lines__path--active `
+                  + `vl-bg-lines__path--${lineKey}`
+                }
               />
             </g>
-
-            <g
-              data-vl-lines-debug-overlay
-              className="vl-bg-lines__debug-overlay"
-              opacity="0"
-            />
-          </g>
+          ))}
         </g>
       </svg>
     </div>

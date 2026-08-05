@@ -1,12 +1,13 @@
 .vl-bg-lines-layer {
-  position: absolute;
-  inset: 0 auto auto 0;
-  width: 100%;
-  height: 1px;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0;
+  opacity: 1;
+  contain: strict;
 }
 
 .vl-bg-lines {
@@ -18,10 +19,9 @@
 }
 
 .vl-bg-lines__world,
-.vl-bg-lines__shared-float,
 .vl-bg-lines__line-group {
-  animation: none !important;
   transform: none !important;
+  animation: none !important;
 }
 
 .vl-bg-lines__path {
@@ -32,45 +32,26 @@
   shape-rendering: geometricPrecision;
 }
 
-.vl-bg-lines__path--history,
-.vl-bg-lines__path--active {
+.vl-bg-lines__path--history {
   opacity: 1;
 }
 
-.vl-bg-lines__node {
-  display: none;
+.vl-bg-lines__path--active {
+  opacity: 1;
+  filter:
+    drop-shadow(
+      0 0 3px rgba(204, 180, 135, 0.12)
+    );
 }
 
-.vl-bg-lines__shared-node {
-  shape-rendering: geometricPrecision;
-}
+@media (max-width: 760px) {
+  .vl-bg-lines__line-group--outer {
+    display: none;
+  }
 
-.vl-bg-lines__node-halo {
-  fill: var(--node-color, rgba(242, 239, 232, 1));
-  opacity: 0.065;
-}
-
-.vl-bg-lines__node-core {
-  fill: var(--node-color, rgba(242, 239, 232, 1));
-  opacity: 0.72;
-}
-
-.vl-bg-lines__debug-overlay {
-  pointer-events: none;
-}
-
-.vl-bg-lines__debug-box {
-  fill: rgba(242, 239, 232, 0.025);
-  stroke: rgba(242, 239, 232, 0.22);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-
-.vl-bg-lines__debug-head {
-  fill: rgba(204, 180, 135, 0.28);
-  stroke: rgba(204, 180, 135, 0.68);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
+  .vl-bg-lines__path--active {
+    filter: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

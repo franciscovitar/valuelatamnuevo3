@@ -12,14 +12,12 @@ import {
   LINE_KEYS,
   WORLD_WIDTH,
   VIEWPORT_HEIGHT,
-  MASTER_PATH_D,
-  MASTER_ROUTE_OPACITY,
-  NODE_COLOR,
   CHECKPOINTS,
-  CONVERGENCE_BEATS,
+  GESTURE_WINDOWS,
+  resolveGestureState,
   resolveLineState,
-  resolveCameraTop,
-  resolveConvergenceState,
+  getGestureRouteSamples,
+  sliceRoute,
   routesToJson,
   createLabScrollController,
 } from '@/lib/line-lab/trionnLinesEngine';
@@ -30,38 +28,14 @@ const CHECKPOINT_EPSILON = 0.0005;
 export default function TrionnLinesLab() {
   const [mode, setMode] = useState('manual');
   const [progress, setProgress] = useState(0);
-  const [showMasterRoute, setShowMasterRoute] = useState(false);
-  const [showHeadTail, setShowHeadTail] = useState(false);
-  const [showConvergences, setShowConvergences] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
-  const [viewport, setViewport] = useState({
-    width: 0,
-    height: 0,
-  });
   const [copyStatus, setCopyStatus] = useState(null);
   const scrollRootRef = useRef(null);
 
-  const cameraTop = useMemo(
-    () => resolveCameraTop(progress),
+  const gestureState = useMemo(
+    () => resolveGestureState(progress),
     [progress]
   );
-  const convergenceState = useMemo(
-    () => resolveConvergenceState(progress),
-    [progress]
-  );
-
-  const worldUnitsPerPixelX = (
-    WORLD_WIDTH / Math.max(viewport.width, 1)
-  );
-  const worldUnitsPerPixelY = (
-    VIEWPORT_HEIGHT / Math.max(viewport.height, 1)
-  );
-  const coreRx = 0.85 * worldUnitsPerPixelX;
-  const coreRy = 0.85 * worldUnitsPerPixelY;
-  const haloRx = 2.05 * worldUnitsPerPixelX;
-  const haloRy = 2.05 * worldUnitsPerPixelY;
-  const convergenceMarkerRx = 2 * worldUnitsPerPixelX;
-  const convergenceMarkerRy = 2 * worldUnitsPerPixelY;
 
   const lineStates = useMemo(() => {
     const result = {};
@@ -69,7 +43,8 @@ export default function TrionnLinesLab() {
     LINE_KEYS.forEach((lineKey) => {
       result[lineKey] = resolveLineState(
         progress,
-        lineKey
+        lineKey,
+        { profileKey: 'desktop' }
       );
     });
 
@@ -87,22 +62,6 @@ export default function TrionnLinesLab() {
         warnings
       );
     }
-  }, []);
-
-  useEffect(() => {
-    const update = () => {
-      setViewport({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    update();
-    window.addEventListener('resize', update);
-
-    return () => {
-      window.removeEventListener('resize', update);
-    };
   }, []);
 
   useEffect(() => {
@@ -125,11 +84,6 @@ export default function TrionnLinesLab() {
     setProgress(Number(event.target.value));
   }, []);
 
-  const jumpToCheckpoint = useCallback((checkpoint) => {
-    setMode('manual');
-    setProgress(checkpoint.progress);
-  }, []);
-
   const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(routesToJson());
@@ -139,127 +93,57 @@ export default function TrionnLinesLab() {
     }
   }, []);
 
-  const sharedNodePoint = lineStates.middle.headPoint;
-  const showSharedNode = lineStates.middle.headU > 0.002;
-
   return (
     <div className="line-lab">
       <svg
         className="line-lab__svg"
-        viewBox={
-          `0 ${cameraTop} ${WORLD_WIDTH} ${VIEWPORT_HEIGHT}`
-        }
+        viewBox={`0 0 ${WORLD_WIDTH} ${VIEWPORT_HEIGHT}`}
         preserveAspectRatio="none"
         aria-hidden="true"
+        style={{ opacity: gestureState.opacity }}
       >
-        {showConvergences
-          && CONVERGENCE_BEATS.map((beat) => {
-            const beatState = resolveLineState(
-              beat.progress,
-              'middle'
-            );
-            const [cx, cy] = beatState.headPoint;
+        {LINE_KEYS.map((lineKey) => {
+          const state = lineStates[lineKey];
+          const samples = getGestureRouteSamples(
+            'desktop',
+            state.gestureIndex,
+            lineKey
+          );
 
-            return (
-              <ellipse
-                key={`conv-${beat.progress}`}
-                cx={cx}
-                cy={cy}
-                rx={convergenceMarkerRx}
-                ry={convergenceMarkerRy}
-                className="line-lab__convergence-marker"
+          return (
+            <g
+              key={lineKey}
+              className={
+                `line-lab__line-group `
+                + `line-lab__line-group--${lineKey}`
+              }
+            >
+              <path
+                d={sliceRoute(
+                  samples,
+                  state.tailU,
+                  state.activeStartU
+                )}
+                className={
+                  `line-lab__path `
+                  + `line-lab__path--${lineKey}`
+                }
               />
-            );
-          })}
-
-        <g className="line-lab__lines-world">
-          <g className="line-lab__shared-float">
-            {LINE_KEYS.map((lineKey) => {
-              const state = lineStates[lineKey];
-              const [hx, hy] = state.headPoint;
-              const [tx, ty] = state.tailPoint;
-
-              return (
-                <g
-                  key={`line-group-${lineKey}`}
-                  data-line-group={lineKey}
-                  className={
-                    `line-lab__line-group `
-                    + `line-lab__line-group--${lineKey}`
-                  }
-                  style={{ '--node-color': NODE_COLOR }}
-                >
-                  <path
-                    data-master-route={lineKey}
-                    d={MASTER_PATH_D[lineKey]}
-                    className="line-lab__master-path"
-                    style={{
-                      opacity: showMasterRoute
-                        ? MASTER_ROUTE_OPACITY
-                        : 0,
-                    }}
-                  />
-
-                  <path
-                    data-visible-trail={lineKey}
-                    d={state.trailD}
-                    className={
-                      `line-lab__path `
-                      + `line-lab__path--${lineKey}`
-                    }
-                  />
-
-                  {showHeadTail && (
-                    <g>
-                      <ellipse
-                        cx={hx}
-                        cy={hy}
-                        rx={6 * worldUnitsPerPixelX}
-                        ry={6 * worldUnitsPerPixelY}
-                        className={
-                          'line-lab__debug-point '
-                          + 'line-lab__debug-point--head'
-                        }
-                      />
-                      <ellipse
-                        cx={tx}
-                        cy={ty}
-                        rx={6 * worldUnitsPerPixelX}
-                        ry={6 * worldUnitsPerPixelY}
-                        className={
-                          'line-lab__debug-point '
-                          + 'line-lab__debug-point--tail'
-                        }
-                      />
-                    </g>
-                  )}
-                </g>
-              );
-            })}
-
-            {showSharedNode && (
-              <g
-                className="line-lab__shared-node"
-                style={{ '--node-color': NODE_COLOR }}
-              >
-                <ellipse
-                  cx={sharedNodePoint[0]}
-                  cy={sharedNodePoint[1]}
-                  rx={haloRx}
-                  ry={haloRy}
-                  className="line-lab__node-halo"
-                />
-                <ellipse
-                  cx={sharedNodePoint[0]}
-                  cy={sharedNodePoint[1]}
-                  rx={coreRx}
-                  ry={coreRy}
-                  className="line-lab__node-core"
-                />
-              </g>
-            )}
-          </g>
-        </g>
+              <path
+                d={sliceRoute(
+                  samples,
+                  state.activeStartU,
+                  state.headU
+                )}
+                className={
+                  `line-lab__path `
+                  + `line-lab__path--active `
+                  + `line-lab__path--${lineKey}`
+                }
+              />
+            </g>
+          );
+        })}
       </svg>
 
       {mode === 'scroll' && (
@@ -277,7 +161,7 @@ export default function TrionnLinesLab() {
             setPanelCollapsed((value) => !value);
           }}
         >
-          Line Lab - Normal Bundle {panelCollapsed ? '>' : 'v'}
+          Trionn Motion {panelCollapsed ? '>' : 'v'}
         </button>
 
         {!panelCollapsed && (
@@ -300,23 +184,15 @@ export default function TrionnLinesLab() {
             />
 
             <div className="line-lab__row">
-              <span>Modo</span>
-              <div className="line-lab__mode-toggle">
-                <button
-                  type="button"
-                  aria-pressed={mode === 'manual'}
-                  onClick={() => setMode('manual')}
-                >
-                  Manual
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={mode === 'scroll'}
-                  onClick={() => setMode('scroll')}
-                >
-                  Scroll
-                </button>
-              </div>
+              <span>Gesto</span>
+              <strong>{gestureState.gestureId}</strong>
+            </div>
+
+            <div className="line-lab__row">
+              <span>Opacidad</span>
+              <strong>
+                {gestureState.opacity.toFixed(3)}
+              </strong>
             </div>
 
             <div className="line-lab__checkpoint-buttons">
@@ -330,7 +206,8 @@ export default function TrionnLinesLab() {
                     ) < CHECKPOINT_EPSILON
                   }
                   onClick={() => {
-                    jumpToCheckpoint(checkpoint);
+                    setMode('manual');
+                    setProgress(checkpoint.progress);
                   }}
                 >
                   {checkpoint.id}
@@ -338,57 +215,15 @@ export default function TrionnLinesLab() {
               ))}
             </div>
 
-            <label className="line-lab__row">
-              <span>Mostrar ruta completa</span>
-              <input
-                type="checkbox"
-                checked={showMasterRoute}
-                onChange={(event) => {
-                  setShowMasterRoute(event.target.checked);
-                }}
-              />
-            </label>
-
-            <label className="line-lab__row">
-              <span>Mostrar head/tail</span>
-              <input
-                type="checkbox"
-                checked={showHeadTail}
-                onChange={(event) => {
-                  setShowHeadTail(event.target.checked);
-                }}
-              />
-            </label>
-
-            <label className="line-lab__row">
-              <span>Mostrar convergencias</span>
-              <input
-                type="checkbox"
-                checked={showConvergences}
-                onChange={(event) => {
-                  setShowConvergences(event.target.checked);
-                }}
-              />
-            </label>
-
             <div className="line-lab__uvalues">
-              <p className="line-lab__uvalue-row">
-                nearestConvergence=
-                {convergenceState.nearestProgress.toFixed(3)}
-              </p>
-              <p className="line-lab__uvalue-row">
-                mergeAmount=
-                {convergenceState.mergeAmount.toFixed(3)}
-              </p>
-              {LINE_KEYS.map((lineKey) => (
+              {GESTURE_WINDOWS.map((gesture) => (
                 <p
-                  key={`u-${lineKey}`}
+                  key={gesture.id}
                   className="line-lab__uvalue-row"
                 >
-                  {lineKey}: headU=
-                  {lineStates[lineKey].headU.toFixed(4)}
-                  {' '}activeStartU=
-                  {lineStates[lineKey].activeStartU.toFixed(4)}
+                  {gesture.id}: {gesture.start.toFixed(3)}
+                  {' - '}
+                  {gesture.end.toFixed(3)}
                 </p>
               ))}
             </div>
