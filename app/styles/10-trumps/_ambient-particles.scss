@@ -1,6 +1,6 @@
 /* =========================================================
-   VALUE LATAM - AMBIENT PARTICLES v2
-   Cleaner dust, no halos, reactive scroll depth
+   VALUE LATAM - NIGHT STARFIELD v3
+   More visible stars with layered scroll depth
    ========================================================= */
 
 .vl-ambient-particles {
@@ -11,7 +11,7 @@
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  opacity: 0.58;
+  opacity: 0.84;
   mix-blend-mode: screen;
   contain: strict;
 }
@@ -30,12 +30,12 @@ section[data-vl-internal-page] {
 
 @media (max-width: 760px) {
   .vl-ambient-particles {
-    opacity: 0.46;
+    opacity: 0.68;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .vl-ambient-particles {
-    opacity: 0.42;
+    opacity: 0.62;
   }
 }

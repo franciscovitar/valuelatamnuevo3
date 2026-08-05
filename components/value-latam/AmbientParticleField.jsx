@@ -5,6 +5,16 @@ import { useEffect, useRef } from 'react';
 const IVORY = [242, 239, 232];
 const CHAMPAGNE = [204, 180, 135];
 
+const STARFIELD_CONFIG = {
+  desktopMin: 72,
+  desktopMax: 126,
+  mobileMin: 34,
+  mobileMax: 56,
+  areaDivisor: 16800,
+  pointerStrength: 14,
+  scrollEase: 0.075,
+};
+
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
@@ -17,111 +27,111 @@ function randomBetween(min, max) {
   return min + Math.random() * (max - min);
 }
 
-function createParticle(width, height) {
-  const depth = randomBetween(0.06, 1);
-  const warm = Math.random() < 0.16;
-  const color = warm ? CHAMPAGNE : IVORY;
+function selectLayer() {
+  const roll = Math.random();
+
+  if (roll < 0.56) {
+    return {
+      name: 'far',
+      depth: randomBetween(0.12, 0.38),
+      radius: randomBetween(0.32, 0.66),
+      alpha: randomBetween(0.15, 0.34),
+      scrollFactor: randomBetween(0.008, 0.017),
+      pointerFactor: randomBetween(0.8, 2.4),
+      drift: randomBetween(0.12, 0.35),
+      sparkleChance: 0,
+    };
+  }
+
+  if (roll < 0.9) {
+    return {
+      name: 'mid',
+      depth: randomBetween(0.42, 0.72),
+      radius: randomBetween(0.62, 1.08),
+      alpha: randomBetween(0.28, 0.52),
+      scrollFactor: randomBetween(0.019, 0.036),
+      pointerFactor: randomBetween(2.8, 5.4),
+      drift: randomBetween(0.3, 0.65),
+      sparkleChance: 0.025,
+    };
+  }
+
+  return {
+    name: 'near',
+    depth: randomBetween(0.76, 1),
+    radius: randomBetween(1.05, 1.72),
+    alpha: randomBetween(0.48, 0.78),
+    scrollFactor: randomBetween(0.039, 0.064),
+    pointerFactor: randomBetween(5.8, 9.2),
+    drift: randomBetween(0.55, 0.95),
+    sparkleChance: 0.16,
+  };
+}
+
+function createStar(width, height) {
+  const layer = selectLayer();
+  const warm = Math.random() < 0.14;
 
   return {
     x: Math.random() * width,
     y: Math.random() * height,
-    depth,
-    radius: randomBetween(0.28, 0.66) + depth * 0.42,
-    alpha: randomBetween(0.028, 0.075) + depth * 0.055,
-    vx: randomBetween(-0.014, 0.017) * (0.3 + depth),
-    vy: randomBetween(-0.006, 0.018) * (0.3 + depth),
+    depth: layer.depth,
+    radius: layer.radius,
+    alpha: layer.alpha,
+    scrollFactor: layer.scrollFactor,
+    pointerFactor: layer.pointerFactor,
+    drift: layer.drift,
+    layer: layer.name,
+    sparkle: Math.random() < layer.sparkleChance,
+    color: warm ? CHAMPAGNE : IVORY,
     phase: Math.random() * Math.PI * 2,
-    pulseSpeed: randomBetween(0.00013, 0.00028),
-    color,
+    twinkleSpeed: randomBetween(0.00018, 0.00052),
+    twinkleAmount: randomBetween(0.08, 0.24),
+    driftSpeedX: randomBetween(0.000012, 0.000032),
+    driftSpeedY: randomBetween(0.000009, 0.000025),
   };
 }
 
-function createParticles(width, height) {
-  const baseCount = Math.round(
-    (width * height) / 23500
+function createStars(width, height) {
+  const estimated = Math.round(
+    (width * height) / STARFIELD_CONFIG.areaDivisor
   );
   const mobile = width <= 760;
   const count = mobile
-    ? clamp(baseCount, 20, 34)
-    : clamp(baseCount, 42, 82);
+    ? clamp(
+      estimated,
+      STARFIELD_CONFIG.mobileMin,
+      STARFIELD_CONFIG.mobileMax
+    )
+    : clamp(
+      estimated,
+      STARFIELD_CONFIG.desktopMin,
+      STARFIELD_CONFIG.desktopMax
+    );
 
   return Array.from(
     { length: count },
-    () => createParticle(width, height)
+    () => createStar(width, height)
   );
 }
 
-function drawParticle(
-  context,
-  particle,
-  x,
-  y,
-  time,
-  scrollVelocity
-) {
-  const pulse = (
-    0.9
-    + Math.sin(
-      time * particle.pulseSpeed
-      + particle.phase
-    ) * 0.1
-  );
-  const velocityPower = clamp(
-    Math.abs(scrollVelocity) / 36,
-    0,
+function drawStar(context, star, x, y, time) {
+  const twinkle = (
     1
+    + Math.sin(
+      time * star.twinkleSpeed
+      + star.phase
+    ) * star.twinkleAmount
   );
-  const alpha = (
-    particle.alpha
-    * pulse
-    * (1 + velocityPower * particle.depth * 0.22)
+  const alpha = clamp(
+    star.alpha * twinkle,
+    0,
+    0.92
   );
-  const radius = particle.radius * (
-    0.72 + particle.depth * 0.45
+  const radius = star.radius * (
+    0.88 + star.depth * 0.18
   );
-  const [red, green, blue] = particle.color;
-
-  /*
-   * While scrolling, deeper particles become tiny vertical trails.
-   * There is no circular halo.
-   */
-  const trailLength = (
-    velocityPower
-    * particle.depth
-    * 7.5
-  );
-  const trailDirection = scrollVelocity >= 0 ? -1 : 1;
-
-  if (trailLength > 0.35) {
-    const gradient = context.createLinearGradient(
-      x,
-      y,
-      x,
-      y + trailLength * trailDirection
-    );
-
-    gradient.addColorStop(
-      0,
-      `rgba(${red}, ${green}, ${blue}, ${alpha * 0.82})`
-    );
-    gradient.addColorStop(
-      1,
-      `rgba(${red}, ${green}, ${blue}, 0)`
-    );
-
-    context.beginPath();
-    context.strokeStyle = gradient;
-    context.lineWidth = Math.max(
-      0.45,
-      radius * 0.68
-    );
-    context.moveTo(x, y);
-    context.lineTo(
-      x,
-      y + trailLength * trailDirection
-    );
-    context.stroke();
-  }
+  const [red, green, blue] = star.color;
 
   context.beginPath();
   context.fillStyle = (
@@ -135,6 +145,25 @@ function drawParticle(
     Math.PI * 2
   );
   context.fill();
+
+  if (!star.sparkle) return;
+
+  const sparkleAlpha = alpha * 0.42;
+  const arm = radius * 3.2;
+
+  context.beginPath();
+  context.strokeStyle = (
+    `rgba(${red}, ${green}, ${blue}, ${sparkleAlpha})`
+  );
+  context.lineWidth = Math.max(
+    0.42,
+    radius * 0.34
+  );
+  context.moveTo(x - arm, y);
+  context.lineTo(x + arm, y);
+  context.moveTo(x, y - arm);
+  context.lineTo(x, y + arm);
+  context.stroke();
 }
 
 export default function AmbientParticleField() {
@@ -158,11 +187,10 @@ export default function AmbientParticleField() {
 
     let width = 1;
     let height = 1;
-    let particles = [];
+    let stars = [];
     let frame = 0;
     let lastTime = performance.now();
     let visible = !document.hidden;
-    let lastScrollY = window.scrollY || 0;
 
     const pointer = {
       x: 0,
@@ -174,8 +202,6 @@ export default function AmbientParticleField() {
     const scroll = {
       value: window.scrollY || 0,
       target: window.scrollY || 0,
-      velocity: 0,
-      targetVelocity: 0,
     };
 
     const resize = () => {
@@ -185,7 +211,7 @@ export default function AmbientParticleField() {
       const mobile = width <= 760;
       const ratio = Math.min(
         window.devicePixelRatio || 1,
-        mobile ? 1.2 : 1.45
+        mobile ? 1.25 : 1.55
       );
 
       canvas.width = Math.round(width * ratio);
@@ -203,10 +229,7 @@ export default function AmbientParticleField() {
       );
       context.lineCap = 'round';
 
-      particles = createParticles(
-        width,
-        height
-      );
+      stars = createStars(width, height);
     };
 
     const updatePointer = (event) => {
@@ -228,41 +251,27 @@ export default function AmbientParticleField() {
     };
 
     const updateScroll = () => {
-      const nextScrollY = window.scrollY || 0;
-      const delta = nextScrollY - lastScrollY;
-
-      lastScrollY = nextScrollY;
-      scroll.target = nextScrollY;
-      scroll.targetVelocity = clamp(
-        delta,
-        -52,
-        52
-      );
+      scroll.target = window.scrollY || 0;
     };
 
-    const draw = (time, animate = true) => {
+    const draw = (time) => {
       const delta = clamp(
         (time - lastTime) / 16.667,
         0.25,
-        2.2
+        2.4
       );
 
       lastTime = time;
 
       pointer.x += (
         pointer.targetX - pointer.x
-      ) * 0.035;
+      ) * 0.04;
       pointer.y += (
         pointer.targetY - pointer.y
-      ) * 0.035;
-
+      ) * 0.04;
       scroll.value += (
         scroll.target - scroll.value
-      ) * 0.072;
-      scroll.velocity += (
-        scroll.targetVelocity - scroll.velocity
-      ) * 0.16;
-      scroll.targetVelocity *= 0.76;
+      ) * STARFIELD_CONFIG.scrollEase;
 
       context.clearRect(
         0,
@@ -271,90 +280,101 @@ export default function AmbientParticleField() {
         height
       );
 
-      particles.forEach((particle) => {
-        if (animate) {
-          particle.x += particle.vx * delta;
-          particle.y += particle.vy * delta;
-        }
+      stars.forEach((star) => {
+        const driftX = Math.sin(
+          time * star.driftSpeedX
+          + star.phase
+        ) * star.drift;
+        const driftY = Math.cos(
+          time * star.driftSpeedY
+          + star.phase
+        ) * star.drift;
 
-        const depthPower = (
-          particle.depth * particle.depth
+        /*
+         * Scrolling down makes stars descend in the viewport.
+         * Each depth layer uses a different fraction of page scroll,
+         * so distant stars move least and nearby stars move most.
+         */
+        const scrollY = (
+          scroll.value * star.scrollFactor
         );
         const pointerX = (
           pointer.x
-          * (3 + depthPower * 16)
+          * STARFIELD_CONFIG.pointerStrength
+          * star.pointerFactor
+          * 0.12
         );
         const pointerY = (
           pointer.y
-          * (2 + depthPower * 11)
+          * STARFIELD_CONFIG.pointerStrength
+          * star.pointerFactor
+          * 0.09
         );
-        const baseScrollShift = (
-          scroll.value
-          * (0.004 + depthPower * 0.019)
-        );
-        const velocityShift = (
-          scroll.velocity
-          * depthPower
-          * 1.15
-        );
-        const driftX = Math.sin(
-          time * 0.000027
-          + particle.phase
-        ) * depthPower * 1.8;
-        const driftY = Math.cos(
-          time * 0.000023
-          + particle.phase
-        ) * depthPower * 1.4;
 
         const x = wrap(
-          particle.x + pointerX + driftX,
+          star.x + pointerX + driftX,
           width
         );
         const y = wrap(
-          particle.y
-          + pointerY
-          + driftY
-          - baseScrollShift
-          - velocityShift,
+          star.y + scrollY + pointerY + driftY,
           height
         );
 
-        drawParticle(
+        drawStar(
           context,
-          particle,
+          star,
           x,
           y,
-          time,
-          scroll.velocity
+          time
         );
       });
+
+      frame = requestAnimationFrame(draw);
     };
 
-    const tick = (time) => {
-      if (!visible) return;
+    const drawStatic = () => {
+      context.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
 
-      draw(time, true);
-      frame = requestAnimationFrame(tick);
+      stars.forEach((star) => {
+        drawStar(
+          context,
+          star,
+          star.x,
+          star.y,
+          0
+        );
+      });
     };
 
     const handleVisibility = () => {
       visible = !document.hidden;
 
-      if (visible && !reducedMotion) {
-        lastTime = performance.now();
+      if (!visible) {
         cancelAnimationFrame(frame);
-        frame = requestAnimationFrame(tick);
-      } else {
-        cancelAnimationFrame(frame);
+        return;
       }
+
+      if (reducedMotion) {
+        drawStatic();
+        return;
+      }
+
+      lastTime = performance.now();
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(draw);
     };
 
     resize();
 
     if (reducedMotion) {
-      draw(performance.now(), false);
+      drawStatic();
     } else {
-      frame = requestAnimationFrame(tick);
+      frame = requestAnimationFrame(draw);
     }
 
     window.addEventListener(
