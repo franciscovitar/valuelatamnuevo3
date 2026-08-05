@@ -4,7 +4,7 @@
    ========================================================= */
 
 :root {
-  --ink: #061426;
+  --ink: #041020;
   --ink-2: #0a1c32;
   --ink-3: #102a48;
 
@@ -20,11 +20,11 @@
   --line-dark: rgba(170, 184, 199, 0.14);
   --line-light: rgba(6, 20, 38, 0.12);
 
-  --vl-bg-deep: #030a16;
-  --vl-bg-base: #061426;
-  --vl-bg-raised: #0a1c32;
-  --vl-bg-card: #102a48;
-  --vl-bg-card-active: #173b60;
+  --vl-bg-deep: #020812;
+  --vl-bg-base: #041020;
+  --vl-bg-raised: #0c2136;
+  --vl-bg-card: #091a2b;
+  --vl-bg-card-active: #102a43;
 
   --vl-text-primary: #f1f1ed;
   --vl-text-secondary: #aab8c7;
@@ -44,8 +44,8 @@
   --surface-card-premium:
     linear-gradient(
       180deg,
-      rgba(16, 42, 72, 0.99),
-      rgba(9, 29, 52, 0.995)
+      rgba(12, 33, 54, 0.995),
+      rgba(7, 21, 38, 0.998)
     );
 }
 
@@ -146,8 +146,7 @@ li,
 /* ---------- Header ---------- */
 
 header.nav {
-  background:
-    linear-gradient(180deg, rgba(5, 17, 33, 0.96), rgba(3, 13, 27, 0.94));
+  background: rgba(4, 16, 32, 0.97);
   border-bottom-color: rgba(170, 184, 199, 0.11);
   box-shadow: 0 12px 36px -30px rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(16px) saturate(112%);
@@ -264,7 +263,7 @@ header .btn-primary,
 }
 
 [data-vl-home-section='solutions'] .sol-card {
-  background-color: #0f2945;
+  background-color: #091a2b;
   background-image: none;
 }
 
@@ -278,12 +277,12 @@ header .btn-primary,
 [data-vl-home-section='team'] .person:focus,
 [data-vl-home-section='team'] .person:focus-within,
 [data-vl-home-section='team'] .person:active {
-  background-color: #0e2742 !important;
+  background-color: #091a2b !important;
   background-image: none !important;
 }
 
 [data-vl-home-section='contact'] form {
-  background: #0a1c32;
+  background: #091a2b;
   backdrop-filter: none;
 }
 
@@ -291,7 +290,7 @@ header .btn-primary,
 .field select,
 .field textarea {
   color: var(--vl-text-primary);
-  background-color: #061426;
+  background-color: #061525;
   border-color: rgba(143, 168, 194, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.018);
 }
@@ -306,7 +305,7 @@ header .btn-primary,
 .reg-seal-panel {
   background:
     radial-gradient(circle at 18% 0%, rgba(143, 168, 194, 0.045), transparent 38%),
-    #091b30;
+    #081827;
 }
 
 [data-vl-home-section='regulation'] .seals .seal,
@@ -494,4 +493,132 @@ header .btn-primary,
   .btn-ghost-dark:focus-visible {
     transform: none;
   }
+}
+
+/* =========================================================
+   SURFACE SYSTEM PASS
+   Dark navy cards integrated with the main canvas
+   ========================================================= */
+
+:root {
+  --vl-surface-deep: #071526;
+  --vl-surface-base: #091a2b;
+  --vl-surface-raised: #0c2136;
+  --vl-surface-active: #102a43;
+  --vl-surface-border: rgba(143, 168, 194, 0.14);
+  --vl-surface-border-hover: rgba(143, 168, 194, 0.24);
+}
+
+/* Home surfaces */
+[data-vl-home-section='solutions'] .sol-card,
+[data-vl-home-section='why-us'] .pullquote,
+[data-vl-home-section='team'] .person,
+[data-vl-home-section='contact'] form,
+.reg-seal-panel {
+  background-color: var(--vl-surface-base);
+  background-image: none;
+  border-color: var(--vl-surface-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.024),
+    0 20px 46px -36px rgba(0, 0, 0, 0.82);
+}
+
+[data-vl-home-section='why-us'] .pullquote,
+[data-vl-home-section='team'] .person,
+[data-vl-home-section='team'] .person:hover,
+[data-vl-home-section='team'] .person:focus,
+[data-vl-home-section='team'] .person:focus-within,
+[data-vl-home-section='team'] .person:active {
+  background-color: var(--vl-surface-base) !important;
+  background-image: none !important;
+}
+
+[data-vl-home-section='contact'] form {
+  background-color: var(--vl-surface-base);
+  backdrop-filter: none;
+}
+
+/* Internal and reusable cards */
+.sol-ficha,
+.gain,
+.cycle,
+.feat,
+.client,
+.pillar,
+.ficha,
+.jcard,
+.biz,
+.pay-feat,
+.faq details {
+  background-color: var(--vl-surface-base);
+  background-image: none;
+  border-color: var(--vl-surface-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.022),
+    0 18px 42px -34px rgba(0, 0, 0, 0.76);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gain:hover,
+  .gain:focus-within,
+  .pay-feat:hover,
+  .pay-feat:focus-within,
+  .pillar:hover,
+  .pillar:focus-within,
+  .ficha:hover,
+  .ficha:focus-within,
+  .jcard:hover,
+  .jcard:focus-within,
+  .biz:hover,
+  .biz:focus-within,
+  .faq details:hover,
+  .faq details:focus-within {
+    background-color: var(--vl-surface-raised);
+    border-color: var(--vl-surface-border-hover);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.03),
+      0 22px 48px -36px rgba(0, 0, 0, 0.82);
+  }
+}
+
+/* Inputs remain darker than their parent form */
+.field input,
+.field select,
+.field textarea {
+  background-color: #061525;
+  border-color: rgba(143, 168, 194, 0.16);
+}
+
+/* Regulatory panel follows the same navy system */
+.reg-seal-panel {
+  background-color: #081827;
+}
+
+[data-vl-home-section='regulation'] .seals .seal,
+[data-vl-home-section='regulation'] .seals .seal:hover,
+[data-vl-home-section='regulation'] .seals .seal:focus,
+[data-vl-home-section='regulation'] .seals .seal:focus-visible,
+[data-vl-home-section='regulation'] .seals .seal:active {
+  background-color: #efeee8 !important;
+  border-color: rgba(239, 238, 232, 0.88) !important;
+}
+
+/* Cards remain opaque so decorative lines never show through */
+[data-vl-home-section='solutions'] .sol-card,
+[data-vl-home-section='why-us'] .pullquote,
+[data-vl-home-section='team'] .person,
+[data-vl-home-section='contact'] form,
+.sol-ficha,
+.gain,
+.cycle,
+.feat,
+.client,
+.pillar,
+.ficha,
+.jcard,
+.biz,
+.pay-feat,
+.faq details,
+.reg-seal-panel {
+  opacity: 1;
 }
