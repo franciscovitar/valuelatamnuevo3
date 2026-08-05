@@ -1,16 +1,16 @@
 .eyebrow,
 .bs-kicker,
-.join-sub-eyebrow { color: #8fb2d6; }
+.join-sub-eyebrow { color: #ccb487; }
 
-.dot { background: #8fb2d6; }
-.tag { color: #8fb2d6; border-color: rgba(143, 178, 214, .35); }
+.dot { background: #ccb487; }
+.tag { color: #ccb487; border-color: rgba(196, 194, 190, .35); }
 .cross .ar,
-.cross b { color: #8fb2d6; }
+.cross b { color: #ccb487; }
 .badge { color: rgba(246, 243, 236, .85); }
-.feat-hl { border: 1px solid rgba(143, 178, 214, .42); background: rgba(143, 178, 214, .07); }
+.feat-hl { border: 1px solid rgba(196, 194, 190, .42); background: rgba(196, 194, 190, .07); }
 .faq summary::after,
-.faq details[open] summary { color: #8fb2d6; }
-.bs-dots button.active { background: #8fb2d6; }
+.faq details[open] summary { color: #ccb487; }
+.bs-dots button.active { background: #ccb487; }
 .reg .seal { color: rgba(246, 243, 236, .85); }
-.trust .logos .chip:hover { border-color: #8fb2d6; color: var(--paper); }
+.trust .logos .chip:hover { border-color: #ccb487; color: var(--paper); }
 .tab[aria-selected="true"] { background: rgba(246, 243, 236, .13); color: var(--paper); }

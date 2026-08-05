@@ -2,7 +2,7 @@ html{background:#03090f}
   body{
     background:
       radial-gradient(120% 80% at 50% -8%, rgba(26,68,116,.32), transparent 56%),
-      linear-gradient(180deg,#0a2138 0%, #06162a 48%, #02070e 100%);
+      linear-gradient(180deg,#0f0f12 0%, #06162a 48%, #040508 100%);
     background-attachment:fixed;
     color:var(--paper);
   }
@@ -41,13 +41,13 @@ html{background:#03090f}
   }
   .sol-ficha:hover,.sol-card:hover,.gain:hover{border-color:var(--brass-2)}
   .tabs{background:rgba(255,255,255,.06);border:1px solid rgba(246,243,236,.14)}
-  .tab[aria-selected="true"]{background:var(--brass);color:#0e2336}
+  .tab[aria-selected="true"]{background:var(--brass);color:#0f0f12}
 
   /* tiles claros solo para logos a color de partners y sellos */
   .trust .logos .chip,.reg .seal{background:#fff;border:1px solid rgba(246,243,236,.14)}
 
   /* nav navy reforzado */
-  header.nav{background:rgba(14,35,54,.88);border-bottom:1px solid rgba(246,243,236,.12)}
+  header.nav{background:rgba(8, 8, 10, .88);border-bottom:1px solid rgba(246,243,236,.12)}
   /* planillas que quedaban en blanco - panel translucido legible */
   .feat,.client{background:rgba(255,255,255,.05);border:1px solid rgba(246,243,236,.12);border-radius:var(--radius-card-premium)}
   .client h3,.feat h4,.feat .fh h4{color:var(--paper)}

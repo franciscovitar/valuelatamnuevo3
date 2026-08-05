@@ -3,12 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700&family=Inter:wght@400;600&family=Poppins:wght@400&display=swap');
 
 .cover-hero {
-  --hero-accent: #8fb2d6;
-  --hero-bg: #0a2138;
+  --hero-accent: #ccb487;
+  --hero-bg: #0f0f12;
   --hero-card-bg: rgba(10, 22, 36, 0.7);
-  --hero-card-border: rgba(143, 178, 214, 0.15);
-  --hero-glow: rgba(143, 178, 214, 0.3);
-  --hero-line-accent: #8fb2d6;
+  --hero-card-border: rgba(196, 194, 190, 0.15);
+  --hero-glow: rgba(196, 194, 190, 0.3);
+  --hero-line-accent: #ccb487;
   --hero-stage-scale: 1;
   --hero-camera-scale: 1;
   --hero-font-inter: 'Inter', system-ui, sans-serif;
@@ -121,8 +121,8 @@
   opacity: 0.2;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(143, 178, 214, 0.12) 0.105%, rgba(0, 0, 0, 0) 0.105%),
-    linear-gradient(90deg, rgba(143, 178, 214, 0.12) 0%, rgba(0, 0, 0, 0) 0%);
+    linear-gradient(180deg, rgba(196, 194, 190, 0.12) 0.105%, rgba(0, 0, 0, 0) 0.105%),
+    linear-gradient(90deg, rgba(196, 194, 190, 0.12) 0%, rgba(0, 0, 0, 0) 0%);
 }
 
 .cover-hero__radial {

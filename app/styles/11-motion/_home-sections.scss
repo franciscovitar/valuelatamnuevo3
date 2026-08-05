@@ -78,7 +78,7 @@ html.vl-motion-enabled {
     background: linear-gradient(
       115deg,
       transparent 35%,
-      rgba(143, 178, 214, 0.14) 50%,
+      rgba(196, 194, 190, 0.14) 50%,
       transparent 65%
     );
   }
@@ -151,15 +151,15 @@ html.vl-motion-enabled {
   [data-vl-home-section='contact'] .field input:hover,
   [data-vl-home-section='contact'] .field select:hover,
   [data-vl-home-section='contact'] .field textarea:hover {
-    border-color: rgba(158, 192, 230, 0.34);
+    border-color: rgba(210, 207, 201, 0.34);
   }
 
   [data-vl-home-section='contact'] .field input:focus-visible,
   [data-vl-home-section='contact'] .field select:focus-visible,
   [data-vl-home-section='contact'] .field textarea:focus-visible {
     outline: none;
-    border-color: rgba(158, 192, 230, 0.62);
-    box-shadow: 0 0 0 3px rgba(143, 178, 214, 0.16);
+    border-color: rgba(210, 207, 201, 0.62);
+    box-shadow: 0 0 0 3px rgba(196, 194, 190, 0.16);
   }
 
   [data-vl-home-section='contact'] form.is-sending button[type='submit'] {

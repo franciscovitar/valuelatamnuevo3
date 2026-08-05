@@ -42,11 +42,11 @@ export const HERO_CARDS = [
 
 export const HERO_THEME = {
   blue: {
-    '--hero-accent': '#8FB2D6',
+    '--hero-accent': '#ccb487',
     '--hero-card-bg': 'rgba(10, 22, 36, 0.7)',
-    '--hero-card-border': 'rgba(143, 178, 214, 0.15)',
-    '--hero-glow': 'rgba(143, 178, 214, 0.3)',
-    '--hero-line-accent': '#8FB2D6',
+    '--hero-card-border': 'rgba(196, 194, 190, 0.15)',
+    '--hero-glow': 'rgba(196, 194, 190, 0.3)',
+    '--hero-line-accent': '#ccb487',
   },
   gold: {
     '--hero-accent': '#BFA05A',

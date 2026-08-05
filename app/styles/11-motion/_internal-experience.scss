@@ -199,7 +199,7 @@
   transform: scaleY(0);
   transform-origin: top center;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(143, 178, 214, 0.28), rgba(191, 160, 90, 0.55));
+  background: linear-gradient(180deg, rgba(196, 194, 190, 0.28), rgba(191, 160, 90, 0.55));
 }
 
 [data-vl-gsap-root='ai-processes'] .ai-steps li {
@@ -228,7 +228,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
   height: 100%;
   transform: scaleX(0);
   transform-origin: left center;
-  background: linear-gradient(90deg, rgba(143, 178, 214, 0.45), rgba(191, 160, 90, 0.85));
+  background: linear-gradient(90deg, rgba(196, 194, 190, 0.45), rgba(191, 160, 90, 0.85));
 }
 
 [data-vl-gsap-root='ai-processes'] .ai-delivery-closer {
@@ -270,7 +270,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
   height: 100%;
   transform: scaleY(0);
   transform-origin: top center;
-  background: linear-gradient(180deg, rgba(143, 178, 214, 0.45), rgba(191, 160, 90, 0.82));
+  background: linear-gradient(180deg, rgba(196, 194, 190, 0.45), rgba(191, 160, 90, 0.82));
 }
 
 [data-vl-gsap-root='payments'] .pay-reading-guide__marks {
@@ -292,8 +292,8 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 1px solid rgba(143, 178, 214, 0.45);
-  background: rgba(10, 33, 56, 0.92);
+  border: 1px solid rgba(196, 194, 190, 0.45);
+  background: rgba(15, 15, 18, 0.92);
   transition: border-color 0.25s ease;
 }
 
@@ -342,7 +342,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
   height: 1px;
   transform: scaleX(0);
   transform-origin: left center;
-  background: linear-gradient(90deg, rgba(143, 178, 214, 0.45), rgba(191, 160, 90, 0.75));
+  background: linear-gradient(90deg, rgba(196, 194, 190, 0.45), rgba(191, 160, 90, 0.75));
 }
 
 .vl-fin-divider,

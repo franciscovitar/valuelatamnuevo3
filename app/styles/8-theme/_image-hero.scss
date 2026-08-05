@@ -2,7 +2,7 @@
 
 .image-hero {
   position: relative;
-  background: #01040a;
+  background: #020306;
   color: var(--paper, #f6f3ec);
 }
 
@@ -27,7 +27,7 @@
 
 .image-hero__picture {
   z-index: 1;
-  background: #01040a;
+  background: #020306;
 }
 
 .image-hero__picture img {
@@ -70,7 +70,7 @@
   pointer-events: none;
   opacity: 0.22;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(143, 178, 214, 0.18) 0%, transparent 72%);
+  background: radial-gradient(circle, rgba(196, 194, 190, 0.18) 0%, transparent 72%);
   will-change: transform, opacity;
 }
 
@@ -81,8 +81,8 @@
   pointer-events: none;
   opacity: 0.045;
   background-image:
-    linear-gradient(rgba(143, 178, 214, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(143, 178, 214, 0.35) 1px, transparent 1px);
+    linear-gradient(rgba(196, 194, 190, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 194, 190, 0.35) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 88%);
 }
@@ -111,7 +111,7 @@
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(143, 178, 214, 0.92);
+  color: rgba(196, 194, 190, 0.92);
 }
 
 .image-hero__eyebrow-mark {

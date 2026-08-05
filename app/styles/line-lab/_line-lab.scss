@@ -2,7 +2,7 @@
   position: relative;
   width: 100vw;
   min-height: 100svh;
-  background: #02070e;
+  background: #040508;
   color: rgba(230, 236, 245, 0.82);
 }
 
@@ -34,17 +34,17 @@
 }
 
 .line-lab__path--outer {
-  stroke: rgba(128, 151, 178, 0.22);
+  stroke: rgba(190, 188, 194, 0.22);
   stroke-width: 1.15;
 }
 
 .line-lab__path--middle {
-  stroke: rgba(137, 161, 188, 0.16);
+  stroke: rgba(196, 194, 190, 0.16);
   stroke-width: 1;
 }
 
 .line-lab__path--inner {
-  stroke: rgba(151, 172, 195, 0.11);
+  stroke: rgba(204, 202, 204, 0.11);
   stroke-width: 0.9;
 }
 
@@ -202,7 +202,7 @@
   max-height: 100svh;
   overflow-y: auto;
   background: rgba(2, 7, 14, 0.94);
-  border-left: 1px solid rgba(143, 178, 214, 0.18);
+  border-left: 1px solid rgba(196, 194, 190, 0.18);
   font-size: 0.78rem;
 }
 
@@ -211,7 +211,7 @@
   width: 100%;
   padding: 0.65rem 1rem;
   border: none;
-  background: rgba(143, 178, 214, 0.08);
+  background: rgba(196, 194, 190, 0.08);
   color: rgba(230, 236, 245, 0.88);
   font-size: 0.78rem;
   font-weight: 600;
@@ -241,9 +241,9 @@
 .line-lab__mode-toggle button,
 .line-lab__checkpoint-buttons button {
   padding: 0.3rem 0.55rem;
-  border: 1px solid rgba(143, 178, 214, 0.22);
+  border: 1px solid rgba(196, 194, 190, 0.22);
   border-radius: 4px;
-  background: rgba(143, 178, 214, 0.08);
+  background: rgba(196, 194, 190, 0.08);
   color: rgba(230, 236, 245, 0.88);
   font-size: 0.72rem;
   cursor: pointer;
@@ -251,8 +251,8 @@
 
 .line-lab__mode-toggle button[aria-pressed='true'],
 .line-lab__checkpoint-buttons button[aria-pressed='true'] {
-  background: rgba(143, 178, 214, 0.32);
-  border-color: rgba(143, 178, 214, 0.5);
+  background: rgba(196, 194, 190, 0.32);
+  border-color: rgba(196, 194, 190, 0.5);
 }
 
 .line-lab__checkpoint-buttons {
@@ -265,9 +265,9 @@
 .line-lab__uvalues {
   margin: 0.4rem 0;
   padding: 0.5rem 0.6rem;
-  border: 1px solid rgba(143, 178, 214, 0.16);
+  border: 1px solid rgba(196, 194, 190, 0.16);
   border-radius: 4px;
-  background: rgba(143, 178, 214, 0.05);
+  background: rgba(196, 194, 190, 0.05);
 }
 
 .line-lab__uvalue-row {
@@ -286,16 +286,16 @@
 
 .line-lab__actions button {
   padding: 0.4rem 0.6rem;
-  border: 1px solid rgba(143, 178, 214, 0.22);
+  border: 1px solid rgba(196, 194, 190, 0.22);
   border-radius: 4px;
-  background: rgba(143, 178, 214, 0.08);
+  background: rgba(196, 194, 190, 0.08);
   color: rgba(230, 236, 245, 0.88);
   font-size: 0.75rem;
   cursor: pointer;
 }
 
 .line-lab__actions button:hover {
-  background: rgba(143, 178, 214, 0.16);
+  background: rgba(196, 194, 190, 0.16);
 }
 
 .line-lab__viewport {
@@ -307,7 +307,7 @@
 .line-lab__status {
   margin: 0.35rem 0 0;
   font-size: 0.72rem;
-  color: rgba(143, 178, 214, 0.85);
+  color: rgba(196, 194, 190, 0.85);
 }
 
 @media (max-width: 640px) {
