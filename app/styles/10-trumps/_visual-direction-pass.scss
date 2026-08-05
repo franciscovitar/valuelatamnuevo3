@@ -1,37 +1,37 @@
 /* =========================================================
-   VALUE LATAM â€” VISUAL DIRECTION PASS 1
-   Quiet financial technology
+   VALUE LATAM â€” VISUAL DIRECTION PASS 2
+   Deep navy financial technology
    ========================================================= */
 
 :root {
-  --ink: #081722;
-  --ink-2: #0d202e;
-  --ink-3: #112737;
+  --ink: #061426;
+  --ink-2: #0a1c32;
+  --ink-3: #102a48;
 
-  --paper: #f1f0ea;
-  --paper-2: #f6f4ee;
+  --paper: #f1f1ed;
+  --paper-2: #f6f5f0;
 
   --brass: #b99b54;
   --brass-2: #d0b369;
 
-  --slate: #718493;
-  --slate-light: #a9b6c1;
+  --slate: #71859a;
+  --slate-light: #aab8c7;
 
-  --line-dark: rgba(169, 182, 193, 0.14);
-  --line-light: rgba(8, 23, 34, 0.12);
+  --line-dark: rgba(170, 184, 199, 0.14);
+  --line-light: rgba(6, 20, 38, 0.12);
 
-  --vl-bg-deep: #040b12;
-  --vl-bg-base: #081722;
-  --vl-bg-raised: #0d202e;
-  --vl-bg-card: #102433;
-  --vl-bg-card-active: #152d3e;
+  --vl-bg-deep: #030a16;
+  --vl-bg-base: #061426;
+  --vl-bg-raised: #0a1c32;
+  --vl-bg-card: #102a48;
+  --vl-bg-card-active: #173b60;
 
-  --vl-text-primary: #f1f0ea;
-  --vl-text-secondary: #a9b6c1;
-  --vl-text-muted: #718493;
+  --vl-text-primary: #f1f1ed;
+  --vl-text-secondary: #aab8c7;
+  --vl-text-muted: #71859a;
   --vl-accent: #d0b369;
   --vl-accent-hover: #dbc27b;
-  --vl-steel: #91a8ba;
+  --vl-steel: #8fa8c2;
 
   --border-brass-soft: rgba(208, 179, 105, 0.24);
   --border-brass-hover: rgba(219, 194, 123, 0.5);
@@ -44,8 +44,8 @@
   --surface-card-premium:
     linear-gradient(
       180deg,
-      rgba(17, 39, 55, 0.98),
-      rgba(11, 29, 42, 0.99)
+      rgba(16, 42, 72, 0.99),
+      rgba(9, 29, 52, 0.995)
     );
 }
 
@@ -54,51 +54,30 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(72% 42% at 14% 18%, rgba(67, 91, 108, 0.10), transparent 72%),
-    radial-gradient(68% 44% at 88% 68%, rgba(50, 78, 96, 0.075), transparent 74%),
-    linear-gradient(180deg, #081722 0%, #06131e 55%, #040b12 100%);
+  background: var(--vl-bg-base);
+  background-image: none;
   background-attachment: scroll;
   color: var(--vl-text-primary);
 }
 
-/* ---------- Local section lighting ---------- */
+/* ---------- Uniform home canvas ---------- */
 
+.hero-title,
 [data-vl-home-section='metrics'],
-[data-vl-home-section='partners'] {
-  background:
-    radial-gradient(60% 70% at 88% 25%, rgba(86, 111, 129, 0.035), transparent 72%);
-}
-
-[data-vl-home-section='solutions'] {
-  background:
-    radial-gradient(56% 58% at 90% 18%, rgba(93, 119, 137, 0.055), transparent 72%);
-}
-
-[data-vl-home-section='why-us'] {
-  background:
-    radial-gradient(48% 62% at 14% 42%, rgba(87, 111, 128, 0.045), transparent 72%);
-}
-
-[data-vl-home-section='process'] {
-  background:
-    linear-gradient(180deg, rgba(6, 18, 28, 0.34), rgba(4, 13, 21, 0.24));
-}
-
-[data-vl-home-section='regulation'] {
-  background:
-    radial-gradient(50% 64% at 82% 38%, rgba(89, 112, 129, 0.045), transparent 72%);
-}
-
+[data-vl-home-section='partners'],
+[data-vl-home-section='solutions'],
+[data-vl-home-section='why-us'],
+[data-vl-home-section='process'],
+[data-vl-home-section='regulation'],
 [data-vl-home-section='team'],
-[data-vl-home-section='referrals'] {
-  background:
-    radial-gradient(54% 62% at 18% 50%, rgba(71, 97, 116, 0.04), transparent 74%);
+[data-vl-home-section='referrals'],
+[data-vl-home-section='contact'] {
+  background-color: transparent;
+  background-image: none;
 }
 
-[data-vl-home-section='contact'] {
-  background:
-    linear-gradient(180deg, rgba(4, 13, 21, 0.18), rgba(3, 9, 15, 0.52));
+.hero-title {
+  background-color: var(--vl-bg-base);
 }
 
 /* Keep only meaningful section separators. */
@@ -122,7 +101,7 @@ footer {
 [data-vl-home-section='regulation'],
 [data-vl-home-section='contact'],
 footer {
-  border-top: 1px solid rgba(169, 182, 193, 0.10) !important;
+  border-top: 1px solid rgba(170, 184, 199, 0.10) !important;
 }
 
 /* ---------- Typography contrast ---------- */
@@ -154,7 +133,7 @@ li,
 .legal,
 .reg p,
 .step p {
-  color: rgba(241, 240, 234, 0.76);
+  color: rgba(241, 241, 237, 0.76);
 }
 
 .eyebrow,
@@ -168,8 +147,8 @@ li,
 
 header.nav {
   background:
-    linear-gradient(180deg, rgba(7, 20, 30, 0.94), rgba(5, 16, 25, 0.90));
-  border-bottom-color: rgba(169, 182, 193, 0.11);
+    linear-gradient(180deg, rgba(5, 17, 33, 0.96), rgba(3, 13, 27, 0.94));
+  border-bottom-color: rgba(170, 184, 199, 0.11);
   box-shadow: 0 12px 36px -30px rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(16px) saturate(112%);
 }
@@ -184,7 +163,7 @@ header.nav {
 
 .nav-links a,
 .nav-dropdown__trigger {
-  color: rgba(169, 182, 193, 0.88);
+  color: rgba(170, 184, 199, 0.88);
   font-weight: 500;
 }
 
@@ -199,10 +178,10 @@ header.nav {
 }
 
 .nav-dropdown__menu {
-  border-color: rgba(145, 168, 186, 0.18);
+  border-color: rgba(143, 168, 194, 0.18);
   background:
     radial-gradient(circle at 92% 0%, rgba(208, 179, 105, 0.075), transparent 38%),
-    linear-gradient(180deg, rgba(12, 31, 44, 0.985), rgba(5, 17, 26, 0.99));
+    linear-gradient(180deg, rgba(10, 28, 50, 0.985), rgba(3, 13, 27, 0.99));
   box-shadow:
     0 20px 52px -24px rgba(0, 0, 0, 0.80),
     inset 0 1px 0 rgba(255, 255, 255, 0.055);
@@ -248,8 +227,8 @@ header.nav {
 .btn-ghost,
 .btn-ghost-dark {
   color: var(--vl-text-primary);
-  border-color: rgba(169, 182, 193, 0.24);
-  background: rgba(145, 168, 186, 0.025);
+  border-color: rgba(170, 184, 199, 0.24);
+  background: rgba(143, 168, 194, 0.025);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 
@@ -277,7 +256,7 @@ header .btn-primary,
 [data-vl-home-section='team'] .person,
 [data-vl-home-section='contact'] form,
 .reg-seal-panel {
-  border-color: rgba(145, 168, 186, 0.15);
+  border-color: rgba(143, 168, 194, 0.15);
   border-radius: 10px;
   box-shadow:
     0 20px 50px -36px rgba(0, 0, 0, 0.84),
@@ -285,12 +264,12 @@ header .btn-primary,
 }
 
 [data-vl-home-section='solutions'] .sol-card {
-  background-color: #0f2230;
+  background-color: #0f2945;
   background-image: none;
 }
 
 [data-vl-home-section='why-us'] .pullquote {
-  background-color: #0e2230;
+  background-color: #0e2742;
   background-image: none;
 }
 
@@ -299,12 +278,12 @@ header .btn-primary,
 [data-vl-home-section='team'] .person:focus,
 [data-vl-home-section='team'] .person:focus-within,
 [data-vl-home-section='team'] .person:active {
-  background-color: #0e2230 !important;
+  background-color: #0e2742 !important;
   background-image: none !important;
 }
 
 [data-vl-home-section='contact'] form {
-  background: #0d202e;
+  background: #0a1c32;
   backdrop-filter: none;
 }
 
@@ -312,8 +291,8 @@ header .btn-primary,
 .field select,
 .field textarea {
   color: var(--vl-text-primary);
-  background-color: #071722;
-  border-color: rgba(145, 168, 186, 0.18);
+  background-color: #061426;
+  border-color: rgba(143, 168, 194, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.018);
 }
 
@@ -326,8 +305,8 @@ header .btn-primary,
 
 .reg-seal-panel {
   background:
-    radial-gradient(circle at 18% 0%, rgba(145, 168, 186, 0.045), transparent 38%),
-    #0b1d2a;
+    radial-gradient(circle at 18% 0%, rgba(143, 168, 194, 0.045), transparent 38%),
+    #091b30;
 }
 
 [data-vl-home-section='regulation'] .seals .seal,
@@ -425,9 +404,9 @@ header .btn-primary,
   min-height: 37px;
   gap: 7px;
   padding: 8px 12px;
-  color: rgba(241, 240, 234, 0.90);
-  background: rgba(9, 25, 37, 0.96);
-  border-color: rgba(145, 168, 186, 0.20);
+  color: rgba(241, 241, 237, 0.90);
+  background: rgba(6, 20, 38, 0.96);
+  border-color: rgba(143, 168, 194, 0.20);
   font-size: 11.5px;
   letter-spacing: 0.025em;
   box-shadow: 0 12px 30px -22px rgba(0, 0, 0, 0.86);
@@ -456,13 +435,13 @@ header .btn-primary,
 
 @media (max-width: 980px) {
   header.nav {
-    background: rgba(6, 18, 28, 0.96);
+    background: rgba(4, 16, 31, 0.97);
   }
 
   .nav-links {
     background:
-      linear-gradient(180deg, rgba(9, 27, 39, 0.99), rgba(4, 14, 22, 0.995));
-    border-color: rgba(145, 168, 186, 0.16);
+      linear-gradient(180deg, rgba(7, 22, 40, 0.99), rgba(3, 12, 24, 0.995));
+    border-color: rgba(143, 168, 194, 0.16);
   }
 }
 
