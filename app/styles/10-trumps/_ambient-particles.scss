@@ -1,6 +1,6 @@
 /* =========================================================
-   VALUE LATAM - NIGHT STARFIELD v4
-   Softer, finer and more editorial
+   VALUE LATAM - NIGHT STARFIELD v5
+   Slightly bigger, softer, more atmospheric
    ========================================================= */
 
 .vl-ambient-particles {
@@ -11,9 +11,10 @@
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  opacity: 0.54;
+  opacity: 0.6;
   mix-blend-mode: normal;
   contain: strict;
+  filter: saturate(0.94);
 }
 
 .vl-app-content {
@@ -30,12 +31,12 @@ section[data-vl-internal-page] {
 
 @media (max-width: 760px) {
   .vl-ambient-particles {
-    opacity: 0.42;
+    opacity: 0.5;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .vl-ambient-particles {
-    opacity: 0.4;
+    opacity: 0.44;
   }
 }
