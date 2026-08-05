@@ -4,9 +4,9 @@ export default function VideoHero() {
   return (
     <section
       id="top"
-      className="video-hero video-hero--logo-assembly video-hero--direct-assembly"
+      className="video-hero video-hero--word-orbit"
       data-vl-video-hero-root
-      aria-label="Distintas capacidades. Una sola estrategia."
+      aria-labelledby="hero-word-scene-title"
     >
       <div
         className="video-hero__scroll"
@@ -17,30 +17,15 @@ export default function VideoHero() {
           data-video-hero-sticky
         >
           <div
-            className="video-hero__assembly-background"
+            className="video-hero__orbit-background"
             aria-hidden="true"
           />
           <div
-            className="video-hero__overlay"
-            aria-hidden="true"
-          />
-          <div
-            className="video-hero__vignette"
-            aria-hidden="true"
-          />
-          <div
-            className="video-hero__floor"
-            aria-hidden="true"
-          />
-          <div
-            className="video-hero__exit-fade"
-            data-video-hero-exit-fade
+            className="video-hero__orbit-vignette"
             aria-hidden="true"
           />
 
-          <div className="wrap video-hero__stage">
-            <HeroWordCloudScene />
-          </div>
+          <HeroWordCloudScene />
 
           <div
             className="video-hero__scroll-hint"
@@ -48,7 +33,7 @@ export default function VideoHero() {
             aria-hidden="true"
           >
             <span className="video-hero__scroll-hint-text">
-              Deslizá para integrar
+              Deslizá para descubrir
             </span>
             <span className="video-hero__scroll-hint-line" />
           </div>
