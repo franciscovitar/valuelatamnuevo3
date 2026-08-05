@@ -14,7 +14,7 @@ export function initHeaderMotion() {
     gsap.fromTo(
       brand,
       { opacity: 0.82, y: -4 },
-      { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out' },
+      { opacity: 1, y: 0, duration: 0.685, ease: 'power2.out' },
     );
     sessionStorage.setItem('vl-logo-intro', '1');
   }
