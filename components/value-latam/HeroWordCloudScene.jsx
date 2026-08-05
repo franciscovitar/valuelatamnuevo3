@@ -41,10 +41,10 @@ export default function HeroWordCloudScene() {
           Una estructura integrada
         </span>
 
-        <h2 id="hero-word-scene-title">
+        <h1 id="hero-word-scene-title">
           Distintas capacidades.
           <span> Una sola estrategia.</span>
-        </h2>
+        </h1>
 
         <p>
           Financiamiento, liquidez, medios de pago e IA

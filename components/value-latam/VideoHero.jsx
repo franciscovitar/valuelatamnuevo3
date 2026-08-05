@@ -4,9 +4,9 @@ export default function VideoHero() {
   return (
     <section
       id="top"
-      className="video-hero video-hero--logo-assembly"
+      className="video-hero video-hero--logo-assembly video-hero--direct-assembly"
       data-vl-video-hero-root
-      aria-label="Finanzas que impulsan tu empresa"
+      aria-label="Distintas capacidades. Una sola estrategia."
     >
       <div
         className="video-hero__scroll"
@@ -39,48 +39,6 @@ export default function VideoHero() {
           />
 
           <div className="wrap video-hero__stage">
-            <div
-              className="video-hero__intro"
-              data-video-hero-intro
-            >
-              <span
-                className="video-hero__eyebrow"
-                data-video-hero-eyebrow
-              >
-                La evolución de tu operación
-              </span>
-
-              <span
-                className="video-hero__eyebrow-mark"
-                aria-hidden="true"
-              />
-
-              <h1
-                className="video-hero__title"
-                data-video-hero-title
-              >
-                Finanzas que impulsan
-                <br />
-                tu empresa
-              </h1>
-
-              <p
-                className="video-hero__lead"
-                data-video-hero-lead
-              >
-                Financiamiento, liquidez, medios de pago e IA
-                conectados en una sola estrategia.
-              </p>
-
-              <a
-                className="video-hero__cta"
-                data-video-hero-cta
-                href="#soluciones"
-              >
-                Conocer soluciones
-              </a>
-            </div>
-
             <HeroWordCloudScene />
           </div>
 
@@ -90,7 +48,7 @@ export default function VideoHero() {
             aria-hidden="true"
           >
             <span className="video-hero__scroll-hint-text">
-              Deslizá para descubrir
+              Deslizá para integrar
             </span>
             <span className="video-hero__scroll-hint-line" />
           </div>

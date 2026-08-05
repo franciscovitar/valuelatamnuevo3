@@ -5,7 +5,7 @@ import {
   HERO_WORDS,
 } from '../heroWordCloudConfig';
 
-const SCRUB = 0.58;
+const SCRUB = 0.55;
 const BREAKPOINTS = {
   mobile: 760,
   tablet: 1100,
@@ -58,11 +58,6 @@ function collectTargets(root) {
     root,
     scrollEl: root.querySelector('[data-video-hero-scroll]'),
     stickyEl: root.querySelector('[data-video-hero-sticky]'),
-    intro: root.querySelector('[data-video-hero-intro]'),
-    eyebrow: root.querySelector('[data-video-hero-eyebrow]'),
-    title: root.querySelector('[data-video-hero-title]'),
-    lead: root.querySelector('[data-video-hero-lead]'),
-    cta: root.querySelector('[data-video-hero-cta]'),
     hint: root.querySelector('[data-video-hero-scroll-hint]'),
     scene: root.querySelector('[data-hero-word-scene]'),
     center: root.querySelector('[data-hero-word-center]'),
@@ -80,7 +75,6 @@ function validateTargets(targets) {
   const required = [
     targets.scrollEl,
     targets.stickyEl,
-    targets.intro,
     targets.scene,
     targets.center,
     targets.mark,
@@ -97,55 +91,13 @@ function setScrollHeight(scrollEl) {
   scrollEl.style.height = `${layout.scrollVh}svh`;
 }
 
-function addIntroSequence(timeline, targets) {
-  const introParts = [
-    targets.eyebrow,
-    targets.title,
-    targets.lead,
-    targets.cta,
-  ].filter(Boolean);
-
-  timeline.to(
-    targets.hint,
-    {
-      autoAlpha: 0,
-      y: 10,
-      duration: 0.055,
-      ease: 'power2.out',
-    },
-    0.015
-  );
-
-  timeline.to(
-    introParts,
-    {
-      autoAlpha: 0,
-      y: -20,
-      duration: 0.12,
-      stagger: 0.012,
-      ease: 'power2.inOut',
-    },
-    0.055
-  );
-
-  timeline.to(
-    targets.intro,
-    {
-      autoAlpha: 0,
-      pointerEvents: 'none',
-      duration: 0.04,
-      ease: 'none',
-    },
-    0.18
-  );
-}
-
 function setInitialSceneState(timeline, targets) {
   timeline.set(
     targets.scene,
     {
-      autoAlpha: 0,
-      y: 18,
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
     },
     0
   );
@@ -153,9 +105,9 @@ function setInitialSceneState(timeline, targets) {
   timeline.set(
     targets.center,
     {
-      autoAlpha: 0,
-      y: 18,
-      scale: 0.975,
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
     },
     0
   );
@@ -172,7 +124,7 @@ function setInitialSceneState(timeline, targets) {
   timeline.set(
     targets.markOutline,
     {
-      opacity: 0.9,
+      opacity: 0.92,
     },
     0
   );
@@ -180,8 +132,8 @@ function setInitialSceneState(timeline, targets) {
   timeline.set(
     targets.halo,
     {
-      autoAlpha: 0,
-      scale: 0.72,
+      autoAlpha: 0.10,
+      scale: 0.78,
     },
     0
   );
@@ -212,28 +164,52 @@ function setInitialSceneState(timeline, targets) {
   });
 }
 
-function addSceneEntrance(timeline, targets) {
-  timeline.to(
-    targets.scene,
-    {
-      autoAlpha: 1,
-      y: 0,
-      duration: 0.075,
-      ease: 'power2.out',
-    },
-    0.165
-  );
+function setInitialWords(timeline, targets) {
+  const layoutName = getLayoutName();
+  const layout = getLayout();
+  const visibleIds = new Set(layout.visibleIds);
+
+  targets.words.forEach((element) => {
+    const id = element.dataset.heroWord;
+    const baseWord = getWordConfig(id);
+
+    if (!baseWord || !visibleIds.has(id)) {
+      timeline.set(element, { display: 'none', autoAlpha: 0 }, 0);
+      return;
+    }
+
+    const word = getResponsiveWord(baseWord, layoutName);
+
+    timeline.set(
+      element,
+      {
+        display: 'block',
+        x: () => toViewportX(word.x, layout),
+        y: () => toViewportY(word.y, layout),
+        scale: word.scale,
+        rotate: word.rotation,
+        autoAlpha: word.opacity,
+        filter: `blur(${word.blur}px)`,
+        transformOrigin: '50% 50%',
+        force3D: true,
+      },
+      0
+    );
+  });
+}
+
+function addHintSequence(timeline, targets) {
+  if (!targets.hint) return;
 
   timeline.to(
-    targets.center,
+    targets.hint,
     {
-      autoAlpha: 1,
-      y: 0,
-      scale: 1,
-      duration: 0.095,
-      ease: 'power3.out',
+      autoAlpha: 0,
+      y: 10,
+      duration: 0.065,
+      ease: 'power2.out',
     },
-    0.18
+    0.025
   );
 }
 
@@ -246,55 +222,20 @@ function addWordSequence(timeline, targets) {
     const id = element.dataset.heroWord;
     const baseWord = getWordConfig(id);
 
-    if (!baseWord || !visibleIds.has(id)) {
-      timeline.set(element, { display: 'none' }, 0);
-      return;
-    }
+    if (!baseWord || !visibleIds.has(id)) return;
 
     const word = getResponsiveWord(baseWord, layoutName);
-    const initialX = () => toViewportX(word.x, layout);
-    const initialY = () => toViewportY(word.y, layout);
-    const middleAt = word.start + (word.end - word.start) * 0.54;
-    const settleAt = word.end - 0.045;
-
-    timeline.set(
-      element,
-      {
-        display: 'block',
-        x: initialX,
-        y: initialY,
-        scale: word.scale,
-        rotate: word.rotation,
-        autoAlpha: 0,
-        filter: `blur(${word.blur}px)`,
-        transformOrigin: '50% 50%',
-        force3D: true,
-      },
-      0
-    );
+    const middleAt = word.start + (word.end - word.start) * 0.56;
+    const settleAt = word.end - 0.055;
 
     timeline.to(
       element,
       {
-        autoAlpha: word.opacity,
-        duration: 0.055,
-        ease: 'power2.out',
-      },
-      0.20 + HERO_WORDS.indexOf(baseWord) * 0.003
-    );
-
-    timeline.to(
-      element,
-      {
-        x: () => (
-          toViewportX(word.x * 0.52 + word.curveX, layout)
-        ),
-        y: () => (
-          toViewportY(word.y * 0.52 + word.curveY, layout)
-        ),
+        x: () => toViewportX(word.x * 0.52 + word.curveX, layout),
+        y: () => toViewportY(word.y * 0.52 + word.curveY, layout),
         scale: word.scale * 0.72,
         rotate: word.rotation * -0.28,
-        filter: `blur(${Math.max(0, word.blur * 0.42)}px)`,
+        filter: `blur(${Math.max(0, word.blur * 0.38)}px)`,
         duration: middleAt - word.start,
         ease: 'power1.inOut',
       },
@@ -306,9 +247,9 @@ function addWordSequence(timeline, targets) {
       {
         x: () => toViewportX(word.targetX, layout),
         y: () => toViewportY(word.targetY, layout),
-        scale: 0.25,
+        scale: 0.24,
         rotate: 0,
-        autoAlpha: Math.min(word.opacity, 0.72),
+        autoAlpha: Math.min(word.opacity, 0.74),
         filter: 'blur(0px)',
         duration: settleAt - middleAt,
         ease: 'power2.in',
@@ -319,7 +260,7 @@ function addWordSequence(timeline, targets) {
     timeline.to(
       element,
       {
-        scale: 0.055,
+        scale: 0.045,
         autoAlpha: 0,
         filter: 'blur(4px)',
         duration: word.end - settleAt,
@@ -352,8 +293,8 @@ function addMarkReveal(timeline, targets) {
       timeline.to(
         scan,
         {
-          autoAlpha: 0.78,
-          duration: 0.022,
+          autoAlpha: 0.68,
+          duration: 0.02,
           ease: 'none',
         },
         reveal.at
@@ -388,42 +329,42 @@ function addMarkReveal(timeline, targets) {
   timeline.to(
     targets.markOutline,
     {
-      opacity: 0.32,
+      opacity: 0.30,
       duration: 0.20,
       ease: 'power1.out',
     },
-    0.60
+    0.58
   );
 
   timeline.to(
     targets.halo,
     {
-      autoAlpha: 0.9,
+      autoAlpha: 0.88,
       scale: 1,
-      duration: 0.15,
+      duration: 0.16,
       ease: 'power2.out',
     },
-    0.63
+    0.61
   );
 
   timeline.to(
     targets.mark,
     {
-      scale: 1.035,
-      duration: 0.055,
+      scale: 1.032,
+      duration: 0.06,
       ease: 'power2.out',
     },
-    0.71
+    0.69
   );
 
   timeline.to(
     targets.mark,
     {
       scale: 1,
-      duration: 0.075,
+      duration: 0.08,
       ease: 'power2.inOut',
     },
-    0.765
+    0.75
   );
 }
 
@@ -432,22 +373,22 @@ function addExitSequence(timeline, targets) {
     targets.exitFade,
     {
       opacity: 0.86,
-      duration: 0.09,
+      duration: 0.055,
       ease: 'power1.inOut',
     },
-    0.91
+    0.945
   );
 
   timeline.to(
     targets.scene,
     {
       autoAlpha: 0,
-      y: -22,
-      scale: 0.99,
-      duration: 0.075,
+      y: -18,
+      scale: 0.992,
+      duration: 0.045,
       ease: 'power2.in',
     },
-    0.925
+    0.955
   );
 
   timeline.to({}, { duration: 0.001 }, 1);
@@ -470,8 +411,8 @@ function buildTimeline(targets) {
   });
 
   setInitialSceneState(timeline, targets);
-  addIntroSequence(timeline, targets);
-  addSceneEntrance(timeline, targets);
+  setInitialWords(timeline, targets);
+  addHintSequence(timeline, targets);
   addWordSequence(timeline, targets);
   addMarkReveal(timeline, targets);
   addExitSequence(timeline, targets);
@@ -488,10 +429,6 @@ function initReducedMotion(root, targets) {
 
   targets.scrollEl.style.height = 'auto';
 
-  gsap.set(targets.intro, {
-    clearProps: 'all',
-    autoAlpha: 1,
-  });
   gsap.set(targets.scene, {
     clearProps: 'all',
     autoAlpha: 1,
@@ -510,6 +447,10 @@ function initReducedMotion(root, targets) {
   });
   gsap.set(Array.from(targets.markScans.values()), {
     display: 'none',
+  });
+  gsap.set(targets.halo, {
+    autoAlpha: 0.72,
+    scale: 1,
   });
   gsap.set(targets.exitFade, { opacity: 0 });
 
@@ -582,7 +523,6 @@ export function initVideoHeroAnimation() {
     targets.scrollEl.style.removeProperty('height');
     root.classList.remove(
       'is-video-hero-mounted',
-      'is-video-hero-reduced',
       'is-video-ready'
     );
   };
