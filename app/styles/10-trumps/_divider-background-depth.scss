@@ -1,0 +1,220 @@
+/* =========================================================
+   VALUE LATAM - DIVIDER + BACKGROUND DEPTH PASS v2
+   Short separators + section glow depth
+   ========================================================= */
+
+:root {
+  --vl-divider-short:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(242, 239, 232, 0.012) 12%,
+      rgba(242, 239, 232, 0.05) 30%,
+      rgba(242, 239, 232, 0.1) 50%,
+      rgba(242, 239, 232, 0.05) 70%,
+      rgba(242, 239, 232, 0.012) 88%,
+      transparent 100%
+    );
+
+  --vl-section-glow:
+    radial-gradient(
+      70% 24% at 50% 0%,
+      rgba(242, 239, 232, 0.028),
+      transparent 66%
+    ),
+    radial-gradient(
+      52% 18% at 50% 2%,
+      rgba(210, 186, 142, 0.022),
+      transparent 64%
+    );
+}
+
+html {
+  background: #020306;
+}
+
+body {
+  background:
+    radial-gradient(circle at 8% 13%, rgba(242, 239, 232, 0.18) 0 0.6px, transparent 1.4px),
+    radial-gradient(circle at 19% 30%, rgba(210, 186, 142, 0.12) 0 0.7px, transparent 1.55px),
+    radial-gradient(circle at 31% 10%, rgba(242, 239, 232, 0.11) 0 0.55px, transparent 1.35px),
+    radial-gradient(circle at 43% 45%, rgba(242, 239, 232, 0.09) 0 0.55px, transparent 1.35px),
+    radial-gradient(circle at 54% 18%, rgba(221, 200, 161, 0.11) 0 0.68px, transparent 1.45px),
+    radial-gradient(circle at 66% 36%, rgba(242, 239, 232, 0.08) 0 0.52px, transparent 1.32px),
+    radial-gradient(circle at 77% 11%, rgba(242, 239, 232, 0.12) 0 0.55px, transparent 1.35px),
+    radial-gradient(circle at 88% 27%, rgba(210, 186, 142, 0.1) 0 0.72px, transparent 1.55px),
+    radial-gradient(circle at 93% 16%, rgba(242, 239, 232, 0.08) 0 0.52px, transparent 1.3px),
+    radial-gradient(circle at 14% 70%, rgba(242, 239, 232, 0.08) 0 0.55px, transparent 1.35px),
+    radial-gradient(circle at 27% 87%, rgba(210, 186, 142, 0.09) 0 0.6px, transparent 1.4px),
+    radial-gradient(circle at 49% 76%, rgba(242, 239, 232, 0.08) 0 0.5px, transparent 1.3px),
+    radial-gradient(circle at 71% 88%, rgba(221, 200, 161, 0.1) 0 0.65px, transparent 1.45px),
+    radial-gradient(circle at 91% 74%, rgba(242, 239, 232, 0.08) 0 0.55px, transparent 1.35px),
+    radial-gradient(76% 42% at 50% 7%, rgba(242, 239, 232, 0.03), transparent 72%),
+    radial-gradient(44% 32% at 84% 57%, rgba(210, 186, 142, 0.024), transparent 76%),
+    radial-gradient(40% 30% at 14% 79%, rgba(242, 239, 232, 0.016), transparent 78%),
+    linear-gradient(180deg, #040508 0%, #050609 42%, #040508 100%);
+  background-attachment: scroll;
+}
+
+main {
+  background-color: transparent;
+  background-image: none;
+}
+
+/* =========================================================
+   PER-SECTION DEPTH
+   Adds a subtle luminous atmosphere between sections.
+   ========================================================= */
+
+section[data-vl-home-section],
+section[data-vl-internal-page] {
+  position: relative;
+  isolation: isolate;
+  background-color: transparent !important;
+}
+
+section[data-vl-home-section]::after,
+section[data-vl-internal-page]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
+  background: var(--vl-section-glow);
+}
+
+section[data-vl-home-section] > *,
+section[data-vl-internal-page] > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   DIVIDERS
+   ========================================================= */
+
+/* Generic home section separator */
+section[data-vl-home-section]::before {
+  left: 50% !important;
+  width: min(72%, 1080px) !important;
+  height: 1px !important;
+  transform: translateX(-50%) !important;
+  background: var(--vl-divider-short) !important;
+  opacity: 0.82 !important;
+}
+
+/* Generic internal-page separators */
+section[data-vl-internal-page] > .wrap > :is(
+  .subunit,
+  .liquidity-operators,
+  .ai-delivery,
+  .pay-pillars,
+  .join-section-sub
+)::before {
+  left: 50% !important;
+  width: min(76%, 860px) !important;
+  height: 1px !important;
+  transform: translateX(-50%) !important;
+  background: var(--vl-divider-short) !important;
+  opacity: 0.78 !important;
+}
+
+/* Remove the full-width separator in the three home areas that are still showing it */
+section[data-vl-home-section='regulation'],
+section[data-vl-home-section='solutions'],
+section[data-vl-home-section='contact'] {
+  border-top: 0 !important;
+}
+
+section[data-vl-home-section='regulation'] > .wrap,
+section[data-vl-home-section='solutions'] > .wrap,
+section[data-vl-home-section='contact'] > .wrap {
+  border-top: 0 !important;
+}
+
+section[data-vl-home-section='regulation']::before,
+section[data-vl-home-section='solutions']::before,
+section[data-vl-home-section='contact']::before,
+section[data-vl-home-section='regulation'] > .wrap::before,
+section[data-vl-home-section='solutions'] > .wrap::before,
+section[data-vl-home-section='contact'] > .wrap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(72%, 1080px) !important;
+  height: 1px;
+  pointer-events: none;
+  transform: translateX(-50%);
+  background: var(--vl-divider-short) !important;
+  opacity: 0.82;
+}
+
+/* Results keeps only side dividers between metrics, not a horizontal divider above them */
+section[data-vl-home-section='metrics']::before {
+  display: none !important;
+}
+
+section[data-vl-home-section='metrics'] .metrics-grid,
+.metrics .metrics-grid {
+  border-top: 0 !important;
+}
+
+section[data-vl-home-section='metrics'] .metric {
+  border-top: 0 !important;
+}
+
+/* Payment groups previously drew full-width borders */
+section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group {
+  position: relative;
+  border-top: 0 !important;
+}
+
+section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(76%, 760px);
+  height: 1px;
+  pointer-events: none;
+  transform: translateX(-50%);
+  background: var(--vl-divider-short);
+  opacity: 0.72;
+}
+
+@media (max-width: 760px) {
+  body {
+    background:
+      radial-gradient(circle at 12% 16%, rgba(242, 239, 232, 0.13) 0 0.5px, transparent 1.25px),
+      radial-gradient(circle at 36% 34%, rgba(210, 186, 142, 0.1) 0 0.55px, transparent 1.3px),
+      radial-gradient(circle at 68% 14%, rgba(242, 239, 232, 0.1) 0 0.5px, transparent 1.25px),
+      radial-gradient(circle at 88% 42%, rgba(221, 200, 161, 0.09) 0 0.6px, transparent 1.35px),
+      radial-gradient(circle at 22% 76%, rgba(242, 239, 232, 0.08) 0 0.5px, transparent 1.25px),
+      radial-gradient(circle at 76% 84%, rgba(210, 186, 142, 0.09) 0 0.55px, transparent 1.3px),
+      radial-gradient(92% 34% at 50% 8%, rgba(242, 239, 232, 0.024), transparent 74%),
+      linear-gradient(180deg, #040508 0%, #050609 44%, #040508 100%);
+  }
+
+  section[data-vl-home-section]::before,
+  section[data-vl-home-section='regulation']::before,
+  section[data-vl-home-section='solutions']::before,
+  section[data-vl-home-section='contact']::before,
+  section[data-vl-home-section='regulation'] > .wrap::before,
+  section[data-vl-home-section='solutions'] > .wrap::before,
+  section[data-vl-home-section='contact'] > .wrap::before {
+    width: calc(100% - 64px) !important;
+  }
+
+  section[data-vl-internal-page] > .wrap > :is(
+    .subunit,
+    .liquidity-operators,
+    .ai-delivery,
+    .pay-pillars,
+    .join-section-sub
+  )::before,
+  section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group::before {
+    width: calc(100% - 48px) !important;
+  }
+}
