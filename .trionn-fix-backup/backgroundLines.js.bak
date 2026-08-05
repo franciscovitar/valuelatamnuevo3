@@ -24,13 +24,12 @@ const SECTION_SELECTORS = {
   process: '[data-vl-home-section="process"]',
   regulation: '[data-vl-home-section="regulation"]',
   team: '[data-vl-home-section="team"]',
-  referrals: '[data-vl-home-section="referrals"]',
   contact: '[data-vl-home-section="contact"]',
 };
 
 const DEBUG_QUERY_KEY = 'lineDebug';
 const DEBUG_METRICS_EVENT = 'vl-line-debug-metrics';
-const HEAD_COLLISION_MARGIN = 20;
+const HEAD_COLLISION_MARGIN = 4;
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -90,10 +89,9 @@ function collectSections(main) {
   const process = main.querySelector(SECTION_SELECTORS.process);
   const regulation = main.querySelector(SECTION_SELECTORS.regulation);
   const team = main.querySelector(SECTION_SELECTORS.team);
-  const referrals = main.querySelector(SECTION_SELECTORS.referrals);
   const contact = main.querySelector(SECTION_SELECTORS.contact);
 
-  if (!metrics || !partners || !solutions || !whyUs || !process || !regulation || !team || !referrals || !contact) return null;
+  if (!metrics || !partners || !solutions || !whyUs || !process || !regulation || !team || !contact) return null;
 
   return {
     metrics,
@@ -103,7 +101,6 @@ function collectSections(main) {
     process,
     regulation,
     team,
-    referrals,
     contact,
   };
 }
@@ -119,7 +116,6 @@ function buildProgressAnchors(sections, viewportHeight) {
     { scrollY: scrollWhenTopAtViewportFraction(sections.process, 0.62, viewportHeight), progress: 0.56 },
     { scrollY: scrollWhenTopAtViewportFraction(sections.regulation, 0.62, viewportHeight), progress: 0.7 },
     { scrollY: scrollWhenTopAtViewportFraction(sections.team, 0.62, viewportHeight), progress: 0.84 },
-    { scrollY: scrollWhenTopAtViewportFraction(sections.referrals, 0.62, viewportHeight), progress: 0.9 },
     { scrollY: scrollWhenTopAtViewportFraction(sections.contact, 0.62, viewportHeight), progress: 0.96 },
     { scrollY: scrollWhenBottomAtViewportFraction(sections.contact, 0.62, viewportHeight), progress: 1.0 },
   ].map((anchor) => ({
@@ -168,19 +164,12 @@ function worldPointFromClient(svgRect, cameraTop, clientX, clientY) {
 
 function collectProtectedElements(main) {
   const selectors = [
-    '[data-vl-home-section] .sec-head',
-    '[data-vl-home-section="solutions"] .sol-card',
-    '[data-vl-home-section="why-us"] .edge-grid > :first-child',
     '[data-vl-home-section="why-us"] .pullquote',
+    '[data-vl-home-section="solutions"] .sol-card',
     '[data-vl-home-section="process"] .step',
-    '[data-vl-home-section="process"] .closer',
-    '[data-vl-home-section="regulation"] .reg-copy',
     '[data-vl-home-section="regulation"] .reg-seal-panel',
     '[data-vl-home-section="regulation"] .seals .seal',
-    '[data-vl-home-section="team"] .sec-head',
     '[data-vl-home-section="team"] .person',
-    '[data-vl-home-section="referrals"] .wrap',
-    '[data-vl-home-section="contact"] .contact-copy',
     '[data-vl-home-section="contact"] form',
   ];
 
