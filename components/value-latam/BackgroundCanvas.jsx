@@ -1,5 +1,7 @@
 export default function BackgroundCanvas() {
   const lineKeys = ['outer', 'middle', 'inner'];
+  const nodeCount = 5;
+  const sparkCount = 6;
 
   return (
     <div
@@ -10,45 +12,26 @@ export default function BackgroundCanvas() {
       <svg
         className="vl-bg-lines"
         data-vl-bg-lines-svg
-        viewBox="0 0 1000 1000"
+        viewBox="0 0 1000 1"
         preserveAspectRatio="none"
       >
         <defs>
-          {lineKeys.map((lineKey) => (
-            <linearGradient
-              id={`vl-history-gradient-${lineKey}`}
-              data-vl-history-gradient={lineKey}
-              gradientUnits="userSpaceOnUse"
-              key={`history-${lineKey}`}
-              x1="0"
-              y1="0"
-              x2="1"
-              y2="1"
-            >
-              <stop offset="0%" stopOpacity="0" />
-              <stop offset="18%" stopOpacity="0.12" />
-              <stop offset="58%" stopOpacity="0.46" />
-              <stop offset="100%" stopOpacity="0.72" />
-            </linearGradient>
-          ))}
-
-          {lineKeys.map((lineKey) => (
-            <linearGradient
-              id={`vl-active-gradient-${lineKey}`}
-              data-vl-active-gradient={lineKey}
-              gradientUnits="userSpaceOnUse"
-              key={`active-${lineKey}`}
-              x1="0"
-              y1="0"
-              x2="1"
-              y2="1"
-            >
-              <stop offset="0%" stopOpacity="0.04" />
-              <stop offset="34%" stopOpacity="0.28" />
-              <stop offset="70%" stopOpacity="0.78" />
-              <stop offset="100%" stopOpacity="1" />
-            </linearGradient>
-          ))}
+          <filter
+            id="vl-network-spark-glow"
+            x="-80%"
+            y="-80%"
+            width="260%"
+            height="260%"
+          >
+            <feGaussianBlur
+              stdDeviation="2.6"
+              result="blur"
+            />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
 
         <g
@@ -82,6 +65,42 @@ export default function BackgroundCanvas() {
               />
             </g>
           ))}
+
+          <g
+            className="vl-bg-lines__nodes"
+            data-vl-network-nodes
+          >
+            {Array.from({ length: nodeCount }, (_, index) => (
+              <circle
+                key={`node-${index}`}
+                data-vl-network-node={index}
+                className="vl-bg-lines__network-node"
+              />
+            ))}
+          </g>
+
+          <g
+            className="vl-bg-lines__spark"
+            data-vl-network-spark
+            filter="url(#vl-network-spark-glow)"
+          >
+            <circle
+              data-vl-spark-halo
+              className="vl-bg-lines__spark-halo"
+            />
+            {Array.from({ length: sparkCount }, (_, index) => (
+              <path
+                key={`spark-${index}`}
+                data-vl-spark-bolt={index}
+                className="vl-bg-lines__spark-bolt"
+              />
+            ))}
+          </g>
+
+          <circle
+            data-vl-travel-head
+            className="vl-bg-lines__travel-head"
+          />
         </g>
       </svg>
     </div>

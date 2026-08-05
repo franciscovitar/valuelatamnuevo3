@@ -1,13 +1,12 @@
 .vl-bg-lines-layer {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 1px;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 1;
-  contain: strict;
+  opacity: 0;
 }
 
 .vl-bg-lines {
@@ -20,8 +19,8 @@
 
 .vl-bg-lines__world,
 .vl-bg-lines__line-group {
-  transform: none !important;
   animation: none !important;
+  transform: none !important;
 }
 
 .vl-bg-lines__path {
@@ -32,30 +31,110 @@
   shape-rendering: geometricPrecision;
 }
 
+.vl-bg-lines__path--outer {
+  stroke: rgba(190, 188, 194, 0.095);
+  stroke-width: 0.82;
+}
+
+.vl-bg-lines__path--middle {
+  stroke: rgba(204, 202, 204, 0.14);
+  stroke-width: 1;
+}
+
+.vl-bg-lines__path--inner {
+  stroke: rgba(214, 211, 214, 0.07);
+  stroke-width: 0.74;
+}
+
 .vl-bg-lines__path--history {
   opacity: 1;
 }
 
 .vl-bg-lines__path--active {
-  opacity: 1;
+  opacity: 0.94;
+  stroke: rgba(242, 239, 232, 0.88);
+  stroke-width: 1.18;
   filter:
     drop-shadow(
-      0 0 2px rgba(242, 239, 232, 0.22)
+      0 0 2px rgba(242, 239, 232, 0.2)
     )
     drop-shadow(
-      0 0 5px rgba(204, 180, 135, 0.11)
+      0 0 5px rgba(204, 180, 135, 0.1)
     );
 }
 
+.vl-bg-lines__line-group--outer
+.vl-bg-lines__path--active {
+  stroke: rgba(204, 180, 135, 0.68);
+  stroke-width: 1.02;
+}
+
+.vl-bg-lines__line-group--inner
+.vl-bg-lines__path--active {
+  stroke: rgba(221, 200, 161, 0.52);
+  stroke-width: 0.9;
+}
+
+.vl-bg-lines__network-node {
+  r: 1.45px;
+  fill: rgba(242, 239, 232, 0.78);
+  stroke: rgba(204, 180, 135, 0.22);
+  stroke-width: 0.7px;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.22;
+}
+
+.vl-bg-lines__travel-head {
+  r: 1.2px;
+  fill: rgba(242, 239, 232, 0.92);
+  opacity: 0;
+  filter:
+    drop-shadow(
+      0 0 3px rgba(242, 239, 232, 0.24)
+    );
+}
+
+.vl-bg-lines__spark {
+  pointer-events: none;
+}
+
+.vl-bg-lines__spark-halo {
+  r: 3px;
+  fill: rgba(221, 200, 161, 0.18);
+  stroke: rgba(242, 239, 232, 0.68);
+  stroke-width: 0.8px;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.vl-bg-lines__spark-bolt {
+  fill: none;
+  stroke: rgba(242, 239, 232, 0.92);
+  stroke-width: 1.05px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+
+.vl-bg-lines__spark-bolt:nth-of-type(even) {
+  stroke: rgba(204, 180, 135, 0.82);
+  stroke-width: 0.85px;
+}
+
 @media (max-width: 760px) {
-  .vl-bg-lines__line-group--outer {
-    display: none;
+  .vl-bg-lines__path--outer,
+  .vl-bg-lines__line-group--outer,
+  [data-vl-network-node='0'] {
+    opacity: 0.58;
   }
 
   .vl-bg-lines__path--active {
     filter:
       drop-shadow(
-        0 0 2px rgba(242, 239, 232, 0.16)
+        0 0 2px rgba(242, 239, 232, 0.14)
       );
   }
 }
