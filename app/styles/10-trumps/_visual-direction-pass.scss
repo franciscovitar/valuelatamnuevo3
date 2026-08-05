@@ -1,66 +1,112 @@
 /* =========================================================
-   VALUE LATAM â€” VISUAL DIRECTION PASS 2
-   Deep navy financial technology
+   VALUE LATAM — VISUAL DIRECTION
+   Consolidated palette and surface system
    ========================================================= */
 
+/*
+  Cambiá la identidad cromática desde este único bloque.
+  El resto del archivo consume estas variables.
+*/
 :root {
-  --ink: #041020;
-  --ink-2: #0a1c32;
-  --ink-3: #102a48;
+  /* Backgrounds */
+  --vl-bg-deep: #050816;
+  --vl-bg-base: #080d1c;
+  --vl-bg-raised: #0a1020;
 
-  --paper: #f1f1ed;
-  --paper-2: #f6f5f0;
+  /* Surfaces */
+  --vl-surface-deep: #0a1020;
+  --vl-surface-base: #0d1527;
+  --vl-surface-raised: #111c31;
+  --vl-surface-active: #16243a;
+
+  /* Text */
+  --vl-text-primary: #f1eee7;
+  --vl-text-secondary: #adb2bf;
+  --vl-text-muted: #777f90;
+
+  /* Accent */
+  --vl-accent: #c9a85f;
+  --vl-accent-hover: #d5b975;
+
+  /* Borders */
+  --vl-border-subtle: rgba(201, 168, 95, 0.12);
+  --vl-border-hover: rgba(201, 168, 95, 0.2);
+  --vl-border-cool: rgba(173, 178, 191, 0.14);
+
+  /* Buttons */
+  --vl-button-start: #d7bd79;
+  --vl-button-end: #c5a45c;
+  --vl-button-hover-start: #dfc985;
+  --vl-button-hover-end: #cbaa62;
+  --vl-button-ink: #07131d;
+
+  /* Utilities */
+  --vl-whatsapp: #20ae5b;
+  --vl-whatsapp-text: #ffffff;
+
+  /* Existing aliases used by the project */
+  --ink: var(--vl-bg-base);
+  --ink-2: var(--vl-bg-raised);
+  --ink-3: var(--vl-surface-active);
+
+  --paper: var(--vl-text-primary);
+  --paper-2: #f6f3ec;
 
   --brass: #b99b54;
-  --brass-2: #d0b369;
+  --brass-2: var(--vl-accent);
 
-  --slate: #71859a;
-  --slate-light: #aab8c7;
+  --slate: var(--vl-text-muted);
+  --slate-light: var(--vl-text-secondary);
 
-  --line-dark: rgba(170, 184, 199, 0.14);
-  --line-light: rgba(6, 20, 38, 0.12);
+  --line-dark: rgba(173, 178, 191, 0.14);
+  --line-light: rgba(8, 13, 28, 0.12);
 
-  --vl-bg-deep: #020812;
-  --vl-bg-base: #041020;
-  --vl-bg-raised: #0c2136;
-  --vl-bg-card: #091a2b;
-  --vl-bg-card-active: #102a43;
+  --vl-bg-card: var(--vl-surface-base);
+  --vl-bg-card-active: var(--vl-surface-active);
 
-  --vl-text-primary: #f1f1ed;
-  --vl-text-secondary: #aab8c7;
-  --vl-text-muted: #71859a;
-  --vl-accent: #d0b369;
-  --vl-accent-hover: #dbc27b;
-  --vl-steel: #8fa8c2;
+  --vl-text-primary: #f1eee7;
+  --vl-text-secondary: #adb2bf;
+  --vl-text-muted: #777f90;
 
-  --border-brass-soft: rgba(208, 179, 105, 0.24);
-  --border-brass-hover: rgba(219, 194, 123, 0.5);
+  --vl-accent: #c9a85f;
+  --vl-accent-hover: #d5b975;
+  --vl-steel: #9299aa;
+
+  --border-brass-soft: var(--vl-border-subtle);
+  --border-brass-hover: var(--vl-border-hover);
 
   --shadow-card-premium: 0 18px 46px -32px rgba(0, 0, 0, 0.72);
-  --shadow-card-premium-hover: 0 22px 54px -34px rgba(0, 0, 0, 0.78);
-  --shadow-brass-soft: 0 12px 28px -18px rgba(185, 155, 84, 0.58);
-  --shadow-brass-hover: 0 14px 32px -18px rgba(208, 179, 105, 0.68);
+  --shadow-card-premium-hover: 0 22px 54px -34px rgba(0, 0, 0, 0.8);
+  --shadow-brass-soft: 0 12px 28px -18px rgba(185, 155, 84, 0.52);
+  --shadow-brass-hover: 0 14px 32px -18px rgba(201, 168, 95, 0.62);
 
   --surface-card-premium:
     linear-gradient(
       180deg,
-      rgba(12, 33, 54, 0.995),
-      rgba(7, 21, 38, 0.998)
+      rgba(17, 28, 49, 0.995),
+      rgba(10, 16, 32, 0.998)
     );
 }
+
+/* =========================================================
+   Global canvas
+   ========================================================= */
 
 html {
   background: var(--vl-bg-deep);
 }
 
 body {
-  background: var(--vl-bg-base);
-  background-image: none;
+  background:
+    radial-gradient(
+      52% 40% at 50% 14%,
+      rgba(55, 69, 108, 0.08),
+      transparent 68%
+    ),
+    var(--vl-bg-base);
   background-attachment: scroll;
   color: var(--vl-text-primary);
 }
-
-/* ---------- Uniform home canvas ---------- */
 
 .hero-title,
 [data-vl-home-section='metrics'],
@@ -77,7 +123,7 @@ body {
 }
 
 .hero-title {
-  background-color: var(--vl-bg-base);
+  background-color: transparent;
 }
 
 /* Keep only meaningful section separators. */
@@ -101,10 +147,12 @@ footer {
 [data-vl-home-section='regulation'],
 [data-vl-home-section='contact'],
 footer {
-  border-top: 1px solid rgba(170, 184, 199, 0.10) !important;
+  border-top: 1px solid rgba(201, 168, 95, 0.08) !important;
 }
 
-/* ---------- Typography contrast ---------- */
+/* =========================================================
+   Typography
+   ========================================================= */
 
 h1,
 h2,
@@ -133,23 +181,28 @@ li,
 .legal,
 .reg p,
 .step p {
-  color: rgba(241, 241, 237, 0.76);
+  color: var(--vl-text-secondary);
 }
 
 .eyebrow,
 .sol-card .idx,
 .person .role,
-.step .n {
+.step .n,
+.kicker,
+.overline,
+.mini-kicker {
   color: var(--vl-accent);
 }
 
-/* ---------- Header ---------- */
+/* =========================================================
+   Header
+   ========================================================= */
 
 header.nav {
-  background: rgba(4, 16, 32, 0.97);
-  border-bottom-color: rgba(170, 184, 199, 0.11);
+  background: rgba(8, 13, 28, 0.97);
+  border-bottom: 1px solid rgba(201, 168, 95, 0.08);
   box-shadow: 0 12px 36px -30px rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(16px) saturate(112%);
+  backdrop-filter: blur(16px) saturate(108%);
 }
 
 .nav-inner {
@@ -162,7 +215,7 @@ header.nav {
 
 .nav-links a,
 .nav-dropdown__trigger {
-  color: rgba(170, 184, 199, 0.88);
+  color: rgba(241, 238, 231, 0.74);
   font-weight: 500;
 }
 
@@ -177,25 +230,40 @@ header.nav {
 }
 
 .nav-dropdown__menu {
-  border-color: rgba(143, 168, 194, 0.18);
+  color: var(--vl-text-primary);
+  border-color: var(--vl-border-subtle);
   background:
-    radial-gradient(circle at 92% 0%, rgba(208, 179, 105, 0.075), transparent 38%),
-    linear-gradient(180deg, rgba(10, 28, 50, 0.985), rgba(3, 13, 27, 0.99));
+    radial-gradient(
+      circle at 92% 0%,
+      rgba(201, 168, 95, 0.06),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(13, 21, 39, 0.99),
+      rgba(8, 13, 28, 0.995)
+    );
   box-shadow:
-    0 20px 52px -24px rgba(0, 0, 0, 0.80),
-    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+    0 20px 52px -24px rgba(0, 0, 0, 0.82),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* ---------- Buttons: quieter, more authoritative ---------- */
+/* =========================================================
+   Buttons
+   ========================================================= */
 
 .btn-primary {
+  color: var(--vl-button-ink);
   background:
-    linear-gradient(180deg, #d7bd79 0%, #c5a45c 100%);
-  color: #07131d;
-  border-color: rgba(255, 255, 255, 0.18);
+    linear-gradient(
+      180deg,
+      var(--vl-button-start) 0%,
+      var(--vl-button-end) 100%
+    );
+  border-color: rgba(255, 255, 255, 0.16);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    0 11px 26px -18px rgba(185, 155, 84, 0.72);
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 11px 26px -18px rgba(185, 155, 84, 0.65);
   text-shadow: none;
 }
 
@@ -207,11 +275,15 @@ header.nav {
 .btn-primary:hover,
 .btn-primary:focus-visible {
   background:
-    linear-gradient(180deg, #dfc985 0%, #cbaa62 100%);
+    linear-gradient(
+      180deg,
+      var(--vl-button-hover-start) 0%,
+      var(--vl-button-hover-end) 100%
+    );
   transform: translateY(-1px);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    0 13px 30px -18px rgba(208, 179, 105, 0.72);
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    0 13px 30px -18px rgba(201, 168, 95, 0.68);
 }
 
 .btn-primary:hover::after,
@@ -226,19 +298,19 @@ header.nav {
 .btn-ghost,
 .btn-ghost-dark {
   color: var(--vl-text-primary);
-  border-color: rgba(170, 184, 199, 0.24);
-  background: rgba(143, 168, 194, 0.025);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  border-color: var(--vl-border-cool);
+  background: rgba(173, 178, 191, 0.022);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 .btn-ghost:hover,
 .btn-ghost:focus-visible,
 .btn-ghost-dark:hover,
 .btn-ghost-dark:focus-visible {
-  color: #e3c879;
-  border-color: rgba(208, 179, 105, 0.52);
-  background: rgba(208, 179, 105, 0.07);
-  box-shadow: 0 10px 26px -20px rgba(208, 179, 105, 0.54);
+  color: var(--vl-accent-hover);
+  border-color: var(--vl-border-hover);
+  background: rgba(201, 168, 95, 0.06);
+  box-shadow: 0 10px 26px -20px rgba(201, 168, 95, 0.48);
   transform: translateY(-1px);
 }
 
@@ -248,64 +320,154 @@ header .btn-primary,
   font-size: 13.5px;
 }
 
-/* ---------- Unified opaque surfaces ---------- */
+/* =========================================================
+   Surface system
+   ========================================================= */
 
 [data-vl-home-section='solutions'] .sol-card,
 [data-vl-home-section='why-us'] .pullquote,
 [data-vl-home-section='team'] .person,
 [data-vl-home-section='contact'] form,
-.reg-seal-panel {
-  border-color: rgba(143, 168, 194, 0.15);
-  border-radius: 10px;
+.reg-seal-panel,
+.sol-ficha,
+.gain,
+.cycle,
+.feat,
+.client,
+.pillar,
+.ficha,
+.jcard,
+.biz,
+.pay-feat,
+.faq details {
+  background-color: var(--vl-surface-base);
+  background-image: none;
+  border-color: var(--vl-border-subtle);
   box-shadow:
-    0 20px 50px -36px rgba(0, 0, 0, 0.84),
-    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    inset 0 1px 0 rgba(255, 255, 255, 0.018),
+    0 22px 48px -38px rgba(0, 0, 0, 0.84);
+  opacity: 1;
 }
 
-[data-vl-home-section='solutions'] .sol-card {
-  background-color: #091a2b;
-  background-image: none;
-}
-
-[data-vl-home-section='why-us'] .pullquote {
-  background-color: #0e2742;
-  background-image: none;
-}
-
+/* Keep Team opaque in every state so lines stay behind it. */
 [data-vl-home-section='team'] .person,
 [data-vl-home-section='team'] .person:hover,
 [data-vl-home-section='team'] .person:focus,
 [data-vl-home-section='team'] .person:focus-within,
 [data-vl-home-section='team'] .person:active {
-  background-color: #091a2b !important;
+  background-color: var(--vl-surface-base) !important;
   background-image: none !important;
 }
 
+/* Static active states. Solutions animated colors are also controlled in solutions.js. */
+[data-vl-home-section='solutions'] .sol-card.is-active,
+.sol-card.is-active,
+.sol-card[data-state='active'],
+.sol-ficha.is-active,
+.gain.is-active,
+.cycle.is-active,
+.feat.is-active,
+.client.is-active,
+.pillar.is-active,
+.ficha.is-active,
+.jcard.is-active,
+.biz.is-active,
+.pay-feat.is-active {
+  background-color: var(--vl-surface-active);
+  border-color: var(--vl-border-hover);
+}
+
 [data-vl-home-section='contact'] form {
-  background: #091a2b;
   backdrop-filter: none;
+}
+
+[data-vl-home-section='team'] .person p,
+[data-vl-home-section='why-us'] .pullquote p,
+[data-vl-home-section='contact'] form p,
+.sol-card p,
+.sol-ficha p,
+.gain p,
+.cycle p,
+.feat p,
+.client p,
+.pillar p,
+.ficha p,
+.jcard p,
+.biz p,
+.pay-feat p,
+.faq details {
+  color: var(--vl-text-secondary);
+}
+
+[data-vl-home-section='team'] .person h3,
+[data-vl-home-section='why-us'] .pullquote h3,
+.sol-card h3,
+.sol-ficha h3,
+.gain h3,
+.cycle h3,
+.feat h3,
+.client h3,
+.pillar h3,
+.ficha h3,
+.jcard h3,
+.biz h3,
+.pay-feat h3 {
+  color: var(--vl-text-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gain:hover,
+  .gain:focus-within,
+  .pay-feat:hover,
+  .pay-feat:focus-within,
+  .pillar:hover,
+  .pillar:focus-within,
+  .ficha:hover,
+  .ficha:focus-within,
+  .jcard:hover,
+  .jcard:focus-within,
+  .biz:hover,
+  .biz:focus-within,
+  .faq details:hover,
+  .faq details:focus-within {
+    background-color: var(--vl-surface-raised);
+    border-color: var(--vl-border-hover);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.025),
+      0 22px 48px -36px rgba(0, 0, 0, 0.84);
+  }
+}
+
+/* =========================================================
+   Forms
+   ========================================================= */
+
+.field label {
+  color: var(--vl-text-secondary);
 }
 
 .field input,
 .field select,
 .field textarea {
   color: var(--vl-text-primary);
-  background-color: #061525;
-  border-color: rgba(143, 168, 194, 0.18);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.018);
+  background-color: var(--vl-surface-deep);
+  border-color: var(--vl-border-subtle);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.015);
 }
 
 .field input:focus-visible,
 .field select:focus-visible,
 .field textarea:focus-visible {
-  border-color: rgba(208, 179, 105, 0.54);
-  box-shadow: 0 0 0 3px rgba(208, 179, 105, 0.085);
+  border-color: rgba(201, 168, 95, 0.38);
+  box-shadow: 0 0 0 3px rgba(201, 168, 95, 0.07);
 }
 
+/* =========================================================
+   Regulation
+   ========================================================= */
+
 .reg-seal-panel {
-  background:
-    radial-gradient(circle at 18% 0%, rgba(143, 168, 194, 0.045), transparent 38%),
-    #081827;
+  background-color: var(--vl-surface-deep);
 }
 
 [data-vl-home-section='regulation'] .seals .seal,
@@ -313,12 +475,14 @@ header .btn-primary,
 [data-vl-home-section='regulation'] .seals .seal:focus,
 [data-vl-home-section='regulation'] .seals .seal:focus-visible,
 [data-vl-home-section='regulation'] .seals .seal:active {
-  background: #f0efe9 !important;
-  border-color: rgba(240, 239, 233, 0.88) !important;
-  box-shadow: 0 14px 34px -28px rgba(0, 0, 0, 0.48) !important;
+  background-color: #efeee8 !important;
+  border-color: rgba(239, 238, 232, 0.88) !important;
+  box-shadow: 0 14px 34px -28px rgba(0, 0, 0, 0.46) !important;
 }
 
-/* ---------- Partner logos: optical balance ---------- */
+/* =========================================================
+   Partner logos
+   ========================================================= */
 
 @media (min-width: 761px) {
   .partner-logos .partner-carousel-set {
@@ -332,7 +496,7 @@ header .btn-primary,
   }
 
   .partner-logos .partner-logo img {
-    filter: saturate(0.90) contrast(0.98);
+    filter: saturate(0.9) contrast(0.98);
   }
 
   .partner-logos .partner-logo--balanz img,
@@ -365,7 +529,9 @@ header .btn-primary,
   }
 }
 
-/* ---------- Floating utilities: still present, less dominant ---------- */
+/* =========================================================
+   Floating utilities
+   ========================================================= */
 
 .vl2-wa {
   right: 16px;
@@ -373,15 +539,15 @@ header .btn-primary,
   min-height: 41px;
   gap: 7px;
   padding: 8px 13px;
-  background: #20ae5b;
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.30);
+  color: var(--vl-whatsapp-text);
+  background: var(--vl-whatsapp);
+  border-color: rgba(255, 255, 255, 0.28);
   font-size: 12.5px;
   font-weight: 700;
   text-shadow: none;
   box-shadow:
     0 14px 34px -22px rgba(0, 0, 0, 0.78),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .vl2-wa .wa-icon {
@@ -403,9 +569,9 @@ header .btn-primary,
   min-height: 37px;
   gap: 7px;
   padding: 8px 12px;
-  color: rgba(241, 241, 237, 0.90);
-  background: rgba(6, 20, 38, 0.96);
-  border-color: rgba(143, 168, 194, 0.20);
+  color: rgba(241, 238, 231, 0.88);
+  background: rgba(10, 16, 32, 0.96);
+  border-color: var(--vl-border-subtle);
   font-size: 11.5px;
   letter-spacing: 0.025em;
   box-shadow: 0 12px 30px -22px rgba(0, 0, 0, 0.86);
@@ -414,7 +580,7 @@ header .btn-primary,
 .sound-toggle:hover,
 .sound-toggle:focus-visible {
   transform: translateY(-1px);
-  border-color: rgba(208, 179, 105, 0.34);
+  border-color: var(--vl-border-hover);
 }
 
 .sound-toggle .sicon {
@@ -426,21 +592,27 @@ header .btn-primary,
 
 .sound-toggle.is-on .sicon {
   background: var(--vl-accent);
-  box-shadow: 0 0 0 3px rgba(208, 179, 105, 0.075);
+  box-shadow: 0 0 0 3px rgba(201, 168, 95, 0.07);
   animation: none;
 }
 
-/* ---------- Responsive ---------- */
+/* =========================================================
+   Responsive
+   ========================================================= */
 
 @media (max-width: 980px) {
   header.nav {
-    background: rgba(4, 16, 31, 0.97);
+    background: rgba(8, 13, 28, 0.985);
   }
 
   .nav-links {
     background:
-      linear-gradient(180deg, rgba(7, 22, 40, 0.99), rgba(3, 12, 24, 0.995));
-    border-color: rgba(143, 168, 194, 0.16);
+      linear-gradient(
+        180deg,
+        rgba(13, 21, 39, 0.995),
+        rgba(8, 13, 28, 0.998)
+      );
+    border-color: var(--vl-border-subtle);
   }
 }
 
@@ -493,132 +665,4 @@ header .btn-primary,
   .btn-ghost-dark:focus-visible {
     transform: none;
   }
-}
-
-/* =========================================================
-   SURFACE SYSTEM PASS
-   Dark navy cards integrated with the main canvas
-   ========================================================= */
-
-:root {
-  --vl-surface-deep: #071526;
-  --vl-surface-base: #091a2b;
-  --vl-surface-raised: #0c2136;
-  --vl-surface-active: #102a43;
-  --vl-surface-border: rgba(143, 168, 194, 0.14);
-  --vl-surface-border-hover: rgba(143, 168, 194, 0.24);
-}
-
-/* Home surfaces */
-[data-vl-home-section='solutions'] .sol-card,
-[data-vl-home-section='why-us'] .pullquote,
-[data-vl-home-section='team'] .person,
-[data-vl-home-section='contact'] form,
-.reg-seal-panel {
-  background-color: var(--vl-surface-base);
-  background-image: none;
-  border-color: var(--vl-surface-border);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.024),
-    0 20px 46px -36px rgba(0, 0, 0, 0.82);
-}
-
-[data-vl-home-section='why-us'] .pullquote,
-[data-vl-home-section='team'] .person,
-[data-vl-home-section='team'] .person:hover,
-[data-vl-home-section='team'] .person:focus,
-[data-vl-home-section='team'] .person:focus-within,
-[data-vl-home-section='team'] .person:active {
-  background-color: var(--vl-surface-base) !important;
-  background-image: none !important;
-}
-
-[data-vl-home-section='contact'] form {
-  background-color: var(--vl-surface-base);
-  backdrop-filter: none;
-}
-
-/* Internal and reusable cards */
-.sol-ficha,
-.gain,
-.cycle,
-.feat,
-.client,
-.pillar,
-.ficha,
-.jcard,
-.biz,
-.pay-feat,
-.faq details {
-  background-color: var(--vl-surface-base);
-  background-image: none;
-  border-color: var(--vl-surface-border);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.022),
-    0 18px 42px -34px rgba(0, 0, 0, 0.76);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .gain:hover,
-  .gain:focus-within,
-  .pay-feat:hover,
-  .pay-feat:focus-within,
-  .pillar:hover,
-  .pillar:focus-within,
-  .ficha:hover,
-  .ficha:focus-within,
-  .jcard:hover,
-  .jcard:focus-within,
-  .biz:hover,
-  .biz:focus-within,
-  .faq details:hover,
-  .faq details:focus-within {
-    background-color: var(--vl-surface-raised);
-    border-color: var(--vl-surface-border-hover);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.03),
-      0 22px 48px -36px rgba(0, 0, 0, 0.82);
-  }
-}
-
-/* Inputs remain darker than their parent form */
-.field input,
-.field select,
-.field textarea {
-  background-color: #061525;
-  border-color: rgba(143, 168, 194, 0.16);
-}
-
-/* Regulatory panel follows the same navy system */
-.reg-seal-panel {
-  background-color: #081827;
-}
-
-[data-vl-home-section='regulation'] .seals .seal,
-[data-vl-home-section='regulation'] .seals .seal:hover,
-[data-vl-home-section='regulation'] .seals .seal:focus,
-[data-vl-home-section='regulation'] .seals .seal:focus-visible,
-[data-vl-home-section='regulation'] .seals .seal:active {
-  background-color: #efeee8 !important;
-  border-color: rgba(239, 238, 232, 0.88) !important;
-}
-
-/* Cards remain opaque so decorative lines never show through */
-[data-vl-home-section='solutions'] .sol-card,
-[data-vl-home-section='why-us'] .pullquote,
-[data-vl-home-section='team'] .person,
-[data-vl-home-section='contact'] form,
-.sol-ficha,
-.gain,
-.cycle,
-.feat,
-.client,
-.pillar,
-.ficha,
-.jcard,
-.biz,
-.pay-feat,
-.faq details,
-.reg-seal-panel {
-  opacity: 1;
 }
