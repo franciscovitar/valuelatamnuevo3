@@ -8,12 +8,15 @@ import AmbientParticleField from '@/components/value-latam/AmbientParticleField'
 const SHOW_AMBIENT_PARTICLES = false;
 
 export default function AppProviders({ children }) {
-  return (
-    <SmoothScrollProvider>
-      {SHOW_AMBIENT_PARTICLES && <AmbientParticleField />}
-      <div className="vl-app-content">
-        <PageTransitionProvider>{children}</PageTransitionProvider>
-      </div>
-    </SmoothScrollProvider>
-  );
+return (
+  <SmoothScrollProvider>
+    {SHOW_AMBIENT_PARTICLES && <AmbientParticleField />}
+
+    <div className="vl-app-content">
+      <PageTransitionProvider>
+        {children}
+      </PageTransitionProvider>
+    </div>
+  </SmoothScrollProvider>
+);
 }

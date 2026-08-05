@@ -1,3 +1,5 @@
+import HeroFloatingServiceWords from './HeroFloatingServiceWords';
+
 const HERO_CHAPTERS = [
   {
     index: '01',
@@ -122,6 +124,8 @@ export default function VideoHero() {
                 ))}
               </div>
             </div>
+
+            <HeroFloatingServiceWords />
 
             <div className="video-hero__brand" data-video-hero-brand aria-hidden="true">
               <img

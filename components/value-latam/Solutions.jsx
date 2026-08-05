@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import FloatingServiceWords from './FloatingServiceWords';
 import { solutions } from '@/data/valueLatamContent';
 
 export default function Solutions() {
@@ -10,8 +9,6 @@ export default function Solutions() {
       data-vl-home-section="solutions"
       id="soluciones"
     >
-      <FloatingServiceWords />
-
       <div className="solutions-story">
         <div className="solutions-pin">
           <div className="wrap">

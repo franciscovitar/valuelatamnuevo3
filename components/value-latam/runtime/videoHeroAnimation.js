@@ -3,6 +3,9 @@ import { bindGoldSweep } from '@/lib/motion/uiEffects';
 import { prefersReducedMotion } from '@/lib/motion/tokens';
 import { createHeroThreeScene } from './heroThreeScene';
 
+// Preserved for later testing; disabled while the word-cloud hero is active.
+const ENABLE_HERO_THREE_SCENE = false;
+
 const SCRUB = 0.34;
 const START_OFFSET_PX = 16;
 const END_OFFSET_PX = 28;
@@ -257,6 +260,14 @@ export function initVideoHeroAnimation() {
   const boot = () => {
     if (disposed) return;
 
+    if (!ENABLE_HERO_THREE_SCENE) {
+      root.classList.add(
+        'is-word-cloud-hero',
+        'is-video-ready'
+      );
+      setupScroll();
+      return;
+    }
     if (!canvas) {
       root.classList.add('is-webgl-error', 'is-video-ready');
       setupScroll();

@@ -1,0 +1,183 @@
+/* =========================================================
+   VALUE LATAM - HERO FLOATING SERVICE WORDS
+   Replaces the old 01/02/03/04 hero chapter carousel.
+   ========================================================= */
+
+.video-hero__chapters {
+  display: none !important;
+}
+
+.video-hero.is-word-cloud-hero .video-hero__canvas,
+.video-hero.is-word-cloud-hero .video-hero__image-system {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.video-hero.is-word-cloud-hero .video-hero__css-fallback {
+  background:
+    radial-gradient(
+      72% 58% at 68% 48%,
+      rgba(204, 180, 135, 0.035),
+      transparent 68%
+    ),
+    radial-gradient(
+      58% 48% at 30% 42%,
+      rgba(242, 239, 232, 0.018),
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      #040508 0%,
+      #050609 48%,
+      #040508 100%
+    ) !important;
+}
+
+.video-hero.is-word-cloud-hero .video-hero__overlay {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 5, 8, 0.8) 0%,
+      rgba(4, 5, 8, 0.28) 38%,
+      rgba(4, 5, 8, 0.08) 62%,
+      rgba(4, 5, 8, 0.34) 100%
+    );
+}
+
+.video-hero.is-word-cloud-hero .video-hero__floor {
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(4, 5, 8, 0.36) 50%,
+      #040508 100%
+    );
+}
+
+.video-hero__word-cloud {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.video-hero__word-cloud-words,
+.video-hero__word-cloud-message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.video-hero__floating-word {
+  position: absolute;
+  max-width: 28ch;
+  color: rgba(242, 239, 232, 0.82);
+  font-family: var(--font-sans);
+  font-size: clamp(17px, 1.65vw, 30px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  text-align: center;
+  white-space: nowrap;
+  will-change:
+    transform,
+    opacity,
+    filter;
+}
+
+.video-hero__floating-word.is-accent {
+  color: rgba(221, 200, 161, 0.94);
+}
+
+.video-hero__word-cloud-message {
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  width: min(calc(100% - 48px), 1040px);
+  transform: translate(-50%, -48%);
+  text-align: center;
+  will-change:
+    transform,
+    opacity,
+    filter;
+}
+
+.video-hero__word-cloud-eyebrow {
+  display: block;
+  margin-bottom: clamp(18px, 2.2vw, 28px);
+  color: rgba(204, 180, 135, 0.92);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.video-hero__word-cloud-message h2 {
+  max-width: 18ch;
+  margin: 0 auto;
+  color: rgba(242, 239, 232, 0.97);
+  font-family: var(--font-sans);
+  font-size: clamp(46px, 5.4vw, 88px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.052em;
+  text-wrap: balance;
+}
+
+.video-hero__word-cloud-message h2 span {
+  color: #ccb487;
+}
+
+.video-hero__word-cloud-message p {
+  max-width: 52ch;
+  margin:
+    clamp(24px, 3vw, 34px)
+    auto
+    0;
+  color: rgba(242, 239, 232, 0.64);
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.25vw, 20px);
+  line-height: 1.55;
+  text-wrap: balance;
+}
+
+@media (max-width: 1023px) {
+  .video-hero__word-cloud-message h2 {
+    max-width: 15ch;
+    font-size: clamp(43px, 7.2vw, 68px);
+  }
+}
+
+@media (max-width: 760px) {
+  .video-hero__floating-word {
+    font-size: clamp(14px, 4.2vw, 19px);
+  }
+
+  .video-hero__word-cloud-message {
+    width: calc(100% - 36px);
+    transform: translate(-50%, -44%);
+  }
+
+  .video-hero__word-cloud-message h2 {
+    max-width: 12.4ch;
+    font-size: clamp(36px, 10vw, 52px);
+    letter-spacing: -0.045em;
+  }
+
+  .video-hero__word-cloud-message p {
+    max-width: 31ch;
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-hero__word-cloud {
+    display: none !important;
+  }
+}
