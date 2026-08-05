@@ -1,30 +1,26 @@
 /* =========================================================
-   VALUE LATAM - HERO FLOATING SERVICE WORDS
-   Replaces the old 01/02/03/04 hero chapter carousel.
+   VALUE LATAM - CLEAN HERO WORD CLOUD
+   One middle sequence, one ScrollTrigger, no overlapping proposals
    ========================================================= */
-
-.video-hero__chapters {
-  display: none !important;
-}
 
 .video-hero.is-word-cloud-hero .video-hero__canvas,
 .video-hero.is-word-cloud-hero .video-hero__image-system {
   display: none !important;
-  opacity: 0 !important;
   visibility: hidden !important;
+  opacity: 0 !important;
 }
 
 .video-hero.is-word-cloud-hero .video-hero__css-fallback {
   background:
     radial-gradient(
-      72% 58% at 68% 48%,
-      rgba(204, 180, 135, 0.035),
-      transparent 68%
+      68% 54% at 70% 46%,
+      rgba(204, 180, 135, 0.032),
+      transparent 70%
     ),
     radial-gradient(
-      58% 48% at 30% 42%,
-      rgba(242, 239, 232, 0.018),
-      transparent 72%
+      52% 44% at 27% 42%,
+      rgba(242, 239, 232, 0.016),
+      transparent 74%
     ),
     linear-gradient(
       180deg,
@@ -38,10 +34,26 @@
   background:
     linear-gradient(
       90deg,
-      rgba(4, 5, 8, 0.8) 0%,
-      rgba(4, 5, 8, 0.28) 38%,
+      rgba(4, 5, 8, 0.68) 0%,
+      rgba(4, 5, 8, 0.2) 38%,
       rgba(4, 5, 8, 0.08) 62%,
+      rgba(4, 5, 8, 0.25) 100%
+    );
+}
+
+.video-hero.is-word-cloud-hero .video-hero__vignette {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4, 5, 8, 0.32) 0%,
+      transparent 17%,
+      transparent 74%,
       rgba(4, 5, 8, 0.34) 100%
+    ),
+    radial-gradient(
+      ellipse 125% 100% at 55% 48%,
+      transparent 58%,
+      rgba(4, 5, 8, 0.2) 100%
     );
 }
 
@@ -49,8 +61,19 @@
   background:
     linear-gradient(
       180deg,
-      transparent,
-      rgba(4, 5, 8, 0.36) 50%,
+      transparent 0%,
+      rgba(4, 5, 8, 0.28) 44%,
+      #040508 100%
+    );
+}
+
+.video-hero.is-word-cloud-hero .video-hero__exit-fade {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4, 5, 8, 0.02) 0%,
+      rgba(4, 5, 8, 0.28) 56%,
+      rgba(4, 5, 8, 0.82) 86%,
       #040508 100%
     );
 }
@@ -60,9 +83,9 @@
   inset: 0;
   z-index: 11;
   overflow: hidden;
-  pointer-events: none;
   visibility: hidden;
   opacity: 0;
+  pointer-events: none;
 }
 
 .video-hero__word-cloud-words,
@@ -76,9 +99,9 @@
 .video-hero__floating-word {
   position: absolute;
   max-width: 28ch;
-  color: rgba(242, 239, 232, 0.82);
+  color: rgba(242, 239, 232, 0.8);
   font-family: var(--font-sans);
-  font-size: clamp(17px, 1.65vw, 30px);
+  font-size: clamp(16px, 1.55vw, 28px);
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.025em;
@@ -91,14 +114,14 @@
 }
 
 .video-hero__floating-word.is-accent {
-  color: rgba(221, 200, 161, 0.94);
+  color: rgba(221, 200, 161, 0.93);
 }
 
 .video-hero__word-cloud-message {
   inset: auto;
   left: 50%;
   top: 50%;
-  width: min(calc(100% - 48px), 1040px);
+  width: min(calc(100% - 48px), 1020px);
   transform: translate(-50%, -48%);
   text-align: center;
   will-change:
@@ -109,24 +132,24 @@
 
 .video-hero__word-cloud-eyebrow {
   display: block;
-  margin-bottom: clamp(18px, 2.2vw, 28px);
-  color: rgba(204, 180, 135, 0.92);
+  margin-bottom: clamp(18px, 2.2vw, 27px);
+  color: rgba(204, 180, 135, 0.9);
   font-family: var(--font-mono, monospace);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
 .video-hero__word-cloud-message h2 {
-  max-width: 18ch;
+  max-width: 17.5ch;
   margin: 0 auto;
   color: rgba(242, 239, 232, 0.97);
   font-family: var(--font-sans);
-  font-size: clamp(46px, 5.4vw, 88px);
+  font-size: clamp(44px, 5.1vw, 82px);
   font-weight: 500;
-  line-height: 0.98;
-  letter-spacing: -0.052em;
+  line-height: 0.99;
+  letter-spacing: -0.05em;
   text-wrap: balance;
 }
 
@@ -135,14 +158,14 @@
 }
 
 .video-hero__word-cloud-message p {
-  max-width: 52ch;
+  max-width: 50ch;
   margin:
-    clamp(24px, 3vw, 34px)
+    clamp(22px, 2.8vw, 32px)
     auto
     0;
-  color: rgba(242, 239, 232, 0.64);
+  color: rgba(242, 239, 232, 0.62);
   font-family: var(--font-sans);
-  font-size: clamp(16px, 1.25vw, 20px);
+  font-size: clamp(16px, 1.2vw, 19px);
   line-height: 1.55;
   text-wrap: balance;
 }
@@ -150,13 +173,13 @@
 @media (max-width: 1023px) {
   .video-hero__word-cloud-message h2 {
     max-width: 15ch;
-    font-size: clamp(43px, 7.2vw, 68px);
+    font-size: clamp(42px, 7vw, 66px);
   }
 }
 
 @media (max-width: 760px) {
   .video-hero__floating-word {
-    font-size: clamp(14px, 4.2vw, 19px);
+    font-size: clamp(14px, 4.1vw, 18px);
   }
 
   .video-hero__word-cloud-message {
@@ -165,9 +188,9 @@
   }
 
   .video-hero__word-cloud-message h2 {
-    max-width: 12.4ch;
-    font-size: clamp(36px, 10vw, 52px);
-    letter-spacing: -0.045em;
+    max-width: 12.5ch;
+    font-size: clamp(35px, 9.7vw, 50px);
+    letter-spacing: -0.043em;
   }
 
   .video-hero__word-cloud-message p {
