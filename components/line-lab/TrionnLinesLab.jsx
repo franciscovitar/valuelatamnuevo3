@@ -16,7 +16,7 @@ import {
   GESTURE_WINDOWS,
   resolveGestureState,
   resolveLineState,
-  getGestureRouteSamples,
+  getProfileRouteSamples,
   sliceRoute,
   routesToJson,
   createLabScrollController,
@@ -32,7 +32,7 @@ export default function TrionnLinesLab() {
   const [copyStatus, setCopyStatus] = useState(null);
   const scrollRootRef = useRef(null);
 
-  const gestureState = useMemo(
+  const travelerState = useMemo(
     () => resolveGestureState(progress),
     [progress]
   );
@@ -100,13 +100,12 @@ export default function TrionnLinesLab() {
         viewBox={`0 0 ${WORLD_WIDTH} ${VIEWPORT_HEIGHT}`}
         preserveAspectRatio="none"
         aria-hidden="true"
-        style={{ opacity: gestureState.opacity }}
+        style={{ opacity: travelerState.opacity }}
       >
         {LINE_KEYS.map((lineKey) => {
           const state = lineStates[lineKey];
-          const samples = getGestureRouteSamples(
+          const samples = getProfileRouteSamples(
             'desktop',
-            state.gestureIndex,
             lineKey
           );
 
@@ -161,7 +160,7 @@ export default function TrionnLinesLab() {
             setPanelCollapsed((value) => !value);
           }}
         >
-          Trionn Motion {panelCollapsed ? '>' : 'v'}
+          Continuous Traveler {panelCollapsed ? '>' : 'v'}
         </button>
 
         {!panelCollapsed && (
@@ -184,14 +183,14 @@ export default function TrionnLinesLab() {
             />
 
             <div className="line-lab__row">
-              <span>Gesto</span>
-              <strong>{gestureState.gestureId}</strong>
+              <span>Tramo actual</span>
+              <strong>{travelerState.gestureId}</strong>
             </div>
 
             <div className="line-lab__row">
               <span>Opacidad</span>
               <strong>
-                {gestureState.opacity.toFixed(3)}
+                {travelerState.opacity.toFixed(3)}
               </strong>
             </div>
 
