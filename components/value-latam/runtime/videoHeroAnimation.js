@@ -81,7 +81,7 @@ function buildUiTimeline(targets) {
 
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
 
-  tl.to(hint, { opacity: 0, y: 8, duration: 0.035, ease: 'power1.out' }, 0);
+  tl.to(hint, { opacity: 0, y: 8, duration: 0.035, ease: 'power3.out' }, 0);
   tl.to(title, { y: -24, opacity: 0, duration: 0.18, ease: 'power2.inOut' }, 0);
   tl.to(cta, { opacity: 0, y: 10, duration: 0.06 }, 0.025);
   tl.to(lead, { opacity: 0, duration: 0.075 }, 0.055);

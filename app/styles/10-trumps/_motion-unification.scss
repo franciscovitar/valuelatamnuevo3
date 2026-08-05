@@ -1,0 +1,133 @@
+/* =========================================================
+   VALUE LATAM - MOTION UNIFICATION
+   Home + all internal routes
+   ========================================================= */
+
+:root {
+  --vl-motion-hover: 200ms;
+  --vl-motion-reveal: 600ms;
+  --vl-motion-title: 620ms;
+  --vl-motion-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --vl-motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* One hover rhythm across navigation, controls and cards. */
+:is(
+  a,
+  button,
+  summary,
+  input,
+  select,
+  textarea,
+  .btn-primary,
+  .btn-ghost,
+  .btn-ghost-dark,
+  .nav-dropdown__menu a,
+  .sol-card,
+  .feat,
+  .gain,
+  .biz,
+  .jcard,
+  .person,
+  .pay-feat,
+  .pillar,
+  .ficha,
+  .client,
+  .cycle,
+  .pullquote,
+  .process-route-panel,
+  .faq details
+) {
+  transition-duration: var(--vl-motion-hover) !important;
+  transition-timing-function: var(--vl-motion-ease-out) !important;
+}
+
+/* Shimmer, moving pointer glows and perspective effects are removed. */
+.vl-gold-sweep__shine,
+.vl-spotlight-glow,
+.vl-card-glow,
+.btn-primary::before {
+  display: none !important;
+  animation: none !important;
+}
+
+.vl-magnetic,
+.vl-spotlight-card {
+  transform: none;
+}
+
+/* Partner logos stay calm instead of moving forever. */
+.partner-carousel-track {
+  animation: none !important;
+  transform: translate3d(0, 0, 0) !important;
+  will-change: auto !important;
+}
+
+.partner-carousel-set + .partner-carousel-set {
+  display: none !important;
+}
+
+.partner-carousel-set {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Remove decorative pulses that compete with content. */
+.sound-toggle .sicon,
+.sound-toggle.is-on .sicon,
+.vl-card-topline::after,
+[data-vl-tech-hud] *,
+.technology-hud * {
+  animation: none !important;
+}
+
+/* Keep accordion changes precise and immediate enough. */
+details,
+details > *,
+.faq details,
+.pay-feat {
+  transition-duration: var(--vl-motion-hover) !important;
+}
+
+/* Avoid old long transitions leaking in from route-specific CSS. */
+[data-vl-internal-page] :is(
+  .feat,
+  .gain,
+  .biz,
+  .jcard,
+  .pay-feat,
+  .process-route-panel,
+  .pillar,
+  .ficha,
+  .fin-cta,
+  .join-section-sub,
+  .faq details
+),
+[data-vl-home-section] :is(
+  .sol-card,
+  .person,
+  .pullquote,
+  .metric,
+  .step,
+  .process-stage,
+  form
+) {
+  transition-duration: var(--vl-motion-hover) !important;
+  transition-timing-function: var(--vl-motion-ease-out) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-vl-internal-page] *,
+  [data-vl-home-section] * {
+    transform: none !important;
+  }
+}
