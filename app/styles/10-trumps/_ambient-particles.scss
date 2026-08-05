@@ -1,18 +1,8 @@
 /* =========================================================
-   VALUE LATAM - AMBIENT PARTICLES
-   Global subtle 3D depth and parallax
+   VALUE LATAM - AMBIENT PARTICLES v2
+   Cleaner dust, no halos, reactive scroll depth
    ========================================================= */
 
-body {
-  position: relative;
-  isolation: isolate;
-}
-
-/*
- * The canvas is global and fixed. It sits behind the application
- * content, so particles feel like atmosphere instead of decoration
- * attached to a particular card or section.
- */
 .vl-ambient-particles {
   position: fixed;
   inset: 0;
@@ -21,57 +11,31 @@ body {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.58;
   mix-blend-mode: screen;
   contain: strict;
 }
 
-/*
- * The wrapper is added by AppProviders and preserves the normal
- * stacking order for every route, header, floating control and form.
- */
 .vl-app-content {
   position: relative;
   z-index: 1;
   min-height: 100vh;
 }
 
-/*
- * Existing Value Latam sections keep their gradients and glows,
- * but must not place an opaque flat color over the global field.
- */
 main,
 section[data-vl-home-section],
 section[data-vl-internal-page] {
   background-color: transparent !important;
 }
 
-/* Cards and panels keep their own surfaces. */
-:is(
-  form,
-  .sol-card,
-  .person,
-  .pullquote,
-  .reg-seal-panel,
-  .process-route-panel,
-  .fin-card,
-  .pay-feat,
-  .feat,
-  .gain,
-  .biz,
-  .jcard
-) {
-  isolation: isolate;
-}
-
 @media (max-width: 760px) {
   .vl-ambient-particles {
-    opacity: 0.58;
+    opacity: 0.46;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .vl-ambient-particles {
-    opacity: 0.5;
+    opacity: 0.42;
   }
 }
