@@ -1,49 +1,46 @@
 /* =========================================================
-   VALUE LATAM â€” BLACK EDITORIAL TRIAL
-   Deep black canvas, warm white and restrained gold
+   VALUE LATAM â€” FINAL BLACK DIRECTION
+   Base #040508, neutral black surfaces and pale champagne gold
    ========================================================= */
 
-/*
-  Toda la identidad cromÃ¡tica principal se controla desde este bloque.
-*/
 :root {
   /* Backgrounds */
-  --vl-bg-deep: #020202;
-  --vl-bg-base: #070707;
-  --vl-bg-raised: #0b0b0c;
+  --vl-bg-deep: #020306;
+  --vl-bg-base: #040508;
+  --vl-bg-raised: #090a0d;
 
-  /* Surfaces */
-  --vl-surface-deep: #0a0a0b;
-  --vl-surface-base: #11100f;
-  --vl-surface-raised: #171512;
-  --vl-surface-active: #1d1a16;
+  /* Surfaces: previous neutral-black card family */
+  --vl-surface-deep: #0a0b0e;
+  --vl-surface-base: #101012;
+  --vl-surface-raised: #151518;
+  --vl-surface-active: #1b1b20;
 
   /* Text */
   --vl-text-primary: #f2efe8;
-  --vl-text-secondary: #b9b6ae;
-  --vl-text-muted: #7e7b75;
+  --vl-text-secondary: #b7b3ab;
+  --vl-text-muted: #7f7b74;
 
-  /* Accent */
-  --vl-accent: #d4bb88;
-  --vl-accent-hover: #e2cca0;
+  /* Pale champagne gold: less yellow */
+  --vl-accent: #ccb487;
+  --vl-accent-hover: #ddc8a1;
 
   /* Borders */
-  --vl-border-subtle: rgba(212, 187, 136, 0.13);
-  --vl-border-hover: rgba(226, 204, 160, 0.24);
-  --vl-border-neutral: rgba(242, 239, 232, 0.09);
+  --vl-border-subtle: rgba(204, 180, 135, 0.13);
+  --vl-border-hover: rgba(221, 200, 161, 0.23);
+  --vl-border-neutral: rgba(242, 239, 232, 0.085);
 
   /* Buttons */
-  --vl-button-start: #dcc48f;
-  --vl-button-end: #c8a866;
-  --vl-button-hover-start: #e8d3a8;
-  --vl-button-hover-end: #d2b473;
-  --vl-button-ink: #080808;
+  --vl-button-start: #d8c092;
+  --vl-button-end: #c5a66f;
+  --vl-button-hover-start: #e3cfaa;
+  --vl-button-hover-end: #cfb07c;
+  --vl-button-ink: #07080a;
 
   /* Utilities */
   --vl-whatsapp: #178a49;
   --vl-whatsapp-text: #ffffff;
 
-  /* Project aliases */
+  /* Legacy project aliases */
   --ink: var(--vl-bg-base);
   --ink-2: var(--vl-bg-raised);
   --ink-3: var(--vl-surface-active);
@@ -51,14 +48,14 @@
   --paper: var(--vl-text-primary);
   --paper-2: #f7f3eb;
 
-  --brass: #b28f4a;
+  --brass: #b89b6c;
   --brass-2: var(--vl-accent);
 
   --slate: var(--vl-text-muted);
   --slate-light: var(--vl-text-secondary);
 
-  --line-dark: rgba(242, 239, 232, 0.11);
-  --line-light: rgba(255, 255, 255, 0.06);
+  --line-dark: rgba(242, 239, 232, 0.105);
+  --line-light: rgba(255, 255, 255, 0.055);
 
   --vl-bg-card: var(--vl-surface-base);
   --vl-bg-card-active: var(--vl-surface-active);
@@ -67,16 +64,16 @@
   --border-brass-soft: var(--vl-border-subtle);
   --border-brass-hover: var(--vl-border-hover);
 
-  --shadow-card-premium: 0 20px 52px -38px rgba(0, 0, 0, 0.92);
-  --shadow-card-premium-hover: 0 24px 60px -40px rgba(0, 0, 0, 0.96);
-  --shadow-brass-soft: 0 12px 28px -18px rgba(178, 143, 74, 0.42);
-  --shadow-brass-hover: 0 14px 32px -18px rgba(199, 163, 90, 0.52);
+  --shadow-card-premium: 0 20px 52px -38px rgba(0, 0, 0, 0.94);
+  --shadow-card-premium-hover: 0 24px 60px -40px rgba(0, 0, 0, 0.97);
+  --shadow-brass-soft: 0 12px 28px -18px rgba(204, 180, 135, 0.36);
+  --shadow-brass-hover: 0 14px 32px -18px rgba(221, 200, 161, 0.46);
 
   --surface-card-premium:
     linear-gradient(
       180deg,
       rgba(21, 21, 24, 0.995),
-      rgba(10, 10, 11, 0.998)
+      rgba(10, 11, 14, 0.998)
     );
 }
 
@@ -91,14 +88,14 @@ html {
 body {
   background:
     radial-gradient(
-      58% 42% at 50% 10%,
-      rgba(255, 255, 255, 0.025),
+      58% 42% at 50% 9%,
+      rgba(255, 255, 255, 0.022),
       transparent 70%
     ),
     radial-gradient(
-      42% 34% at 82% 64%,
-      rgba(199, 163, 90, 0.018),
-      transparent 74%
+      40% 30% at 82% 66%,
+      rgba(204, 180, 135, 0.014),
+      transparent 75%
     ),
     var(--vl-bg-base);
   background-attachment: scroll;
@@ -144,7 +141,7 @@ footer {
 [data-vl-home-section='regulation'],
 [data-vl-home-section='contact'],
 footer {
-  border-top: 1px solid rgba(242, 239, 232, 0.065) !important;
+  border-top: 1px solid rgba(242, 239, 232, 0.06) !important;
 }
 
 /* =========================================================
@@ -181,14 +178,23 @@ li,
   color: var(--vl-text-secondary);
 }
 
+/* One authoritative gold system. */
 .eyebrow,
+.eyebrow *,
+.kicker,
+.kicker *,
+.overline,
+.overline *,
+.mini-kicker,
+.mini-kicker *,
 .sol-card .idx,
 .person .role,
 .step .n,
-.kicker,
-.overline,
-.mini-kicker {
-  color: var(--vl-accent);
+.reg .badge,
+.reg .badge *,
+.reg-seal-kicker,
+.reg-seal-kicker * {
+  color: var(--vl-accent) !important;
 }
 
 /* =========================================================
@@ -196,8 +202,8 @@ li,
    ========================================================= */
 
 header.nav {
-  background: rgba(5, 5, 5, 0.975);
-  border-bottom: 1px solid rgba(242, 239, 232, 0.065);
+  background: rgba(4, 5, 8, 0.98);
+  border-bottom: 1px solid rgba(242, 239, 232, 0.06);
   box-shadow: 0 14px 40px -32px rgba(0, 0, 0, 0.98);
   backdrop-filter: blur(16px) saturate(100%);
 }
@@ -232,17 +238,17 @@ header.nav {
   background:
     radial-gradient(
       circle at 92% 0%,
-      rgba(199, 163, 90, 0.045),
+      rgba(204, 180, 135, 0.04),
       transparent 38%
     ),
     linear-gradient(
       180deg,
-      rgba(16, 16, 18, 0.995),
-      rgba(6, 6, 7, 0.998)
+      rgba(16, 16, 18, 0.996),
+      rgba(4, 5, 8, 0.999)
     );
   box-shadow:
-    0 24px 58px -26px rgba(0, 0, 0, 0.94),
-    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    0 24px 58px -26px rgba(0, 0, 0, 0.95),
+    inset 0 1px 0 rgba(255, 255, 255, 0.022);
 }
 
 /* =========================================================
@@ -260,7 +266,7 @@ header.nav {
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 11px 26px -18px rgba(178, 143, 74, 0.52);
+    0 11px 26px -18px rgba(204, 180, 135, 0.48);
   text-shadow: none;
 }
 
@@ -280,7 +286,7 @@ header.nav {
   transform: translateY(-1px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 13px 30px -18px rgba(199, 163, 90, 0.58);
+    0 13px 30px -18px rgba(221, 200, 161, 0.54);
 }
 
 .btn-primary:hover::after,
@@ -296,8 +302,8 @@ header.nav {
 .btn-ghost-dark {
   color: var(--vl-text-primary);
   border-color: var(--vl-border-neutral);
-  background: rgba(255, 255, 255, 0.015);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.015);
+  background: rgba(255, 255, 255, 0.014);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.014);
 }
 
 .btn-ghost:hover,
@@ -306,8 +312,8 @@ header.nav {
 .btn-ghost-dark:focus-visible {
   color: var(--vl-accent-hover);
   border-color: var(--vl-border-hover);
-  background: rgba(199, 163, 90, 0.045);
-  box-shadow: 0 10px 26px -20px rgba(199, 163, 90, 0.4);
+  background: rgba(204, 180, 135, 0.04);
+  box-shadow: 0 10px 26px -20px rgba(204, 180, 135, 0.34);
   transform: translateY(-1px);
 }
 
@@ -341,8 +347,8 @@ header .btn-primary,
   background-image: none;
   border-color: var(--vl-border-neutral);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.015),
-    0 22px 50px -40px rgba(0, 0, 0, 0.94);
+    inset 0 1px 0 rgba(255, 255, 255, 0.014),
+    0 22px 50px -40px rgba(0, 0, 0, 0.95);
   opacity: 1;
 }
 
@@ -428,9 +434,51 @@ header .btn-primary,
     background-color: var(--vl-surface-raised);
     border-color: var(--vl-border-hover);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.02),
-      0 24px 54px -42px rgba(0, 0, 0, 0.96);
+      inset 0 1px 0 rgba(255, 255, 255, 0.018),
+      0 24px 54px -42px rgba(0, 0, 0, 0.97);
   }
+}
+
+/* =========================================================
+   Regulation â€” remove all residual blue
+   ========================================================= */
+
+.reg-seal-panel {
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(204, 180, 135, 0.025),
+      transparent 38%
+    ),
+    var(--vl-surface-deep) !important;
+  border-color: var(--vl-border-neutral) !important;
+}
+
+.reg-seal-kicker,
+.reg-seal-kicker *,
+.reg .eyebrow,
+.reg .eyebrow *,
+.reg .badge,
+.reg .badge * {
+  color: var(--vl-accent) !important;
+}
+
+.vl-reg-sep,
+.reg-seal-divider,
+.reg-sep,
+.reg-seal-panel hr {
+  background: rgba(242, 239, 232, 0.11) !important;
+  border-color: rgba(242, 239, 232, 0.11) !important;
+}
+
+[data-vl-home-section='regulation'] .seals .seal,
+[data-vl-home-section='regulation'] .seals .seal:hover,
+[data-vl-home-section='regulation'] .seals .seal:focus,
+[data-vl-home-section='regulation'] .seals .seal:focus-visible,
+[data-vl-home-section='regulation'] .seals .seal:active {
+  background-color: #efede6 !important;
+  border-color: rgba(239, 237, 230, 0.86) !important;
+  box-shadow: 0 14px 34px -28px rgba(0, 0, 0, 0.52) !important;
 }
 
 /* =========================================================
@@ -447,32 +495,14 @@ header .btn-primary,
   color: var(--vl-text-primary);
   background-color: var(--vl-surface-deep);
   border-color: var(--vl-border-neutral);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.012);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.011);
 }
 
 .field input:focus-visible,
 .field select:focus-visible,
 .field textarea:focus-visible {
-  border-color: rgba(199, 163, 90, 0.32);
-  box-shadow: 0 0 0 3px rgba(199, 163, 90, 0.055);
-}
-
-/* =========================================================
-   Regulation
-   ========================================================= */
-
-.reg-seal-panel {
-  background-color: var(--vl-surface-deep);
-}
-
-[data-vl-home-section='regulation'] .seals .seal,
-[data-vl-home-section='regulation'] .seals .seal:hover,
-[data-vl-home-section='regulation'] .seals .seal:focus,
-[data-vl-home-section='regulation'] .seals .seal:focus-visible,
-[data-vl-home-section='regulation'] .seals .seal:active {
-  background-color: #efede6 !important;
-  border-color: rgba(239, 237, 230, 0.86) !important;
-  box-shadow: 0 14px 34px -28px rgba(0, 0, 0, 0.52) !important;
+  border-color: rgba(204, 180, 135, 0.32);
+  box-shadow: 0 0 0 3px rgba(204, 180, 135, 0.052);
 }
 
 /* =========================================================
@@ -536,13 +566,13 @@ header .btn-primary,
   padding: 8px 13px;
   color: var(--vl-whatsapp-text);
   background: var(--vl-whatsapp);
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.21);
   font-size: 12.5px;
   font-weight: 700;
   text-shadow: none;
   box-shadow:
-    0 14px 34px -22px rgba(0, 0, 0, 0.86),
-    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+    0 14px 34px -22px rgba(0, 0, 0, 0.88),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .vl2-wa .wa-icon {
@@ -565,11 +595,11 @@ header .btn-primary,
   gap: 7px;
   padding: 8px 12px;
   color: rgba(242, 239, 232, 0.86);
-  background: rgba(10, 10, 11, 0.97);
+  background: rgba(10, 11, 14, 0.97);
   border-color: var(--vl-border-neutral);
   font-size: 11.5px;
   letter-spacing: 0.025em;
-  box-shadow: 0 12px 30px -22px rgba(0, 0, 0, 0.92);
+  box-shadow: 0 12px 30px -22px rgba(0, 0, 0, 0.93);
 }
 
 .sound-toggle:hover,
@@ -587,7 +617,7 @@ header .btn-primary,
 
 .sound-toggle.is-on .sicon {
   background: var(--vl-accent);
-  box-shadow: 0 0 0 3px rgba(199, 163, 90, 0.055);
+  box-shadow: 0 0 0 3px rgba(204, 180, 135, 0.052);
   animation: none;
 }
 
@@ -597,7 +627,7 @@ header .btn-primary,
 
 @media (max-width: 980px) {
   header.nav {
-    background: rgba(5, 5, 5, 0.988);
+    background: rgba(4, 5, 8, 0.988);
   }
 
   .nav-links {
@@ -605,7 +635,7 @@ header .btn-primary,
       linear-gradient(
         180deg,
         rgba(16, 16, 18, 0.998),
-        rgba(6, 6, 7, 0.999)
+        rgba(4, 5, 8, 0.999)
       );
     border-color: var(--vl-border-neutral);
   }
