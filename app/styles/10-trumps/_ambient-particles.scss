@@ -1,6 +1,6 @@
 /* =========================================================
-   VALUE LATAM - NIGHT STARFIELD v3
-   More visible stars with layered scroll depth
+   VALUE LATAM - NIGHT STARFIELD v4
+   Softer, finer and more editorial
    ========================================================= */
 
 .vl-ambient-particles {
@@ -11,8 +11,8 @@
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  opacity: 0.84;
-  mix-blend-mode: screen;
+  opacity: 0.54;
+  mix-blend-mode: normal;
   contain: strict;
 }
 
@@ -30,12 +30,12 @@ section[data-vl-internal-page] {
 
 @media (max-width: 760px) {
   .vl-ambient-particles {
-    opacity: 0.68;
+    opacity: 0.42;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .vl-ambient-particles {
-    opacity: 0.62;
+    opacity: 0.4;
   }
 }

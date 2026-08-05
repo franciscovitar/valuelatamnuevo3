@@ -6,13 +6,13 @@ const IVORY = [242, 239, 232];
 const CHAMPAGNE = [204, 180, 135];
 
 const STARFIELD_CONFIG = {
-  desktopMin: 72,
-  desktopMax: 126,
-  mobileMin: 34,
-  mobileMax: 56,
-  areaDivisor: 16800,
-  pointerStrength: 14,
-  scrollEase: 0.075,
+  desktopMin: 48,
+  desktopMax: 82,
+  mobileMin: 24,
+  mobileMax: 38,
+  areaDivisor: 23500,
+  pointerStrength: 7,
+  scrollEase: 0.07,
 };
 
 function clamp(value, min, max) {
@@ -30,47 +30,41 @@ function randomBetween(min, max) {
 function selectLayer() {
   const roll = Math.random();
 
-  if (roll < 0.56) {
+  if (roll < 0.7) {
     return {
-      name: 'far',
-      depth: randomBetween(0.12, 0.38),
-      radius: randomBetween(0.32, 0.66),
-      alpha: randomBetween(0.15, 0.34),
-      scrollFactor: randomBetween(0.008, 0.017),
-      pointerFactor: randomBetween(0.8, 2.4),
-      drift: randomBetween(0.12, 0.35),
-      sparkleChance: 0,
+      depth: randomBetween(0.1, 0.34),
+      radius: randomBetween(0.22, 0.46),
+      alpha: randomBetween(0.07, 0.17),
+      scrollFactor: randomBetween(0.005, 0.011),
+      pointerFactor: randomBetween(0.5, 1.4),
+      drift: randomBetween(0.08, 0.22),
     };
   }
 
-  if (roll < 0.9) {
+  if (roll < 0.96) {
     return {
-      name: 'mid',
-      depth: randomBetween(0.42, 0.72),
-      radius: randomBetween(0.62, 1.08),
-      alpha: randomBetween(0.28, 0.52),
-      scrollFactor: randomBetween(0.019, 0.036),
-      pointerFactor: randomBetween(2.8, 5.4),
-      drift: randomBetween(0.3, 0.65),
-      sparkleChance: 0.025,
+      depth: randomBetween(0.38, 0.68),
+      radius: randomBetween(0.42, 0.76),
+      alpha: randomBetween(0.13, 0.27),
+      scrollFactor: randomBetween(0.012, 0.023),
+      pointerFactor: randomBetween(1.6, 3.1),
+      drift: randomBetween(0.16, 0.38),
     };
   }
 
   return {
-    name: 'near',
-    depth: randomBetween(0.76, 1),
-    radius: randomBetween(1.05, 1.72),
-    alpha: randomBetween(0.48, 0.78),
-    scrollFactor: randomBetween(0.039, 0.064),
-    pointerFactor: randomBetween(5.8, 9.2),
-    drift: randomBetween(0.55, 0.95),
-    sparkleChance: 0.16,
+    depth: randomBetween(0.72, 0.94),
+    radius: randomBetween(0.72, 1.05),
+    alpha: randomBetween(0.21, 0.38),
+    scrollFactor: randomBetween(0.025, 0.038),
+    pointerFactor: randomBetween(3.3, 4.8),
+    drift: randomBetween(0.28, 0.5),
   };
 }
 
 function createStar(width, height) {
   const layer = selectLayer();
-  const warm = Math.random() < 0.14;
+  const warm = Math.random() < 0.1;
 
   return {
     x: Math.random() * width,
@@ -81,14 +75,12 @@ function createStar(width, height) {
     scrollFactor: layer.scrollFactor,
     pointerFactor: layer.pointerFactor,
     drift: layer.drift,
-    layer: layer.name,
-    sparkle: Math.random() < layer.sparkleChance,
     color: warm ? CHAMPAGNE : IVORY,
     phase: Math.random() * Math.PI * 2,
-    twinkleSpeed: randomBetween(0.00018, 0.00052),
-    twinkleAmount: randomBetween(0.08, 0.24),
-    driftSpeedX: randomBetween(0.000012, 0.000032),
-    driftSpeedY: randomBetween(0.000009, 0.000025),
+    twinkleSpeed: randomBetween(0.00011, 0.00025),
+    twinkleAmount: randomBetween(0.025, 0.09),
+    driftSpeedX: randomBetween(0.000008, 0.000021),
+    driftSpeedY: randomBetween(0.000007, 0.000018),
   };
 }
 
@@ -126,10 +118,7 @@ function drawStar(context, star, x, y, time) {
   const alpha = clamp(
     star.alpha * twinkle,
     0,
-    0.92
-  );
-  const radius = star.radius * (
-    0.88 + star.depth * 0.18
+    0.46
   );
   const [red, green, blue] = star.color;
 
@@ -140,30 +129,11 @@ function drawStar(context, star, x, y, time) {
   context.arc(
     x,
     y,
-    radius,
+    star.radius,
     0,
     Math.PI * 2
   );
   context.fill();
-
-  if (!star.sparkle) return;
-
-  const sparkleAlpha = alpha * 0.42;
-  const arm = radius * 3.2;
-
-  context.beginPath();
-  context.strokeStyle = (
-    `rgba(${red}, ${green}, ${blue}, ${sparkleAlpha})`
-  );
-  context.lineWidth = Math.max(
-    0.42,
-    radius * 0.34
-  );
-  context.moveTo(x - arm, y);
-  context.lineTo(x + arm, y);
-  context.moveTo(x, y - arm);
-  context.lineTo(x, y + arm);
-  context.stroke();
 }
 
 export default function AmbientParticleField() {
@@ -211,7 +181,7 @@ export default function AmbientParticleField() {
       const mobile = width <= 760;
       const ratio = Math.min(
         window.devicePixelRatio || 1,
-        mobile ? 1.25 : 1.55
+        mobile ? 1.2 : 1.4
       );
 
       canvas.width = Math.round(width * ratio);
@@ -227,7 +197,6 @@ export default function AmbientParticleField() {
         0,
         0
       );
-      context.lineCap = 'round';
 
       stars = createStars(width, height);
     };
@@ -255,20 +224,14 @@ export default function AmbientParticleField() {
     };
 
     const draw = (time) => {
-      const delta = clamp(
-        (time - lastTime) / 16.667,
-        0.25,
-        2.4
-      );
-
       lastTime = time;
 
       pointer.x += (
         pointer.targetX - pointer.x
-      ) * 0.04;
+      ) * 0.035;
       pointer.y += (
         pointer.targetY - pointer.y
-      ) * 0.04;
+      ) * 0.035;
       scroll.value += (
         scroll.target - scroll.value
       ) * STARFIELD_CONFIG.scrollEase;
@@ -290,11 +253,6 @@ export default function AmbientParticleField() {
           + star.phase
         ) * star.drift;
 
-        /*
-         * Scrolling down makes stars descend in the viewport.
-         * Each depth layer uses a different fraction of page scroll,
-         * so distant stars move least and nearby stars move most.
-         */
         const scrollY = (
           scroll.value * star.scrollFactor
         );
@@ -308,7 +266,7 @@ export default function AmbientParticleField() {
           pointer.y
           * STARFIELD_CONFIG.pointerStrength
           * star.pointerFactor
-          * 0.09
+          * 0.08
         );
 
         const x = wrap(
