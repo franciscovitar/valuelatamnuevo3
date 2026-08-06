@@ -1,8 +1,7 @@
-export default function BackgroundCanvas() {
-  const lineKeys = ['outer', 'middle', 'inner'];
-  const nodeCount = 5;
-  const sparkCount = 6;
+const LINE_KEYS = ['outer', 'middle', 'inner'];
+const SPARK_COUNT = 6;
 
+export default function BackgroundCanvas() {
   return (
     <div
       className="vl-bg-lines-layer"
@@ -12,33 +11,14 @@ export default function BackgroundCanvas() {
       <svg
         className="vl-bg-lines"
         data-vl-bg-lines-svg
-        viewBox="0 0 1000 1"
-        preserveAspectRatio="none"
+        role="presentation"
+        focusable="false"
       >
-        <defs>
-          <filter
-            id="vl-network-spark-glow"
-            x="-80%"
-            y="-80%"
-            width="260%"
-            height="260%"
-          >
-            <feGaussianBlur
-              stdDeviation="2.6"
-              result="blur"
-            />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
         <g
           className="vl-bg-lines__world"
           data-vl-bg-lines-world
         >
-          {lineKeys.map((lineKey) => (
+          {LINE_KEYS.map((lineKey) => (
             <g
               key={lineKey}
               data-vl-line-group={lineKey}
@@ -63,44 +43,42 @@ export default function BackgroundCanvas() {
                   + `vl-bg-lines__path--${lineKey}`
                 }
               />
+              <circle
+                data-vl-travel-head={lineKey}
+                className={
+                  `vl-bg-lines__travel-head `
+                  + `vl-bg-lines__travel-head--${lineKey}`
+                }
+              />
             </g>
           ))}
 
           <g
-            className="vl-bg-lines__nodes"
-            data-vl-network-nodes
-          >
-            {Array.from({ length: nodeCount }, (_, index) => (
-              <circle
-                key={`node-${index}`}
-                data-vl-network-node={index}
-                className="vl-bg-lines__network-node"
-              />
-            ))}
-          </g>
-
-          <g
             className="vl-bg-lines__spark"
-            data-vl-network-spark
-            filter="url(#vl-network-spark-glow)"
+            data-vl-spark-root
           >
             <circle
               data-vl-spark-halo
               className="vl-bg-lines__spark-halo"
             />
-            {Array.from({ length: sparkCount }, (_, index) => (
-              <path
+
+            {Array.from({ length: SPARK_COUNT }, (_, index) => (
+              <g
                 key={`spark-${index}`}
                 data-vl-spark-bolt={index}
                 className="vl-bg-lines__spark-bolt"
-              />
+              >
+                <path
+                  data-vl-spark-glow
+                  className="vl-bg-lines__spark-glow"
+                />
+                <path
+                  data-vl-spark-core
+                  className="vl-bg-lines__spark-core"
+                />
+              </g>
             ))}
           </g>
-
-          <circle
-            data-vl-travel-head
-            className="vl-bg-lines__travel-head"
-          />
         </g>
       </svg>
     </div>
