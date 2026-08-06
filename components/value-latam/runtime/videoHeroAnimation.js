@@ -5,7 +5,7 @@ import {
   HERO_WORDS,
 } from '../heroWordCloudConfig';
 
-const SCRUB = 0.72;
+const SCRUB = 0.18;
 const BREAKPOINTS = {
   mobile: 760,
   tablet: 1100,
@@ -27,17 +27,11 @@ function getWordConfig(id) {
 
 function getResponsiveWord(word, layoutName) {
   if (layoutName === 'mobile' && word.mobile) {
-    return {
-      ...word,
-      ...word.mobile,
-    };
+    return { ...word, ...word.mobile };
   }
 
   if (layoutName === 'tablet' && word.tablet) {
-    return {
-      ...word,
-      ...word.tablet,
-    };
+    return { ...word, ...word.tablet };
   }
 
   return word;
@@ -75,12 +69,11 @@ function collectTargets(root) {
     stickyEl: root.querySelector('[data-video-hero-sticky]'),
     scene: root.querySelector('[data-hero-word-scene]'),
     wordsLayer: root.querySelector('[data-hero-word-layer]'),
-    words: gsap.utils.toArray(
-      root.querySelectorAll('[data-hero-word]')
-    ),
+    words: gsap.utils.toArray(root.querySelectorAll('[data-hero-word]')),
     mark: root.querySelector('[data-hero-word-mark]'),
     markOutline: root.querySelector('[data-hero-mark-outline]'),
     halo: root.querySelector('[data-hero-word-halo]'),
+    brandName: root.querySelector('[data-hero-brand-name]'),
     hint: root.querySelector('[data-video-hero-scroll-hint]'),
     markFills,
     markScans,
@@ -111,10 +104,7 @@ function setWordInitialState(timeline, targets) {
     const baseWord = getWordConfig(element.dataset.heroWord);
 
     if (!baseWord || !isWordVisible(baseWord, layoutName)) {
-      timeline.set(element, {
-        display: 'none',
-        autoAlpha: 0,
-      }, 0);
+      timeline.set(element, { display: 'none', autoAlpha: 0 }, 0);
       return;
     }
 
@@ -140,14 +130,12 @@ function setMarkInitialState(timeline, targets) {
     transformOrigin: '50% 50%',
   }, 0);
 
-  timeline.set(targets.markOutline, {
-    opacity: 1,
-  }, 0);
+  timeline.set(targets.markOutline, { opacity: 1 }, 0);
+  timeline.set(targets.halo, { autoAlpha: 0, scale: 0.72 }, 0);
 
-  timeline.set(targets.halo, {
-    autoAlpha: 0,
-    scale: 0.72,
-  }, 0);
+  if (targets.brandName) {
+    timeline.set(targets.brandName, { opacity: 0.62 }, 0);
+  }
 
   HERO_MARK_REVEALS.forEach((reveal) => {
     const fill = targets.markFills.get(reveal.id);
@@ -182,16 +170,16 @@ function addWordConvergence(timeline, targets) {
     if (!baseWord || !isWordVisible(baseWord, layoutName)) return;
 
     const word = getResponsiveWord(baseWord, layoutName);
-    const middleAt = word.start + (word.end - word.start) * 0.57;
-    const middleX = word.x * 0.47 + word.curveX;
-    const middleY = word.y * 0.47 + word.curveY;
+    const middleAt = word.start + (word.end - word.start) * 0.55;
+    const middleX = word.x * 0.49 + word.curveX;
+    const middleY = word.y * 0.49 + word.curveY;
 
     timeline.to(element, {
       x: () => toViewportX(middleX, layout),
       y: () => toViewportY(middleY, layout),
-      scale: 0.68,
-      rotate: word.rotation * -0.25,
-      autoAlpha: Math.min(word.opacity, 0.78),
+      scale: 0.70,
+      rotate: word.rotation * -0.22,
+      autoAlpha: Math.min(word.opacity, 0.80),
       filter: `blur(${Math.max(0, word.blur * 0.35)}px)`,
       duration: middleAt - word.start,
       ease: 'power1.inOut',
@@ -200,7 +188,7 @@ function addWordConvergence(timeline, targets) {
     timeline.to(element, {
       x: () => toViewportX(word.targetX, layout),
       y: () => toViewportY(word.targetY, layout),
-      scale: 0.045,
+      scale: 0.035,
       rotate: 0,
       autoAlpha: 0,
       filter: 'blur(3px)',
@@ -226,8 +214,8 @@ function addMarkReveal(timeline, targets) {
 
     if (scan) {
       timeline.to(scan, {
-        autoAlpha: 0.72,
-        duration: 0.018,
+        autoAlpha: 0.66,
+        duration: 0.014,
         ease: 'none',
       }, reveal.at);
 
@@ -241,36 +229,45 @@ function addMarkReveal(timeline, targets) {
 
       timeline.to(scan, {
         autoAlpha: 0,
-        duration: 0.035,
+        duration: 0.03,
         ease: 'power1.out',
-      }, reveal.at + reveal.duration - 0.006);
+      }, reveal.at + reveal.duration - 0.004);
     }
   });
 
   timeline.to(targets.markOutline, {
-    opacity: 0.28,
+    opacity: 0.10,
     duration: 0.18,
     ease: 'power1.out',
-  }, 0.56);
+  }, 0.53);
 
   timeline.to(targets.halo, {
-    autoAlpha: 0.82,
+    autoAlpha: 0.70,
     scale: 1,
-    duration: 0.16,
+    duration: 0.17,
     ease: 'power2.out',
-  }, 0.58);
+  }, 0.54);
 
   timeline.to(targets.mark, {
-    scale: 1.026,
+    scale: 1.03,
     duration: 0.055,
     ease: 'power2.out',
-  }, 0.66);
+  }, 0.62);
 
   timeline.to(targets.mark, {
     scale: 1,
-    duration: 0.075,
+    duration: 0.08,
     ease: 'power2.inOut',
-  }, 0.715);
+  }, 0.675);
+
+  if (targets.brandName) {
+    timeline.to(targets.brandName, {
+      opacity: 1,
+      letterSpacing: '0.19em',
+      duration: 0.16,
+      ease: 'power2.out',
+    }, 0.57);
+  }
 }
 
 function addHintFade(timeline, targets) {
@@ -279,16 +276,14 @@ function addHintFade(timeline, targets) {
   timeline.to(targets.hint, {
     autoAlpha: 0,
     y: 8,
-    duration: 0.06,
+    duration: 0.045,
     ease: 'power2.out',
-  }, 0.015);
+  }, 0);
 }
 
 function buildTimeline(targets) {
   const timeline = gsap.timeline({
-    defaults: {
-      overwrite: 'auto',
-    },
+    defaults: { overwrite: 'auto' },
     scrollTrigger: {
       trigger: targets.scrollEl,
       start: 'top top',
@@ -298,19 +293,13 @@ function buildTimeline(targets) {
     },
   });
 
-  timeline.set(targets.scene, {
-    autoAlpha: 1,
-  }, 0);
-
+  timeline.set(targets.scene, { autoAlpha: 1 }, 0);
   setWordInitialState(timeline, targets);
   setMarkInitialState(timeline, targets);
   addHintFade(timeline, targets);
   addWordConvergence(timeline, targets);
   addMarkReveal(timeline, targets);
-
-  timeline.to({}, {
-    duration: 0.001,
-  }, 1);
+  timeline.to({}, { duration: 0.001 }, 1);
 
   return timeline;
 }
@@ -323,20 +312,17 @@ function bindWordFieldParallax(targets) {
   if (!supportsPointer) return () => {};
 
   const moveX = gsap.quickTo(targets.wordsLayer, 'x', {
-    duration: 1.15,
+    duration: 1.1,
     ease: 'power3.out',
   });
   const moveY = gsap.quickTo(targets.wordsLayer, 'y', {
-    duration: 1.15,
+    duration: 1.1,
     ease: 'power3.out',
   });
 
   const handlePointerMove = (event) => {
-    const x = (event.clientX / window.innerWidth - 0.5) * 14;
-    const y = (event.clientY / window.innerHeight - 0.5) * 10;
-
-    moveX(x);
-    moveY(y);
+    moveX((event.clientX / window.innerWidth - 0.5) * 12);
+    moveY((event.clientY / window.innerHeight - 0.5) * 8);
   };
 
   const handlePointerLeave = () => {
@@ -344,20 +330,12 @@ function bindWordFieldParallax(targets) {
     moveY(0);
   };
 
-  window.addEventListener('pointermove', handlePointerMove, {
-    passive: true,
-  });
-  document.documentElement.addEventListener(
-    'pointerleave',
-    handlePointerLeave
-  );
+  window.addEventListener('pointermove', handlePointerMove, { passive: true });
+  document.documentElement.addEventListener('pointerleave', handlePointerLeave);
 
   return () => {
     window.removeEventListener('pointermove', handlePointerMove);
-    document.documentElement.removeEventListener(
-      'pointerleave',
-      handlePointerLeave
-    );
+    document.documentElement.removeEventListener('pointerleave', handlePointerLeave);
   };
 }
 
@@ -369,28 +347,12 @@ function initReducedMotion(root, targets) {
   );
 
   targets.scrollEl.style.height = 'auto';
-
-  gsap.set(targets.scene, {
-    autoAlpha: 1,
-  });
-  gsap.set(targets.words, {
-    display: 'none',
-    autoAlpha: 0,
-  });
-  gsap.set(Array.from(targets.markFills.values()), {
-    scaleX: 1,
-    scaleY: 1,
-  });
-  gsap.set(Array.from(targets.markScans.values()), {
-    display: 'none',
-  });
-  gsap.set(targets.markOutline, {
-    opacity: 0.28,
-  });
-  gsap.set(targets.halo, {
-    autoAlpha: 0.72,
-    scale: 1,
-  });
+  gsap.set(targets.scene, { autoAlpha: 1 });
+  gsap.set(targets.words, { display: 'none', autoAlpha: 0 });
+  gsap.set(Array.from(targets.markFills.values()), { scaleX: 1, scaleY: 1 });
+  gsap.set(Array.from(targets.markScans.values()), { display: 'none' });
+  gsap.set(targets.markOutline, { opacity: 0.10 });
+  gsap.set(targets.halo, { autoAlpha: 0.60, scale: 1 });
 
   return () => {
     targets.scrollEl.style.removeProperty('height');
@@ -415,11 +377,7 @@ export function initVideoHeroAnimation() {
     return initReducedMotion(root, targets);
   }
 
-  root.classList.add(
-    'is-video-hero-mounted',
-    'is-video-ready'
-  );
-
+  root.classList.add('is-video-hero-mounted', 'is-video-ready');
   setScrollHeight(targets.scrollEl);
 
   let timeline = buildTimeline(targets);
@@ -437,7 +395,6 @@ export function initVideoHeroAnimation() {
       if (nextLayout !== currentLayout) {
         timeline.scrollTrigger?.kill();
         timeline.kill();
-
         currentLayout = nextLayout;
         setScrollHeight(targets.scrollEl);
         timeline = buildTimeline(targets);
@@ -448,13 +405,8 @@ export function initVideoHeroAnimation() {
     });
   };
 
-  window.addEventListener('resize', rebuild, {
-    passive: true,
-  });
-  window.addEventListener('orientationchange', rebuild, {
-    passive: true,
-  });
-
+  window.addEventListener('resize', rebuild, { passive: true });
+  window.addEventListener('orientationchange', rebuild, { passive: true });
   requestAnimationFrame(() => ScrollTrigger.refresh());
 
   return () => {
@@ -465,12 +417,7 @@ export function initVideoHeroAnimation() {
     timeline.scrollTrigger?.kill();
     timeline.kill();
     targets.scrollEl.style.removeProperty('height');
-    gsap.set(targets.wordsLayer, {
-      clearProps: 'x,y',
-    });
-    root.classList.remove(
-      'is-video-hero-mounted',
-      'is-video-ready'
-    );
+    gsap.set(targets.wordsLayer, { clearProps: 'x,y' });
+    root.classList.remove('is-video-hero-mounted', 'is-video-ready');
   };
 }

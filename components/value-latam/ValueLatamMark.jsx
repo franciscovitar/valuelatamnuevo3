@@ -1,138 +1,100 @@
+const SMALL_BAR = 'M41 38L47 49H59L53 38H41Z';
+const MIDDLE_BAR = 'M81 38H69L55 63L67 62L81 38Z';
+const TALL_BAR = 'M103 25H91L70 62L81 63L103 25Z';
+
 export default function ValueLatamMark() {
   return (
     <svg
       className="hero-word-scene__mark"
       data-hero-word-mark
-      viewBox="0 0 64 64"
+      viewBox="36 20 72 48"
       focusable="false"
       aria-hidden="true"
     >
       <defs>
-        <linearGradient
-          id="vl-orbit-cream"
-          x1="0"
-          y1="0"
-          x2="1"
-          y2="1"
-        >
-          <stop offset="0" stopColor="#fffdf8" />
-          <stop offset="1" stopColor="#e8e2d7" />
-        </linearGradient>
-
-        <linearGradient
-          id="vl-orbit-gold"
-          x1="0"
-          y1="0"
-          x2="1"
-          y2="1"
-        >
-          <stop offset="0" stopColor="#e4cc98" />
-          <stop offset="1" stopColor="#b99455" />
-        </linearGradient>
-
+        <clipPath id="vl-mark-small-clip">
+          <path d={SMALL_BAR} />
+        </clipPath>
+        <clipPath id="vl-mark-middle-clip">
+          <path d={MIDDLE_BAR} />
+        </clipPath>
+        <clipPath id="vl-mark-tall-clip">
+          <path d={TALL_BAR} />
+        </clipPath>
         <pattern
-          id="vl-orbit-scan"
-          width="2.4"
-          height="2.4"
+          id="vl-mark-scan-pattern"
+          width="2.2"
+          height="2.2"
           patternUnits="userSpaceOnUse"
         >
-          <rect
-            width="2.4"
-            height="0.72"
-            fill="rgba(255,255,255,.92)"
-          />
-          <rect
-            y="0.72"
-            width="2.4"
-            height="1.68"
-            fill="rgba(255,255,255,.08)"
-          />
+          <rect width="2.2" height="0.7" fill="rgba(255,255,255,.92)" />
+          <rect y="0.7" width="2.2" height="1.5" fill="rgba(255,255,255,.10)" />
         </pattern>
-
-        <clipPath id="vl-orbit-cream-shape">
-          <path d="M15 36h13l7-16h14L38 44H25l-7 12H7l8-20Z" />
-        </clipPath>
-
-        <clipPath id="vl-orbit-gold-shape">
-          <path d="M35 20h14l-8 17H29l6-17Z" />
-        </clipPath>
       </defs>
 
       <g
         className="hero-word-scene__mark-outline"
         data-hero-mark-outline
       >
-        <path d="M15 36h13l7-16h14L38 44H25l-7 12H7l8-20Z" />
-        <path d="M35 20h14l-8 17H29l6-17Z" />
+        <path d={SMALL_BAR} />
+        <path d={MIDDLE_BAR} />
+        <path d={TALL_BAR} />
       </g>
 
-      <g clipPath="url(#vl-orbit-cream-shape)">
+      <g clipPath="url(#vl-mark-small-clip)">
         <rect
-          data-hero-mark-fill="cream-a"
-          x="-2"
-          y="0"
-          width="68"
-          height="35"
-          fill="url(#vl-orbit-cream)"
+          data-hero-mark-fill="small"
+          x="36"
+          y="20"
+          width="72"
+          height="48"
+          fill="#f7f4ed"
         />
         <rect
-          data-hero-mark-fill="cream-b"
-          x="-2"
-          y="31"
-          width="68"
-          height="35"
-          fill="url(#vl-orbit-cream)"
-        />
-        <rect
-          data-hero-mark-scan="cream-a"
-          x="-12"
-          y="0"
-          width="8"
-          height="36"
-          fill="url(#vl-orbit-scan)"
-        />
-        <rect
-          data-hero-mark-scan="cream-b"
-          x="68"
-          y="30"
-          width="8"
-          height="36"
-          fill="url(#vl-orbit-scan)"
+          data-hero-mark-scan="small"
+          x="34"
+          y="20"
+          width="7"
+          height="48"
+          fill="url(#vl-mark-scan-pattern)"
         />
       </g>
 
-      <g clipPath="url(#vl-orbit-gold-shape)">
+      <g clipPath="url(#vl-mark-middle-clip)">
         <rect
-          data-hero-mark-fill="gold-a"
-          x="0"
-          y="-2"
-          width="64"
-          height="31"
-          fill="url(#vl-orbit-gold)"
+          data-hero-mark-fill="middle"
+          x="36"
+          y="20"
+          width="72"
+          height="48"
+          fill="#f7f4ed"
         />
         <rect
-          data-hero-mark-fill="gold-b"
-          x="0"
-          y="26"
-          width="64"
-          height="40"
-          fill="url(#vl-orbit-gold)"
-        />
-        <rect
-          data-hero-mark-scan="gold-a"
-          x="0"
-          y="-10"
-          width="64"
+          data-hero-mark-scan="middle"
+          x="36"
+          y="68"
+          width="72"
           height="7"
-          fill="url(#vl-orbit-scan)"
+          fill="url(#vl-mark-scan-pattern)"
+        />
+      </g>
+
+      <g clipPath="url(#vl-mark-tall-clip)">
+        <rect
+          data-hero-mark-fill="tall"
+          x="36"
+          y="20"
+          width="72"
+          height="48"
+          fill="#f7f4ed"
         />
         <rect
-          data-hero-mark-scan="gold-b"
-          x="0"
-          y="69"
-          width="64"
+          data-hero-mark-scan="tall"
+          x="36"
+          y="13"
+          width="72"
           height="7"
-          fill="url(#vl-orbit-scan)"
+          fill="url(#vl-mark-scan-pattern)"
         />
       </g>
     </svg>

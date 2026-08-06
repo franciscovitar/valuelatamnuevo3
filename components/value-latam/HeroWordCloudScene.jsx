@@ -68,15 +68,20 @@ export default function HeroWordCloudScene() {
         <ValueLatamMark />
       </div>
 
-      <div className="hero-word-scene__copy">
+      <div
+        className="hero-word-scene__copy"
+        data-hero-word-copy
+      >
         <h1 id="hero-word-scene-title">
           Distintas capacidades.
-          <span> Una sola estrategia.</span>
+          <span>Una sola estrategia.</span>
         </h1>
 
-        <p>
-          Financiamiento, liquidez, medios de pago e IA
-          conectados bajo un mismo equipo.
+        <p
+          className="hero-word-scene__brand-name"
+          data-hero-brand-name
+        >
+          Value Latam
         </p>
       </div>
     </div>
