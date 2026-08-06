@@ -13,8 +13,8 @@
   border: 1px solid var(--vl-border-neutral);
   border-radius: var(--radius-card-premium);
   background:
-    radial-gradient(circle at 18% 0%, rgba(204, 180, 135, .025), transparent 36%),
-    rgba(10, 11, 14, .72);
+    radial-gradient(circle at 18% 0%, rgb(var(--p-accent-rgb) / .025), transparent 36%),
+    rgb(var(--p-ink-800-rgb) / .72);
   box-shadow: 0 24px 70px -42px rgba(0, 0, 0, .7);
 }
 

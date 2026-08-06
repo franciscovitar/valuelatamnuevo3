@@ -1,12 +1,12 @@
 @use 'breakpoints' as *;
 
-@mixin panel-surface($bg: rgba(255, 255, 255, .045), $border: rgba(246, 243, 236, .12)) {
+@mixin panel-surface($bg: rgba(255, 255, 255, .045), $border: rgb(var(--p-cream-warm-rgb) / .12)) {
   background: $bg;
   border: 1px solid $border;
 }
 
 @mixin text-muted($alpha: .80) {
-  color: rgba(246, 243, 236, $alpha);
+  color: rgb(var(--p-cream-warm-rgb) / #{$alpha});
 }
 
 @mixin mono-label {

@@ -38,7 +38,7 @@
     z-index: 118;
     display: block;
     border: 0;
-    background: rgba(1, 9, 16, 0.64);
+    background: rgb(var(--p-ink-rgb) / 0.64);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -68,9 +68,9 @@
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
-    border: 1px solid rgba(148, 176, 198, 0.18);
+    border: 1px solid rgb(var(--p-slate-rgb) / 0.18);
     border-radius: 18px;
-    background: rgba(5, 20, 31, 0.98);
+    background: rgb(var(--p-ink-rgb) / 0.98);
     box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
     opacity: 0;
     visibility: hidden;
@@ -98,11 +98,11 @@
     gap: 12px;
     padding: 0;
     border: 0;
-    border-bottom: 1px solid rgba(148, 176, 198, 0.13);
+    border-bottom: 1px solid rgb(var(--p-slate-rgb) / 0.13);
     border-radius: 0;
     background: transparent;
     box-shadow: none;
-    color: rgba(246, 248, 241, 0.9);
+    color: rgb(var(--p-cream-rgb) / 0.9);
     font-size: 15px;
     font-weight: 650;
     line-height: 1.1;
@@ -114,13 +114,13 @@
 
   header.nav .nav-links > a:not(.nav-mobile-cta):hover {
     color: #fff;
-    border-bottom-color: rgba(148, 176, 198, 0.13);
+    border-bottom-color: rgb(var(--p-slate-rgb) / 0.13);
     padding-left: 0;
   }
 
   header.nav .nav-links > a:not(.nav-mobile-cta).is-active,
   header.nav .nav-links > a:not(.nav-mobile-cta).is-active:hover {
-    border-bottom-color: rgba(148, 176, 198, 0.13);
+    border-bottom-color: rgb(var(--p-slate-rgb) / 0.13);
   }
 
   header.nav .nav-links > a:not(.nav-mobile-cta) .vl-nav-indicator,
@@ -132,7 +132,7 @@
     content: '→';
     flex: 0 0 auto;
     margin-left: auto;
-    color: rgba(219, 184, 105, 0.82);
+    color: rgb(var(--p-accent-bright-rgb) / 0.82);
     font-size: 14px;
     line-height: 1;
     transition: transform 0.18s ease, color 0.18s ease;
@@ -140,12 +140,12 @@
 
   header.nav .nav-links > a:not(.nav-mobile-cta):hover::after {
     transform: translateX(3px);
-    color: rgba(244, 216, 142, 0.95);
+    color: rgb(var(--p-accent-bright-rgb) / 0.95);
   }
 
   header.nav .nav-dropdown {
     width: 100%;
-    border-bottom: 1px solid rgba(148, 176, 198, 0.13);
+    border-bottom: 1px solid rgb(var(--p-slate-rgb) / 0.13);
   }
 
   header.nav .nav-dropdown__trigger {
@@ -160,7 +160,7 @@
     border: 0;
     border-radius: 0;
     background: transparent;
-    color: rgba(246, 248, 241, 0.9);
+    color: rgb(var(--p-cream-rgb) / 0.9);
     font-family: inherit;
     font-size: 15px;
     font-weight: 650;
@@ -178,8 +178,8 @@
     margin-top: -2px;
     margin-left: auto;
     border: 0;
-    border-right: 1.5px solid rgba(219, 184, 105, 0.82);
-    border-bottom: 1.5px solid rgba(219, 184, 105, 0.82);
+    border-right: 1.5px solid rgb(var(--p-accent-bright-rgb) / 0.82);
+    border-bottom: 1.5px solid rgb(var(--p-accent-bright-rgb) / 0.82);
     background: transparent;
     transform: rotate(45deg);
     transition: transform 0.24s ease, margin-top 0.24s ease;
@@ -254,10 +254,10 @@
     align-items: center;
     padding: 0 0 0 14px;
     border: 0;
-    border-bottom: 1px solid rgba(148, 176, 198, 0.1);
+    border-bottom: 1px solid rgb(var(--p-slate-rgb) / 0.1);
     border-radius: 0;
     background: transparent;
-    color: rgba(246, 248, 241, 0.76);
+    color: rgb(var(--p-cream-rgb) / 0.76);
     font-size: 14px;
     font-weight: 550;
     line-height: 1.2;
@@ -286,16 +286,16 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    border: 1px solid rgba(255, 226, 150, 0.72);
+    border: 1px solid rgb(var(--p-accent-bright-rgb) / 0.72);
     border-radius: 14px;
-    background: linear-gradient(180deg, #f3d787, #c79f43);
+    background: linear-gradient(180deg, var(--role-accent-hover), var(--role-accent));
     color: #111b24;
     font-size: 14px;
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.01em;
     text-decoration: none;
-    box-shadow: 0 16px 36px rgba(199, 159, 67, 0.18);
+    box-shadow: 0 16px 36px rgb(var(--p-accent-bright-rgb) / 0.18);
     transform: none;
   }
 
@@ -318,12 +318,12 @@
     border-radius: 0;
     background: transparent;
     box-shadow: none;
-    color: rgba(246, 248, 241, 0.96);
+    color: rgb(var(--p-cream-rgb) / 0.96);
     cursor: pointer;
   }
 
   header.nav .menu-btn:focus-visible {
-    outline: 1px solid rgba(219, 184, 105, 0.45);
+    outline: 1px solid rgb(var(--p-accent-bright-rgb) / 0.45);
     outline-offset: 6px;
     border-radius: 8px;
   }

@@ -1,3 +1,11 @@
+// La red de lineas venia en azul electrico, de la identidad anterior. Se
+// paso al sistema crema/dorado conservando la jerarquia de profundidad:
+// lineas estructurales en crema muy tenue, cabezas viajeras en crema
+// brillante y destellos en dorado, que es el unico acento de la marca.
+// Los alfas de las lineas bajaron a ~la mitad: el crema es bastante mas
+// luminoso que el azul apagado que reemplaza y con el alfa original
+// dominaba la escena.
+
 .vl-bg-lines-layer {
   position: fixed;
   inset: 0;
@@ -35,17 +43,17 @@
 }
 
 .vl-bg-lines__path--outer {
-  stroke: rgba(137, 155, 196, 0.21);
+  stroke: rgb(var(--p-cream-rgb) / 0.10);
   stroke-width: 0.82;
 }
 
 .vl-bg-lines__path--middle {
-  stroke: rgba(156, 174, 214, 0.27);
+  stroke: rgb(var(--p-cream-rgb) / 0.13);
   stroke-width: 0.98;
 }
 
 .vl-bg-lines__path--inner {
-  stroke: rgba(128, 145, 184, 0.16);
+  stroke: rgb(var(--p-cream-rgb) / 0.08);
   stroke-width: 0.76;
 }
 
@@ -54,44 +62,44 @@
 }
 
 .vl-bg-lines__path--active {
-  stroke: rgba(218, 232, 255, 0.72);
+  stroke: rgb(var(--p-cream-rgb) / 0.66);
   stroke-width: 1.08;
   opacity: 0.92;
   filter:
-    drop-shadow(0 0 2px rgba(135, 188, 255, 0.22))
-    drop-shadow(0 0 5px rgba(57, 119, 255, 0.08));
+    drop-shadow(0 0 2px rgb(var(--p-accent-rgb) / 0.20))
+    drop-shadow(0 0 5px rgb(var(--p-accent-rgb) / 0.10));
 }
 
 .vl-bg-lines__line-group--outer
 .vl-bg-lines__path--active {
-  stroke: rgba(160, 194, 244, 0.63);
+  stroke: rgb(var(--p-cream-rgb) / 0.40);
   stroke-width: 0.96;
 }
 
 .vl-bg-lines__line-group--inner
 .vl-bg-lines__path--active {
-  stroke: rgba(139, 174, 231, 0.54);
+  stroke: rgb(var(--p-cream-rgb) / 0.30);
   stroke-width: 0.88;
 }
 
 .vl-bg-lines__travel-head {
   r: 1.55px;
-  fill: rgba(235, 244, 255, 0.97);
+  fill: rgb(var(--p-cream-rgb) / 0.95);
   opacity: 0;
   vector-effect: non-scaling-stroke;
   filter:
-    drop-shadow(0 0 2px rgba(190, 222, 255, 0.72))
-    drop-shadow(0 0 5px rgba(77, 151, 255, 0.24));
+    drop-shadow(0 0 2px rgb(var(--p-accent-bright-rgb) / 0.60))
+    drop-shadow(0 0 5px rgb(var(--p-accent-rgb) / 0.26));
 }
 
 .vl-bg-lines__travel-head--outer {
   r: 1.35px;
-  fill: rgba(207, 228, 255, 0.9);
+  fill: rgb(var(--p-cream-rgb) / 0.80);
 }
 
 .vl-bg-lines__travel-head--inner {
   r: 1.25px;
-  fill: rgba(194, 216, 250, 0.82);
+  fill: rgb(var(--p-cream-rgb) / 0.72);
 }
 
 .vl-bg-lines__spark {
@@ -101,14 +109,14 @@
 
 .vl-bg-lines__spark-halo {
   r: 2px;
-  fill: rgba(79, 187, 255, 0.15);
-  stroke: rgba(220, 248, 255, 0.75);
+  fill: rgb(var(--p-accent-rgb) / 0.18);
+  stroke: rgb(var(--p-accent-bright-rgb) / 0.70);
   stroke-width: 0.75px;
   vector-effect: non-scaling-stroke;
   opacity: 0;
   filter:
-    drop-shadow(0 0 4px rgba(77, 200, 255, 0.48))
-    drop-shadow(0 0 10px rgba(35, 99, 255, 0.28));
+    drop-shadow(0 0 4px rgb(var(--p-accent-rgb) / 0.46))
+    drop-shadow(0 0 10px rgb(var(--p-accent-rgb) / 0.24));
 }
 
 .vl-bg-lines__spark-glow,
@@ -121,15 +129,15 @@
 }
 
 .vl-bg-lines__spark-glow {
-  stroke: rgba(40, 112, 255, 0.66);
+  stroke: rgb(var(--p-accent-rgb) / 0.50);
   stroke-width: 5px;
   filter: blur(1.4px);
 }
 
 .vl-bg-lines__spark-core {
-  stroke: rgba(226, 250, 255, 0.98);
+  stroke: rgb(var(--p-cream-warm-rgb) / 0.98);
   stroke-width: 0.95px;
-  filter: drop-shadow(0 0 2px rgba(80, 210, 255, 0.9));
+  filter: drop-shadow(0 0 2px rgb(var(--p-accent-bright-rgb) / 0.85));
 }
 
 @media (max-width: 1160px) {
@@ -138,7 +146,7 @@
   }
 
   .vl-bg-lines__path--active {
-    filter: drop-shadow(0 0 2px rgba(135, 188, 255, 0.18));
+    filter: drop-shadow(0 0 2px rgb(var(--p-accent-rgb) / 0.18));
   }
 }
 

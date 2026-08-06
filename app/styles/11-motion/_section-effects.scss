@@ -72,7 +72,7 @@ section[data-vl-internal-page] > .vl-band-wipe {
   height: 100%;
   min-height: 72px;
   margin-bottom: 12px;
-  background: rgba(246, 243, 236, 0.18);
+  background: rgb(var(--p-cream-warm-rgb) / 0.18);
   transform-origin: top center;
   transform: scaleY(0);
 }
@@ -84,7 +84,7 @@ section[data-vl-internal-page] > .vl-band-wipe {
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(circle, rgba(196, 194, 190, 0.14) 0%, transparent 72%);
+  background: radial-gradient(circle, rgb(var(--p-slate-rgb) / 0.14) 0%, transparent 72%);
 }
 
 .metric {
@@ -111,7 +111,7 @@ section[data-vl-internal-page] > .vl-band-wipe {
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(196, 194, 190, 0.16), transparent 68%);
+  background: radial-gradient(circle at 50% 50%, rgb(var(--p-slate-rgb) / 0.16), transparent 68%);
   z-index: 0;
 }
 
@@ -142,7 +142,7 @@ section[data-vl-internal-page] > .vl-band-wipe {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(210, 183, 117, 0.42),
+    rgb(var(--p-accent-rgb) / 0.42),
     transparent
   );
 }
@@ -171,7 +171,7 @@ section[data-vl-internal-page] > .vl-band-wipe {
   width: 100%;
   transform-origin: left center;
   transform: scaleX(0);
-  background: rgba(246, 243, 236, 0.14);
+  background: rgb(var(--p-cream-warm-rgb) / 0.14);
 }
 
 .vl-referral-halo {
@@ -181,7 +181,7 @@ section[data-vl-internal-page] > .vl-band-wipe {
   pointer-events: none;
   opacity: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(191, 160, 90, 0.12) 0%, transparent 72%);
+  background: radial-gradient(circle, rgb(var(--p-accent-rgb) / 0.12) 0%, transparent 72%);
 }
 
 .vl-form-row {

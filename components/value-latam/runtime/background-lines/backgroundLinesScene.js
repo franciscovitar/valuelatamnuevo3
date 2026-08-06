@@ -27,8 +27,8 @@ const DAMPING = 7;
 const PX_TO_WORLD = 0.0035;
 const NODE_CORE_PX = 3;
 const NODE_HALO_PX = 8;
-const NODE_COLOR = '#D8E6F4';
-const FRAGMENT_COLORS = ['#268CFF', '#57B8FF', '#A5E2FF'];
+const NODE_COLOR = '#f4f4f1';
+const FRAGMENT_COLORS = ['#c9c9c7', '#e2e2e0', '#f7f7f4'];
 
 function resolveBreakpoint() {
   if (typeof window === 'undefined') return BREAKPOINT.DESKTOP;

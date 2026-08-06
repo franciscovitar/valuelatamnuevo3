@@ -77,7 +77,7 @@ export function createFragmentMaterial(texture, color) {
 export function createParticlesMaterial(texture, sizePx) {
   return new THREE.PointsMaterial({
     map: texture,
-    color: new THREE.Color('#C7D6E6'),
+    color: new THREE.Color('#c9c9c7'),
     size: sizePx,
     sizeAttenuation: true,
     transparent: true,

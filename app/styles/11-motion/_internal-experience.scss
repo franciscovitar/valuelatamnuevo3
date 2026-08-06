@@ -28,7 +28,7 @@
   position: absolute;
   inset: 0;
   border-radius: 999px;
-  background: rgba(246, 243, 236, 0.1);
+  background: rgb(var(--p-cream-warm-rgb) / 0.1);
 }
 
 [data-vl-gsap-root='ai-processes'] .ai-story-rail__fill {
@@ -37,7 +37,7 @@
   transform: scaleY(0);
   transform-origin: top center;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(196, 194, 190, 0.28), rgba(191, 160, 90, 0.55));
+  background: linear-gradient(180deg, rgb(var(--p-slate-rgb) / 0.28), rgb(var(--p-accent-rgb) / 0.55));
 }
 
 [data-vl-gsap-root='ai-processes'] .ai-steps li {
@@ -88,7 +88,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
 
 [data-vl-gsap-root='payments'] .pay-feat.is-pay-open,
 [data-vl-gsap-root='payments'] .pay-feat[open] {
-  border-color: rgba(246, 243, 236, 0.12);
+  border-color: rgb(var(--p-cream-warm-rgb) / 0.12);
   box-shadow: none;
 }
 
@@ -98,7 +98,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
 
 @media (max-width: 760px) {
   [data-vl-gsap-root='payments'] .pay-group.is-pay-active .pay-group-label {
-    color: rgba(210, 183, 117, 0.95);
+    color: rgb(var(--p-accent-rgb) / 0.95);
   }
 }
 
@@ -110,7 +110,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
   height: 1px;
   transform: scaleX(0);
   transform-origin: left center;
-  background: linear-gradient(90deg, rgba(196, 194, 190, 0.45), rgba(191, 160, 90, 0.75));
+  background: linear-gradient(90deg, rgb(var(--p-slate-rgb) / 0.45), rgb(var(--p-accent-rgb) / 0.75));
 }
 
 .vl-fin-divider,
@@ -121,7 +121,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
   margin: 28px 0;
   transform-origin: left center;
   transform: scaleX(0);
-  background: rgba(246, 243, 236, 0.14);
+  background: rgb(var(--p-cream-warm-rgb) / 0.14);
 }
 
 

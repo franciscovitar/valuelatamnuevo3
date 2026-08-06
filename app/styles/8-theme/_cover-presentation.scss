@@ -3,12 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700&family=Inter:wght@400;600&family=Poppins:wght@400&display=swap');
 
 .cover-hero {
-  --hero-accent: #ccb487;
+  --hero-accent: var(--role-accent);
   --hero-bg: #0f0f12;
-  --hero-card-bg: rgba(10, 22, 36, 0.7);
-  --hero-card-border: rgba(196, 194, 190, 0.15);
-  --hero-glow: rgba(196, 194, 190, 0.3);
-  --hero-line-accent: #ccb487;
+  --hero-card-bg: rgb(var(--p-ink-800-rgb) / 0.7);
+  --hero-card-border: rgb(var(--p-slate-rgb) / 0.15);
+  --hero-glow: rgb(var(--p-slate-rgb) / 0.3);
+  --hero-line-accent: var(--role-accent);
   --hero-stage-scale: 1;
   --hero-camera-scale: 1;
   --hero-font-inter: 'Inter', system-ui, sans-serif;
@@ -121,8 +121,8 @@
   opacity: 0.2;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(196, 194, 190, 0.12) 0.105%, rgba(0, 0, 0, 0) 0.105%),
-    linear-gradient(90deg, rgba(196, 194, 190, 0.12) 0%, rgba(0, 0, 0, 0) 0%);
+    linear-gradient(180deg, rgb(var(--p-slate-rgb) / 0.12) 0.105%, rgba(0, 0, 0, 0) 0.105%),
+    linear-gradient(90deg, rgb(var(--p-slate-rgb) / 0.12) 0%, rgba(0, 0, 0, 0) 0%);
 }
 
 .cover-hero__radial {
@@ -135,11 +135,11 @@
   opacity: 0;
   background: radial-gradient(
     ellipse 340.62px 208.4px at 100% 50%,
-    rgba(39, 92, 145, 0.15) 0%,
-    rgba(21, 49, 79, 0.575) 22.08%,
-    rgba(11, 28, 46, 0.7875) 33.12%,
-    rgba(7, 17, 30, 0.89375) 38.64%,
-    rgba(2, 6, 13, 1) 44.16%
+    rgb(var(--p-ink-800-rgb) / 0.15) 0%,
+    rgb(var(--p-ink-rgb) / 0.575) 22.08%,
+    rgb(var(--p-ink-800-rgb) / 0.7875) 33.12%,
+    rgb(var(--p-ink-rgb) / 0.89375) 38.64%,
+    rgb(var(--p-ink-rgb) / 1) 44.16%
   );
 }
 
@@ -353,7 +353,7 @@
   letter-spacing: 0.17em;
   line-height: 1.2;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--hero-accent) 88%, rgba(246, 243, 236, 0.35) 12%);
+  color: color-mix(in srgb, var(--hero-accent) 88%, rgb(var(--p-cream-warm-rgb) / 0.35) 12%);
 }
 
 .cover-hero__eyebrow::before {
@@ -381,7 +381,7 @@
 
 .cover-hero__title-line {
   display: block;
-  color: rgba(248, 245, 239, 0.98);
+  color: rgb(var(--p-cream-warm-rgb) / 0.98);
   overflow: visible;
 }
 
@@ -424,11 +424,11 @@
 }
 
 .cover-hero__lead-line {
-  color: rgba(246, 243, 236, 0.68);
+  color: rgb(var(--p-cream-warm-rgb) / 0.68);
 }
 
 .cover-hero__lead-closer {
-  color: rgba(246, 243, 236, 0.9);
+  color: rgb(var(--p-cream-warm-rgb) / 0.9);
   font-weight: 500;
   letter-spacing: 0.004em;
 }
@@ -552,7 +552,7 @@
 .hero-title .lead {
   max-width: none;
   margin: 16px auto 0;
-  color: rgba(246, 243, 236, 0.82);
+  color: rgb(var(--p-cream-warm-rgb) / 0.82);
   font-size: clamp(15px, 1.6vw, 18px);
   line-height: 1.6;
 }

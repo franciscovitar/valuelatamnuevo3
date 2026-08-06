@@ -8,14 +8,14 @@
   gap: 9px;
   background: var(--ink);
   color: var(--paper);
-  border: 1px solid rgba(246, 243, 236, 0.18);
+  border: 1px solid rgb(var(--p-cream-warm-rgb) / 0.18);
   border-radius: 30px;
   padding: 10px 16px;
   font-family: var(--font-sans);
   font-size: 12px;
   letter-spacing: 0.06em;
   cursor: pointer;
-  box-shadow: 0 12px 30px -12px rgba(11, 33, 41, 0.45);
+  box-shadow: 0 12px 30px -12px rgb(var(--p-hairline-rgb) / 0.45);
   transition: transform 0.2s;
 }
 
@@ -34,8 +34,8 @@
 .sound-toggle.is-on .sicon {
   background: var(--brass-2);
   box-shadow:
-    0 0 0 4px rgba(210, 183, 117, 0.08),
-    0 0 14px rgba(210, 183, 117, 0.48);
+    0 0 0 4px rgb(var(--p-accent-rgb) / 0.08),
+    0 0 14px rgb(var(--p-accent-rgb) / 0.48);
   animation: sound-toggle-breathe 2.8s ease-in-out infinite;
 }
 

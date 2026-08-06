@@ -27,7 +27,7 @@
 }
 
 .finan .liquidity-operators__label {
-  color: rgba(216, 232, 244, .62);
+  color: rgb(var(--p-cream-rgb) / 0.58);
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 700;
@@ -36,7 +36,7 @@
 }
 
 .finan .liquidity-operators__more {
-  color: rgba(246, 243, 236, .54);
+  color: rgb(var(--p-cream-warm-rgb) / .54);
   font-size: 13px;
   font-style: italic;
   font-weight: 700;

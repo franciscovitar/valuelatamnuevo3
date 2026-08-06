@@ -19,9 +19,9 @@
     linear-gradient(
       90deg,
       transparent 0%,
-      rgba(242, 239, 232, 0.035) 12%,
-      rgba(242, 239, 232, 0.085) 50%,
-      rgba(242, 239, 232, 0.035) 88%,
+      rgb(var(--p-cream-rgb) / 0.035) 12%,
+      rgb(var(--p-cream-rgb) / 0.085) 50%,
+      rgb(var(--p-cream-rgb) / 0.035) 88%,
       transparent 100%
     );
 }

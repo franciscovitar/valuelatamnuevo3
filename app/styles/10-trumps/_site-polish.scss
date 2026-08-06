@@ -44,7 +44,7 @@
 
 .cover-intro-copy span {
   display: block;
-  color: rgba(196, 194, 190, .78);
+  color: rgb(var(--p-slate-rgb) / .78);
   font-family: var(--font-sans);
   font-size: 10px;
   font-weight: 700;
@@ -54,7 +54,7 @@
 
 .cover-intro-copy p {
   margin-top: 12px;
-  color: rgba(246, 243, 236, .86);
+  color: rgb(var(--p-cream-warm-rgb) / .86);
   font-size: clamp(14px, 1.35vw, 17px);
   font-weight: 600;
   line-height: 1.45;
@@ -67,27 +67,27 @@
 }
 
 .hero-title .btn-ghost {
-  border-color: rgba(196, 194, 190, .42);
-  background: rgba(196, 194, 190, .055);
+  border-color: rgb(var(--p-slate-rgb) / .42);
+  background: rgb(var(--p-slate-rgb) / .055);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
 }
 
 .hero-title .btn-ghost:hover {
-  border-color: rgba(216, 178, 90, .9);
-  background: rgba(216, 178, 90, .10);
-  color: #f2d88c;
+  border-color: rgb(var(--p-accent-bright-rgb) / .9);
+  background: rgb(var(--p-accent-bright-rgb) / .10);
+  color: var(--role-accent-hover);
   transform: translateY(-2px);
 }
 
 .hero-title .hero-badge {
-  color: rgba(246, 243, 236, .84);
-  border-color: rgba(196, 194, 190, .34);
-  background: rgba(196, 194, 190, .06);
+  color: rgb(var(--p-cream-warm-rgb) / .84);
+  border-color: rgb(var(--p-slate-rgb) / .34);
+  background: rgb(var(--p-slate-rgb) / .06);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
 }
 
 .hero-title .hero-badge b {
-  color: #f0cd70;
+  color: var(--role-accent-hover);
 }
 
 /* Solution cards: one clear interaction. Header expands, CTA appears inside the expanded file. */
@@ -105,7 +105,7 @@
 }
 
 .sol-ficha .sol-ficha-link:hover {
-  color: #f1d389;
+  color: var(--role-accent-hover);
 }
 
 .sol-head {
@@ -115,7 +115,7 @@
 }
 
 .sol-head:focus-visible {
-  outline: 2px solid rgba(216, 178, 90, .8);
+  outline: 2px solid rgb(var(--p-accent-bright-rgb) / .8);
   outline-offset: 5px;
   border-radius: 12px;
 }
@@ -195,8 +195,8 @@ header.nav .nav-links .nav-mobile-cta {
 /* Hero intro: use the same blue family seen in the following sections. */
 .hero-title {
   background:
-    radial-gradient(120% 90% at 50% -6%, rgba(39, 92, 145, .28), transparent 54%),
-    radial-gradient(70% 60% at 50% 18%, rgba(20, 53, 89, .20), transparent 68%),
+    radial-gradient(120% 90% at 50% -6%, rgb(var(--p-ink-800-rgb) / .28), transparent 54%),
+    radial-gradient(70% 60% at 50% 18%, rgb(var(--p-ink-rgb) / .20), transparent 68%),
     linear-gradient(180deg, #0b243d 0%, #081b30 54%, #09090b 100%);
 }
 

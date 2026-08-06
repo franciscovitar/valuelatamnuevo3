@@ -1,6 +1,8 @@
 ﻿// Value LATAM â€” ITCSS (cascada preservada)
 
 @use './styles/1-settings/breakpoints' as *;
+// Primero: fuente unica de color. Todo lo que sigue deriva de aca.
+@use './styles/1-settings/palette' as *;
 @use './styles/1-settings/tokens' as *;
 @use './styles/2-generic/reset' as *;
 @use './styles/3-elements/typography' as *;

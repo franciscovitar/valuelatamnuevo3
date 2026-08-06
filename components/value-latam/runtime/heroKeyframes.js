@@ -40,20 +40,26 @@ export const HERO_CARDS = [
   },
 ];
 
+/*
+ * Nombres por momento del timeline (`base` / `accent`), no por color: el hero
+ * legacy tenia una fase "blue" con un card-bg navy hardcodeado, residuo de la
+ * identidad azul anterior. Referencia via var(): sigue a la paleta en vez de
+ * llevar su propia copia.
+ */
 export const HERO_THEME = {
-  blue: {
-    '--hero-accent': '#ccb487',
-    '--hero-card-bg': 'rgba(10, 22, 36, 0.7)',
-    '--hero-card-border': 'rgba(196, 194, 190, 0.15)',
-    '--hero-glow': 'rgba(196, 194, 190, 0.3)',
-    '--hero-line-accent': '#ccb487',
+  base: {
+    '--hero-accent': 'var(--role-accent)',
+    '--hero-card-bg': 'rgb(var(--p-ink-800-rgb) / 0.7)',
+    '--hero-card-border': 'rgb(var(--p-slate-rgb) / 0.15)',
+    '--hero-glow': 'rgb(var(--p-slate-rgb) / 0.3)',
+    '--hero-line-accent': 'var(--role-accent)',
   },
-  gold: {
-    '--hero-accent': '#BFA05A',
-    '--hero-card-bg': 'rgba(20, 18, 12, 0.7)',
-    '--hero-card-border': 'rgba(191, 160, 90, 0.15)',
-    '--hero-glow': 'rgba(191, 160, 90, 0.3)',
-    '--hero-line-accent': '#BFA05A',
+  accent: {
+    '--hero-accent': 'var(--role-accent-hover)',
+    '--hero-card-bg': 'rgb(var(--p-ink-rgb) / 0.7)',
+    '--hero-card-border': 'rgb(var(--p-accent-rgb) / 0.15)',
+    '--hero-glow': 'rgb(var(--p-accent-rgb) / 0.3)',
+    '--hero-line-accent': 'var(--role-accent-hover)',
   },
 };
 

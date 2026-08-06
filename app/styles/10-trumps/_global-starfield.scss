@@ -42,8 +42,8 @@ body {
   transform: translate(-50%, -50%);
   background: radial-gradient(
     circle,
-    rgba(246, 243, 236, var(--alpha)) 0,
-    rgba(246, 243, 236, calc(var(--alpha) * 0.42)) 34%,
+    rgb(var(--p-cream-warm-rgb) / var(--alpha)) 0,
+    rgb(var(--p-cream-warm-rgb) / calc(var(--alpha) * 0.42)) 34%,
     transparent 74%
   );
 }
