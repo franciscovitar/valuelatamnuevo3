@@ -52,7 +52,7 @@
 
   .hero-word-scene__mark-outline {
     fill: none;
-    stroke: rgba(255, 253, 248, 0.94);
+    stroke: rgb(var(--p-white-rgb) / 0.94);
     stroke-width: 0.38;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -93,7 +93,7 @@
   .hero-word-scene__description {
     max-width: 50ch;
     margin: clamp(22px, 2.6vh, 30px) auto 0;
-    color: rgba(247, 244, 237, 0.68);
+    color: rgb(var(--p-cream-warm-rgb) / 0.68);
     font-family: var(--font-sans);
     font-size: clamp(14px, 1.08vw, 17px);
     font-weight: 400;

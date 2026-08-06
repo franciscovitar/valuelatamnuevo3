@@ -6,7 +6,7 @@
 
   .hero::after{content:"";position:absolute;right:-12%;top:-20%;width:620px;height:620px;border-radius:50%;
 
-    background:radial-gradient(circle,rgba(196,154,58,.16),transparent 62%);pointer-events:none}
+    background:radial-gradient(circle,rgb(var(--p-accent-bright-rgb) / .16),transparent 62%);pointer-events:none}
 
   .hero-inner{position:relative;padding:84px 0 70px;display:grid;grid-template-columns:1.25fr .9fr;gap:54px;align-items:center}
 

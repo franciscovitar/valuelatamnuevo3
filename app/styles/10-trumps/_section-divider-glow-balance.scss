@@ -9,23 +9,23 @@
     linear-gradient(
       90deg,
       transparent 0%,
-      rgba(242, 239, 232, 0.012) 14%,
-      rgba(242, 239, 232, 0.045) 34%,
-      rgba(242, 239, 232, 0.085) 50%,
-      rgba(242, 239, 232, 0.045) 66%,
-      rgba(242, 239, 232, 0.012) 86%,
+      rgb(var(--p-cream-rgb) / 0.012) 14%,
+      rgb(var(--p-cream-rgb) / 0.045) 34%,
+      rgb(var(--p-cream-rgb) / 0.085) 50%,
+      rgb(var(--p-cream-rgb) / 0.045) 66%,
+      rgb(var(--p-cream-rgb) / 0.012) 86%,
       transparent 100%
     );
 
   --vl-section-glow-soft:
     radial-gradient(
       66% 22% at 50% 0%,
-      rgba(242, 239, 232, 0.024),
+      rgb(var(--p-cream-rgb) / 0.024),
       transparent 68%
     ),
     radial-gradient(
       48% 16% at 50% 2%,
-      rgba(214, 190, 147, 0.016),
+      rgb(var(--p-accent-bright-rgb) / 0.016),
       transparent 64%
     );
 
@@ -33,12 +33,12 @@
   --vl-section-glow-internal:
     radial-gradient(
       92% 72% at 50% -24%,
-      rgba(242, 239, 232, 0.03),
+      rgb(var(--p-cream-rgb) / 0.03),
       transparent 64%
     ),
     radial-gradient(
       74% 56% at 50% -14%,
-      rgba(214, 190, 147, 0.018),
+      rgb(var(--p-accent-bright-rgb) / 0.018),
       transparent 60%
     );
 }
@@ -46,9 +46,9 @@
 /* Keep the subtle sparkly / non-flat background, but don't let every section glow equally. */
 body {
   background:
-    radial-gradient(72% 42% at 50% 6%, rgba(242, 239, 232, 0.025), transparent 72%),
-    radial-gradient(38% 26% at 82% 58%, rgba(214, 190, 147, 0.018), transparent 74%),
-    radial-gradient(34% 24% at 18% 80%, rgba(242, 239, 232, 0.012), transparent 76%),
+    radial-gradient(72% 42% at 50% 6%, rgb(var(--p-cream-rgb) / 0.025), transparent 72%),
+    radial-gradient(38% 26% at 82% 58%, rgb(var(--p-accent-bright-rgb) / 0.018), transparent 74%),
+    radial-gradient(34% 24% at 18% 80%, rgb(var(--p-cream-rgb) / 0.012), transparent 76%),
     linear-gradient(180deg, #040508 0%, #050609 42%, #040508 100%) !important;
 }
 

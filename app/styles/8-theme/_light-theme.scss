@@ -1,4 +1,6 @@
-:root { --hairline: rgba(11,33,41,.10); --gold-ink: #9A7B26; }
+/* La paleta que se declaraba aca (tintas azules de la identidad anterior)
+   se movio a 1-settings/_palette.scss. Quedaba pisada por 10-trumps, asi
+   que sus valores no llegaban a verse. */
 
 body { background: var(--paper-2); }
 header.nav { background: rgba(255,255,255,.82); border-bottom: 1px solid var(--hairline); }
@@ -6,7 +8,7 @@ header.nav { background: rgba(255,255,255,.82); border-bottom: 1px solid var(--h
 .nav-links a:hover { color: var(--ink); }
 .menu-btn { color: var(--ink); }
 .hero { background: linear-gradient(180deg, #FFFFFF 0%, #F3F0E8 100%); color: var(--ink); }
-.hero::after { background: radial-gradient(circle, rgba(196, 154, 58, .12), transparent 62%); }
+.hero::after { background: radial-gradient(circle, rgb(var(--p-accent-bright-rgb) / .12), transparent 62%); }
 .hero p.lead { color: var(--slate); }
 .hero .eyebrow { color: var(--gold-ink); }
 .viz-cap { color: var(--slate); }
@@ -16,7 +18,7 @@ header.nav { background: rgba(255,255,255,.82); border-bottom: 1px solid var(--h
 .btn-ghost:hover { border-color: var(--brass); color: var(--gold-ink); }
 .shape.navy { opacity: .12; }
 .shape.blue { opacity: .16; }
-.shape.ghost { border-color: rgba(11, 33, 41, .12); opacity: .6; }
+.shape.ghost { border-color: rgb(var(--p-hairline-rgb) / .12); opacity: .6; }
 .trust { background: var(--paper); border-top-color: var(--hairline); border-bottom-color: var(--hairline); }
 .trust .label { color: var(--slate); }
 .trust .logos .chip { background: #fff; border: 1px solid var(--hairline); }

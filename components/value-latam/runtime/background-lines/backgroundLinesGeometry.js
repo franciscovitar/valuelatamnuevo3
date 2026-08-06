@@ -6,7 +6,8 @@ import * as THREE from 'three';
 
 export const BREAKPOINT = { DESKTOP: 'desktop', TABLET: 'tablet', MOBILE: 'mobile' };
 
-const LINE_PALETTE = ['#7899BB', '#ccb487', '#A2BAD1'];
+// Escala neutra: sin nombres de color, todo deriva de la paleta central.
+const LINE_PALETTE = ['#c9c9c7', '#f4f4f1', '#9a9a97'];
 
 function p(x, y, z) {
   return { x, y, z };

@@ -8,23 +8,23 @@
     linear-gradient(
       90deg,
       transparent 0%,
-      rgba(242, 239, 232, 0.012) 12%,
-      rgba(242, 239, 232, 0.05) 30%,
-      rgba(242, 239, 232, 0.1) 50%,
-      rgba(242, 239, 232, 0.05) 70%,
-      rgba(242, 239, 232, 0.012) 88%,
+      rgb(var(--p-cream-rgb) / 0.012) 12%,
+      rgb(var(--p-cream-rgb) / 0.05) 30%,
+      rgb(var(--p-cream-rgb) / 0.1) 50%,
+      rgb(var(--p-cream-rgb) / 0.05) 70%,
+      rgb(var(--p-cream-rgb) / 0.012) 88%,
       transparent 100%
     );
 
   --vl-section-glow:
     radial-gradient(
       70% 24% at 50% 0%,
-      rgba(242, 239, 232, 0.028),
+      rgb(var(--p-cream-rgb) / 0.028),
       transparent 66%
     ),
     radial-gradient(
       52% 18% at 50% 2%,
-      rgba(210, 186, 142, 0.022),
+      rgb(var(--p-accent-bright-rgb) / 0.022),
       transparent 64%
     );
 }
@@ -35,9 +35,9 @@ html {
 
 body {
   background:
-    radial-gradient(76% 42% at 50% 7%, rgba(242, 239, 232, 0.03), transparent 72%),
-    radial-gradient(44% 32% at 84% 57%, rgba(210, 186, 142, 0.024), transparent 76%),
-    radial-gradient(40% 30% at 14% 79%, rgba(242, 239, 232, 0.016), transparent 78%),
+    radial-gradient(76% 42% at 50% 7%, rgb(var(--p-cream-rgb) / 0.03), transparent 72%),
+    radial-gradient(44% 32% at 84% 57%, rgb(var(--p-accent-bright-rgb) / 0.024), transparent 76%),
+    radial-gradient(40% 30% at 14% 79%, rgb(var(--p-cream-rgb) / 0.016), transparent 78%),
     linear-gradient(180deg, #040508 0%, #050609 42%, #040508 100%);
   background-attachment: scroll;
 }
@@ -188,13 +188,13 @@ section[data-vl-internal-page='procesos-ia'] .ai-band {
 @media (max-width: 760px) {
   body {
     background:
-      radial-gradient(circle at 12% 16%, rgba(242, 239, 232, 0.13) 0 0.5px, transparent 1.25px),
-      radial-gradient(circle at 36% 34%, rgba(210, 186, 142, 0.1) 0 0.55px, transparent 1.3px),
-      radial-gradient(circle at 68% 14%, rgba(242, 239, 232, 0.1) 0 0.5px, transparent 1.25px),
-      radial-gradient(circle at 88% 42%, rgba(221, 200, 161, 0.09) 0 0.6px, transparent 1.35px),
-      radial-gradient(circle at 22% 76%, rgba(242, 239, 232, 0.08) 0 0.5px, transparent 1.25px),
-      radial-gradient(circle at 76% 84%, rgba(210, 186, 142, 0.09) 0 0.55px, transparent 1.3px),
-      radial-gradient(92% 34% at 50% 8%, rgba(242, 239, 232, 0.024), transparent 74%),
+      radial-gradient(circle at 12% 16%, rgb(var(--p-cream-rgb) / 0.13) 0 0.5px, transparent 1.25px),
+      radial-gradient(circle at 36% 34%, rgb(var(--p-accent-bright-rgb) / 0.1) 0 0.55px, transparent 1.3px),
+      radial-gradient(circle at 68% 14%, rgb(var(--p-cream-rgb) / 0.1) 0 0.5px, transparent 1.25px),
+      radial-gradient(circle at 88% 42%, rgb(var(--p-accent-bright-rgb) / 0.09) 0 0.6px, transparent 1.35px),
+      radial-gradient(circle at 22% 76%, rgb(var(--p-cream-rgb) / 0.08) 0 0.5px, transparent 1.25px),
+      radial-gradient(circle at 76% 84%, rgb(var(--p-accent-bright-rgb) / 0.09) 0 0.55px, transparent 1.3px),
+      radial-gradient(92% 34% at 50% 8%, rgb(var(--p-cream-rgb) / 0.024), transparent 74%),
       linear-gradient(180deg, #040508 0%, #050609 44%, #040508 100%);
   }
 

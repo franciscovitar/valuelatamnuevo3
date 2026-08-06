@@ -5,43 +5,43 @@
 // redefine las variables dentro de la sección: `color: var(--vl-accent)
 // !important` resuelve al valor local y adopta el tema claro sin más peso.
 //
-// Regla de oro del dorado sobre marfil: `--vl-accent` (#ccb487) da 1.8:1
-// sobre #F6F3EC — ilegible. Todo dorado que sea TEXTO usa el brass oscuro
-// (#7A5C15, 5.6:1). El dorado claro queda solo para filetes y adornos, donde
+// Regla de oro del dorado sobre marfil: `--vl-accent` da 1.8:1
+// sobre el marfil — ilegible. Todo dorado que sea TEXTO usa el brass oscuro
+// (--role-accent-on-light, 5.4:1). El dorado claro queda solo para filetes y adornos, donde
 // no hay requisito de contraste.
 
 .vl-section--light {
   /* Fondos */
-  --vl-bg-deep: #EFEBE1;
-  --vl-bg-base: var(--paper);
-  --vl-bg-raised: var(--paper-2);
+  --vl-bg-deep: var(--p-cream-panel);
+  --vl-bg-base: var(--p-cream);
+  --vl-bg-raised: var(--p-cream-warm);
 
   /* Sobre claro se invierte la lógica de profundidad: las tarjetas suben a
      blanco (se recortan contra el marfil) y los paneles embutidos bajan a un
      marfil más profundo. En oscuro era al revés. */
-  --vl-surface-base: #FFFFFF;
-  --vl-surface-raised: #FFFFFF;
-  --vl-surface-active: #FFFFFF;
-  --vl-surface-deep: #EAE5D9;
+  --vl-surface-base: var(--p-white);
+  --vl-surface-raised: var(--p-white);
+  --vl-surface-active: var(--p-white);
+  --vl-surface-deep: var(--p-cream-panel);
 
   /* Texto */
-  --vl-text-primary: #17171A;
-  --vl-text-secondary: #55514A;
-  --vl-text-muted: #6F6A60;
+  --vl-text-primary: var(--role-text-on-light);
+  --vl-text-secondary: var(--role-text-on-light-soft);
+  --vl-text-muted: var(--role-text-on-light-muted);
 
   /* Dorado legible sobre marfil */
-  --vl-accent: #7A5C15;
-  --vl-accent-hover: #5F4710;
+  --vl-accent: var(--role-accent-on-light);
+  --vl-accent-hover: var(--role-accent-on-light-hover);
 
   /* Bordes: sobre claro el hairline es oscuro, no blanco */
-  --vl-border-subtle: rgba(122, 92, 21, 0.22);
-  --vl-border-hover: rgba(122, 92, 21, 0.38);
-  --vl-border-neutral: rgba(11, 33, 41, 0.14);
+  --vl-border-subtle: rgb(var(--p-accent-deep-rgb) / 0.22);
+  --vl-border-hover: rgb(var(--p-accent-deep-rgb) / 0.38);
+  --vl-border-neutral: rgb(var(--p-hairline-rgb) / 0.14);
 
   /* Filete usado por el motion (ver lib/scroll/home/regulation.js) */
-  --vl-hairline: rgba(11, 33, 41, 0.16);
+  --vl-hairline: rgb(var(--p-hairline-rgb) / 0.16);
 
-  background: var(--paper);
+  background: var(--p-cream);
   color: var(--vl-text-secondary);
 
   h1, h2, h3, h4 {
@@ -66,7 +66,7 @@
 // ese 1px de marfil quedaba asomando por encima de las bandas.
 section[data-vl-home-section].vl-section--light,
 section[data-vl-internal-page].vl-section--light {
-  background-color: var(--paper) !important;
+  background-color: var(--p-cream) !important;
   border-top: 0 !important;
 }
 
@@ -79,7 +79,7 @@ section[data-vl-internal-page].vl-section--light::after {
 }
 
 section[data-vl-home-section].vl-section--light::before {
-  background: rgba(11, 33, 41, 0.12) !important;
+  background: rgb(var(--p-hairline-rgb) / 0.12) !important;
 }
 
 // visual-direction-pass fija estos filetes en blanco translúcido con
@@ -116,7 +116,7 @@ section[data-vl-home-section].vl-section--light::before {
   .biz,
   .pay-feat,
   form {
-    box-shadow: 0 14px 32px -26px rgba(11, 33, 41, 0.42);
+    box-shadow: 0 14px 32px -26px rgb(var(--p-hairline-rgb) / 0.42);
     border-color: var(--vl-border-neutral);
   }
 
@@ -125,7 +125,7 @@ section[data-vl-home-section].vl-section--light::before {
   .sol-ficha:hover,
   .jcard:hover,
   .pay-feat:hover {
-    box-shadow: 0 18px 40px -26px rgba(11, 33, 41, 0.5);
+    box-shadow: 0 18px 40px -26px rgb(var(--p-hairline-rgb) / 0.5);
     border-color: var(--vl-border-hover);
   }
 
@@ -140,7 +140,7 @@ section[data-vl-home-section].vl-section--light::before {
     color: var(--vl-text-primary);
   }
 
-  // El hover original va a --brass (#C49A3A), que sobre blanco da 2.4:1.
+  // El hover original va a --brass, que sobre blanco da 2.4:1.
   .sol-card:hover .arrow,
   .sol-ficha:hover .arrow {
     color: var(--vl-accent);
@@ -150,7 +150,7 @@ section[data-vl-home-section].vl-section--light::before {
 /* ---------- Regulatorio en claro ---------- */
 
 .reg.vl-section--light {
-  background: var(--paper);
+  background: var(--p-cream);
 
   .badge {
     color: var(--vl-accent);
@@ -164,7 +164,7 @@ section[data-vl-home-section].vl-section--light::before {
 
 }
 
-// visual-direction-pass deja los sellos en #efede6 !important — un marfil casi
+// visual-direction-pass deja los sellos en var(--p-white) !important — un marfil casi
 // idéntico al del panel, así que sobre fondo claro desaparecerían. Van blancos
 // con hairline oscuro para que los logos se recorten.
 [data-vl-home-section='regulation'].vl-section--light .seals .seal,
@@ -172,9 +172,9 @@ section[data-vl-home-section].vl-section--light::before {
 [data-vl-home-section='regulation'].vl-section--light .seals .seal:focus,
 [data-vl-home-section='regulation'].vl-section--light .seals .seal:focus-visible,
 [data-vl-home-section='regulation'].vl-section--light .seals .seal:active {
-  background-color: #fff !important;
-  border-color: rgba(11, 33, 41, 0.12) !important;
-  box-shadow: 0 12px 30px -22px rgba(11, 33, 41, 0.5) !important;
+  background-color: var(--p-white) !important;
+  border-color: rgb(var(--p-hairline-rgb) / 0.12) !important;
+  box-shadow: 0 12px 30px -22px rgb(var(--p-hairline-rgb) / 0.5) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

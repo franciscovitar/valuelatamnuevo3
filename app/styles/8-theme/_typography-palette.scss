@@ -1,14 +1,6 @@
-:root {
-  --paper: #F8F5EF;
-  --paper-2: #FFFFFF;
-  --ink: #0C2030;
-  --ink-2: #123042;
-  --brass: #BE9433;
-  --brass-2: #D8B45E;
-  --slate: #54697A;
-  --gold-ink: #8A6C1E;
-  --azure: #b7b3ab;
-}
+/* La paleta que se declaraba aca (tintas azules de la identidad anterior)
+   se movio a 1-settings/_palette.scss. Quedaba pisada por 10-trumps, asi
+   que sus valores no llegaban a verse. */
 
 body { line-height: 1.65; }
 .serif { letter-spacing: -.022em; }

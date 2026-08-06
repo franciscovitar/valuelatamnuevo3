@@ -18,13 +18,13 @@
   background:
     radial-gradient(
       78% 100% at 50% 0%,
-      rgba(214, 190, 147, 0.05),
-      rgba(214, 190, 147, 0.016) 42%,
+      rgb(var(--p-accent-bright-rgb) / 0.05),
+      rgb(var(--p-accent-bright-rgb) / 0.016) 42%,
       transparent 72%
     ),
     radial-gradient(
       64% 88% at 50% 0%,
-      rgba(242, 239, 232, 0.036),
+      rgb(var(--p-cream-rgb) / 0.036),
       transparent 68%
     );
 }
@@ -40,7 +40,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(196, 194, 190, 0.92);
+  color: rgb(var(--p-slate-rgb) / 0.92);
   opacity: 1;
   transition: color 0.18s ease, transform 0.18s ease;
 }

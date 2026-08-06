@@ -39,7 +39,7 @@ export default function ValueLatamMark() {
           y="20"
           width="72"
           height="48"
-          fill="#f7f4ed"
+          fill="var(--p-cream-warm)"
         />
         <rect
           data-hero-mark-scan="small"
@@ -58,7 +58,7 @@ export default function ValueLatamMark() {
           y="20"
           width="72"
           height="48"
-          fill="#f7f4ed"
+          fill="var(--p-cream-warm)"
         />
         <rect
           data-hero-mark-scan="middle"
@@ -77,7 +77,7 @@ export default function ValueLatamMark() {
           y="20"
           width="72"
           height="48"
-          fill="#f7f4ed"
+          fill="var(--p-cream-warm)"
         />
         <rect
           data-hero-mark-scan="tall"

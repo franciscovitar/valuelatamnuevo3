@@ -3,7 +3,7 @@
 .image-hero {
   position: relative;
   background: #020306;
-  color: var(--paper, #f6f3ec);
+  color: var(--paper, var(--p-cream-warm));
 }
 
 .image-hero__scroll {
@@ -44,10 +44,10 @@
   pointer-events: none;
   background: linear-gradient(
     90deg,
-    rgba(1, 4, 10, 0.92) 0%,
-    rgba(2, 7, 14, 0.76) 34%,
-    rgba(2, 7, 14, 0.34) 66%,
-    rgba(1, 4, 10, 0.14) 100%
+    rgb(var(--p-ink-rgb) / 0.92) 0%,
+    rgb(var(--p-ink-rgb) / 0.76) 34%,
+    rgb(var(--p-ink-rgb) / 0.34) 66%,
+    rgb(var(--p-ink-rgb) / 0.14) 100%
   );
 }
 
@@ -57,8 +57,8 @@
   z-index: 3;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(1, 4, 10, 0.52) 0%, transparent 14%, transparent 68%, rgba(1, 4, 10, 0.48) 100%),
-    radial-gradient(ellipse 120% 90% at 72% 42%, transparent 36%, rgba(1, 4, 10, 0.32) 100%);
+    linear-gradient(180deg, rgb(var(--p-ink-rgb) / 0.52) 0%, transparent 14%, transparent 68%, rgb(var(--p-ink-rgb) / 0.48) 100%),
+    radial-gradient(ellipse 120% 90% at 72% 42%, transparent 36%, rgb(var(--p-ink-rgb) / 0.32) 100%);
 }
 
 .image-hero__ambient {
@@ -70,7 +70,7 @@
   pointer-events: none;
   opacity: 0.22;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(196, 194, 190, 0.18) 0%, transparent 72%);
+  background: radial-gradient(circle, rgb(var(--p-slate-rgb) / 0.18) 0%, transparent 72%);
   will-change: transform, opacity;
 }
 
@@ -81,8 +81,8 @@
   pointer-events: none;
   opacity: 0.045;
   background-image:
-    linear-gradient(rgba(196, 194, 190, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(196, 194, 190, 0.35) 1px, transparent 1px);
+    linear-gradient(rgb(var(--p-slate-rgb) / 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--p-slate-rgb) / 0.35) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 88%);
 }
@@ -111,7 +111,7 @@
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(196, 194, 190, 0.92);
+  color: rgb(var(--p-slate-rgb) / 0.92);
 }
 
 .image-hero__eyebrow-mark {
@@ -119,7 +119,7 @@
   width: 34px;
   height: 1px;
   margin: 14px 0 18px;
-  background: linear-gradient(90deg, rgba(226, 201, 138, 0.92), rgba(226, 201, 138, 0.18));
+  background: linear-gradient(90deg, rgb(var(--p-accent-bright-rgb) / 0.92), rgb(var(--p-accent-bright-rgb) / 0.18));
 }
 
 .image-hero__eyebrow-mark::after {
@@ -130,7 +130,7 @@
   margin-top: -3px;
   margin-left: 30px;
   border-radius: 50%;
-  background: rgba(226, 201, 138, 0.88);
+  background: rgb(var(--p-accent-bright-rgb) / 0.88);
 }
 
 .image-hero__title {
@@ -141,7 +141,7 @@
   font-size: clamp(3.6rem, 6vw, 6.6rem);
   line-height: 0.94;
   letter-spacing: -0.055em;
-  color: rgba(246, 243, 236, 0.96);
+  color: rgb(var(--p-cream-warm-rgb) / 0.96);
 }
 
 .image-hero__lead {
@@ -151,7 +151,7 @@
   font-size: clamp(17px, 1.45vw, 20px);
   font-weight: 400;
   line-height: 1.5;
-  color: rgba(246, 243, 236, 0.88);
+  color: rgb(var(--p-cream-warm-rgb) / 0.88);
 }
 
 .image-hero__cta {
@@ -161,9 +161,9 @@
   margin-top: 28px;
   padding: 13px 24px;
   border-radius: 999px;
-  border: 1px solid rgba(226, 201, 138, 0.44);
-  background: rgba(1, 4, 10, 0.46);
-  color: rgba(246, 243, 236, 0.96);
+  border: 1px solid rgb(var(--p-accent-bright-rgb) / 0.44);
+  background: rgb(var(--p-ink-rgb) / 0.46);
+  color: rgb(var(--p-cream-warm-rgb) / 0.96);
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 600;
@@ -173,12 +173,12 @@
 }
 
 .image-hero__cta:hover {
-  border-color: rgba(226, 201, 138, 0.72);
-  background: rgba(6, 19, 33, 0.58);
+  border-color: rgb(var(--p-accent-bright-rgb) / 0.72);
+  background: rgb(var(--p-ink-rgb) / 0.62);
 }
 
 .image-hero__cta:focus-visible {
-  outline: 2px solid rgba(226, 201, 138, 0.85);
+  outline: 2px solid rgb(var(--p-accent-bright-rgb) / 0.85);
   outline-offset: 3px;
 }
 
@@ -209,7 +209,7 @@
   font-family: var(--font-sans);
   font-size: clamp(16px, 1.35vw, 19px);
   line-height: 1.45;
-  color: rgba(246, 243, 236, 0.84);
+  color: rgb(var(--p-cream-warm-rgb) / 0.84);
 }
 
 .image-hero__transition {
@@ -218,7 +218,7 @@
   z-index: 8;
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(180deg, rgba(1, 4, 10, 0.06) 0%, rgba(1, 4, 10, 0.88) 100%);
+  background: linear-gradient(180deg, rgb(var(--p-ink-rgb) / 0.06) 0%, rgb(var(--p-ink-rgb) / 0.88) 100%);
 }
 
 .image-hero.is-image-hero-reduced .image-hero__picture img {

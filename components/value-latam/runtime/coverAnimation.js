@@ -130,7 +130,7 @@ function applyState(targets, state, copyState = HERO_COPY_STATES.landing) {
     stage.style.setProperty('--hero-camera-scale', String(state.camera));
   }
 
-  applyThemeVars(root, state.theme === 1 ? 'gold' : 'blue');
+  applyThemeVars(root, state.theme === 1 ? 'accent' : 'base');
 }
 
 function segmentDuration(total, offset) {
@@ -304,8 +304,8 @@ function buildTimeline(targets) {
 
   tl.fromTo(
     root,
-    { ...HERO_THEME.blue },
-    { ...HERO_THEME.gold, duration: dur23, ease: EASE_SOFT },
+    { ...HERO_THEME.base },
+    { ...HERO_THEME.accent, duration: dur23, ease: EASE_SOFT },
     t23Start,
   );
 
@@ -522,7 +522,7 @@ export function initCoverAnimation() {
     viewport?.style.removeProperty('--hero-stage-scale');
     root.querySelector('.cover-hero__design-stage')?.style.removeProperty('--hero-camera-scale');
 
-    Object.keys(HERO_THEME.blue).forEach((key) => {
+    Object.keys(HERO_THEME.base).forEach((key) => {
       root.style.removeProperty(key);
     });
   };

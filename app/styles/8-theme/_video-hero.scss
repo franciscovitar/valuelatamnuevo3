@@ -7,7 +7,7 @@ body:has(.video-hero) header.nav {
 .video-hero {
   position: relative;
   background: #0f0f12;
-  color: var(--paper, #f6f3ec);
+  color: var(--paper, var(--p-cream-warm));
   margin-top: 0;
 }
 
@@ -41,7 +41,7 @@ body:has(.video-hero) header.nav {
   background:
     radial-gradient(
       ellipse 72% 58% at 74% 44%,
-      rgba(27, 58, 92, 0.28),
+      rgb(var(--p-ink-rgb) / 0.28),
       transparent 62%
     ),
     radial-gradient(
@@ -53,12 +53,12 @@ body:has(.video-hero) header.nav {
       90deg,
       #020306 0%,
       #020306 38%,
-      rgba(2, 7, 14, 0.98) 100%
+      rgb(var(--p-ink-rgb) / 0.98) 100%
     ),
     linear-gradient(
       180deg,
       #020306 0%,
-      rgba(1, 4, 10, 0.96) 78%,
+      rgb(var(--p-ink-rgb) / 0.96) 78%,
       #020306 100%
     ),
     #020306;
@@ -146,18 +146,18 @@ body:has(.video-hero) header.nav {
     background:
       radial-gradient(
         ellipse 68% 48% at 66% 32%,
-        rgba(27, 58, 92, 0.24),
+        rgb(var(--p-ink-rgb) / 0.24),
         transparent 58%
       ),
       radial-gradient(
         ellipse 80% 36% at 50% 86%,
-        rgba(6, 19, 33, 0.58),
+        rgb(var(--p-ink-rgb) / 0.62),
         transparent 52%
       ),
       linear-gradient(
         180deg,
         #020306 0%,
-        rgba(1, 4, 10, 0.97) 55%,
+        rgb(var(--p-ink-rgb) / 0.97) 55%,
         #020306 100%
       ),
       #020306;
@@ -171,10 +171,10 @@ body:has(.video-hero) header.nav {
   pointer-events: none;
   background: linear-gradient(
     90deg,
-    rgba(1, 4, 10, 0.92) 0%,
-    rgba(2, 7, 14, 0.66) 26%,
-    rgba(2, 7, 14, 0.08) 52%,
-    rgba(1, 4, 10, 0) 100%
+    rgb(var(--p-ink-rgb) / 0.92) 0%,
+    rgb(var(--p-ink-rgb) / 0.66) 26%,
+    rgb(var(--p-ink-rgb) / 0.08) 52%,
+    rgb(var(--p-ink-rgb) / 0) 100%
   );
 }
 
@@ -186,15 +186,15 @@ body:has(.video-hero) header.nav {
   background:
     linear-gradient(
       180deg,
-      rgba(1, 4, 10, 0.38) 0%,
+      rgb(var(--p-ink-rgb) / 0.38) 0%,
       transparent 13%,
       transparent 75%,
-      rgba(1, 4, 10, 0.28) 100%
+      rgb(var(--p-ink-rgb) / 0.28) 100%
     ),
     radial-gradient(
       ellipse 135% 105% at 64% 48%,
       transparent 55%,
-      rgba(1, 4, 10, 0.12) 100%
+      rgb(var(--p-ink-rgb) / 0.12) 100%
     );
 }
 
@@ -209,8 +209,8 @@ body:has(.video-hero) header.nav {
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(2, 7, 14, 0.28) 30%,
-    rgba(6, 22, 42, 0.76) 78%,
+    rgb(var(--p-ink-rgb) / 0.28) 30%,
+    rgb(var(--p-ink-rgb) / 0.78) 78%,
     #0f0f12 100%
   );
 }
@@ -223,9 +223,9 @@ body:has(.video-hero) header.nav {
   opacity: 0;
   background: linear-gradient(
     180deg,
-    rgba(1, 4, 10, 0.03) 0%,
-    rgba(3, 12, 22, 0.34) 54%,
-    rgba(6, 22, 42, 0.84) 84%,
+    rgb(var(--p-ink-rgb) / 0.03) 0%,
+    rgb(var(--p-ink-rgb) / 0.34) 54%,
+    rgb(var(--p-ink-rgb) / 0.86) 84%,
     #0f0f12 100%
   );
 }
@@ -254,7 +254,7 @@ body:has(.video-hero) header.nav {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(196, 194, 190, 0.92);
+  color: rgb(var(--p-slate-rgb) / 0.92);
 }
 
 .video-hero__eyebrow-mark {
@@ -262,7 +262,7 @@ body:has(.video-hero) header.nav {
   width: 34px;
   height: 1px;
   margin: 14px 0 18px;
-  background: linear-gradient(90deg, rgba(226, 201, 138, 0.92), rgba(226, 201, 138, 0.18));
+  background: linear-gradient(90deg, rgb(var(--p-accent-bright-rgb) / 0.92), rgb(var(--p-accent-bright-rgb) / 0.18));
 }
 
 .video-hero__eyebrow-mark::after {
@@ -273,7 +273,7 @@ body:has(.video-hero) header.nav {
   margin-top: -3px;
   margin-left: 30px;
   border-radius: 50%;
-  background: rgba(226, 201, 138, 0.88);
+  background: rgb(var(--p-accent-bright-rgb) / 0.88);
 }
 
 .video-hero__title {
@@ -284,7 +284,7 @@ body:has(.video-hero) header.nav {
   font-size: clamp(3.6rem, 6vw, 6.6rem);
   line-height: 0.94;
   letter-spacing: -0.055em;
-  color: rgba(246, 243, 236, 0.96);
+  color: rgb(var(--p-cream-warm-rgb) / 0.96);
 }
 
 .video-hero__lead {
@@ -294,7 +294,7 @@ body:has(.video-hero) header.nav {
   font-size: clamp(17px, 1.45vw, 20px);
   font-weight: 400;
   line-height: 1.5;
-  color: rgba(246, 243, 236, 0.88);
+  color: rgb(var(--p-cream-warm-rgb) / 0.88);
 }
 
 .video-hero__cta {
@@ -304,9 +304,9 @@ body:has(.video-hero) header.nav {
   margin-top: 28px;
   padding: 13px 24px;
   border-radius: 999px;
-  border: 1px solid rgba(226, 201, 138, 0.44);
-  background: rgba(1, 4, 10, 0.46);
-  color: rgba(246, 243, 236, 0.96);
+  border: 1px solid rgb(var(--p-accent-bright-rgb) / 0.44);
+  background: rgb(var(--p-ink-rgb) / 0.46);
+  color: rgb(var(--p-cream-warm-rgb) / 0.96);
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 600;
@@ -316,12 +316,12 @@ body:has(.video-hero) header.nav {
 }
 
 .video-hero__cta:hover {
-  border-color: rgba(226, 201, 138, 0.72);
-  background: rgba(6, 19, 33, 0.58);
+  border-color: rgb(var(--p-accent-bright-rgb) / 0.72);
+  background: rgb(var(--p-ink-rgb) / 0.62);
 }
 
 .video-hero__cta:focus-visible {
-  outline: 2px solid rgba(226, 201, 138, 0.85);
+  outline: 2px solid rgb(var(--p-accent-bright-rgb) / 0.85);
   outline-offset: 3px;
 }
 
@@ -342,7 +342,7 @@ body:has(.video-hero) header.nav {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(196, 194, 190, 0.78);
+  color: rgb(var(--p-slate-rgb) / 0.78);
   opacity: 0;
 }
 
@@ -366,7 +366,7 @@ body:has(.video-hero) header.nav {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.16em;
-  color: var(--brass-2, #e2c98a);
+  color: var(--brass-2, var(--role-accent-hover));
 }
 
 .video-hero__chapter-title {
@@ -377,7 +377,7 @@ body:has(.video-hero) header.nav {
   font-size: clamp(2.6rem, 4.8vw, 4rem);
   line-height: 0.96;
   letter-spacing: -0.04em;
-  color: rgba(246, 243, 236, 0.96);
+  color: rgb(var(--p-cream-warm-rgb) / 0.96);
 }
 
 .video-hero__chapter-desc {
@@ -386,7 +386,7 @@ body:has(.video-hero) header.nav {
   font-family: var(--font-sans);
   font-size: clamp(15px, 1.35vw, 18px);
   line-height: 1.55;
-  color: rgba(246, 243, 236, 0.84);
+  color: rgb(var(--p-cream-warm-rgb) / 0.84);
 }
 
 .video-hero__chapter-line {
@@ -396,7 +396,7 @@ body:has(.video-hero) header.nav {
   margin-top: 18px;
   transform: scaleX(0);
   transform-origin: left center;
-  background: linear-gradient(90deg, rgba(226, 201, 138, 0.88), rgba(226, 201, 138, 0.12));
+  background: linear-gradient(90deg, rgb(var(--p-accent-bright-rgb) / 0.88), rgb(var(--p-accent-bright-rgb) / 0.12));
 }
 
 .video-hero__brand {
@@ -417,7 +417,7 @@ body:has(.video-hero) header.nav {
   display: block;
   width: clamp(240px, 30vw, 430px);
   height: auto;
-  filter: drop-shadow(0 0 28px rgba(196, 194, 190, 0.12));
+  filter: drop-shadow(0 0 28px rgb(var(--p-slate-rgb) / 0.12));
   will-change: transform, opacity;
 }
 
@@ -429,7 +429,7 @@ body:has(.video-hero) header.nav {
   font-size: clamp(15px, 1.35vw, 18px);
   font-weight: 500;
   line-height: 1.5;
-  color: rgba(246, 243, 236, 0.88);
+  color: rgb(var(--p-cream-warm-rgb) / 0.88);
   visibility: hidden;
   opacity: 0;
 }
@@ -451,14 +451,14 @@ body:has(.video-hero) header.nav {
   font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(246, 243, 236, 0.48);
+  color: rgb(var(--p-cream-warm-rgb) / 0.48);
 }
 
 .video-hero__scroll-hint-line {
   display: block;
   width: 1px;
   height: 34px;
-  background: linear-gradient(180deg, rgba(246, 243, 236, 0.42), rgba(246, 243, 236, 0));
+  background: linear-gradient(180deg, rgb(var(--p-cream-warm-rgb) / 0.42), rgb(var(--p-cream-warm-rgb) / 0));
 }
 
 @media (max-width: 1023px) {
@@ -566,5 +566,5 @@ body:has(.video-hero) .metrics {
     rgba(15, 15, 18, 0.62) 56px,
     transparent 128px
   );
-  border-top-color: rgba(246, 243, 236, 0.055);
+  border-top-color: rgb(var(--p-cream-warm-rgb) / 0.055);
 }

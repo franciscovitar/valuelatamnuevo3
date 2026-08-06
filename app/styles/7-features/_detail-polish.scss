@@ -22,8 +22,8 @@
   display:flex;
   align-items:center;
   justify-content:center;
-  background:rgba(246,243,236,.055);
-  border:1px solid rgba(246,243,236,.14);
+  background:rgb(var(--p-cream-warm-rgb) / .055);
+  border:1px solid rgb(var(--p-cream-warm-rgb) / .14);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 18px 44px rgba(0,0,0,.12);
   border-radius: var(--radius-card-premium);
   transition:transform .22s var(--ease-out),border-color .22s ease,background-color .22s ease,box-shadow .22s ease;
@@ -53,8 +53,8 @@
 .partner-logo:hover,
 .rel-strip .liquidity-logo:hover {
   transform:translateY(-2px);
-  border-color:rgba(196, 194, 190, .46);
-  background:rgba(196, 194, 190, .07);
+  border-color:rgb(var(--p-slate-rgb) / .46);
+  background:rgb(var(--p-slate-rgb) / .07);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 22px 54px rgba(0,0,0,.18);
 }
 .partner-logo .rel-fb,
@@ -109,7 +109,7 @@ summary:focus-visible,
 .field input:focus-visible,
 .field select:focus-visible,
 .field textarea:focus-visible{
-  outline:2px solid rgba(196, 194, 190, .9);
+  outline:2px solid rgb(var(--p-slate-rgb) / .9);
   outline-offset:3px;
 }
 .cover-sticky{

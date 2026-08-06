@@ -1,7 +1,7 @@
 
 .pay-group{margin-top:30px}
 
-  .pay-group-label{display:inline-block;font-family:var(--font-mono), monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#ddc8a1;margin:0 0 12px 2px}
+  .pay-group-label{display:inline-block;font-family:var(--font-mono), monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--role-accent-hover);margin:0 0 12px 2px}
 
   .pay-support{margin-top:28px;max-width:none}
 
@@ -33,11 +33,11 @@
 
 .cta form{
 
-    background:linear-gradient(180deg, rgba(27,58,92,.78) 0%, rgba(18,42,72,.80) 100%);
+    background:linear-gradient(180deg, rgb(var(--p-ink-rgb) / .78) 0%, rgb(var(--p-ink-rgb) / .80) 100%);
 
-    border:1px solid rgba(196, 194, 190, .26);
+    border:1px solid rgb(var(--p-slate-rgb) / .26);
 
-    box-shadow:0 26px 64px -32px rgba(0,0,0,.65), inset 0 1px 0 rgba(196, 194, 190, .12);
+    box-shadow:0 26px 64px -32px rgba(0,0,0,.65), inset 0 1px 0 rgb(var(--p-slate-rgb) / .12);
 
     backdrop-filter:blur(3px);
 
@@ -94,20 +94,20 @@
   .pay-support{
     margin-top:28px;
     padding:24px 26px;
-    border:1px solid rgba(246,243,236,.12);
+    border:1px solid rgb(var(--p-cream-warm-rgb) / .12);
     border-radius: var(--radius-card-premium);
     background:rgba(255,255,255,.025);
   }
 
   .pay-support p{
-    color:rgba(246,243,236,.76);
+    color:rgb(var(--p-cream-warm-rgb) / .76);
     font-size:15px;
     font-weight:400;
     line-height:1.65;
     margin:0;
   }
 
-  .pay-support b{font-weight:600;color:rgba(246,243,236,.94)}
+  .pay-support b{font-weight:600;color:rgb(var(--p-cream-warm-rgb) / .94)}
 
 [data-vl-internal-page='medios-de-pago'] .pay-giros,
 [data-vl-internal-page='medios-de-pago'] .pay-support {
@@ -115,7 +115,7 @@
   box-sizing: border-box;
   margin-top: 28px;
   padding: 24px 26px;
-  border: 1px solid rgba(246, 243, 236, 0.12);
+  border: 1px solid rgb(var(--p-cream-warm-rgb) / 0.12);
   border-radius: var(--radius-card-premium);
   background: rgba(255, 255, 255, 0.025);
 }

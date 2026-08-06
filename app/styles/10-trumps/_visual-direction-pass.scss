@@ -3,79 +3,9 @@
    Base #040508, neutral black surfaces and pale champagne gold
    ========================================================= */
 
-:root {
-  /* Backgrounds */
-  --vl-bg-deep: #020306;
-  --vl-bg-base: #040508;
-  --vl-bg-raised: #090a0d;
-
-  /* Surfaces: previous neutral-black card family */
-  --vl-surface-deep: #0a0b0e;
-  --vl-surface-base: #101012;
-  --vl-surface-raised: #151518;
-  --vl-surface-active: #1b1b20;
-
-  /* Text */
-  --vl-text-primary: #f2efe8;
-  --vl-text-secondary: #b7b3ab;
-  --vl-text-muted: #7f7b74;
-
-  /* Pale champagne gold: less yellow */
-  --vl-accent: #ccb487;
-  --vl-accent-hover: #ddc8a1;
-
-  /* Borders */
-  --vl-border-subtle: rgba(204, 180, 135, 0.13);
-  --vl-border-hover: rgba(221, 200, 161, 0.23);
-  --vl-border-neutral: rgba(242, 239, 232, 0.085);
-
-  /* Buttons */
-  --vl-button-start: #d8c092;
-  --vl-button-end: #c5a66f;
-  --vl-button-hover-start: #e3cfaa;
-  --vl-button-hover-end: #cfb07c;
-  --vl-button-ink: #07080a;
-
-  /* Utilities */
-  --vl-whatsapp: #178a49;
-  --vl-whatsapp-text: #ffffff;
-
-  /* Legacy project aliases */
-  --ink: var(--vl-bg-base);
-  --ink-2: var(--vl-bg-raised);
-  --ink-3: var(--vl-surface-active);
-
-  --paper: var(--vl-text-primary);
-  --paper-2: #f7f3eb;
-
-  --brass: #b89b6c;
-  --brass-2: var(--vl-accent);
-
-  --slate: var(--vl-text-muted);
-  --slate-light: var(--vl-text-secondary);
-
-  --line-dark: rgba(242, 239, 232, 0.105);
-  --line-light: rgba(255, 255, 255, 0.055);
-
-  --vl-bg-card: var(--vl-surface-base);
-  --vl-bg-card-active: var(--vl-surface-active);
-  --vl-steel: #a2a0a5;
-
-  --border-brass-soft: var(--vl-border-subtle);
-  --border-brass-hover: var(--vl-border-hover);
-
-  --shadow-card-premium: 0 20px 52px -38px rgba(0, 0, 0, 0.94);
-  --shadow-card-premium-hover: 0 24px 60px -40px rgba(0, 0, 0, 0.97);
-  --shadow-brass-soft: 0 12px 28px -18px rgba(204, 180, 135, 0.36);
-  --shadow-brass-hover: 0 14px 32px -18px rgba(221, 200, 161, 0.46);
-
-  --surface-card-premium:
-    linear-gradient(
-      180deg,
-      rgba(21, 21, 24, 0.995),
-      rgba(10, 11, 14, 0.998)
-    );
-}
+/* Los dos bloques :root de color que vivian aca se unificaron en
+   1-settings/_palette.scss. Estaban duplicados con valores distintos y el
+   segundo pisaba al primero, asi que editar el primero no tenia efecto. */
 
 /* =========================================================
    Global canvas
@@ -94,7 +24,7 @@ body {
     ),
     radial-gradient(
       40% 30% at 82% 66%,
-      rgba(204, 180, 135, 0.014),
+      rgb(var(--p-accent-rgb) / 0.014),
       transparent 75%
     ),
     var(--vl-bg-base);
@@ -139,7 +69,7 @@ footer {
 
 [data-vl-home-section='regulation'],
 footer {
-  border-top: 1px solid rgba(242, 239, 232, 0.06) !important;
+  border-top: 1px solid rgb(var(--p-cream-rgb) / 0.06) !important;
 }
 
 [data-vl-home-section='solutions'],
@@ -217,8 +147,8 @@ li,
    ========================================================= */
 
 header.nav {
-  background: rgba(4, 5, 8, 0.98);
-  border-bottom: 1px solid rgba(242, 239, 232, 0.06);
+  background: rgb(var(--p-ink-rgb) / 0.98);
+  border-bottom: 1px solid rgb(var(--p-cream-rgb) / 0.06);
   box-shadow: 0 16px 40px -32px rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(16px) saturate(100%);
 }
@@ -233,7 +163,7 @@ header.nav {
 
 .nav-links a,
 .nav-dropdown__trigger {
-  color: rgba(242, 239, 232, 0.72);
+  color: rgb(var(--p-cream-rgb) / 0.72);
   font-weight: 500;
 }
 
@@ -253,13 +183,13 @@ header.nav {
   background:
     radial-gradient(
       circle at 92% 0%,
-      rgba(204, 180, 135, 0.04),
+      rgb(var(--p-accent-rgb) / 0.04),
       transparent 38%
     ),
     linear-gradient(
       180deg,
       rgba(16, 16, 18, 0.996),
-      rgba(4, 5, 8, 0.999)
+      rgb(var(--p-ink-rgb) / 0.999)
     );
   box-shadow:
     0 24px 58px -26px rgba(0, 0, 0, 0.95),
@@ -281,7 +211,7 @@ header.nav {
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 11px 26px -18px rgba(204, 180, 135, 0.48);
+    0 11px 26px -18px rgb(var(--p-accent-rgb) / 0.48);
   text-shadow: none;
 }
 
@@ -301,7 +231,7 @@ header.nav {
   transform: translateY(-1px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 13px 30px -18px rgba(221, 200, 161, 0.54);
+    0 13px 30px -18px rgb(var(--p-accent-bright-rgb) / 0.54);
 }
 
 .btn-primary:hover::after,
@@ -327,8 +257,8 @@ header.nav {
 .btn-ghost-dark:focus-visible {
   color: var(--vl-accent-hover);
   border-color: var(--vl-border-hover);
-  background: rgba(204, 180, 135, 0.04);
-  box-shadow: 0 10px 26px -20px rgba(204, 180, 135, 0.34);
+  background: rgb(var(--p-accent-rgb) / 0.04);
+  box-shadow: 0 10px 26px -20px rgb(var(--p-accent-rgb) / 0.34);
   transform: translateY(-1px);
 }
 
@@ -459,7 +389,7 @@ header .btn-primary,
   background:
     radial-gradient(
       circle at 18% 0%,
-      rgba(204, 180, 135, 0.025),
+      rgb(var(--p-accent-rgb) / 0.025),
       transparent 38%
     ),
     var(--vl-surface-deep) !important;
@@ -479,8 +409,8 @@ header .btn-primary,
 .reg-seal-divider,
 .reg-sep,
 .reg-seal-panel hr {
-  background: rgba(242, 239, 232, 0.11) !important;
-  border-color: rgba(242, 239, 232, 0.11) !important;
+  background: rgb(var(--p-cream-rgb) / 0.11) !important;
+  border-color: rgb(var(--p-cream-rgb) / 0.11) !important;
 }
 
 [data-vl-home-section='regulation'] .seals .seal,
@@ -488,8 +418,8 @@ header .btn-primary,
 [data-vl-home-section='regulation'] .seals .seal:focus,
 [data-vl-home-section='regulation'] .seals .seal:focus-visible,
 [data-vl-home-section='regulation'] .seals .seal:active {
-  background-color: #efede6 !important;
-  border-color: rgba(239, 237, 230, 0.86) !important;
+  background-color: var(--p-white) !important;
+  border-color: rgb(var(--p-cream-rgb) / 0.86) !important;
   box-shadow: 0 14px 34px -28px rgba(0, 0, 0, 0.52) !important;
 }
 
@@ -513,8 +443,8 @@ header .btn-primary,
 .field input:focus-visible,
 .field select:focus-visible,
 .field textarea:focus-visible {
-  border-color: rgba(204, 180, 135, 0.32);
-  box-shadow: 0 0 0 3px rgba(204, 180, 135, 0.052);
+  border-color: rgb(var(--p-accent-rgb) / 0.32);
+  box-shadow: 0 0 0 3px rgb(var(--p-accent-rgb) / 0.052);
 }
 
 /* =========================================================
@@ -606,8 +536,8 @@ header .btn-primary,
   min-height: 37px;
   gap: 7px;
   padding: 8px 12px;
-  color: rgba(242, 239, 232, 0.86);
-  background: rgba(10, 11, 14, 0.97);
+  color: rgb(var(--p-cream-rgb) / 0.86);
+  background: rgb(var(--p-ink-800-rgb) / 0.97);
   border-color: var(--vl-border-neutral);
   font-size: 11.5px;
   letter-spacing: 0.025em;
@@ -629,7 +559,7 @@ header .btn-primary,
 
 .sound-toggle.is-on .sicon {
   background: var(--vl-accent);
-  box-shadow: 0 0 0 3px rgba(204, 180, 135, 0.052);
+  box-shadow: 0 0 0 3px rgb(var(--p-accent-rgb) / 0.052);
   animation: none;
 }
 
@@ -639,7 +569,7 @@ header .btn-primary,
 
 @media (max-width: 980px) {
   header.nav {
-    background: rgba(4, 5, 8, 0.988);
+    background: rgb(var(--p-ink-rgb) / 0.988);
   }
 
   .nav-links {
@@ -647,7 +577,7 @@ header .btn-primary,
       linear-gradient(
         180deg,
         rgba(16, 16, 18, 0.998),
-        rgba(4, 5, 8, 0.999)
+        rgb(var(--p-ink-rgb) / 0.999)
       );
     border-color: var(--vl-border-neutral);
   }
@@ -709,44 +639,6 @@ header .btn-primary,
    Exact canvas #040508, neutral black cards, champagne gold
    ========================================================= */
 
-:root {
-  --vl-bg-deep: #020306;
-  --vl-bg-base: #040508;
-  --vl-bg-raised: #09090b;
-
-  --vl-surface-deep: #09090b;
-  --vl-surface-base: #0f0f12;
-  --vl-surface-raised: #141417;
-  --vl-surface-active: #1a1a1e;
-
-  --vl-text-primary: #f2efe8;
-  --vl-text-secondary: #b7b3ab;
-  --vl-text-muted: #7f7b74;
-
-  --vl-accent: #ccb487;
-  --vl-accent-hover: #ddc8a1;
-
-  --vl-border-subtle: rgba(204, 180, 135, 0.13);
-  --vl-border-hover: rgba(221, 200, 161, 0.24);
-  --vl-border-neutral: rgba(242, 239, 232, 0.085);
-
-  --ink: var(--vl-bg-base);
-  --ink-2: var(--vl-bg-raised);
-  --ink-3: var(--vl-surface-active);
-  --paper: var(--vl-text-primary);
-  --paper-2: #f7f3eb;
-  --brass: #b89b6c;
-  --brass-2: var(--vl-accent);
-  --slate: var(--vl-text-muted);
-  --slate-light: var(--vl-text-secondary);
-  --vl-steel: #aaa7a1;
-
-  --vl-bg-card: var(--vl-surface-base);
-  --vl-bg-card-active: var(--vl-surface-active);
-
-  --line-dark: rgba(242, 239, 232, 0.10);
-  --line-light: rgba(242, 239, 232, 0.065);
-}
 
 html {
   background: var(--vl-bg-deep) !important;
@@ -906,8 +798,8 @@ body {
   background:
     linear-gradient(
       180deg,
-      rgba(204, 180, 135, 0.52),
-      rgba(221, 200, 161, 0.92)
+      rgb(var(--p-accent-rgb) / 0.52),
+      rgb(var(--p-accent-bright-rgb) / 0.92)
     ) !important;
 }
 
@@ -915,8 +807,8 @@ body {
   background:
     linear-gradient(
       90deg,
-      rgba(204, 180, 135, 0.52),
-      rgba(221, 200, 161, 0.92)
+      rgb(var(--p-accent-rgb) / 0.52),
+      rgb(var(--p-accent-bright-rgb) / 0.92)
     ) !important;
 }
 
@@ -926,11 +818,11 @@ body {
 .fb-loop,
 .brain-line,
 .uconn {
-  stroke: rgba(196, 194, 190, 0.28) !important;
+  stroke: rgb(var(--p-slate-rgb) / 0.28) !important;
 }
 
 .brain-dot {
-  fill: rgba(204, 180, 135, 0.54) !important;
+  fill: rgb(var(--p-accent-rgb) / 0.54) !important;
 }
 
 .cbranch-sub,

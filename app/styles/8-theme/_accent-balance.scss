@@ -1,15 +1,15 @@
 .eyebrow,
 .bs-kicker,
-.join-sub-eyebrow { color: #ccb487; }
+.join-sub-eyebrow { color: var(--role-accent); }
 
-.dot { background: #ccb487; }
-.tag { color: #ccb487; border-color: rgba(196, 194, 190, .35); }
+.dot { background: var(--role-accent); }
+.tag { color: var(--role-accent); border-color: rgb(var(--p-slate-rgb) / .35); }
 .cross .ar,
-.cross b { color: #ccb487; }
-.badge { color: rgba(246, 243, 236, .85); }
-.feat-hl { border: 1px solid rgba(196, 194, 190, .42); background: rgba(196, 194, 190, .07); }
-.faq summary::after { border-color: #ccb487; color: #ccb487; }
-.bs-dots button.active { background: #ccb487; }
-.reg .seal { color: rgba(246, 243, 236, .85); }
-.trust .logos .chip:hover { border-color: #ccb487; color: var(--paper); }
-.tab[aria-selected="true"] { background: rgba(246, 243, 236, .13); color: var(--paper); }
+.cross b { color: var(--role-accent); }
+.badge { color: rgb(var(--p-cream-warm-rgb) / .85); }
+.feat-hl { border: 1px solid rgb(var(--p-slate-rgb) / .42); background: rgb(var(--p-slate-rgb) / .07); }
+.faq summary::after { border-color: var(--role-accent); color: var(--role-accent); }
+.bs-dots button.active { background: var(--role-accent); }
+.reg .seal { color: rgb(var(--p-cream-warm-rgb) / .85); }
+.trust .logos .chip:hover { border-color: var(--role-accent); color: var(--paper); }
+.tab[aria-selected="true"] { background: rgb(var(--p-cream-warm-rgb) / .13); color: var(--paper); }

@@ -22,8 +22,8 @@
     linear-gradient(
       180deg,
       rgba(15, 15, 18, 0.10) 0%,
-      rgba(2, 7, 14, 0) 18%,
-      rgba(2, 7, 14, 0) 78%,
+      rgb(var(--p-ink-rgb) / 0) 18%,
+      rgb(var(--p-ink-rgb) / 0) 78%,
       rgba(15, 15, 18, 0.14) 100%
     );
 }
@@ -60,10 +60,10 @@
   background:
     linear-gradient(
       180deg,
-      rgba(2, 7, 14, 0.06) 0%,
-      rgba(2, 7, 14, 0) 18%,
-      rgba(2, 7, 14, 0) 72%,
-      rgba(2, 7, 14, 0.22) 100%
+      rgb(var(--p-ink-rgb) / 0.06) 0%,
+      rgb(var(--p-ink-rgb) / 0) 18%,
+      rgb(var(--p-ink-rgb) / 0) 72%,
+      rgb(var(--p-ink-rgb) / 0.22) 100%
     ),
     rgba(15, 15, 18, 0.04);
 }

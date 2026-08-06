@@ -28,7 +28,7 @@ html.vl-motion-enabled {
     right: 0;
     bottom: -6px;
     height: 1px;
-    background: rgba(210, 207, 201, 0.88);
+    background: rgb(var(--p-slate-rgb) / 0.88);
     transform: scaleX(0);
     transform-origin: center;
     opacity: 0;

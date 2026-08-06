@@ -78,7 +78,7 @@ html.vl-motion-enabled {
   margin: 0 0 22px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(246, 243, 236, 0.12);
+  background: rgb(var(--p-cream-warm-rgb) / 0.12);
 }
 
 .process-story-progress__fill {
@@ -87,8 +87,8 @@ html.vl-motion-enabled {
   height: 100%;
   transform: scaleX(0);
   transform-origin: left center;
-  background: linear-gradient(90deg, rgba(191, 160, 90, 0.45), rgba(232, 206, 142, 0.95));
-  box-shadow: 0 0 14px rgba(210, 183, 117, 0.35);
+  background: linear-gradient(90deg, rgb(var(--p-accent-rgb) / 0.45), rgb(var(--p-accent-bright-rgb) / 0.95));
+  box-shadow: 0 0 14px rgb(var(--p-accent-rgb) / 0.35);
   will-change: transform;
 }
 
@@ -105,7 +105,7 @@ html.vl-motion-enabled {
   z-index: 0;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(circle at 50% 42%, rgba(196, 194, 190, 0.16), transparent 64%);
+  background: radial-gradient(circle at 50% 42%, rgb(var(--p-slate-rgb) / 0.16), transparent 64%);
 }
 
 [data-vl-gsap-root='team'] .person > * {
