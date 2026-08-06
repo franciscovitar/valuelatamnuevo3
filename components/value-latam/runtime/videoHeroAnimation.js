@@ -1,4 +1,6 @@
 ﻿import { gsap, ScrollTrigger } from '@/lib/scroll/gsap';
+import { getLenis, scrollToTop } from '@/lib/scroll/lenis';
+import { refreshScrollTriggers } from '@/lib/scroll/routeScroll';
 import {
   HERO_MARK_REVEALS,
   HERO_TIMELINE,
@@ -96,8 +98,61 @@ function validateTargets(targets) {
   ].every(Boolean) && targets.words.length > 0;
 }
 
+function getHeroScrollDistanceVh() {
+  return getLayout().scrollDistanceVh;
+}
+
 function setScrollHeight(scrollEl) {
-  scrollEl.style.height = `${getLayout().scrollVh}svh`;
+  scrollEl.style.height = '100svh';
+}
+
+function getScrollTriggerConfig(targets) {
+  const config = {
+    trigger: targets.root,
+    start: 'top top',
+    end: () => `+=${getHeroScrollDistanceVh()}%`,
+    scrub: HERO_TIMELINE.scrub,
+    invalidateOnRefresh: true,
+  };
+
+  if (getLenis()) {
+    config.scroller = document.documentElement;
+  }
+
+  return config;
+}
+
+function buildTimeline(targets) {
+  const timeline = gsap.timeline({
+    defaults: { overwrite: 'auto' },
+  });
+
+  timeline.set(targets.scene, { autoAlpha: 1 }, 0);
+  setWordInitialState(timeline, targets);
+  setMarkInitialState(timeline, targets);
+  addWordConvergence(timeline, targets);
+  addMarkReveal(timeline, targets);
+  addHintFade(timeline, targets);
+  timeline.to({}, { duration: 0.001 }, 1);
+
+  return timeline;
+}
+
+function mountHeroScrollAnimation(targets) {
+  setScrollHeight(targets.scrollEl);
+
+  const timeline = buildTimeline(targets);
+  const scrollTrigger = ScrollTrigger.create({
+    animation: timeline,
+    ...getScrollTriggerConfig(targets),
+  });
+
+  return { timeline, scrollTrigger };
+}
+
+function destroyHeroScrollAnimation(animation) {
+  animation?.scrollTrigger?.kill();
+  animation?.timeline?.kill();
 }
 
 function setWordInitialState(timeline, targets) {
@@ -113,7 +168,6 @@ function setWordInitialState(timeline, targets) {
     }
 
     const word = getResponsiveWord(baseWord, layoutName);
-    const depthFactor = word.depth === 'far' ? 0.88 : 1;
 
     timeline.set(element, {
       display: 'block',
@@ -126,23 +180,6 @@ function setWordInitialState(timeline, targets) {
       transformOrigin: '50% 50%',
       force3D: true,
     }, 0);
-
-    timeline.to(element, {
-      scale: 0.94,
-      duration: 0.032,
-      ease: 'power1.out',
-    }, Math.max(0, word.start));
-
-    timeline.to(element, {
-      x: () => toViewportX(word.x * 0.72 + word.curveX * 0.28, layout),
-      y: () => toViewportY(word.y * 0.72 + word.curveY * 0.28, layout),
-      scale: 0.82 * depthFactor + 0.1,
-      rotate: word.rotation * 0.55,
-      autoAlpha: Math.min(word.opacity, 0.86),
-      filter: `blur(${Math.max(0, word.blur * 0.45)}px)`,
-      duration: 0.042,
-      ease: 'power1.out',
-    }, Math.max(0, word.start + 0.032));
   });
 }
 
@@ -152,18 +189,18 @@ function setMarkInitialState(timeline, targets) {
     transformOrigin: '50% 50%',
   }, 0);
 
-  timeline.set(targets.markOutline, { opacity: 0.06 }, 0);
+  timeline.set(targets.markOutline, { opacity: HERO_TIMELINE.markOutlinePeak }, 0);
   timeline.set(targets.halo, { autoAlpha: 0, scale: 0.72 }, 0);
 
   timeline.set(targets.title, {
-    autoAlpha: 0,
-    y: 16,
-    filter: 'blur(2px)',
+    autoAlpha: 1,
+    y: 0,
+    filter: 'blur(0px)',
   }, 0);
 
   timeline.set(targets.subcopy, {
-    autoAlpha: 0,
-    y: 12,
+    autoAlpha: 1,
+    y: 0,
   }, 0);
 
   HERO_MARK_REVEALS.forEach((reveal) => {
@@ -199,46 +236,41 @@ function addWordConvergence(timeline, targets) {
     if (!baseWord || !isWordVisible(baseWord, layoutName)) return;
 
     const word = getResponsiveWord(baseWord, layoutName);
-    const convergeStart = Math.max(0.045, word.start + 0.045);
-    const middleAt = convergeStart + (word.end - convergeStart) * 0.48;
-    const middleX = word.x * 0.38 + word.curveX * 0.62;
-    const middleY = word.y * 0.38 + word.curveY * 0.62;
-    const depthFactor = word.depth === 'far' ? 0.82 : 1;
+    const depthFactor = word.depth === 'far' ? 0.86 : 1;
+    const travel = word.end - word.start;
+    const midAt = word.start + travel * 0.54;
+    const middleX = word.x * 0.44 + word.curveX * 0.56;
+    const middleY = word.y * 0.44 + word.curveY * 0.56;
 
     timeline.to(element, {
       x: () => toViewportX(middleX, layout),
       y: () => toViewportY(middleY, layout),
-      scale: 0.64 * depthFactor + 0.08,
-      rotate: word.rotation * -0.18,
-      autoAlpha: Math.min(word.opacity, 0.72),
-      filter: `blur(${Math.max(0, word.blur * 0.55)}px)`,
-      duration: middleAt - convergeStart,
-      ease: 'power1.inOut',
-    }, convergeStart);
+      scale: 0.78 * depthFactor,
+      rotate: word.rotation * 0.12,
+      autoAlpha: Math.min(word.opacity, 0.78),
+      filter: `blur(${Math.max(0, word.blur * 0.35)}px)`,
+      duration: midAt - word.start,
+      ease: 'power2.inOut',
+    }, word.start);
 
     timeline.to(element, {
       x: () => toViewportX(word.targetX, layout),
       y: () => toViewportY(word.targetY, layout),
-      scale: 0.04,
+      scale: 0.24 * depthFactor,
       rotate: 0,
       autoAlpha: 0,
-      filter: 'blur(3px)',
-      duration: word.end - middleAt,
-      ease: 'power2.in',
-    }, middleAt);
+      filter: `blur(${Math.min(2.2, word.blur + 1.2)}px)`,
+      duration: word.end - midAt,
+      ease: 'power1.inOut',
+    }, midAt);
   });
 }
 
 function addMarkReveal(timeline, targets) {
   const {
-    markOutlineRevealAt,
     markOutlinePeak,
     markNormalizeAt,
     haloAt,
-    titleAt,
-    titleDuration,
-    subcopyAt,
-    subcopyDuration,
     markSettleAt,
   } = HERO_TIMELINE;
 
@@ -278,12 +310,6 @@ function addMarkReveal(timeline, targets) {
     }
   });
 
-  timeline.to(targets.markOutline, {
-    opacity: markOutlinePeak,
-    duration: 0.16,
-    ease: 'power1.out',
-  }, markOutlineRevealAt);
-
   timeline.to(targets.halo, {
     autoAlpha: 0.62,
     scale: 1,
@@ -316,21 +342,6 @@ function addMarkReveal(timeline, targets) {
     opacity: markOutlinePeak,
   }, markNormalizeAt);
 
-  timeline.to(targets.title, {
-    autoAlpha: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    duration: titleDuration,
-    ease: 'power2.out',
-  }, titleAt);
-
-  timeline.to(targets.subcopy, {
-    autoAlpha: 1,
-    y: 0,
-    duration: subcopyDuration,
-    ease: 'power2.out',
-  }, subcopyAt);
-
   timeline.to({}, { duration: 0.001 }, markSettleAt);
 }
 
@@ -343,29 +354,6 @@ function addHintFade(timeline, targets) {
     duration: 0.04,
     ease: 'power2.out',
   }, HERO_TIMELINE.hintFade);
-}
-
-function buildTimeline(targets) {
-  const timeline = gsap.timeline({
-    defaults: { overwrite: 'auto' },
-    scrollTrigger: {
-      trigger: targets.scrollEl,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: HERO_TIMELINE.scrub,
-      invalidateOnRefresh: true,
-    },
-  });
-
-  timeline.set(targets.scene, { autoAlpha: 1 }, 0);
-  setWordInitialState(timeline, targets);
-  setMarkInitialState(timeline, targets);
-  addWordConvergence(timeline, targets);
-  addMarkReveal(timeline, targets);
-  addHintFade(timeline, targets);
-  timeline.to({}, { duration: 0.001 }, 1);
-
-  return timeline;
 }
 
 function bindWordFieldParallax(targets) {
@@ -451,44 +439,62 @@ export function initVideoHeroAnimation() {
   }
 
   root.classList.add('is-video-hero-mounted', 'is-video-ready');
-  setScrollHeight(targets.scrollEl);
 
-  let timeline = buildTimeline(targets);
+  let heroAnimation = mountHeroScrollAnimation(targets);
   let currentLayout = getLayoutName();
   let resizeFrame = 0;
+  let lenisSyncFrame = 0;
   const removeParallax = bindWordFieldParallax(targets);
+
+  const syncScrollPosition = () => {
+    scrollToTop({ immediate: true });
+    heroAnimation.scrollTrigger?.scroll(heroAnimation.scrollTrigger.start);
+    refreshScrollTriggers({ hard: true });
+  };
+
+  const remountHeroAnimation = (progress = heroAnimation.scrollTrigger?.progress || 0) => {
+    destroyHeroScrollAnimation(heroAnimation);
+    heroAnimation = mountHeroScrollAnimation(targets);
+    heroAnimation.timeline.progress(progress, false);
+    refreshScrollTriggers({ hard: true });
+  };
+
+  syncScrollPosition();
+
+  lenisSyncFrame = requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      remountHeroAnimation(0);
+      syncScrollPosition();
+    });
+  });
 
   const rebuild = () => {
     cancelAnimationFrame(resizeFrame);
 
     resizeFrame = requestAnimationFrame(() => {
       const nextLayout = getLayoutName();
-      const progress = timeline.scrollTrigger?.progress || 0;
+      const progress = heroAnimation.scrollTrigger?.progress || 0;
 
       if (nextLayout !== currentLayout) {
-        timeline.scrollTrigger?.kill();
-        timeline.kill();
         currentLayout = nextLayout;
-        setScrollHeight(targets.scrollEl);
-        timeline = buildTimeline(targets);
-        timeline.progress(progress, false);
+        remountHeroAnimation(progress);
+        return;
       }
 
-      ScrollTrigger.refresh();
+      refreshScrollTriggers({ hard: true });
     });
   };
 
   window.addEventListener('resize', rebuild, { passive: true });
   window.addEventListener('orientationchange', rebuild, { passive: true });
-  requestAnimationFrame(() => ScrollTrigger.refresh());
 
   return () => {
     cancelAnimationFrame(resizeFrame);
+    cancelAnimationFrame(lenisSyncFrame);
     removeParallax();
     window.removeEventListener('resize', rebuild);
     window.removeEventListener('orientationchange', rebuild);
-    timeline.scrollTrigger?.kill();
-    timeline.kill();
+    destroyHeroScrollAnimation(heroAnimation);
     targets.scrollEl.style.removeProperty('height');
     gsap.set(targets.wordsLayer, { clearProps: 'x,y' });
     gsap.set(targets.words, { clearProps: 'all' });
@@ -497,6 +503,6 @@ export function initVideoHeroAnimation() {
     gsap.set(targets.mark, { clearProps: 'all' });
     gsap.set(targets.markOutline, { clearProps: 'all' });
     gsap.set(targets.halo, { clearProps: 'all' });
-    root.classList.remove('is-video-hero-mounted', 'is-video-ready');
+    root.classList.remove('is-video-hero-mounted', 'is-video-ready', 'is-video-hero-pinned');
   };
 }

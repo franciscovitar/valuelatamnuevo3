@@ -11,25 +11,24 @@
   position: relative;
   min-height: 100svh;
   margin: 0;
-  overflow: visible;
+  overflow-x: clip;
+  overflow-y: visible;
   color: var(--hero-cream);
   background: var(--hero-black);
 }
 
 .video-hero--word-orbit .video-hero__scroll {
   position: relative;
-  height: 212svh;
-  min-height: 1330px;
+  min-height: 100svh;
   margin: 0;
   background: var(--hero-black);
 }
 
 .video-hero--word-orbit .video-hero__sticky {
-  position: sticky;
+  position: relative;
   top: 0;
   width: 100%;
   height: 100svh;
-  min-height: 620px;
   margin: 0;
   overflow: hidden;
   isolation: isolate;
@@ -46,32 +45,18 @@
 .video-hero__orbit-background {
   z-index: 1;
   background:
-    radial-gradient(circle at 50% 34%, rgba(223, 197, 141, 0.046), transparent 24%),
-    radial-gradient(ellipse 58% 54% at 50% 38%, rgba(255, 255, 255, 0.016), transparent 72%),
-    linear-gradient(180deg, #020306 0%, #030407 70%, #07080b 100%);
+    radial-gradient(ellipse 42% 38% at 50% 50%, rgba(255, 255, 255, 0.018), transparent 72%),
+    #020306;
 }
 
 .video-hero__orbit-background::before {
-  content: '';
-  position: absolute;
-  inset: -22%;
-  opacity: 0.36;
-  pointer-events: none;
-  background:
-    repeating-radial-gradient(
-      circle at 50% 34%,
-      transparent 0 116px,
-      rgba(223, 197, 141, 0.016) 117px,
-      transparent 118px 232px
-    );
-  mask-image: radial-gradient(circle at 50% 35%, #000, transparent 72%);
+  content: none;
 }
 
 .video-hero__orbit-vignette {
   z-index: 3;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.28), transparent 17%, transparent 74%, rgba(0, 0, 0, 0.50)),
-    radial-gradient(ellipse 132% 112% at 50% 40%, transparent 48%, rgba(0, 0, 0, 0.44) 100%);
+    radial-gradient(ellipse 88% 78% at 50% 50%, transparent 42%, rgba(0, 0, 0, 0.52) 100%);
 }
 
 .hero-word-scene {
@@ -80,7 +65,7 @@
   z-index: 5;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
   visibility: visible;
   opacity: 1;
   pointer-events: none;
@@ -89,15 +74,16 @@
 
 .hero-word-scene__words {
   position: absolute;
-  inset: 0;
+  inset: -18% -14%;
   z-index: 2;
+  overflow: visible;
   will-change: transform;
 }
 
 .hero-word-scene__word-shell {
   position: absolute;
   left: 50%;
-  top: 34%;
+  top: 50%;
   z-index: 2;
   display: block;
   translate: -50% -50%;
@@ -108,6 +94,14 @@
   white-space: nowrap;
   will-change: transform, opacity, filter;
   backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* GSAP owns shell motion once the hero runtime is ready. */
+.video-hero--word-orbit.is-video-ready .hero-word-scene__word-shell {
+  transform: none;
+  opacity: 1;
+  filter: none;
 }
 
 .hero-word-scene__word-shell.is-front { z-index: 6; }
@@ -115,26 +109,30 @@
 
 .hero-word-scene__word-float {
   display: block;
-  color: rgba(247, 244, 237, 0.80);
+  color: rgba(247, 244, 237, 0.72);
   font-family: var(--font-sans);
   font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.028em;
+  letter-spacing: -0.024em;
   text-align: center;
-  text-shadow: 0 8px 26px rgba(0, 0, 0, 0.48);
+  text-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
   animation: hero-word-ambient-float var(--float-duration) ease-in-out var(--float-delay) infinite alternate;
   will-change: transform;
 }
 
 .hero-word-scene__word-shell.is-accent .hero-word-scene__word-float {
-  color: rgba(230, 205, 155, 0.95);
+  color: rgba(247, 244, 237, 0.92);
 }
 
-.hero-word-scene__word-shell.is-size-xl .hero-word-scene__word-float { font-size: clamp(20px, 1.75vw, 31px); }
-.hero-word-scene__word-shell.is-size-lg .hero-word-scene__word-float { font-size: clamp(18px, 1.45vw, 26px); }
-.hero-word-scene__word-shell.is-size-md .hero-word-scene__word-float { font-size: clamp(16px, 1.18vw, 22px); }
-.hero-word-scene__word-shell.is-size-sm .hero-word-scene__word-float { font-size: clamp(14px, 0.95vw, 18px); }
-.hero-word-scene__word-shell.is-size-xs .hero-word-scene__word-float { font-size: clamp(12px, 0.78vw, 15px); }
+.hero-word-scene__word-shell.is-far .hero-word-scene__word-float {
+  color: rgba(247, 244, 237, 0.48);
+}
+
+.hero-word-scene__word-shell.is-size-xl .hero-word-scene__word-float { font-size: clamp(22px, 1.9vw, 34px); }
+.hero-word-scene__word-shell.is-size-lg .hero-word-scene__word-float { font-size: clamp(19px, 1.55vw, 28px); }
+.hero-word-scene__word-shell.is-size-md .hero-word-scene__word-float { font-size: clamp(16px, 1.12vw, 21px); }
+.hero-word-scene__word-shell.is-size-sm .hero-word-scene__word-float { font-size: clamp(13px, 0.88vw, 17px); }
+.hero-word-scene__word-shell.is-size-xs .hero-word-scene__word-float { font-size: clamp(11px, 0.72vw, 14px); }
 
 @keyframes hero-word-ambient-float {
   0% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -174,10 +172,12 @@
 
 .hero-word-scene__mark-outline {
   fill: none;
-  stroke: rgba(247, 244, 237, 0.18);
-  stroke-width: 0.56;
+  stroke: rgba(255, 253, 248, 0.94);
+  stroke-width: 0.38;
+  stroke-linecap: round;
   stroke-linejoin: round;
-  opacity: 0.06;
+  opacity: 0.94;
+  paint-order: stroke fill;
   vector-effect: non-scaling-stroke;
 }
 
@@ -224,11 +224,6 @@
   line-height: 0.96;
   letter-spacing: -0.055em;
   text-wrap: balance;
-  opacity: 0;
-}
-
-.hero-word-scene__description {
-  opacity: 0;
 }
 
 .hero-word-scene__copy h1 span {
@@ -264,7 +259,7 @@ body:has(.video-hero--word-orbit) .metrics {
 }
 
 @media (max-width: 1100px) {
-  .video-hero--word-orbit .video-hero__scroll { height: 198svh; min-height: 1250px; }
+  .video-hero--word-orbit .video-hero__scroll { min-height: 100svh; }
   .hero-word-scene__word-shell {
     transform: translate3d(var(--word-tablet-x), var(--word-tablet-y), 0) rotate(var(--word-rotation));
   }
@@ -275,10 +270,8 @@ body:has(.video-hero--word-orbit) .metrics {
 }
 
 @media (max-width: 760px) {
-  .video-hero--word-orbit .video-hero__scroll { height: 178svh; min-height: 1110px; }
-  .video-hero--word-orbit .video-hero__sticky { min-height: 560px; }
+  .video-hero--word-orbit .video-hero__scroll { min-height: 100svh; }
   .hero-word-scene__word-shell {
-    top: 31%;
     transform: translate3d(var(--word-mobile-x), var(--word-mobile-y), 0) rotate(var(--word-rotation));
   }
   .hero-word-scene__word-shell.is-mobile-hidden { display: none; }
@@ -296,15 +289,12 @@ body:has(.video-hero--word-orbit) .metrics {
 }
 
 @media (max-height: 720px) and (min-width: 761px) {
-  .hero-word-scene__word-shell { top: 31%; }
-  .hero-word-scene__mark-anchor { top: 30.5%; }
-  .hero-word-scene__copy { top: 46%; }
-  .hero-word-scene__mark { width: clamp(108px, 15vh, 138px); }
-  .hero-word-scene__copy h1 { font-size: clamp(2.2rem, 6.6vh, 3.35rem); }
+  .hero-word-scene__mark { width: clamp(108px, 16vh, 142px); }
+  .hero-word-scene__copy h1 { font-size: clamp(3.5rem, 9.6vh, 5.5rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .video-hero--word-orbit .video-hero__scroll { height: auto !important; min-height: 0; }
+  .video-hero--word-orbit .video-hero__scroll { height: auto !important; min-height: 100svh; }
   .video-hero--word-orbit .video-hero__sticky { position: relative; height: 100svh; }
   .video-hero--word-orbit.is-video-hero-reduced .hero-word-scene__word-shell { display: none !important; }
   .video-hero--word-orbit.is-video-hero-reduced [data-hero-mark-fill] { transform: scale(1) !important; }
