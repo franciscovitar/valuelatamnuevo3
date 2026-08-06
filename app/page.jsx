@@ -23,7 +23,7 @@ import {
   WorkWithUsTeaser,
 } from '@/components/value-latam';
 
-const SHOW_BACKGROUND_LINES = true;
+const SHOW_BACKGROUND_LINES = false;
 
 export default function Home() {
   return (
