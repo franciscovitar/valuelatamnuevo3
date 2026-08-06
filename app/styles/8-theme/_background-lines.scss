@@ -21,8 +21,9 @@
 
 .vl-bg-lines__world,
 .vl-bg-lines__line-group {
-  animation: none !important;
-  transform: none !important;
+  transform-box: view-box;
+  transform-origin: center;
+  will-change: transform;
 }
 
 .vl-bg-lines__path {
