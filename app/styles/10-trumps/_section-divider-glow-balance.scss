@@ -46,16 +46,6 @@
 /* Keep the subtle sparkly / non-flat background, but don't let every section glow equally. */
 body {
   background:
-    radial-gradient(circle at 9% 13%, rgba(242, 239, 232, 0.16) 0 0.58px, transparent 1.38px),
-    radial-gradient(circle at 22% 32%, rgba(210, 186, 142, 0.10) 0 0.65px, transparent 1.48px),
-    radial-gradient(circle at 37% 9%, rgba(242, 239, 232, 0.10) 0 0.54px, transparent 1.32px),
-    radial-gradient(circle at 49% 44%, rgba(242, 239, 232, 0.08) 0 0.52px, transparent 1.28px),
-    radial-gradient(circle at 61% 17%, rgba(221, 200, 161, 0.10) 0 0.66px, transparent 1.44px),
-    radial-gradient(circle at 74% 36%, rgba(242, 239, 232, 0.08) 0 0.5px, transparent 1.28px),
-    radial-gradient(circle at 87% 14%, rgba(242, 239, 232, 0.10) 0 0.54px, transparent 1.34px),
-    radial-gradient(circle at 91% 68%, rgba(221, 200, 161, 0.08) 0 0.62px, transparent 1.4px),
-    radial-gradient(circle at 16% 76%, rgba(242, 239, 232, 0.07) 0 0.48px, transparent 1.22px),
-    radial-gradient(circle at 67% 84%, rgba(210, 186, 142, 0.08) 0 0.54px, transparent 1.32px),
     radial-gradient(72% 42% at 50% 6%, rgba(242, 239, 232, 0.025), transparent 72%),
     radial-gradient(38% 26% at 82% 58%, rgba(214, 190, 147, 0.018), transparent 74%),
     radial-gradient(34% 24% at 18% 80%, rgba(242, 239, 232, 0.012), transparent 76%),
