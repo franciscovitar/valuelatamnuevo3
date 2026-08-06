@@ -267,13 +267,13 @@
 .cover-brain{
   background:
     radial-gradient(92% 82% at 50% 48%, rgba(27,58,92,.22), transparent 58%),
-    radial-gradient(70% 70% at 48% 45%, rgba(143,178,214,.10), transparent 66%),
-    #01040a;
+    radial-gradient(70% 70% at 48% 45%, rgba(196, 194, 190, .10), transparent 66%),
+    #020306;
 }
 .cover-brain::before{
   background:
-    conic-gradient(from 212deg at 50% 50%, transparent 0 18%, rgba(143,178,214,.055) 25%, transparent 33%, transparent 59%, rgba(210,183,117,.06) 66%, transparent 76%),
-    radial-gradient(68% 54% at 50% 48%, rgba(143,178,214,.075), transparent 70%);
+    conic-gradient(from 212deg at 50% 50%, transparent 0 18%, rgba(196, 194, 190, .055) 25%, transparent 33%, transparent 59%, rgba(210,183,117,.06) 66%, transparent 76%),
+    radial-gradient(68% 54% at 50% 48%, rgba(196, 194, 190, .075), transparent 70%);
   opacity:.46;
   mix-blend-mode:screen;
 }
@@ -289,7 +289,7 @@
 .vl2-cover-hud::before{
   inset:13%;
   border-color:rgba(210,183,117,.13);
-  box-shadow:0 0 34px rgba(143,178,214,.045), inset 0 0 34px rgba(210,183,117,.035);
+  box-shadow:0 0 34px rgba(196, 194, 190, .045), inset 0 0 34px rgba(210,183,117,.035);
 }
 .cover-caption{
   bottom:clamp(28px,4.8vh,52px);
@@ -449,7 +449,7 @@
 .partner-logo-grid .partner-logo:hover,
 .partner-logo:hover{
   transform:translateY(-2px);
-  border-color:rgba(143,178,214,.38);
+  border-color:rgba(196, 194, 190, .38);
   box-shadow:0 26px 58px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.8);
 }
 .partner-logo-grid .partner-logo img,

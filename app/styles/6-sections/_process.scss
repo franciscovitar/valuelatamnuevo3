@@ -23,3 +23,46 @@
   .process .closer p{font-size:17px;color:var(--paper)}
 
   .process .closer b{color:var(--brass-2)}
+
+  .process--route .process-route-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px;
+  }
+
+  .process--route .process-route-panel{
+    padding:28px 24px 26px;
+    border:1px solid rgba(246,243,236,.08);
+    border-radius:var(--radius-card-premium);
+    background:rgba(255,255,255,.045);
+    box-shadow:0 4px 16px -14px rgba(0,0,0,.18);
+  }
+
+  .process--route .process-route-panel .n{
+    font-family:var(--font-sans);
+    font-size:13px;
+    color:var(--brass);
+    letter-spacing:.1em;
+  }
+
+  .process--route .process-route-panel h4{
+    font-size:19px;
+    margin:16px 0 10px;
+    font-weight:600;
+    color:var(--paper);
+  }
+
+  .process--route .process-route-panel p{
+    font-size:14.5px;
+    color:rgba(246,243,236,.8);
+    line-height:1.45;
+    margin:0;
+  }
+
+  @media(max-width:980px){
+    .process--route .process-route-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+
+  @media(max-width:760px){
+    .process--route .process-route-grid{grid-template-columns:1fr}
+  }

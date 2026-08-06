@@ -6,7 +6,7 @@ body:has(.video-hero) header.nav {
 
 .video-hero {
   position: relative;
-  background: #0a2138;
+  background: #0f0f12;
   color: var(--paper, #f6f3ec);
   margin-top: 0;
 }
@@ -30,7 +30,7 @@ body:has(.video-hero) header.nav {
   inset: 0;
   z-index: 1;
   overflow: hidden;
-  background: #01040a;
+  background: #020306;
 }
 
 .video-hero__css-fallback {
@@ -46,22 +46,22 @@ body:has(.video-hero) header.nav {
     ),
     radial-gradient(
       ellipse 48% 42% at 68% 52%,
-      rgba(10, 33, 56, 0.22),
+      rgba(15, 15, 18, 0.22),
       transparent 68%
     ),
     linear-gradient(
       90deg,
-      #01040a 0%,
-      #01040a 38%,
+      #020306 0%,
+      #020306 38%,
       rgba(2, 7, 14, 0.98) 100%
     ),
     linear-gradient(
       180deg,
-      #01040a 0%,
+      #020306 0%,
       rgba(1, 4, 10, 0.96) 78%,
-      #01040a 100%
+      #020306 100%
     ),
-    #01040a;
+    #020306;
 }
 
 .video-hero__canvas {
@@ -156,11 +156,11 @@ body:has(.video-hero) header.nav {
       ),
       linear-gradient(
         180deg,
-        #01040a 0%,
+        #020306 0%,
         rgba(1, 4, 10, 0.97) 55%,
-        #01040a 100%
+        #020306 100%
       ),
-      #01040a;
+      #020306;
   }
 }
 
@@ -211,7 +211,7 @@ body:has(.video-hero) header.nav {
     transparent 0%,
     rgba(2, 7, 14, 0.28) 30%,
     rgba(6, 22, 42, 0.76) 78%,
-    #0a2138 100%
+    #0f0f12 100%
   );
 }
 
@@ -226,7 +226,7 @@ body:has(.video-hero) header.nav {
     rgba(1, 4, 10, 0.03) 0%,
     rgba(3, 12, 22, 0.34) 54%,
     rgba(6, 22, 42, 0.84) 84%,
-    #0a2138 100%
+    #0f0f12 100%
   );
 }
 
@@ -254,7 +254,7 @@ body:has(.video-hero) header.nav {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(143, 178, 214, 0.92);
+  color: rgba(196, 194, 190, 0.92);
 }
 
 .video-hero__eyebrow-mark {
@@ -342,7 +342,7 @@ body:has(.video-hero) header.nav {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(143, 178, 214, 0.78);
+  color: rgba(196, 194, 190, 0.78);
   opacity: 0;
 }
 
@@ -417,7 +417,7 @@ body:has(.video-hero) header.nav {
   display: block;
   width: clamp(240px, 30vw, 430px);
   height: auto;
-  filter: drop-shadow(0 0 28px rgba(143, 178, 214, 0.12));
+  filter: drop-shadow(0 0 28px rgba(196, 194, 190, 0.12));
   will-change: transform, opacity;
 }
 
@@ -562,8 +562,8 @@ body:has(.video-hero) header.nav {
 body:has(.video-hero) .metrics {
   background: linear-gradient(
     180deg,
-    #0a2138 0%,
-    rgba(10, 33, 56, 0.62) 56px,
+    #0f0f12 0%,
+    rgba(15, 15, 18, 0.62) 56px,
     transparent 128px
   );
   border-top-color: rgba(246, 243, 236, 0.055);

@@ -1,4 +1,4 @@
-// Value LATAM — ITCSS (cascada preservada)
+﻿// Value LATAM â€” ITCSS (cascada preservada)
 
 @use './styles/1-settings/breakpoints' as *;
 @use './styles/1-settings/tokens' as *;
@@ -37,3 +37,11 @@
 @use './styles/5-components/mobile-menu' as *;
 @use './styles/11-motion' as *;
 @use './styles/10-trumps/site-polish' as *;
+@use './styles/10-trumps/visual-direction-pass' as *;
+@use './styles/10-trumps/motion-unification' as *;
+@use './styles/10-trumps/vertical-rhythm' as *;
+@use './styles/10-trumps/divider-background-depth' as *;
+@use './styles/10-trumps/section-divider-glow-balance' as *;
+@use './styles/10-trumps/hero-logo-assembly' as *;
+@use './styles/10-trumps/hero-logo-assembly-v5' as *;
+@use './styles/10-trumps/global-starfield' as *;

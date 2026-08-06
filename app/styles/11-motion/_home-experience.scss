@@ -5,48 +5,14 @@
 }
 
 @media (min-width: 761px) {
-  [data-vl-gsap-root='solutions'] .solutions-pin,
   [data-vl-gsap-root='process'] .process-pin {
     box-sizing: border-box;
     width: 100%;
     overflow: visible;
   }
 
-  [data-vl-gsap-root='solutions'] .solutions-pin .wrap,
   [data-vl-gsap-root='process'] .process-pin .wrap {
     transform-origin: 50% 0;
-  }
-
-  [data-vl-gsap-root='solutions'] .sec-head {
-    margin-bottom: 18px;
-  }
-
-  [data-vl-gsap-root='solutions'] .sol-story-progress {
-    margin-bottom: 14px;
-  }
-
-  [data-vl-gsap-root='solutions'] .sol-grid {
-    gap: 14px;
-  }
-
-  [data-vl-gsap-root='solutions'] .sol-card {
-    padding: 22px 22px 20px;
-  }
-
-  [data-vl-gsap-root='solutions'] .sol-card h3 {
-    font-size: 18px;
-    margin: 10px 0 8px;
-    line-height: 1.25;
-  }
-
-  [data-vl-gsap-root='solutions'] .sol-card p {
-    font-size: 13.5px;
-    line-height: 1.45;
-  }
-
-  [data-vl-gsap-root='solutions'] .sol-card .arrow {
-    margin-top: 12px;
-    font-size: 13px;
   }
 
   [data-vl-gsap-root='process'] .sec-head {
@@ -76,7 +42,6 @@
     padding-top: 24px;
   }
 
-  [data-vl-gsap-root='solutions'].is-vl-pinned,
   [data-vl-gsap-root='process'].is-vl-pinned {
     position: relative;
     z-index: 6;
@@ -84,23 +49,17 @@
 }
 
 html.vl-motion-enabled {
-  [data-vl-gsap-root='solutions'] .sol-card,
   [data-vl-gsap-root='process'] .step {
     backface-visibility: hidden;
     will-change: transform, opacity;
   }
 
   [data-vl-gsap-root='process'] .closer,
-  [data-vl-gsap-root='solutions'] .sec-head > *,
   [data-vl-gsap-root='process'] .sec-head > * {
     backface-visibility: hidden;
     will-change: transform, opacity;
   }
 
-  [data-vl-gsap-root='solutions'] .sol-card .idx,
-  [data-vl-gsap-root='solutions'] .sol-card h3,
-  [data-vl-gsap-root='solutions'] .sol-card p,
-  [data-vl-gsap-root='solutions'] .sol-card .arrow,
   [data-vl-gsap-root='process'] .step .n,
   [data-vl-gsap-root='process'] .step h4,
   [data-vl-gsap-root='process'] .step p {
@@ -112,7 +71,6 @@ html.vl-motion-enabled {
   }
 }
 
-.sol-story-progress,
 .process-story-progress {
   width: 100%;
   max-width: 420px;
@@ -123,7 +81,6 @@ html.vl-motion-enabled {
   background: rgba(246, 243, 236, 0.12);
 }
 
-.sol-story-progress__fill,
 .process-story-progress__fill {
   display: block;
   width: 100%;
@@ -135,41 +92,28 @@ html.vl-motion-enabled {
   will-change: transform;
 }
 
-[data-vl-gsap-root='team'] .person,
-[data-vl-gsap-root='solutions'] .sol-card {
+[data-vl-gsap-root='team'] .person {
   position: relative;
   overflow: hidden;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-.vl-card-glow,
 .vl-team-glow {
   position: absolute;
   inset: -24%;
   z-index: 0;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(circle at 50% 42%, rgba(143, 178, 214, 0.16), transparent 64%);
+  background: radial-gradient(circle at 50% 42%, rgba(196, 194, 190, 0.16), transparent 64%);
 }
 
-[data-vl-gsap-root='team'] .person > *,
-[data-vl-gsap-root='solutions'] .sol-card > * {
+[data-vl-gsap-root='team'] .person > * {
   position: relative;
   z-index: 1;
 }
 
 html.vl-motion-enabled {
-  [data-vl-gsap-root='solutions'] .sol-card {
-    transition: none;
-  }
-
-  [data-vl-gsap-root='solutions'] .sol-card:hover {
-    transform: none;
-    box-shadow: none;
-    border-color: var(--line-light);
-  }
-
   [data-vl-gsap-root='team'] .person {
     transition: none;
   }
@@ -184,20 +128,17 @@ html.vl-motion-enabled {
 }
 
 @media (max-width: 760px) {
-  [data-vl-gsap-root='solutions'] .sol-story-progress,
   [data-vl-gsap-root='process'] .process-story-progress {
     display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vl-card-glow,
   .vl-team-glow {
     display: none !important;
   }
 
-  [data-vl-gsap-root='team'] .person,
-  [data-vl-gsap-root='solutions'] .sol-card {
+  [data-vl-gsap-root='team'] .person {
     will-change: auto;
   }
 }

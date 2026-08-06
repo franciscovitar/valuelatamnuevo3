@@ -4,7 +4,9 @@
 
   .solutions{background:var(--paper-2);border-top:1px solid var(--line-light)}
 
-  .sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .sol-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+
+  @media(max-width:760px){.sol-grid{grid-template-columns:1fr}}
 
   .sol-card{background:#fff;border:1px solid var(--line-light);border-radius:var(--radius-card-premium);padding:32px 28px;display:flex;flex-direction:column;transition:transform .18s ease,box-shadow .2s ease,border-color .2s}
 

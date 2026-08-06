@@ -1,0 +1,365 @@
+/* =========================================================
+   VALUE LATAM - VERTICAL RHYTHM PASS
+   Clear section boundaries with 10-15% less empty scroll
+   ========================================================= */
+
+:root {
+  --vl-section-space-y: clamp(80px, 7.2vw, 92px);
+  --vl-section-space-y-compact: clamp(70px, 6.1vw, 82px);
+  --vl-section-space-y-mobile: clamp(56px, 11vw, 68px);
+
+  --vl-section-head-gap: clamp(34px, 3.4vw, 42px);
+  --vl-section-head-gap-compact: 22px;
+
+  --vl-chapter-gap: clamp(48px, 5vw, 62px);
+  --vl-block-gap: clamp(28px, 3vw, 38px);
+  --vl-card-gap: clamp(16px, 2vw, 24px);
+
+  --vl-section-divider:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(242, 239, 232, 0.035) 12%,
+      rgba(242, 239, 232, 0.085) 50%,
+      rgba(242, 239, 232, 0.035) 88%,
+      transparent 100%
+    );
+}
+
+/* =========================================================
+   HOME - clear chapters, less empty vertical travel
+   ========================================================= */
+
+section[data-vl-home-section] {
+  position: relative;
+  padding-block: var(--vl-section-space-y) !important;
+}
+
+/* Pinned chapters are visually dense, so they need slightly less shell. */
+section[data-vl-home-section='solutions'],
+section[data-vl-home-section='process'] {
+  padding-block: var(--vl-section-space-y-compact) !important;
+}
+
+/* The contact chapter closes the page without an oversized empty tail. */
+section[data-vl-home-section='contact'] {
+  padding-bottom: clamp(70px, 6vw, 82px) !important;
+}
+
+/*
+ * Every home chapter gets a restrained centered divider.
+ * It creates separation without returning to heavy full-width borders.
+ */
+section[data-vl-home-section]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(calc(100% - 48px), 1240px);
+  height: 1px;
+  pointer-events: none;
+  transform: translateX(-50%);
+  background: var(--vl-section-divider);
+  opacity: 0.86;
+}
+
+section[data-vl-home-section='metrics']::before {
+  opacity: 0.55;
+}
+
+/* Headings no longer consume more than half a screen before the content. */
+section[data-vl-home-section] .sec-head {
+  margin-bottom: var(--vl-section-head-gap) !important;
+}
+
+section[data-vl-home-section='solutions'] .sec-head,
+section[data-vl-home-section='process'] .sec-head {
+  margin-bottom: var(--vl-section-head-gap-compact) !important;
+}
+
+section[data-vl-home-section] .sec-head h2 {
+  margin-top: 12px;
+}
+
+section[data-vl-home-section] .sec-head > p,
+section[data-vl-home-section] .sec-head > .lead {
+  margin-top: clamp(14px, 1.6vw, 20px);
+}
+
+/* Keep card groups connected to their title, but not cramped. */
+section[data-vl-home-section] :is(
+  .sol-grid,
+  .steps,
+  .team-grid,
+  .metrics-grid,
+  .reg-inner,
+  .cta-grid
+) {
+  gap: var(--vl-card-gap);
+}
+
+/* Partner logos were independently taller than the rest of the rhythm. */
+.partner-logos {
+  padding-block: clamp(64px, 6.2vw, 80px) !important;
+}
+
+.partner-logos .partner-head {
+  margin-bottom: clamp(28px, 3.2vw, 40px) !important;
+}
+
+/* Avoid a second large gap immediately before the footer. */
+section[data-vl-home-section='contact'] + footer {
+  margin-top: 0;
+}
+
+/* =========================================================
+   INTERNAL ROUTES - one rhythm across every tab
+   ========================================================= */
+
+section[data-vl-internal-page] {
+  position: relative;
+  padding-top: clamp(82px, 7.3vw, 94px) !important;
+  padding-bottom: clamp(70px, 6.2vw, 84px) !important;
+}
+
+section[data-vl-internal-page] > .wrap > .sec-head {
+  margin-bottom: clamp(30px, 3vw, 38px) !important;
+}
+
+section[data-vl-internal-page] .sec-head h2 {
+  margin-top: 12px;
+}
+
+section[data-vl-internal-page] .sec-head > p,
+section[data-vl-internal-page] .sec-head .pay-sub {
+  margin-top: clamp(14px, 1.6vw, 18px);
+}
+
+/* Main introduction remains attached to the first content group. */
+section[data-vl-internal-page] > .wrap > :is(
+  .fin-lede,
+  .ai-lede,
+  .pay-hero
+) {
+  margin-bottom: clamp(32px, 3.4vw, 42px) !important;
+}
+
+@media (min-width: 981px) {
+  section[data-vl-internal-page] > .wrap > :is(
+    .fin-lede,
+    .ai-lede,
+    .pay-hero
+  ),
+  section[data-vl-internal-page] > .wrap > .sec-head .pay-sub {
+    max-width: 62.5rem;
+  }
+}
+
+/* Major internal chapters receive a real visual pause and a soft divider. */
+section[data-vl-internal-page] > .wrap > :is(
+  .subunit,
+  .liquidity-operators,
+  .ai-delivery,
+  .ai-band,
+  .pay-pillars,
+  .join-section-sub,
+  .fin-cta
+) {
+  position: relative;
+}
+
+section[data-vl-internal-page] > .wrap > :is(
+  .subunit,
+  .liquidity-operators,
+  .ai-delivery,
+  .pay-pillars,
+  .join-section-sub
+) {
+  margin-top: var(--vl-chapter-gap) !important;
+}
+
+section[data-vl-internal-page] > .wrap > :is(
+  .liquidity-operators,
+  .ai-delivery,
+  .pay-pillars,
+  .join-section-sub
+)::before {
+  content: '';
+  position: absolute;
+  top: calc(var(--vl-chapter-gap) * -0.5);
+  left: 0;
+  width: 100%;
+  height: 1px;
+  pointer-events: none;
+  background: var(--vl-section-divider);
+  opacity: 0.72;
+}
+
+/* The first referrals chapter is already introduced by the page lede. */
+section[data-vl-internal-page='referenciadores']
+  > .wrap
+  > .join-section-sub:first-of-type {
+  margin-top: clamp(34px, 3.4vw, 42px) !important;
+}
+
+section[data-vl-internal-page='referenciadores']
+  > .wrap
+  > .join-section-sub:first-of-type::before {
+  display: none;
+}
+
+/* Calls to action close the chapter without a large empty final runway. */
+section[data-vl-internal-page] > .wrap > .fin-cta {
+  margin-top: clamp(40px, 4.2vw, 52px) !important;
+  margin-bottom: 0 !important;
+}
+
+/* Financing and referrals grids stay close to their explanatory chapter. */
+section[data-vl-internal-page] :is(
+  .fin-grid,
+  .biz-grid,
+  .join-cards,
+  .gain-cards
+) {
+  gap: var(--vl-card-gap);
+}
+
+/* Liquidity: business cards -> operators -> CTA. */
+section[data-vl-internal-page='liquidez'] .liquidity-operators {
+  margin-bottom: 0 !important;
+}
+
+/* Payments: compact repetition, visible breaks at real chapter changes. */
+section[data-vl-internal-page='medios-de-pago'] .pay-group {
+  margin-top: clamp(24px, 2.6vw, 32px) !important;
+}
+
+section[data-vl-internal-page='medios-de-pago']
+  .pay-group
+  + .pay-group {
+  padding-top: clamp(24px, 2.6vw, 32px);
+  border-top: 0;
+}
+
+section[data-vl-internal-page='medios-de-pago'] .pay-pillars {
+  margin-top: var(--vl-chapter-gap) !important;
+}
+
+section[data-vl-internal-page='medios-de-pago'] :is(
+  .pay-giros,
+  .pay-support
+) {
+  margin-top: var(--vl-block-gap) !important;
+}
+
+section[data-vl-internal-page='medios-de-pago'] .pay-feat-hint {
+  margin-bottom: 4px;
+}
+
+/* AI: keep the operating story together, then pause before delivery. */
+section[data-vl-internal-page='procesos-ia'] .ai-story {
+  margin-top: 0 !important;
+}
+
+section[data-vl-internal-page='procesos-ia'] .ai-band {
+  margin-top: clamp(38px, 4vw, 48px) !important;
+}
+
+/* Process route: natural spacing between grid and CTA. */
+section[data-vl-internal-page='como-trabajamos'] .closer {
+  margin-top: clamp(24px, 2.8vw, 34px) !important;
+}
+
+/* Never leave inherited bottom margins creating an invisible last section. */
+section[data-vl-internal-page] > .wrap > :last-child {
+  margin-bottom: 0 !important;
+}
+
+/* =========================================================
+   RESPONSIVE RHYTHM
+   ========================================================= */
+
+@media (max-width: 980px) {
+  section[data-vl-home-section] {
+    padding-block: clamp(68px, 8vw, 78px) !important;
+  }
+
+  section[data-vl-home-section='solutions'],
+  section[data-vl-home-section='process'] {
+    padding-block: clamp(62px, 7vw, 72px) !important;
+  }
+
+  section[data-vl-internal-page] {
+    padding-top: clamp(72px, 8vw, 82px) !important;
+    padding-bottom: clamp(64px, 7vw, 74px) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  section[data-vl-home-section],
+  section[data-vl-home-section='solutions'],
+  section[data-vl-home-section='process'] {
+    padding-block: var(--vl-section-space-y-mobile) !important;
+  }
+
+  section[data-vl-home-section='contact'] {
+    padding-bottom: 58px !important;
+  }
+
+  section[data-vl-home-section]::before {
+    width: calc(100% - 32px);
+  }
+
+  section[data-vl-home-section] .sec-head,
+  section[data-vl-home-section='solutions'] .sec-head,
+  section[data-vl-home-section='process'] .sec-head {
+    margin-bottom: 30px !important;
+  }
+
+  section[data-vl-internal-page] {
+    padding-top: 64px !important;
+    padding-bottom: 58px !important;
+  }
+
+  section[data-vl-internal-page] > .wrap > .sec-head {
+    margin-bottom: 28px !important;
+  }
+
+  section[data-vl-internal-page] > .wrap > :is(
+    .fin-lede,
+    .ai-lede,
+    .pay-hero
+  ) {
+    margin-bottom: 30px !important;
+  }
+
+  section[data-vl-internal-page] > .wrap > :is(
+    .subunit,
+    .liquidity-operators,
+    .ai-delivery,
+    .pay-pillars,
+    .join-section-sub
+  ) {
+    margin-top: 44px !important;
+  }
+
+  section[data-vl-internal-page] > .wrap > :is(
+    .subunit,
+    .liquidity-operators,
+    .ai-delivery,
+    .pay-pillars,
+    .join-section-sub
+  )::before {
+    top: -22px;
+  }
+
+  section[data-vl-internal-page] > .wrap > .fin-cta {
+    margin-top: 38px !important;
+  }
+
+  section[data-vl-internal-page='medios-de-pago']
+    .pay-group
+    + .pay-group {
+    padding-top: 24px;
+  }
+}

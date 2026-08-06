@@ -1,0 +1,181 @@
+/* =========================================================
+   VALUE LATAM — HERO V5.1
+   Unified optical center, large title, descriptive copy and
+   crisp three-bar mark at the end of the scroll sequence.
+   ========================================================= */
+
+.video-hero--word-orbit {
+  /*
+   * Lift the hero core so the mark + title sit in the visible band below the
+   * fixed nav. Half-nav offset was not enough because flex centers the whole
+   * stack (logo + copy), which pulls the logo down optically.
+   */
+  --hero-nav-height: calc(68px + env(safe-area-inset-top, 0px));
+  --hero-copy-stack-bias: clamp(58px, 7vh, 84px);
+  --hero-core-lift: calc(var(--hero-nav-height) * 0.5 + var(--hero-copy-stack-bias));
+
+  .hero-word-scene__core {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    z-index: 5;
+    display: flex;
+    width: min(92vw, 980px);
+    flex-direction: column;
+    align-items: center;
+    translate: -50% calc(-50% - var(--hero-core-lift));
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .hero-word-scene__mark-anchor {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: grid;
+    place-items: center;
+    translate: none;
+  }
+
+  .hero-word-scene__mark {
+    display: block;
+    width: clamp(132px, 9.6vw, 182px);
+    height: auto;
+    overflow: visible;
+    shape-rendering: geometricPrecision;
+    filter: drop-shadow(0 14px 34px rgba(0, 0, 0, 0.42));
+  }
+
+  .hero-word-scene__mark-outline {
+    fill: none;
+    stroke: rgba(255, 253, 248, 0.94);
+    stroke-width: 0.38;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.94;
+    paint-order: stroke fill;
+    vector-effect: non-scaling-stroke;
+    pointer-events: none;
+  }
+
+  .hero-word-scene__copy {
+    position: relative;
+    left: auto;
+    top: auto;
+    z-index: 4;
+    display: grid;
+    width: 100%;
+    margin-top: clamp(36px, 4.2vh, 52px);
+    translate: none;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .hero-word-scene__copy h1,
+  .hero-word-scene__copy h1 span {
+    display: inline;
+    max-width: none;
+    margin: 0;
+    color: var(--hero-cream);
+    font-family: var(--font-sans);
+    font-size: clamp(4.25rem, 6.6vw, 7.5rem);
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.067em;
+    white-space: nowrap;
+    text-transform: none;
+  }
+
+  .hero-word-scene__description {
+    max-width: 50ch;
+    margin: clamp(22px, 2.6vh, 30px) auto 0;
+    color: rgba(247, 244, 237, 0.68);
+    font-family: var(--font-sans);
+    font-size: clamp(14px, 1.08vw, 17px);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+}
+
+@media (max-width: 1100px) {
+  .video-hero--word-orbit {
+    --hero-copy-stack-bias: clamp(50px, 6.2vh, 72px);
+
+    .hero-word-scene__core {
+      top: 47%;
+      width: min(94vw, 820px);
+    }
+
+    .hero-word-scene__mark {
+      width: clamp(124px, 14vw, 168px);
+    }
+
+    .hero-word-scene__copy {
+      margin-top: clamp(32px, 4vh, 44px);
+    }
+
+    .hero-word-scene__copy h1,
+    .hero-word-scene__copy h1 span {
+      font-size: clamp(3.8rem, 8.7vw, 6.3rem);
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .video-hero--word-orbit {
+    --hero-nav-height: calc(76px + env(safe-area-inset-top, 0px));
+    --hero-copy-stack-bias: clamp(44px, 5.6vh, 60px);
+
+    .hero-word-scene__core {
+      top: 46%;
+      width: calc(100vw - 30px);
+    }
+
+    .hero-word-scene__mark {
+      width: clamp(112px, 32vw, 142px);
+    }
+
+    .hero-word-scene__copy {
+      margin-top: 28px;
+    }
+
+    .hero-word-scene__copy h1,
+    .hero-word-scene__copy h1 span {
+      font-size: clamp(3rem, 15vw, 4.75rem);
+      letter-spacing: -0.058em;
+      white-space: normal;
+    }
+
+    .hero-word-scene__description {
+      max-width: 31ch;
+      margin-top: 18px;
+      font-size: 14px;
+      line-height: 1.48;
+    }
+  }
+}
+
+@media (max-height: 720px) and (min-width: 761px) {
+  .video-hero--word-orbit {
+    --hero-copy-stack-bias: clamp(42px, 5.8vh, 58px);
+
+    .hero-word-scene__core {
+      top: 46%;
+    }
+
+    .hero-word-scene__mark {
+      width: clamp(112px, 16vh, 142px);
+    }
+
+    .hero-word-scene__copy {
+      margin-top: clamp(32px, 4.4vh, 44px);
+    }
+
+    .hero-word-scene__copy h1,
+    .hero-word-scene__copy h1 span {
+      font-size: clamp(3.5rem, 9.6vh, 5.5rem);
+    }
+  }
+}

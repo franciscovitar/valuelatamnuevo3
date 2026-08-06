@@ -1,0 +1,1013 @@
+/* =========================================================
+   VALUE LATAM â€” FINAL BLACK DIRECTION
+   Base #040508, neutral black surfaces and pale champagne gold
+   ========================================================= */
+
+:root {
+  /* Backgrounds */
+  --vl-bg-deep: #020306;
+  --vl-bg-base: #040508;
+  --vl-bg-raised: #090a0d;
+
+  /* Surfaces: previous neutral-black card family */
+  --vl-surface-deep: #0a0b0e;
+  --vl-surface-base: #101012;
+  --vl-surface-raised: #151518;
+  --vl-surface-active: #1b1b20;
+
+  /* Text */
+  --vl-text-primary: #f2efe8;
+  --vl-text-secondary: #b7b3ab;
+  --vl-text-muted: #7f7b74;
+
+  /* Pale champagne gold: less yellow */
+  --vl-accent: #ccb487;
+  --vl-accent-hover: #ddc8a1;
+
+  /* Borders */
+  --vl-border-subtle: rgba(204, 180, 135, 0.13);
+  --vl-border-hover: rgba(221, 200, 161, 0.23);
+  --vl-border-neutral: rgba(242, 239, 232, 0.085);
+
+  /* Buttons */
+  --vl-button-start: #d8c092;
+  --vl-button-end: #c5a66f;
+  --vl-button-hover-start: #e3cfaa;
+  --vl-button-hover-end: #cfb07c;
+  --vl-button-ink: #07080a;
+
+  /* Utilities */
+  --vl-whatsapp: #178a49;
+  --vl-whatsapp-text: #ffffff;
+
+  /* Legacy project aliases */
+  --ink: var(--vl-bg-base);
+  --ink-2: var(--vl-bg-raised);
+  --ink-3: var(--vl-surface-active);
+
+  --paper: var(--vl-text-primary);
+  --paper-2: #f7f3eb;
+
+  --brass: #b89b6c;
+  --brass-2: var(--vl-accent);
+
+  --slate: var(--vl-text-muted);
+  --slate-light: var(--vl-text-secondary);
+
+  --line-dark: rgba(242, 239, 232, 0.105);
+  --line-light: rgba(255, 255, 255, 0.055);
+
+  --vl-bg-card: var(--vl-surface-base);
+  --vl-bg-card-active: var(--vl-surface-active);
+  --vl-steel: #a2a0a5;
+
+  --border-brass-soft: var(--vl-border-subtle);
+  --border-brass-hover: var(--vl-border-hover);
+
+  --shadow-card-premium: 0 20px 52px -38px rgba(0, 0, 0, 0.94);
+  --shadow-card-premium-hover: 0 24px 60px -40px rgba(0, 0, 0, 0.97);
+  --shadow-brass-soft: 0 12px 28px -18px rgba(204, 180, 135, 0.36);
+  --shadow-brass-hover: 0 14px 32px -18px rgba(221, 200, 161, 0.46);
+
+  --surface-card-premium:
+    linear-gradient(
+      180deg,
+      rgba(21, 21, 24, 0.995),
+      rgba(10, 11, 14, 0.998)
+    );
+}
+
+/* =========================================================
+   Global canvas
+   ========================================================= */
+
+html {
+  background: var(--vl-bg-deep);
+}
+
+body {
+  background:
+    radial-gradient(
+      58% 42% at 50% 9%,
+      rgba(255, 255, 255, 0.022),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 30% at 82% 66%,
+      rgba(204, 180, 135, 0.014),
+      transparent 75%
+    ),
+    var(--vl-bg-base);
+  background-attachment: scroll;
+  color: var(--vl-text-primary);
+}
+
+.hero-title,
+[data-vl-home-section='metrics'],
+[data-vl-home-section='partners'],
+[data-vl-home-section='solutions'],
+[data-vl-home-section='why-us'],
+[data-vl-home-section='process'],
+[data-vl-home-section='regulation'],
+[data-vl-home-section='team'],
+[data-vl-home-section='referrals'],
+[data-vl-home-section='contact'] {
+  background-color: transparent;
+  background-image: none;
+}
+
+.hero-title {
+  background-color: transparent;
+}
+
+/* Keep only meaningful separators. */
+.solutions,
+.medios,
+.modelo,
+.team,
+.metrics,
+.finan,
+.process,
+.ai,
+.cta,
+.edge,
+.reg,
+.trust,
+footer {
+  border-top-color: transparent !important;
+}
+
+[data-vl-home-section='regulation'],
+footer {
+  border-top: 1px solid rgba(242, 239, 232, 0.06) !important;
+}
+
+[data-vl-home-section='solutions'],
+[data-vl-home-section='contact'],
+[data-vl-home-section='team'],
+[data-vl-home-section='referrals'] {
+  border-top: 0 !important;
+}
+
+.solutions,
+.finan {
+  border-top: 0 !important;
+}
+
+.trust.partner-logos {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+
+/* =========================================================
+   Typography
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+.serif,
+.sec-head h2,
+.process .sec-head h2 {
+  color: var(--vl-text-primary);
+}
+
+p,
+li,
+.lead,
+.sec-head p,
+.metric .cap,
+.trust .label,
+.sol-card p,
+.sol-ficha p,
+.panel-lead p,
+.feat p,
+.modelo .lede,
+.client .who,
+.edge p.body,
+.person p,
+.legal,
+.reg p,
+.step p {
+  color: var(--vl-text-secondary);
+}
+
+/* One authoritative gold system. */
+.eyebrow,
+.eyebrow *,
+.kicker,
+.kicker *,
+.overline,
+.overline *,
+.mini-kicker,
+.mini-kicker *,
+.sol-card .idx,
+.person .role,
+.step .n,
+.reg .badge,
+.reg .badge *,
+.reg-seal-kicker,
+.reg-seal-kicker * {
+  color: var(--vl-accent) !important;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+header.nav {
+  background: rgba(4, 5, 8, 0.98);
+  border-bottom: 1px solid rgba(242, 239, 232, 0.06);
+  box-shadow: 0 16px 40px -32px rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(16px) saturate(100%);
+}
+
+.nav-inner {
+  height: 68px;
+}
+
+.brand img {
+  height: 41px;
+}
+
+.nav-links a,
+.nav-dropdown__trigger {
+  color: rgba(242, 239, 232, 0.72);
+  font-weight: 500;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible,
+.nav-links a.is-active,
+.nav-dropdown:hover .nav-dropdown__trigger,
+.nav-dropdown:focus-within .nav-dropdown__trigger,
+.nav-dropdown.is-open .nav-dropdown__trigger,
+.nav-dropdown.is-active-group .nav-dropdown__trigger {
+  color: var(--vl-text-primary);
+}
+
+.nav-dropdown__menu {
+  color: var(--vl-text-primary);
+  border-color: var(--vl-border-neutral);
+  background:
+    radial-gradient(
+      circle at 92% 0%,
+      rgba(204, 180, 135, 0.04),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(16, 16, 18, 0.996),
+      rgba(4, 5, 8, 0.999)
+    );
+  box-shadow:
+    0 24px 58px -26px rgba(0, 0, 0, 0.95),
+    inset 0 1px 0 rgba(255, 255, 255, 0.022);
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+.btn-primary {
+  color: var(--vl-button-ink);
+  background:
+    linear-gradient(
+      180deg,
+      var(--vl-button-start) 0%,
+      var(--vl-button-end) 100%
+    );
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 11px 26px -18px rgba(204, 180, 135, 0.48);
+  text-shadow: none;
+}
+
+.btn-primary::before {
+  content: none;
+  display: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background:
+    linear-gradient(
+      180deg,
+      var(--vl-button-hover-start) 0%,
+      var(--vl-button-hover-end) 100%
+    );
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 13px 30px -18px rgba(221, 200, 161, 0.54);
+}
+
+.btn-primary:hover::after,
+.btn-primary:focus-visible::after {
+  transform: translateX(2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-ghost,
+.btn-ghost-dark {
+  color: var(--vl-text-primary);
+  border-color: var(--vl-border-neutral);
+  background: rgba(255, 255, 255, 0.014);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.014);
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible,
+.btn-ghost-dark:hover,
+.btn-ghost-dark:focus-visible {
+  color: var(--vl-accent-hover);
+  border-color: var(--vl-border-hover);
+  background: rgba(204, 180, 135, 0.04);
+  box-shadow: 0 10px 26px -20px rgba(204, 180, 135, 0.34);
+  transform: translateY(-1px);
+}
+
+header .btn-primary,
+.nav .btn-primary {
+  padding: 10px 18px;
+  font-size: 13.5px;
+}
+
+/* =========================================================
+   Surface system
+   ========================================================= */
+
+[data-vl-home-section='solutions'] .sol-card,
+[data-vl-home-section='why-us'] .pullquote,
+[data-vl-home-section='team'] .person,
+[data-vl-home-section='contact'] form,
+.reg-seal-panel,
+.sol-ficha,
+.gain,
+.cycle,
+.feat,
+.client,
+.pillar,
+.ficha,
+.jcard,
+.biz,
+.pay-feat,
+.faq details {
+  background-color: var(--vl-surface-base);
+  background-image: none;
+  border-color: var(--vl-border-neutral);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.014),
+    0 22px 50px -40px rgba(0, 0, 0, 0.95);
+  opacity: 1;
+}
+
+[data-vl-home-section='team'] .person,
+[data-vl-home-section='team'] .person:hover,
+[data-vl-home-section='team'] .person:focus,
+[data-vl-home-section='team'] .person:focus-within,
+[data-vl-home-section='team'] .person:active {
+  background-color: var(--vl-surface-base) !important;
+  background-image: none !important;
+}
+
+.sol-ficha.is-active,
+.gain.is-active,
+.cycle.is-active,
+.feat.is-active,
+.client.is-active,
+.pillar.is-active,
+.ficha.is-active,
+.jcard.is-active,
+.biz.is-active,
+.pay-feat.is-active {
+  background-color: var(--vl-surface-active);
+  border-color: var(--vl-border-hover);
+}
+
+[data-vl-home-section='contact'] form {
+  backdrop-filter: none;
+}
+
+[data-vl-home-section='team'] .person p,
+[data-vl-home-section='why-us'] .pullquote p,
+[data-vl-home-section='contact'] form p,
+.sol-card p,
+.sol-ficha p,
+.gain p,
+.cycle p,
+.feat p,
+.client p,
+.pillar p,
+.ficha p,
+.jcard p,
+.biz p,
+.pay-feat p,
+.faq details {
+  color: var(--vl-text-secondary);
+}
+
+[data-vl-home-section='team'] .person h3,
+[data-vl-home-section='why-us'] .pullquote h3,
+.sol-card h3,
+.sol-ficha h3,
+.gain h3,
+.cycle h3,
+.feat h3,
+.client h3,
+.pillar h3,
+.ficha h3,
+.jcard h3,
+.biz h3,
+.pay-feat h3 {
+  color: var(--vl-text-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gain:hover,
+  .gain:focus-within,
+  .pay-feat:hover,
+  .pay-feat:focus-within,
+  .pillar:hover,
+  .pillar:focus-within,
+  .ficha:hover,
+  .ficha:focus-within,
+  .jcard:hover,
+  .jcard:focus-within,
+  .biz:hover,
+  .biz:focus-within,
+  .faq details:hover,
+  .faq details:focus-within {
+    background-color: var(--vl-surface-raised);
+    border-color: var(--vl-border-hover);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.018),
+      0 24px 54px -42px rgba(0, 0, 0, 0.97);
+  }
+}
+
+/* =========================================================
+   Regulation â€” remove all residual blue
+   ========================================================= */
+
+.reg-seal-panel {
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(204, 180, 135, 0.025),
+      transparent 38%
+    ),
+    var(--vl-surface-deep) !important;
+  border-color: var(--vl-border-neutral) !important;
+}
+
+.reg-seal-kicker,
+.reg-seal-kicker *,
+.reg .eyebrow,
+.reg .eyebrow *,
+.reg .badge,
+.reg .badge * {
+  color: var(--vl-accent) !important;
+}
+
+.vl-reg-sep,
+.reg-seal-divider,
+.reg-sep,
+.reg-seal-panel hr {
+  background: rgba(242, 239, 232, 0.11) !important;
+  border-color: rgba(242, 239, 232, 0.11) !important;
+}
+
+[data-vl-home-section='regulation'] .seals .seal,
+[data-vl-home-section='regulation'] .seals .seal:hover,
+[data-vl-home-section='regulation'] .seals .seal:focus,
+[data-vl-home-section='regulation'] .seals .seal:focus-visible,
+[data-vl-home-section='regulation'] .seals .seal:active {
+  background-color: #efede6 !important;
+  border-color: rgba(239, 237, 230, 0.86) !important;
+  box-shadow: 0 14px 34px -28px rgba(0, 0, 0, 0.52) !important;
+}
+
+/* =========================================================
+   Forms
+   ========================================================= */
+
+.field label {
+  color: var(--vl-text-secondary);
+}
+
+.field input,
+.field select,
+.field textarea {
+  color: var(--vl-text-primary);
+  background-color: var(--vl-surface-deep);
+  border-color: var(--vl-border-neutral);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.011);
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  border-color: rgba(204, 180, 135, 0.32);
+  box-shadow: 0 0 0 3px rgba(204, 180, 135, 0.052);
+}
+
+/* =========================================================
+   Partner logos
+   ========================================================= */
+
+@media (min-width: 761px) {
+  .partner-logos .partner-carousel-set {
+    gap: clamp(56px, 5.2vw, 96px);
+  }
+
+  .partner-logos .partner-logo {
+    height: 108px;
+    opacity: 0.86;
+    transition: opacity 200ms ease;
+  }
+
+  .partner-logos .partner-logo img {
+    filter: saturate(0.82) contrast(1.02);
+  }
+
+  .partner-logos .partner-logo--balanz img,
+  .partner-logos .partner-logo--adcap img {
+    width: 104px;
+    height: 104px;
+    max-width: 104px;
+    max-height: 104px;
+    border-radius: 12px;
+  }
+
+  .partner-logos .partner-logo--argenpymes img {
+    max-width: 188px;
+    max-height: 68px;
+  }
+
+  .partner-logos .partner-logo--trend img {
+    max-width: 208px;
+    max-height: 74px;
+  }
+
+  .partner-logos .partner-logo--acindar img {
+    max-width: 184px;
+    max-height: 68px;
+  }
+
+  .partner-logos .partner-logo:hover,
+  .partner-logos .partner-logo:focus-visible {
+    opacity: 1 !important;
+  }
+}
+
+/* =========================================================
+   Floating utilities
+   ========================================================= */
+
+.vl2-wa {
+  right: 16px;
+  bottom: 16px;
+  min-height: 41px;
+  gap: 7px;
+  padding: 8px 13px;
+  color: var(--vl-whatsapp-text);
+  background: var(--vl-whatsapp);
+  border-color: rgba(255, 255, 255, 0.21);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-shadow: none;
+  box-shadow:
+    0 14px 34px -22px rgba(0, 0, 0, 0.88),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.vl2-wa .wa-icon {
+  width: 16px;
+  height: 16px;
+  flex-basis: 16px;
+  filter: none;
+}
+
+.vl2-wa:hover,
+.vl2-wa:focus-visible {
+  transform: translateY(-1px);
+  filter: saturate(1.01);
+}
+
+.sound-toggle {
+  right: 16px;
+  bottom: 65px;
+  min-height: 37px;
+  gap: 7px;
+  padding: 8px 12px;
+  color: rgba(242, 239, 232, 0.86);
+  background: rgba(10, 11, 14, 0.97);
+  border-color: var(--vl-border-neutral);
+  font-size: 11.5px;
+  letter-spacing: 0.025em;
+  box-shadow: 0 12px 30px -22px rgba(0, 0, 0, 0.93);
+}
+
+.sound-toggle:hover,
+.sound-toggle:focus-visible {
+  transform: translateY(-1px);
+  border-color: var(--vl-border-hover);
+}
+
+.sound-toggle .sicon {
+  width: 11px;
+  height: 11px;
+  border-width: 1.5px;
+  border-color: var(--vl-accent);
+}
+
+.sound-toggle.is-on .sicon {
+  background: var(--vl-accent);
+  box-shadow: 0 0 0 3px rgba(204, 180, 135, 0.052);
+  animation: none;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 980px) {
+  header.nav {
+    background: rgba(4, 5, 8, 0.988);
+  }
+
+  .nav-links {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(16, 16, 18, 0.998),
+        rgba(4, 5, 8, 0.999)
+      );
+    border-color: var(--vl-border-neutral);
+  }
+}
+
+@media (max-width: 640px) {
+  .vl2-wa {
+    right: max(12px, env(safe-area-inset-right, 0px));
+    bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .sound-toggle {
+    right: max(12px, env(safe-area-inset-right, 0px));
+    bottom: max(60px, calc(48px + env(safe-area-inset-bottom, 0px)));
+    width: 38px;
+    height: 38px;
+    min-height: 38px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sound-toggle .slabel {
+    display: none;
+  }
+
+  .partner-logos .partner-logo {
+    opacity: 0.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vl2-wa,
+  .sound-toggle,
+  .btn-primary,
+  .btn-ghost,
+  .btn-ghost-dark {
+    transition: none;
+  }
+
+  .vl2-wa:hover,
+  .vl2-wa:focus-visible,
+  .sound-toggle:hover,
+  .sound-toggle:focus-visible,
+  .btn-primary:hover,
+  .btn-primary:focus-visible,
+  .btn-ghost:hover,
+  .btn-ghost:focus-visible,
+  .btn-ghost-dark:hover,
+  .btn-ghost-dark:focus-visible {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   VALUE LATAM - FINAL NO BLUE OVERRIDES
+   Exact canvas #040508, neutral black cards, champagne gold
+   ========================================================= */
+
+:root {
+  --vl-bg-deep: #020306;
+  --vl-bg-base: #040508;
+  --vl-bg-raised: #09090b;
+
+  --vl-surface-deep: #09090b;
+  --vl-surface-base: #0f0f12;
+  --vl-surface-raised: #141417;
+  --vl-surface-active: #1a1a1e;
+
+  --vl-text-primary: #f2efe8;
+  --vl-text-secondary: #b7b3ab;
+  --vl-text-muted: #7f7b74;
+
+  --vl-accent: #ccb487;
+  --vl-accent-hover: #ddc8a1;
+
+  --vl-border-subtle: rgba(204, 180, 135, 0.13);
+  --vl-border-hover: rgba(221, 200, 161, 0.24);
+  --vl-border-neutral: rgba(242, 239, 232, 0.085);
+
+  --ink: var(--vl-bg-base);
+  --ink-2: var(--vl-bg-raised);
+  --ink-3: var(--vl-surface-active);
+  --paper: var(--vl-text-primary);
+  --paper-2: #f7f3eb;
+  --brass: #b89b6c;
+  --brass-2: var(--vl-accent);
+  --slate: var(--vl-text-muted);
+  --slate-light: var(--vl-text-secondary);
+  --vl-steel: #aaa7a1;
+
+  --vl-bg-card: var(--vl-surface-base);
+  --vl-bg-card-active: var(--vl-surface-active);
+
+  --line-dark: rgba(242, 239, 232, 0.10);
+  --line-light: rgba(242, 239, 232, 0.065);
+}
+
+html {
+  background: var(--vl-bg-deep) !important;
+}
+
+body {
+  background-color: var(--vl-bg-base) !important;
+}
+
+:is(
+  .sol-card,
+  .sol-ficha,
+  .gain,
+  .cycle,
+  .feat,
+  .client,
+  .pillar,
+  .ficha,
+  .jcard,
+  .biz,
+  .pay-feat,
+  .person,
+  .pullquote,
+  .reg-seal-panel,
+  .process-route-panel,
+  .tree-expl,
+  .mu-expl,
+  .hub-unit,
+  .tnode,
+  .feat-hl,
+  .faq details
+) {
+  background-color: var(--vl-surface-base) !important;
+  background-image: none !important;
+  border-color: var(--vl-border-neutral) !important;
+}
+
+:is(
+  .sol-card,
+  .sol-ficha,
+  .gain,
+  .cycle,
+  .feat,
+  .client,
+  .pillar,
+  .ficha,
+  .jcard,
+  .biz,
+  .pay-feat,
+  .person,
+  .pullquote,
+  .reg-seal-panel,
+  .process-route-panel,
+  .tree-expl,
+  .mu-expl,
+  .hub-unit,
+  .tnode,
+  .feat-hl,
+  .faq details
+):is(:hover, :focus, :focus-visible, :focus-within),
+.pay-feat[open],
+.faq details[open],
+.tunit.open,
+.tchild.done {
+  background-color: var(--vl-surface-raised) !important;
+  background-image: none !important;
+  border-color: var(--vl-border-hover) !important;
+}
+
+:is(
+  .is-active.gain,
+  .is-active.biz,
+  .is-active.feat,
+  .is-active.ficha,
+  .is-active.jcard,
+  .is-active.pillar
+) {
+  background-color: var(--vl-surface-active) !important;
+  border-color: var(--vl-border-hover) !important;
+}
+
+.eyebrow,
+.eyebrow *,
+.bs-kicker,
+.bs-kicker *,
+.join-sub-eyebrow,
+.join-sub-eyebrow *,
+.kicker,
+.kicker *,
+.overline,
+.overline *,
+.mini-kicker,
+.mini-kicker *,
+.pay-group-label,
+.pill-tag,
+.biz-tag,
+.ai-story-head h3,
+.ai-steps .n,
+.reg-seal-kicker,
+.reg-seal-kicker *,
+.reg .badge,
+.reg .badge *,
+.page-back__link,
+.mu-ey,
+.hm-eyebrow,
+.un-go,
+.process-route-panel .n,
+.step .n,
+.sol-card .idx,
+.person .role,
+.tag {
+  color: var(--vl-accent) !important;
+}
+
+[data-vl-internal-page] [class*='eyebrow'],
+[data-vl-internal-page] [class*='kicker'],
+[data-vl-internal-page] [class*='overline'] {
+  color: var(--vl-accent) !important;
+}
+
+.page-back__link:hover,
+.page-back__link:focus-visible {
+  color: var(--vl-accent-hover) !important;
+}
+
+.dot,
+.pay-feat summary::before,
+.bs-dots button.active {
+  background: var(--vl-accent) !important;
+}
+
+.pay-feat summary::after,
+.tplus,
+.tunit.open .tplus {
+  color: var(--vl-accent) !important;
+}
+
+.pay-feat summary,
+.faq summary,
+.faq details[open] summary,
+.faq summary:hover,
+.faq summary:focus-visible {
+  color: var(--vl-text-primary) !important;
+}
+
+.pay-feat[open] summary {
+  color: var(--vl-accent-hover) !important;
+}
+
+.faq summary::after {
+  color: var(--vl-accent) !important;
+  border-color: var(--vl-accent) !important;
+  background: transparent !important;
+}
+
+[data-vl-gsap-root='ai-processes'] .ai-story-rail__fill {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(204, 180, 135, 0.52),
+      rgba(221, 200, 161, 0.92)
+    ) !important;
+}
+
+.vl-card-topline {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(204, 180, 135, 0.52),
+      rgba(221, 200, 161, 0.92)
+    ) !important;
+}
+
+.branch,
+.cbranch,
+.fb-arc,
+.fb-loop,
+.brain-line,
+.uconn {
+  stroke: rgba(196, 194, 190, 0.28) !important;
+}
+
+.brain-dot {
+  fill: rgba(204, 180, 135, 0.54) !important;
+}
+
+.cbranch-sub,
+.uconn-active {
+  stroke: var(--vl-accent) !important;
+}
+
+.troot,
+.tunit,
+.hub-unit {
+  color: var(--vl-text-primary) !important;
+  background: var(--vl-surface-base) !important;
+  border-color: var(--vl-border-neutral) !important;
+}
+
+.tnode:hover,
+.tunit.open,
+.hub-unit:hover,
+.back-btn:hover {
+  color: var(--vl-accent-hover) !important;
+  background: var(--vl-surface-raised) !important;
+  border-color: var(--vl-border-hover) !important;
+}
+
+/* Nav underline stays on the champagne gradient system from _navigation.scss.
+   Do not restyle trigger::after (chevron) or menu items with a second underline. */
+.nav-links > a:hover,
+.nav-links > a:focus-visible,
+.nav-links > a.is-active,
+.nav-dropdown__trigger:hover,
+.nav-dropdown__trigger:focus-visible,
+.nav-dropdown.is-open .nav-dropdown__trigger,
+.nav-dropdown.is-active-group .nav-dropdown__trigger,
+.nav-dropdown__menu a:hover,
+.nav-dropdown__menu a:focus-visible,
+.nav-dropdown__menu a.is-active {
+  color: var(--vl-text-primary) !important;
+}
+
+.nav-dropdown__menu a:hover,
+.nav-dropdown__menu a:focus-visible,
+.nav-dropdown__menu a.is-active {
+  background: var(--vl-surface-raised) !important;
+  box-shadow: none !important;
+  border-left: 0 !important;
+}
+
+.feat-hl,
+.pay-feat[open],
+.faq details[open],
+.tchild-accent,
+.pay-giros,
+[data-pay-block='giros'],
+[data-pay-block='support'] {
+  border-color: var(--vl-border-hover) !important;
+}
+
+.cross .ar,
+.cross b,
+.mu-guide b,
+.rel-fb {
+  color: var(--vl-accent) !important;
+}
+
+.pillar:not(.pillar-gold),
+.troot,
+.tunit,
+.tchild.done,
+.hub-unit,
+.feat-hl {
+  background-color: var(--vl-surface-base) !important;
+  background-image: none !important;
+}
+
+.pillar-gold,
+.tchild-sub,
+.tchild-sub.done {
+  background-color: var(--vl-surface-raised) !important;
+  border-color: var(--vl-border-hover) !important;
+}

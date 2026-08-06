@@ -1,0 +1,220 @@
+/* =========================================================
+   VALUE LATAM - DIVIDER + BACKGROUND DEPTH PASS v2
+   Short separators + section glow depth
+   ========================================================= */
+
+:root {
+  --vl-divider-short:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(242, 239, 232, 0.012) 12%,
+      rgba(242, 239, 232, 0.05) 30%,
+      rgba(242, 239, 232, 0.1) 50%,
+      rgba(242, 239, 232, 0.05) 70%,
+      rgba(242, 239, 232, 0.012) 88%,
+      transparent 100%
+    );
+
+  --vl-section-glow:
+    radial-gradient(
+      70% 24% at 50% 0%,
+      rgba(242, 239, 232, 0.028),
+      transparent 66%
+    ),
+    radial-gradient(
+      52% 18% at 50% 2%,
+      rgba(210, 186, 142, 0.022),
+      transparent 64%
+    );
+}
+
+html {
+  background: #020306;
+}
+
+body {
+  background:
+    radial-gradient(76% 42% at 50% 7%, rgba(242, 239, 232, 0.03), transparent 72%),
+    radial-gradient(44% 32% at 84% 57%, rgba(210, 186, 142, 0.024), transparent 76%),
+    radial-gradient(40% 30% at 14% 79%, rgba(242, 239, 232, 0.016), transparent 78%),
+    linear-gradient(180deg, #040508 0%, #050609 42%, #040508 100%);
+  background-attachment: scroll;
+}
+
+main {
+  background-color: transparent;
+  background-image: none;
+}
+
+/* =========================================================
+   PER-SECTION DEPTH
+   Adds a subtle luminous atmosphere between sections.
+   ========================================================= */
+
+section[data-vl-home-section],
+section[data-vl-internal-page] {
+  position: relative;
+  isolation: isolate;
+  background-color: transparent !important;
+}
+
+section[data-vl-home-section]::after,
+section[data-vl-internal-page]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
+  background: var(--vl-section-glow);
+}
+
+section[data-vl-home-section] > *,
+section[data-vl-internal-page] > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   DIVIDERS
+   ========================================================= */
+
+/* Generic home section separator */
+section[data-vl-home-section]::before {
+  left: 50% !important;
+  width: min(72%, 1080px) !important;
+  height: 1px !important;
+  transform: translateX(-50%) !important;
+  background: var(--vl-divider-short) !important;
+  opacity: 0.82 !important;
+}
+
+/* Generic internal-page separators */
+section[data-vl-internal-page] > .wrap > :is(
+  .liquidity-operators,
+  .ai-delivery,
+  .pay-pillars,
+  .join-section-sub
+)::before {
+  left: 50% !important;
+  width: min(76%, 860px) !important;
+  height: 1px !important;
+  transform: translateX(-50%) !important;
+  background: var(--vl-divider-short) !important;
+  opacity: 0.78 !important;
+}
+
+/* Remove the full-width separator in home areas that should stay clean */
+section[data-vl-home-section='regulation'],
+section[data-vl-home-section='solutions'],
+section[data-vl-home-section='contact'],
+section[data-vl-home-section='team'],
+section[data-vl-home-section='referrals'] {
+  border-top: 0 !important;
+}
+
+section[data-vl-home-section='regulation'] > .wrap,
+section[data-vl-home-section='solutions'] > .wrap,
+section[data-vl-home-section='contact'] > .wrap,
+section[data-vl-home-section='team'] > .wrap,
+section[data-vl-home-section='referrals'] > .wrap {
+  border-top: 0 !important;
+}
+
+section[data-vl-home-section='regulation']::before,
+section[data-vl-home-section='solutions']::before,
+section[data-vl-home-section='referrals']::before,
+section[data-vl-home-section='regulation'] > .wrap::before,
+section[data-vl-home-section='solutions'] > .wrap::before,
+section[data-vl-home-section='contact'] > .wrap::before,
+section[data-vl-home-section='team'] > .wrap::before,
+section[data-vl-home-section='referrals'] > .wrap::before {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+section[data-vl-home-section='partners'].trust,
+.trust.partner-logos {
+  border-bottom: 0 !important;
+}
+
+/* Results keeps only side dividers between metrics, not a horizontal divider above them */
+section[data-vl-home-section='metrics']::before {
+  display: none !important;
+}
+
+section[data-vl-home-section='metrics'] .metrics-grid,
+.metrics .metrics-grid {
+  border-top: 0 !important;
+}
+
+section[data-vl-home-section='metrics'] .metric {
+  border-top: 0 !important;
+}
+
+/* Payment groups: no horizontal rules between 01–05 */
+section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group {
+  position: relative;
+  border-top: 0 !important;
+}
+
+section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* AI: no chapter/card/closer decorative lines */
+section[data-vl-internal-page='procesos-ia'] > .wrap > .ai-delivery::before,
+section[data-vl-internal-page='procesos-ia'] .ai-delivery-line {
+  content: none !important;
+  display: none !important;
+  margin: 0 !important;
+  height: 0 !important;
+  background: none !important;
+}
+
+section[data-vl-internal-page='procesos-ia'] .ai-delivery .join-cards {
+  margin-top: 28px;
+}
+
+section[data-vl-internal-page='procesos-ia'] .ai-band {
+  border-top: 0 !important;
+}
+
+@media (max-width: 760px) {
+  body {
+    background:
+      radial-gradient(circle at 12% 16%, rgba(242, 239, 232, 0.13) 0 0.5px, transparent 1.25px),
+      radial-gradient(circle at 36% 34%, rgba(210, 186, 142, 0.1) 0 0.55px, transparent 1.3px),
+      radial-gradient(circle at 68% 14%, rgba(242, 239, 232, 0.1) 0 0.5px, transparent 1.25px),
+      radial-gradient(circle at 88% 42%, rgba(221, 200, 161, 0.09) 0 0.6px, transparent 1.35px),
+      radial-gradient(circle at 22% 76%, rgba(242, 239, 232, 0.08) 0 0.5px, transparent 1.25px),
+      radial-gradient(circle at 76% 84%, rgba(210, 186, 142, 0.09) 0 0.55px, transparent 1.3px),
+      radial-gradient(92% 34% at 50% 8%, rgba(242, 239, 232, 0.024), transparent 74%),
+      linear-gradient(180deg, #040508 0%, #050609 44%, #040508 100%);
+  }
+
+  section[data-vl-home-section]::before {
+    width: calc(100% - 64px) !important;
+  }
+
+  section[data-vl-home-section='partners']::before,
+  section[data-vl-home-section='why-us']::before,
+  section[data-vl-home-section='team']::before,
+  section[data-vl-home-section='contact']::before {
+    width: min(72%, 1080px) !important;
+  }
+
+  section[data-vl-internal-page] > .wrap > :is(
+    .liquidity-operators,
+    .ai-delivery,
+    .pay-pillars,
+    .join-section-sub
+  )::before {
+    width: calc(100% - 48px) !important;
+  }
+}

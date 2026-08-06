@@ -20,21 +20,21 @@
 }
 .cover-brain{
   background:
-    radial-gradient(120% 90% at 10% 15%,rgba(143,178,214,.11),transparent 48%),
+    radial-gradient(120% 90% at 10% 15%,rgba(196, 194, 190, .11),transparent 48%),
     radial-gradient(105% 88% at 88% 78%,rgba(210,183,117,.09),transparent 52%),
     radial-gradient(70% 65% at 50% 50%,rgba(25,55,86,.42),transparent 68%),
-    #01040a;
+    #020306;
 }
 .cover-brain::before{
   opacity:.9;
   background:
-    linear-gradient(105deg,transparent 0%,rgba(143,178,214,.09) 38%,transparent 62%),
-    repeating-linear-gradient(115deg,rgba(143,178,214,.045) 0 1px,transparent 1px 70px),
+    linear-gradient(105deg,transparent 0%,rgba(196, 194, 190, .09) 38%,transparent 62%),
+    repeating-linear-gradient(115deg,rgba(196, 194, 190, .045) 0 1px,transparent 1px 70px),
     repeating-linear-gradient(25deg,rgba(210,183,117,.03) 0 1px,transparent 1px 86px);
 }
 .sol-ficha{
-  background:rgba(5,17,30,.38);
-  border-color:rgba(143,178,214,.2);
+  background:rgba(9, 9, 11, .38);
+  border-color:rgba(196, 194, 190, .2);
   padding:0;
 }
 .sol-card.open .sol-ficha{
@@ -50,7 +50,7 @@
   padding:12px 0;
 }
 .frow span:first-child{
-  color:rgba(143,178,214,.72);
+  color:rgba(196, 194, 190, .72);
 }
 .frow span:last-child{
   color:rgba(246,243,236,.88);
@@ -58,18 +58,7 @@
   overflow-wrap:anywhere;
 }
 .faq details{
-  overflow:hidden;
-}
-.faq details p{
-  max-height:0;
-  opacity:0;
-  transform:translateY(-4px);
-  transition:max-height .32s ease,opacity .25s ease,transform .25s ease,margin-top .25s ease;
-}
-.faq details[open] p{
-  max-height:160px;
-  opacity:1;
-  transform:none;
+  overflow: visible;
 }
 .join-section-sub + .fin-grid{
   margin-top:30px;
@@ -81,8 +70,8 @@
   transition:opacity .24s ease,transform .24s ease;
 }
 .pay-feat[open]{
-  border-color:rgba(143,178,214,.38);
-  background:rgba(143,178,214,.08);
+  border-color:rgba(196, 194, 190, .38);
+  background:rgba(196, 194, 190, .08);
 }
 .cta form.is-sending{
   opacity:.82;

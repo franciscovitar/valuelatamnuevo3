@@ -12,10 +12,99 @@
 
   footer li{margin-bottom:10px;font-size:14.5px}
 
-  footer li a:hover{color:var(--paper)}
+  footer li a{
+    position:relative;
+    display:inline;
+    color:inherit;
+    font-weight:inherit;
+    text-decoration:none;
+    transition:color .2s ease;
+  }
+
+  footer li a::after{
+    content:'';
+    position:absolute;
+    left:50%;
+    bottom:-3px;
+    width:72%;
+    height:1px;
+    pointer-events:none;
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        color-mix(in srgb, var(--brass-2) 85%, transparent),
+        transparent
+      );
+    transform:translateX(-50%) scaleX(0);
+    transform-origin:center;
+    transition:transform 200ms ease;
+    transition-delay:0ms;
+  }
+
+  footer li a:hover{
+    color:var(--paper);
+  }
+
+  footer li a:hover::after,
+  footer li a:focus-visible::after{
+    transition-delay:90ms;
+    transform:translateX(-50%) scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    footer li a::after{
+      transition:none;
+    }
+  }
 
   footer .blurb{font-size:14.5px;max-width:34ch;margin:14px 0 18px}
 
   .foot-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line-dark);margin-top:44px;padding-top:24px;font-size:13px;flex-wrap:wrap;gap:14px}
 
   .foot-bottom .social{display:flex;gap:18px}
+
+  .foot-bottom .social a{
+    position:relative;
+    display:inline;
+    color:inherit;
+    font-weight:inherit;
+    text-decoration:none;
+    transition:color .2s ease;
+  }
+
+  .foot-bottom .social a::after{
+    content:'';
+    position:absolute;
+    left:50%;
+    bottom:-3px;
+    width:72%;
+    height:1px;
+    pointer-events:none;
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        color-mix(in srgb, var(--brass-2) 85%, transparent),
+        transparent
+      );
+    transform:translateX(-50%) scaleX(0);
+    transform-origin:center;
+    transition:transform 200ms ease;
+  }
+
+  .foot-bottom .social a:hover,
+  .foot-bottom .social a:focus-visible{
+    color:var(--paper);
+  }
+
+  .foot-bottom .social a:hover::after,
+  .foot-bottom .social a:focus-visible::after{
+    transform:translateX(-50%) scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .foot-bottom .social a::after{
+      transition:none;
+    }
+  }

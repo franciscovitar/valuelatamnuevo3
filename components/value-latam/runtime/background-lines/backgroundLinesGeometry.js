@@ -6,7 +6,7 @@ import * as THREE from 'three';
 
 export const BREAKPOINT = { DESKTOP: 'desktop', TABLET: 'tablet', MOBILE: 'mobile' };
 
-const LINE_PALETTE = ['#7899BB', '#8FB2D6', '#A2BAD1'];
+const LINE_PALETTE = ['#7899BB', '#ccb487', '#A2BAD1'];
 
 function p(x, y, z) {
   return { x, y, z };

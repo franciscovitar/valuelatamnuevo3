@@ -1,0 +1,161 @@
+export const HERO_TIMELINE = {
+  scrub: 0.1,
+  hintFade: 0.032,
+  markOutlinePeak: 0.94,
+  markNormalizeAt: 0.62,
+  haloAt: 0.54,
+  markSettleAt: 0.80,
+};
+
+/* Trionn-style orbit: wide ring around a clear center (logo + copy). */
+export const HERO_WORDS = [
+  {
+    id: 'financiamiento', label: 'Financiamiento', size: 'xl', accent: true, bar: 'small',
+    front: true, x: -44, y: -30, opacity: 0.92, blur: 0, rotation: -1.4,
+    curveX: -8, curveY: 6, targetX: -3.1, targetY: -0.6,
+    start: 0, end: 0.48, floatX: 10, floatY: -8,
+    floatRotate: 1.1, floatDuration: 7.2, floatDelay: -2.4,
+    tablet: { x: -38, y: -27 }, mobile: { x: -32, y: -24 },
+  },
+  {
+    id: 'liquidez', label: 'Liquidez', size: 'md', bar: 'small',
+    x: -48, y: -4, opacity: 0.58, blur: 0.8, rotation: 1.2,
+    curveX: -5, curveY: -5, targetX: -3.4, targetY: 0.8,
+    start: 0.001, end: 0.49, floatX: -9, floatY: 7,
+    floatRotate: -1.2, floatDuration: 7.8, floatDelay: -5.1,
+    tablet: { x: -42, y: -2 }, mobile: { x: -34, y: -4 },
+  },
+  {
+    id: 'medios-pago', label: 'Medios de pago', size: 'lg', accent: true, bar: 'tall',
+    front: true, x: 46, y: -16, opacity: 0.88, blur: 0, rotation: -0.9,
+    curveX: 7, curveY: -4, targetX: 2.9, targetY: 1.0,
+    start: 0.002, end: 0.50, floatX: 9, floatY: 6,
+    floatRotate: 0.9, floatDuration: 6.6, floatDelay: -1.7,
+    tablet: { x: 40, y: -14 }, mobile: { x: 32, y: -12 },
+  },
+  {
+    id: 'procesos-ia', label: 'Procesos con IA', size: 'lg', bar: 'middle',
+    x: -40, y: 30, opacity: 0.68, blur: 0.5, rotation: 1.1,
+    curveX: 6, curveY: 4, targetX: -0.4, targetY: 1.4,
+    start: 0.003, end: 0.51, floatX: -7, floatY: -9,
+    floatRotate: -1, floatDuration: 7.4, floatDelay: -3.2,
+    tablet: { x: -34, y: 26 }, mobile: { x: -28, y: 22 },
+  },
+  {
+    id: 'inversiones', label: 'Inversiones', size: 'md', bar: 'tall',
+    x: 42, y: -32, opacity: 0.54, blur: 1, rotation: 1.4,
+    curveX: -4, curveY: 7, targetX: 3.2, targetY: -1.8,
+    start: 0.004, end: 0.52, floatX: 8, floatY: -6,
+    floatRotate: -1.3, floatDuration: 8.2, floatDelay: -4.4,
+    tablet: { x: 36, y: -28 }, mobile: { x: 30, y: -20 },
+  },
+  {
+    id: 'mercado-capitales', label: 'Mercado de capitales', size: 'sm', bar: 'tall',
+    depth: 'far', x: 48, y: 34, opacity: 0.38, blur: 1.8, rotation: 0.8,
+    curveX: -6, curveY: 2, targetX: 2.6, targetY: 2.6,
+    start: 0.005, end: 0.53, floatX: -6, floatY: 7,
+    floatRotate: 1.2, floatDuration: 8.9, floatDelay: -6.3,
+    tablet: { x: 42, y: 30 }, mobileHidden: true,
+  },
+  {
+    id: 'capital-trabajo', label: 'Capital de trabajo', size: 'sm', bar: 'middle',
+    depth: 'far', x: -18, y: -38, opacity: 0.36, blur: 2, rotation: -1.5,
+    curveX: 7, curveY: -3, targetX: 0.5, targetY: -1.1,
+    start: 0.006, end: 0.54, floatX: 6, floatY: 9,
+    floatRotate: 1.1, floatDuration: 8.1, floatDelay: -2.9,
+    tablet: { x: -16, y: -34 }, mobileHidden: true,
+  },
+  {
+    id: 'cobros-pagos', label: 'Cobros y pagos', size: 'md', bar: 'tall',
+    x: 50, y: 8, opacity: 0.50, blur: 1.2, rotation: -1.2,
+    curveX: 4, curveY: 6, targetX: 3.5, targetY: -0.2,
+    start: 0.007, end: 0.55, floatX: -10, floatY: -5,
+    floatRotate: -1, floatDuration: 7.1, floatDelay: -5.8,
+    tablet: { x: 44, y: 6 }, mobileHidden: true,
+  },
+  {
+    id: 'estrategia', label: 'Estrategia', size: 'xl', accent: true, bar: 'middle',
+    front: true, x: 34, y: -28, opacity: 0.86, blur: 0, rotation: 0.6,
+    curveX: 8, curveY: -6, targetX: 0.1, targetY: 0.5,
+    start: 0.008, end: 0.50, floatX: 8, floatY: -7,
+    floatRotate: -0.8, floatDuration: 6.8, floatDelay: -3.6,
+    mobile: { x: 28, y: -18 },
+  },
+  {
+    id: 'automatizacion', label: 'Automatización', size: 'sm', bar: 'small',
+    x: -46, y: 20, opacity: 0.44, blur: 1.5, rotation: 1.3,
+    curveX: -5, curveY: -3, targetX: -2.8, targetY: 1.2,
+    start: 0.009, end: 0.51, floatX: 7, floatY: 6,
+    floatRotate: 1.2, floatDuration: 7.9, floatDelay: -4.8,
+    tablet: { x: -40, y: 18 }, mobile: { x: -30, y: 16 },
+  },
+  {
+    id: 'gestion-integral', label: 'Gestión integral', size: 'md', bar: 'middle',
+    x: 38, y: 28, opacity: 0.48, blur: 1.1, rotation: -0.8,
+    curveX: 5, curveY: 3, targetX: -0.2, targetY: 2.0,
+    start: 0.010, end: 0.52, floatX: -8, floatY: 8,
+    floatRotate: -1.2, floatDuration: 8.5, floatDelay: -1.1,
+    tablet: { x: 34, y: 24 }, mobileHidden: true,
+  },
+  {
+    id: 'respaldo', label: 'Respaldo', size: 'sm', bar: 'small',
+    x: 26, y: -38, opacity: 0.42, blur: 1.6, rotation: 0.9,
+    curveX: -7, curveY: -5, targetX: -3.0, targetY: -1.0,
+    start: 0.011, end: 0.53, floatX: 6, floatY: -8,
+    floatRotate: 1, floatDuration: 7.5, floatDelay: -6,
+    mobileHidden: true,
+  },
+  {
+    id: 'crecimiento', label: 'Crecimiento', size: 'md', bar: 'small',
+    x: -34, y: -22, opacity: 0.52, blur: 0.9, rotation: -0.7,
+    curveX: 4, curveY: 4, targetX: -3.3, targetY: -0.4,
+    start: 0.012, end: 0.54, floatX: -7, floatY: 5,
+    floatRotate: -1.1, floatDuration: 6.9, floatDelay: -2.1,
+    mobileHidden: true,
+  },
+  {
+    id: 'ejecucion', label: 'Ejecución', size: 'xs', depth: 'far', bar: 'tall',
+    x: 50, y: -40, opacity: 0.30, blur: 2.4, rotation: -1.6,
+    curveX: -3, curveY: 6, targetX: 3.7, targetY: -2.4,
+    start: 0.013, end: 0.55, floatX: 7, floatY: -6,
+    floatRotate: 1.4, floatDuration: 9.3, floatDelay: -5.5,
+    tabletHidden: true, mobileHidden: true,
+  },
+  {
+    id: 'resultados', label: 'Resultados', size: 'sm', accent: true, bar: 'tall',
+    x: -50, y: 36, opacity: 0.40, blur: 1.8, rotation: 1.5,
+    curveX: 5, curveY: 5, targetX: 2.8, targetY: -2.2,
+    start: 0.014, end: 0.52, floatX: -8, floatY: -7,
+    floatRotate: -1.2, floatDuration: 8.6, floatDelay: -3.9,
+    tabletHidden: true, mobile: { x: 30, y: 20 },
+  },
+  {
+    id: 'soluciones-financieras', label: 'Soluciones financieras', size: 'xs', bar: 'tall',
+    depth: 'far', x: 6, y: 40, opacity: 0.28, blur: 2.6, rotation: -1,
+    curveX: -6, curveY: -2, targetX: 2.4, targetY: 2.8,
+    start: 0.015, end: 0.56, floatX: 5, floatY: 7,
+    floatRotate: 1.3, floatDuration: 9.6, floatDelay: -7.2,
+    tabletHidden: true, mobileHidden: true,
+  },
+];
+
+export const HERO_WORD_LAYOUTS = {
+  desktop: { scrollDistanceVh: 80, xFactor: 1.14, yFactor: 1.1 },
+  tablet: { scrollDistanceVh: 72, xFactor: 1.08, yFactor: 1.06 },
+  mobile: { scrollDistanceVh: 64, xFactor: 1.02, yFactor: 1.02 },
+};
+
+export const HERO_MARK_REVEALS = [
+  {
+    id: 'small', axis: 'x', origin: 'left center', at: 0.12,
+    duration: 0.17, scanAxis: 'x', scanFrom: 34, scanTo: 60,
+  },
+  {
+    id: 'middle', axis: 'y', origin: 'center bottom', at: 0.28,
+    duration: 0.20, scanAxis: 'y', scanFrom: 68, scanTo: 31,
+  },
+  {
+    id: 'tall', axis: 'y', origin: 'center top', at: 0.42,
+    duration: 0.21, scanAxis: 'y', scanFrom: 13, scanTo: 59,
+  },
+];

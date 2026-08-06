@@ -1,147 +1,40 @@
-const HERO_CHAPTERS = [
-  {
-    index: '01',
-    title: 'Financiamiento',
-    description: 'Capital de trabajo e inversión',
-  },
-  {
-    index: '02',
-    title: 'Liquidez',
-    description: 'Gestión eficiente de activos',
-  },
-  {
-    index: '03',
-    title: 'Medios de pago',
-    description: 'Infraestructura de cobros y pagos',
-  },
-  {
-    index: '04',
-    title: 'Procesos con IA',
-    description: 'Automatización financiera',
-  },
-];
+import HeroWordCloudScene from './HeroWordCloudScene';
 
 export default function VideoHero() {
   return (
     <section
       id="top"
-      className="video-hero"
+      className="video-hero video-hero--word-orbit"
       data-vl-video-hero-root
-      aria-label="Finanzas que impulsan tu empresa"
+      aria-labelledby="hero-word-scene-title"
     >
-      <div className="video-hero__scroll" data-video-hero-scroll>
-        <div className="video-hero__sticky" data-video-hero-sticky>
-          <div className="video-hero__media">
-            <div
-              className="video-hero__css-fallback"
-              data-video-hero-css-fallback
-              aria-hidden="true"
-            />
+      <div
+        className="video-hero__scroll"
+        data-video-hero-scroll
+      >
+        <div
+          className="video-hero__sticky"
+          data-video-hero-sticky
+        >
+          <div
+            className="video-hero__orbit-background"
+            aria-hidden="true"
+          />
+          <div
+            className="video-hero__orbit-vignette"
+            aria-hidden="true"
+          />
 
-            <canvas
-              className="video-hero__canvas"
-              data-video-hero-canvas
-              aria-hidden="true"
-            />
+          <HeroWordCloudScene />
 
-            <div
-              className="video-hero__image-system"
-              data-video-hero-fallback
-              aria-hidden="true"
-            >
-              <div className="video-hero__image-base" data-video-hero-image-base>
-                <img
-                  src="/hero1.png"
-                  alt=""
-                  width={1920}
-                  height={1080}
-                  decoding="async"
-                  draggable={false}
-                />
-              </div>
-
-              {['hero2', 'hero3', 'hero4', 'hero5'].map((asset, index) => (
-                <div
-                  key={asset}
-                  className="video-hero__image-layer"
-                  data-video-hero-image-layer={index}
-                >
-                  <img
-                    src={`/${asset}.png`}
-                    alt=""
-                    width={1920}
-                    height={1080}
-                    decoding="async"
-                    draggable={false}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="video-hero__overlay" aria-hidden="true" />
-          <div className="video-hero__vignette" aria-hidden="true" />
-          <div className="video-hero__floor" data-video-hero-floor aria-hidden="true" />
-          <div className="video-hero__exit-fade" data-video-hero-exit-fade aria-hidden="true" />
-
-          <div className="wrap video-hero__stage">
-            <div className="video-hero__intro" data-video-hero-intro>
-              <span className="video-hero__eyebrow" data-video-hero-eyebrow>
-                La evolución de tu operación
-              </span>
-              <span className="video-hero__eyebrow-mark" aria-hidden="true" />
-              <h1 className="video-hero__title" data-video-hero-title>
-                Finanzas que impulsan
-                <br />
-                tu empresa
-              </h1>
-              <p className="video-hero__lead" data-video-hero-lead>
-                Financiamiento, liquidez, medios de pago e IA conectados en una sola estrategia.
-              </p>
-              <a className="video-hero__cta" data-video-hero-cta href="#soluciones">
-                Conocer soluciones
-              </a>
-            </div>
-
-            <div className="video-hero__chapters" data-video-hero-chapters aria-hidden="true">
-              <p className="video-hero__chapters-kicker" data-video-hero-chapters-kicker>
-                Cuatro soluciones. Una sola estrategia.
-              </p>
-              <div className="video-hero__chapters-stack">
-                {HERO_CHAPTERS.map((chapter, index) => (
-                  <article
-                    className="video-hero__chapter"
-                    data-video-hero-chapter={index}
-                    key={chapter.index}
-                  >
-                    <span className="video-hero__chapter-index">{chapter.index}</span>
-                    <h2 className="video-hero__chapter-title">{chapter.title}</h2>
-                    <p className="video-hero__chapter-desc">{chapter.description}</p>
-                    <span className="video-hero__chapter-line" aria-hidden="true" />
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            <div className="video-hero__brand" data-video-hero-brand aria-hidden="true">
-              <img
-                className="video-hero__brand-logo"
-                data-video-hero-brand-logo
-                src="/value-latam-logo.png"
-                alt=""
-                width={900}
-                height={327}
-                decoding="async"
-                draggable={false}
-              />
-              <p className="video-hero__brand-closer" data-video-hero-brand-closer>
-                Un solo socio para toda tu operación.
-              </p>
-            </div>
-          </div>
-
-          <div className="video-hero__scroll-hint" data-video-hero-scroll-hint aria-hidden="true">
-            <span className="video-hero__scroll-hint-text">Deslizá para descubrir</span>
+          <div
+            className="video-hero__scroll-hint"
+            data-video-hero-scroll-hint
+            aria-hidden="true"
+          >
+            <span className="video-hero__scroll-hint-text">
+              Deslizá para descubrir
+            </span>
             <span className="video-hero__scroll-hint-line" />
           </div>
         </div>

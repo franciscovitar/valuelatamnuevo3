@@ -12,9 +12,9 @@
   inset: 0;
   background: linear-gradient(
     118deg,
-    #061321 0%,
-    #0a2138 42%,
-    #02070e 100%
+    #09090b 0%,
+    #0f0f12 42%,
+    #040508 100%
   );
   transform: scaleX(0);
   will-change: transform;
@@ -30,12 +30,12 @@
     180deg,
     transparent 0%,
     rgba(210, 183, 117, 0.95) 38%,
-    rgba(158, 192, 230, 0.88) 62%,
+    rgba(210, 207, 201, 0.88) 62%,
     transparent 100%
   );
   box-shadow:
     0 0 10px rgba(210, 183, 117, 0.42),
-    0 0 22px rgba(143, 178, 214, 0.24);
+    0 0 22px rgba(196, 194, 190, 0.24);
   transform: translateX(-100vw);
   pointer-events: none;
 }

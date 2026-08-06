@@ -1,7 +1,7 @@
 
 .pay-group{margin-top:30px}
 
-  .pay-group-label{display:inline-block;font-family:var(--font-mono), monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9ec0e6;margin:0 0 12px 2px}
+  .pay-group-label{display:inline-block;font-family:var(--font-mono), monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#ddc8a1;margin:0 0 12px 2px}
 
   .pay-support{margin-top:28px;max-width:none}
 
@@ -35,9 +35,9 @@
 
     background:linear-gradient(180deg, rgba(27,58,92,.78) 0%, rgba(18,42,72,.80) 100%);
 
-    border:1px solid rgba(143,178,214,.26);
+    border:1px solid rgba(196, 194, 190, .26);
 
-    box-shadow:0 26px 64px -32px rgba(0,0,0,.65), inset 0 1px 0 rgba(143,178,214,.12);
+    box-shadow:0 26px 64px -32px rgba(0,0,0,.65), inset 0 1px 0 rgba(196, 194, 190, .12);
 
     backdrop-filter:blur(3px);
 
@@ -93,23 +93,24 @@
 
   .pay-support{
     margin-top:28px;
-    padding:32px 36px;
+    padding:24px 26px;
     border:1px solid rgba(246,243,236,.12);
-    background:rgba(255,255,255,.05);
-    border-top:1px solid rgba(246,243,236,.12);
+    border-radius: var(--radius-card-premium);
+    background:rgba(255,255,255,.025);
   }
 
   .pay-support p{
     color:rgba(246,243,236,.76);
-    font-size:15.5px;
+    font-size:15px;
     font-weight:400;
     line-height:1.65;
-    margin:10px 0 0;
+    margin:0;
   }
 
   .pay-support b{font-weight:600;color:rgba(246,243,236,.94)}
 
-[data-vl-internal-page='medios-de-pago'] .pay-giros {
+[data-vl-internal-page='medios-de-pago'] .pay-giros,
+[data-vl-internal-page='medios-de-pago'] .pay-support {
   width: 100%;
   box-sizing: border-box;
   margin-top: 28px;
@@ -119,11 +120,13 @@
   background: rgba(255, 255, 255, 0.025);
 }
 
-[data-vl-internal-page='medios-de-pago'] .pay-giros h4 {
+[data-vl-internal-page='medios-de-pago'] .pay-giros h4,
+[data-vl-internal-page='medios-de-pago'] .pay-support h4 {
   margin: 0 0 10px;
 }
 
-[data-vl-internal-page='medios-de-pago'] .pay-giros p {
+[data-vl-internal-page='medios-de-pago'] .pay-giros p,
+[data-vl-internal-page='medios-de-pago'] .pay-support p {
   margin: 0;
 }
 
@@ -148,7 +151,7 @@
     width: 100%;
     box-sizing: border-box;
     margin-top: 24px;
-    padding: 23px 20px;
+    padding: 20px 18px;
     border-radius: var(--radius-card-premium);
   }
 

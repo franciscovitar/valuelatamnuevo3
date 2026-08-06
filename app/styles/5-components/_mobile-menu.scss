@@ -173,14 +173,16 @@
   header.nav .nav-dropdown__trigger::after {
     content: '';
     flex: 0 0 auto;
-    width: 5px;
-    height: 5px;
-    margin-top: 0;
+    width: 6px;
+    height: 6px;
+    margin-top: -2px;
     margin-left: auto;
+    border: 0;
     border-right: 1.5px solid rgba(219, 184, 105, 0.82);
     border-bottom: 1.5px solid rgba(219, 184, 105, 0.82);
+    background: transparent;
     transform: rotate(45deg);
-    transition: transform 0.24s ease;
+    transition: transform 0.24s ease, margin-top 0.24s ease;
   }
 
   header.nav .nav-dropdown.is-open .nav-dropdown__trigger::after {

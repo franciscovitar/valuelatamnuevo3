@@ -139,7 +139,7 @@ export function initImageHeroAnimation() {
               xPercent: -1.5,
               yPercent: -2,
               ease: 'none',
-              duration: 1,
+              duration: 0.68,
             },
             0,
           );
@@ -150,7 +150,7 @@ export function initImageHeroAnimation() {
               xPercent: -2,
               yPercent: 1,
               ease: 'none',
-              duration: 1,
+              duration: 0.68,
             },
             0,
           );

@@ -1,0 +1,207 @@
+/* =========================================================
+   VALUE LATAM - SECTION DIVIDER / GLOW BALANCE PASS v3
+   Removes the remaining lines the user flagged and alternates
+   section depth so the page feels less repetitive.
+   ========================================================= */
+
+:root {
+  --vl-divider-short-balanced:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(242, 239, 232, 0.012) 14%,
+      rgba(242, 239, 232, 0.045) 34%,
+      rgba(242, 239, 232, 0.085) 50%,
+      rgba(242, 239, 232, 0.045) 66%,
+      rgba(242, 239, 232, 0.012) 86%,
+      transparent 100%
+    );
+
+  --vl-section-glow-soft:
+    radial-gradient(
+      66% 22% at 50% 0%,
+      rgba(242, 239, 232, 0.024),
+      transparent 68%
+    ),
+    radial-gradient(
+      48% 16% at 50% 2%,
+      rgba(214, 190, 147, 0.016),
+      transparent 64%
+    );
+
+  /* Internal tabs: bloom above the section edge so it does not clip as a flat band. */
+  --vl-section-glow-internal:
+    radial-gradient(
+      92% 72% at 50% -24%,
+      rgba(242, 239, 232, 0.03),
+      transparent 64%
+    ),
+    radial-gradient(
+      74% 56% at 50% -14%,
+      rgba(214, 190, 147, 0.018),
+      transparent 60%
+    );
+}
+
+/* Keep the subtle sparkly / non-flat background, but don't let every section glow equally. */
+body {
+  background:
+    radial-gradient(72% 42% at 50% 6%, rgba(242, 239, 232, 0.025), transparent 72%),
+    radial-gradient(38% 26% at 82% 58%, rgba(214, 190, 147, 0.018), transparent 74%),
+    radial-gradient(34% 24% at 18% 80%, rgba(242, 239, 232, 0.012), transparent 76%),
+    linear-gradient(180deg, #040508 0%, #050609 42%, #040508 100%) !important;
+}
+
+/* Base section atmosphere: off by default here, then re-enabled only where it adds depth. */
+section[data-vl-home-section]::after,
+section[data-vl-internal-page]::after {
+  opacity: 0 !important;
+  background: none !important;
+}
+
+/* Re-enable glow only in alternating home moments so the page breathes. */
+section[data-vl-home-section='work-with-us']::after,
+section[data-vl-internal-page='financiamiento']::after,
+section[data-vl-internal-page='liquidez']::after,
+section[data-vl-internal-page='procesos-ia']::after,
+section[data-vl-internal-page='referenciadores']::after {
+  opacity: 0.96 !important;
+}
+
+section[data-vl-home-section='work-with-us']::after {
+  background: var(--vl-section-glow-soft) !important;
+}
+
+section[data-vl-internal-page='financiamiento']::after,
+section[data-vl-internal-page='liquidez']::after,
+section[data-vl-internal-page='procesos-ia']::after,
+section[data-vl-internal-page='referenciadores']::after {
+  top: clamp(-112px, -12vw, -76px);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: auto;
+  background: var(--vl-section-glow-internal) !important;
+}
+
+section[data-vl-internal-page='financiamiento'],
+section[data-vl-internal-page='liquidez'],
+section[data-vl-internal-page='procesos-ia'],
+section[data-vl-internal-page='referenciadores'] {
+  overflow: visible;
+}
+
+/* Home divider base: short and centered when present. */
+section[data-vl-home-section]::before {
+  left: 50% !important;
+  width: min(72%, 1080px) !important;
+  height: 1px !important;
+  transform: translateX(-50%) !important;
+  background: var(--vl-divider-short-balanced) !important;
+  opacity: 0.76 !important;
+}
+
+/* Explicit removals — keep partners divider as the reference */
+section[data-vl-home-section='solutions']::before,
+section[data-vl-home-section='metrics']::before,
+section[data-vl-home-section='process']::before,
+section[data-vl-home-section='regulation']::before,
+section[data-vl-home-section='referrals']::before,
+section[data-vl-home-section='solutions'] > .wrap::before,
+section[data-vl-home-section='metrics'] > .wrap::before,
+section[data-vl-home-section='process'] > .wrap::before,
+section[data-vl-home-section='regulation'] > .wrap::before,
+section[data-vl-home-section='referrals'] > .wrap::before {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Same luminous divider as partners (“Red de trabajo”): line + soft top glow */
+section[data-vl-home-section='partners']::before,
+section[data-vl-home-section='why-us']::before,
+section[data-vl-home-section='team']::before,
+section[data-vl-home-section='contact']::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  top: 0;
+  left: 50% !important;
+  width: min(72%, 1080px) !important;
+  height: 1px !important;
+  pointer-events: none;
+  transform: translateX(-50%) !important;
+  background: var(--vl-divider-short-balanced) !important;
+  opacity: 0.76 !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+section[data-vl-home-section='partners']::after,
+section[data-vl-home-section='why-us']::after,
+section[data-vl-home-section='team']::after,
+section[data-vl-home-section='contact']::after {
+  opacity: 0.96 !important;
+  background: var(--vl-section-glow-soft) !important;
+}
+
+/* Also remove glow on the same sections so it alternates more clearly. */
+section[data-vl-home-section='solutions']::after,
+section[data-vl-home-section='metrics']::after,
+section[data-vl-home-section='process']::after,
+section[data-vl-home-section='regulation']::after,
+section[data-vl-home-section='referrals']::after {
+  opacity: 0 !important;
+  background: none !important;
+}
+
+/* Partners bottom edge was reading as a flat rule above “Cuatro unidades”. */
+section[data-vl-home-section='partners'].trust,
+.trust.partner-logos {
+  border-bottom: 0 !important;
+}
+
+section[data-vl-home-section='solutions'],
+section[data-vl-home-section='referrals'] {
+  border-top: 0 !important;
+}
+
+/* Internal page dividers: keep short style by default. */
+section[data-vl-internal-page] > .wrap > :is(
+  .liquidity-operators,
+  .ai-delivery,
+  .pay-pillars,
+  .join-section-sub
+)::before {
+  left: 50% !important;
+  width: min(76%, 860px) !important;
+  height: 1px !important;
+  transform: translateX(-50%) !important;
+  background: var(--vl-divider-short-balanced) !important;
+  opacity: 0.74 !important;
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+  section[data-vl-home-section]::before {
+    width: calc(100% - 64px) !important;
+  }
+
+  section[data-vl-home-section='partners']::before,
+  section[data-vl-home-section='why-us']::before,
+  section[data-vl-home-section='team']::before,
+  section[data-vl-home-section='contact']::before {
+    width: min(72%, 1080px) !important;
+  }
+
+  section[data-vl-internal-page] > .wrap > :is(
+    .liquidity-operators,
+    .ai-delivery,
+    .pay-pillars,
+    .join-section-sub
+  )::before {
+    width: calc(100% - 48px) !important;
+  }
+}

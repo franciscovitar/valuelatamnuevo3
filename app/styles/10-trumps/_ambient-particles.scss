@@ -1,0 +1,42 @@
+/* =========================================================
+   VALUE LATAM - NIGHT STARFIELD v5
+   Slightly bigger, softer, more atmospheric
+   ========================================================= */
+
+.vl-ambient-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0.6;
+  mix-blend-mode: normal;
+  contain: strict;
+  filter: saturate(0.94);
+}
+
+.vl-app-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+main,
+section[data-vl-home-section],
+section[data-vl-internal-page] {
+  background-color: transparent !important;
+}
+
+@media (max-width: 760px) {
+  .vl-ambient-particles {
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vl-ambient-particles {
+    opacity: 0.44;
+  }
+}

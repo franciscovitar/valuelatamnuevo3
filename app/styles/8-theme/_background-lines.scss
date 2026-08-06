@@ -1,12 +1,14 @@
 .vl-bg-lines-layer {
-  position: absolute;
-  inset: 0 auto auto 0;
-  width: 100%;
-  height: 1px;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
   z-index: 0;
-  pointer-events: none;
   overflow: hidden;
+  pointer-events: none;
   opacity: 0;
+  contain: layout paint;
+  isolation: isolate;
 }
 
 .vl-bg-lines {
@@ -17,68 +19,145 @@
   pointer-events: none;
 }
 
+.vl-bg-lines__world,
+.vl-bg-lines__line-group {
+  transform-box: view-box;
+  transform-origin: center;
+  will-change: transform;
+}
+
 .vl-bg-lines__path {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
-}
-
-.vl-bg-lines__path--history {
-  opacity: 0.62;
-}
-
-.vl-bg-lines__path--active {
-  opacity: 1;
+  shape-rendering: geometricPrecision;
 }
 
 .vl-bg-lines__path--outer {
-  stroke: rgba(128, 151, 178, 0.22);
-  stroke-width: 1.15;
+  stroke: rgba(137, 155, 196, 0.21);
+  stroke-width: 0.82;
 }
 
 .vl-bg-lines__path--middle {
-  stroke: rgba(137, 161, 188, 0.16);
-  stroke-width: 1;
+  stroke: rgba(156, 174, 214, 0.27);
+  stroke-width: 0.98;
 }
 
 .vl-bg-lines__path--inner {
-  stroke: rgba(151, 172, 195, 0.11);
-  stroke-width: 0.9;
+  stroke: rgba(128, 145, 184, 0.16);
+  stroke-width: 0.76;
 }
 
-.vl-bg-lines__node,
-.vl-bg-lines__shared-node {
-  shape-rendering: geometricPrecision;
+.vl-bg-lines__path--history {
+  opacity: 0.9;
 }
 
-.vl-bg-lines__node-halo {
-  fill: rgba(214, 227, 242, 1);
-  opacity: 0.1;
+.vl-bg-lines__path--active {
+  stroke: rgba(218, 232, 255, 0.72);
+  stroke-width: 1.08;
+  opacity: 0.92;
+  filter:
+    drop-shadow(0 0 2px rgba(135, 188, 255, 0.22))
+    drop-shadow(0 0 5px rgba(57, 119, 255, 0.08));
 }
 
-.vl-bg-lines__node-core {
-  fill: rgba(214, 227, 242, 1);
-  opacity: 0.78;
+.vl-bg-lines__line-group--outer
+.vl-bg-lines__path--active {
+  stroke: rgba(160, 194, 244, 0.63);
+  stroke-width: 0.96;
 }
 
-.vl-bg-lines__debug-overlay {
+.vl-bg-lines__line-group--inner
+.vl-bg-lines__path--active {
+  stroke: rgba(139, 174, 231, 0.54);
+  stroke-width: 0.88;
+}
+
+.vl-bg-lines__travel-head {
+  r: 1.55px;
+  fill: rgba(235, 244, 255, 0.97);
+  opacity: 0;
+  vector-effect: non-scaling-stroke;
+  filter:
+    drop-shadow(0 0 2px rgba(190, 222, 255, 0.72))
+    drop-shadow(0 0 5px rgba(77, 151, 255, 0.24));
+}
+
+.vl-bg-lines__travel-head--outer {
+  r: 1.35px;
+  fill: rgba(207, 228, 255, 0.9);
+}
+
+.vl-bg-lines__travel-head--inner {
+  r: 1.25px;
+  fill: rgba(194, 216, 250, 0.82);
+}
+
+.vl-bg-lines__spark {
   pointer-events: none;
+  mix-blend-mode: screen;
 }
 
-.vl-bg-lines__debug-box {
-  fill: rgba(214, 227, 242, 0.04);
-  stroke: rgba(214, 227, 242, 0.4);
-  stroke-width: 1;
+.vl-bg-lines__spark-halo {
+  r: 2px;
+  fill: rgba(79, 187, 255, 0.15);
+  stroke: rgba(220, 248, 255, 0.75);
+  stroke-width: 0.75px;
   vector-effect: non-scaling-stroke;
-  shape-rendering: geometricPrecision;
+  opacity: 0;
+  filter:
+    drop-shadow(0 0 4px rgba(77, 200, 255, 0.48))
+    drop-shadow(0 0 10px rgba(35, 99, 255, 0.28));
 }
 
-.vl-bg-lines__debug-head {
-  fill: rgba(216, 178, 90, 0.3);
-  stroke: rgba(216, 178, 90, 0.75);
-  stroke-width: 1;
+.vl-bg-lines__spark-glow,
+.vl-bg-lines__spark-core {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+
+.vl-bg-lines__spark-glow {
+  stroke: rgba(40, 112, 255, 0.66);
+  stroke-width: 5px;
+  filter: blur(1.4px);
+}
+
+.vl-bg-lines__spark-core {
+  stroke: rgba(226, 250, 255, 0.98);
+  stroke-width: 0.95px;
+  filter: drop-shadow(0 0 2px rgba(80, 210, 255, 0.9));
+}
+
+@media (max-width: 1160px) {
+  .vl-bg-lines__path--history {
+    opacity: 0.82;
+  }
+
+  .vl-bg-lines__path--active {
+    filter: drop-shadow(0 0 2px rgba(135, 188, 255, 0.18));
+  }
+}
+
+@media (max-width: 760px) {
+  .vl-bg-lines__path--outer {
+    opacity: 0.72;
+  }
+
+  .vl-bg-lines__path--middle {
+    opacity: 0.88;
+  }
+
+  .vl-bg-lines__path--inner {
+    opacity: 0.62;
+  }
+
+  .vl-bg-lines__spark-glow {
+    stroke-width: 3.5px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -23,13 +23,15 @@ import {
   WorkWithUsTeaser,
 } from '@/components/value-latam';
 
+const SHOW_BACKGROUND_LINES = false;
+
 export default function Home() {
   return (
     <>
       <StructuredData />
       <Header />
       <main>
-        <BackgroundCanvas />
+        {SHOW_BACKGROUND_LINES && <BackgroundCanvas />}
         {/* Legacy Hero retained for rollback:
         <CoverStory />
         */}
@@ -39,7 +41,7 @@ export default function Home() {
         <PartnerLogos />
         <Solutions />
         <WhyUs />
-        <Process compact />
+        <Process />
         <Regulation />
         <Team />
         <WorkWithUsTeaser />
