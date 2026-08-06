@@ -70,54 +70,6 @@ function ProcessHome({ steps }) {
   );
 }
 
-function ProcessStatic({ compact }) {
-  const steps = compact ? processStepsHome : processSteps;
-
-  return (
-    <section className="process" id="proceso">
-      <div className="wrap">
-        <SectionHeading
-          eyebrow="Nuestro proceso"
-          title={
-            compact
-              ? 'Cómo empezamos a trabajar juntos.'
-              : 'Cómo trabajamos con tu empresa, paso a paso.'
-          }
-        />
-        <div className="steps reveal">
-          {steps.map(([title, text], index) => (
-            <div className="step" key={title}>
-              <div className="n">{String(index + 1).padStart(2, '0')}</div>
-              <h4>{title}</h4>
-              <p>{text}</p>
-            </div>
-          ))}
-        </div>
-        <div className="closer reveal">
-          <p>
-            {compact ? (
-              processCloserHome
-            ) : (
-              <>
-                Trabajás con un solo interlocutor para toda tu operación.{' '}
-                <b>En financiamiento, los honorarios se definen sobre la línea efectivamente disponible.</b>
-              </>
-            )}
-          </p>
-          {compact ? (
-            <Link className="btn btn-ghost" href={solutionPages.comoTrabajamos.path} style={{ marginRight: 12 }}>
-              Ver las seis etapas
-            </Link>
-          ) : null}
-          <Link className="btn btn-primary" href="/#contacto">
-            Empezá tu diagnóstico
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function ProcessRoute({ steps }) {
   return (
     <section
@@ -134,7 +86,7 @@ function ProcessRoute({ steps }) {
 
         <div className="process-route-grid">
           {steps.map(([title, text], index) => (
-            <article className="process-route-panel" data-route-panel={index} key={title}>
+            <article className="process-route-panel" key={title}>
               <div className="n">{String(index + 1).padStart(2, '0')}</div>
               <h4>{title}</h4>
               <p>{text}</p>
@@ -156,14 +108,10 @@ function ProcessRoute({ steps }) {
   );
 }
 
-export default function Process({ compact = false, internal = false }) {
-  if (compact) {
-    return <ProcessHome steps={processStepsHome} />;
-  }
-
+export default function Process({ internal = false }) {
   if (internal) {
     return <ProcessRoute steps={processSteps} />;
   }
 
-  return <ProcessStatic compact={compact} />;
+  return <ProcessHome steps={processStepsHome} />;
 }

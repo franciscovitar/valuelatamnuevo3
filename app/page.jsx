@@ -41,7 +41,7 @@ export default function Home() {
         <PartnerLogos />
         <Solutions />
         <WhyUs />
-        <Process compact />
+        <Process />
         <Regulation />
         <Team />
         <WorkWithUsTeaser />

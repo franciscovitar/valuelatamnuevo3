@@ -28,6 +28,19 @@
       rgba(214, 190, 147, 0.016),
       transparent 64%
     );
+
+  /* Internal tabs: bloom above the section edge so it does not clip as a flat band. */
+  --vl-section-glow-internal:
+    radial-gradient(
+      92% 72% at 50% -24%,
+      rgba(242, 239, 232, 0.03),
+      transparent 64%
+    ),
+    radial-gradient(
+      74% 56% at 50% -14%,
+      rgba(214, 190, 147, 0.018),
+      transparent 60%
+    );
 }
 
 /* Keep the subtle sparkly / non-flat background, but don't let every section glow equally. */
@@ -63,7 +76,29 @@ section[data-vl-internal-page='liquidez']::after,
 section[data-vl-internal-page='procesos-ia']::after,
 section[data-vl-internal-page='referenciadores']::after {
   opacity: 0.96 !important;
+}
+
+section[data-vl-home-section='work-with-us']::after {
   background: var(--vl-section-glow-soft) !important;
+}
+
+section[data-vl-internal-page='financiamiento']::after,
+section[data-vl-internal-page='liquidez']::after,
+section[data-vl-internal-page='procesos-ia']::after,
+section[data-vl-internal-page='referenciadores']::after {
+  top: clamp(-112px, -12vw, -76px);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: auto;
+  background: var(--vl-section-glow-internal) !important;
+}
+
+section[data-vl-internal-page='financiamiento'],
+section[data-vl-internal-page='liquidez'],
+section[data-vl-internal-page='procesos-ia'],
+section[data-vl-internal-page='referenciadores'] {
+  overflow: visible;
 }
 
 /* Home divider base: short and centered when present. */

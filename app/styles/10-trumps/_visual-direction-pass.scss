@@ -376,9 +376,6 @@ header .btn-primary,
   background-image: none !important;
 }
 
-[data-vl-home-section='solutions'] .sol-card.is-active,
-.sol-card.is-active,
-.sol-card[data-state='active'],
 .sol-ficha.is-active,
 .gain.is-active,
 .cycle.is-active,
@@ -820,8 +817,6 @@ body {
 }
 
 :is(
-  .sol-card.is-active,
-  .sol-card[data-state='active'],
   .is-active.gain,
   .is-active.biz,
   .is-active.feat,

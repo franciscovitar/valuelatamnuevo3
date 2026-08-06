@@ -63,7 +63,8 @@
 
   .pay-giros{margin-top:30px;padding:24px 26px;max-width:none;border:1px solid rgba(246,243,236,.12);border-radius:var(--radius-card-premium);background:rgba(255,255,255,.025)}
 
-  .pay-giros h4{color:var(--paper);font-size:17px;margin-bottom:10px;line-height:1.05}
+  .pay-giros h4,
+  .pay-support h4{color:var(--paper);font-size:17px;margin-bottom:10px;line-height:1.05}
 
   .pay-giros p{color:rgba(246,243,236,.76);font-size:15px;font-weight:400;line-height:1.65;margin:0}
 

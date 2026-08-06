@@ -79,7 +79,7 @@ export default function Payments() {
           </p>
         </div>
         <div className="pay-support" data-pay-block="support">
-          <span className="pay-group-label">Respaldo</span>
+          <h4>Respaldo</h4>
           <p>
             Atención de <b>personas reales</b>, no bots ni menús eternos: te acompañamos por WhatsApp y mail mientras
             dejamos toda la operación montada. Todo 100% digital, con la solidez de un Agente Productor registrado en la
