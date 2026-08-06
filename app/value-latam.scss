@@ -45,3 +45,5 @@
 @use './styles/10-trumps/hero-logo-assembly' as *;
 @use './styles/10-trumps/hero-logo-assembly-v5' as *;
 @use './styles/10-trumps/global-starfield' as *;
+// Último: redefine las variables --vl-* por sección para el tema marfil.
+@use './styles/10-trumps/light-sections' as *;

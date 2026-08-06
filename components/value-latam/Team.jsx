@@ -17,7 +17,12 @@ const teamMembers = [
 
 export default function Team() {
   return (
-    <section className="team" data-vl-gsap-root="team" data-vl-home-section="team" id="equipo">
+    <section
+      className="team vl-section--light"
+      data-vl-gsap-root="team"
+      data-vl-home-section="team"
+      id="equipo"
+    >
       <div className="wrap">
         <div className="sec-head">
           <span className="eyebrow">Nuestro equipo</span>

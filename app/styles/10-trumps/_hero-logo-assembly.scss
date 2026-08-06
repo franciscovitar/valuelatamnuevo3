@@ -24,8 +24,12 @@
   background: var(--hero-black);
 }
 
+// Pinned: la escena queda fija mientras el usuario consume la altura de
+// scroll del contenedor. Sin esto la narrativa (nube -> logo -> pausa ->
+// salida) tiene que ocurrir mientras el hero se va de pantalla.
+// El bloque de prefers-reduced-motion lo devuelve a `relative`.
 .video-hero--word-orbit .video-hero__sticky {
-  position: relative;
+  position: sticky;
   top: 0;
   width: 100%;
   height: 100svh;
@@ -72,12 +76,14 @@
   isolation: isolate;
 }
 
+// Sin z-index ni will-change a proposito: ambos crearian un stacking context
+// que encerraria a las palabras y les impediria competir con __core. La
+// referencia exige que las cercanas pasen POR DELANTE del logo y del titulo,
+// y el runtime asigna el z-index de cada palabra segun su profundidad.
 .hero-word-scene__words {
   position: absolute;
   inset: -18% -14%;
-  z-index: 2;
   overflow: visible;
-  will-change: transform;
 }
 
 .hero-word-scene__word-shell {
@@ -87,7 +93,10 @@
   z-index: 2;
   display: block;
   translate: -50% -50%;
-  transform: translate3d(var(--word-x), var(--word-y), 0) rotate(var(--word-rotation));
+  transform:
+    translate3d(var(--word-x), var(--word-y), 0)
+    scale(var(--word-scale, 1))
+    rotate(var(--word-rotation));
   transform-origin: 50% 50%;
   opacity: var(--word-opacity);
   filter: blur(var(--word-blur));
@@ -104,8 +113,9 @@
   filter: none;
 }
 
-.hero-word-scene__word-shell.is-front { z-index: 6; }
-.hero-word-scene__word-shell.is-far { z-index: 1; }
+// El z-index de cada palabra lo asigna el runtime segun su profundidad; un
+// valor fijo por clase pelearia con el orden en perspectiva.
+.hero-word-scene__word-shell.is-far { opacity: 0.62; }
 
 .hero-word-scene__word-float {
   display: block;
