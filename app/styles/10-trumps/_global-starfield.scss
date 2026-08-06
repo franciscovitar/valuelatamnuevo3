@@ -1,6 +1,6 @@
 /* =========================================================
-   VALUE LATAM — GLOBAL STARFIELD v2
-   Ambient depth only; stars stay below content contrast.
+   VALUE LATAM — GLOBAL STARFIELD v5
+   Organic ambient glows; single viewport, no tiling.
    ========================================================= */
 
 html {
@@ -13,53 +13,70 @@ body {
   min-height: 100%;
 }
 
-/* Primary layer: fine neutral stars, low contrast. */
+/* Primary layer: 12 soft glows, irregular viewport placement. */
 body::before {
   content: '';
   position: fixed;
-  inset: -40%;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='260' viewBox='0 0 420 260'%3E%3Cg fill='%23ffffff'%3E%3Ccircle cx='22' cy='26' r='1' opacity='.10'/%3E%3Ccircle cx='84' cy='44' r='1' opacity='.12'/%3E%3Ccircle cx='132' cy='22' r='1' opacity='.10'/%3E%3Ccircle cx='176' cy='60' r='1' opacity='.08'/%3E%3Ccircle cx='220' cy='30' r='1' opacity='.12'/%3E%3Ccircle cx='266' cy='72' r='1' opacity='.09'/%3E%3Ccircle cx='328' cy='34' r='1' opacity='.08'/%3E%3Ccircle cx='384' cy='80' r='1' opacity='.11'/%3E%3Ccircle cx='36' cy='118' r='1' opacity='.08'/%3E%3Ccircle cx='104' cy='146' r='1' opacity='.11'/%3E%3Ccircle cx='156' cy='130' r='1' opacity='.09'/%3E%3Ccircle cx='214' cy='160' r='1' opacity='.08'/%3E%3Ccircle cx='272' cy='140' r='1' opacity='.11'/%3E%3Ccircle cx='340' cy='176' r='1' opacity='.09'/%3E%3Ccircle cx='52' cy='214' r='1' opacity='.09'/%3E%3Ccircle cx='128' cy='232' r='1' opacity='.08'/%3E%3Ccircle cx='196' cy='210' r='1' opacity='.11'/%3E%3Ccircle cx='260' cy='236' r='1' opacity='.09'/%3E%3Ccircle cx='320' cy='220' r='1' opacity='.08'/%3E%3Ccircle cx='390' cy='244' r='1' opacity='.11'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 560px 360px;
-  opacity: 0.4;
-  filter: blur(0.25px);
-  will-change: transform;
-  animation: vlGlobalStarsDriftDense 70s linear infinite;
+  background-repeat: no-repeat;
+  background-image:
+    radial-gradient(5px circle at 11% 14%, rgba(246, 243, 236, 0.17) 0, rgba(246, 243, 236, 0.07) 30%, transparent 72%),
+    radial-gradient(7px circle at 27% 31%, rgba(246, 243, 236, 0.15) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+    radial-gradient(4px circle at 43% 9%, rgba(246, 243, 236, 0.14) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+    radial-gradient(6px circle at 61% 24%, rgba(246, 243, 236, 0.18) 0, rgba(246, 243, 236, 0.07) 30%, transparent 72%),
+    radial-gradient(5px circle at 79% 11%, rgba(246, 243, 236, 0.13) 0, rgba(246, 243, 236, 0.05) 30%, transparent 72%),
+    radial-gradient(9px circle at 91% 38%, rgba(246, 243, 236, 0.2) 0, rgba(246, 243, 236, 0.08) 30%, transparent 72%),
+    radial-gradient(6px circle at 17% 52%, rgba(246, 243, 236, 0.16) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+    radial-gradient(5px circle at 34% 68%, rgba(246, 243, 236, 0.14) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+    radial-gradient(4px circle at 52% 81%, rgba(246, 243, 236, 0.15) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+    radial-gradient(7px circle at 68% 58%, rgba(246, 243, 236, 0.19) 0, rgba(246, 243, 236, 0.08) 30%, transparent 72%),
+    radial-gradient(10px circle at 84% 74%, rgba(246, 243, 236, 0.21) 0, rgba(246, 243, 236, 0.08) 30%, transparent 72%),
+    radial-gradient(6px circle at 6% 89%, rgba(246, 243, 236, 0.14) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%);
 }
 
-/* Secondary layer: sparser, slower counter-drift. */
+/* Depth layer: 4 larger, extremely faint glows. */
 body::after {
   content: '';
   position: fixed;
-  inset: -50%;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='420' viewBox='0 0 640 420'%3E%3Cg fill='%23ffffff'%3E%3Ccircle cx='74' cy='62' r='1.5' opacity='.08'/%3E%3Ccircle cx='210' cy='94' r='1.6' opacity='.06'/%3E%3Ccircle cx='382' cy='76' r='1.4' opacity='.08'/%3E%3Ccircle cx='548' cy='116' r='1.7' opacity='.06'/%3E%3Ccircle cx='118' cy='248' r='1.6' opacity='.07'/%3E%3Ccircle cx='308' cy='270' r='1.5' opacity='.06'/%3E%3Ccircle cx='512' cy='296' r='1.7' opacity='.07'/%3E%3Ccircle cx='166' cy='382' r='1.6' opacity='.06'/%3E%3Ccircle cx='448' cy='392' r='1.7' opacity='.07'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 900px 590px;
-  opacity: 0.08;
-  filter: blur(0.35px);
-  will-change: transform;
-  animation: vlGlobalStarsDriftSparse 110s linear infinite;
+  background-repeat: no-repeat;
+  background-image:
+    radial-gradient(14px circle at 23% 19%, rgba(246, 243, 236, 0.06) 0, rgba(246, 243, 236, 0.03) 35%, transparent 78%),
+    radial-gradient(16px circle at 57% 44%, rgba(246, 243, 236, 0.05) 0, rgba(246, 243, 236, 0.03) 35%, transparent 78%),
+    radial-gradient(12px circle at 74% 63%, rgba(246, 243, 236, 0.07) 0, rgba(246, 243, 236, 0.04) 35%, transparent 78%),
+    radial-gradient(17px circle at 39% 87%, rgba(246, 243, 236, 0.04) 0, rgba(246, 243, 236, 0.02) 35%, transparent 78%);
 }
 
-@keyframes vlGlobalStarsDriftDense {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-90px, 72px, 0); }
-}
+@media (max-width: 980px) {
+  /* 8 glows; fewer on the right edge (menu / WhatsApp / controls). */
+  body::before {
+    background-image:
+      radial-gradient(5px circle at 11% 14%, rgba(246, 243, 236, 0.17) 0, rgba(246, 243, 236, 0.07) 30%, transparent 72%),
+      radial-gradient(7px circle at 27% 31%, rgba(246, 243, 236, 0.15) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+      radial-gradient(4px circle at 43% 9%, rgba(246, 243, 236, 0.14) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+      radial-gradient(6px circle at 61% 24%, rgba(246, 243, 236, 0.18) 0, rgba(246, 243, 236, 0.07) 30%, transparent 72%),
+      radial-gradient(6px circle at 17% 52%, rgba(246, 243, 236, 0.16) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+      radial-gradient(5px circle at 34% 68%, rgba(246, 243, 236, 0.14) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+      radial-gradient(4px circle at 48% 81%, rgba(246, 243, 236, 0.15) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%),
+      radial-gradient(6px circle at 6% 89%, rgba(246, 243, 236, 0.14) 0, rgba(246, 243, 236, 0.06) 30%, transparent 72%);
+  }
 
-@keyframes vlGlobalStarsDriftSparse {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(110px, -88px, 0); }
+  body::after {
+    background-image:
+      radial-gradient(14px circle at 23% 19%, rgba(246, 243, 236, 0.06) 0, rgba(246, 243, 236, 0.03) 35%, transparent 78%),
+      radial-gradient(16px circle at 52% 46%, rgba(246, 243, 236, 0.05) 0, rgba(246, 243, 236, 0.03) 35%, transparent 78%),
+      radial-gradient(17px circle at 31% 87%, rgba(246, 243, 236, 0.04) 0, rgba(246, 243, 236, 0.02) 35%, transparent 78%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   body::before,
   body::after {
     animation: none;
-    will-change: auto;
   }
 }
 
