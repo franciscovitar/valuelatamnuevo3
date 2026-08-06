@@ -18,8 +18,8 @@
 
 .video-hero--word-orbit .video-hero__scroll {
   position: relative;
-  height: 245svh;
-  min-height: 1540px;
+  height: 212svh;
+  min-height: 1330px;
   margin: 0;
   background: var(--hero-black);
 }
@@ -177,6 +177,7 @@
   stroke: rgba(247, 244, 237, 0.18);
   stroke-width: 0.56;
   stroke-linejoin: round;
+  opacity: 0.06;
   vector-effect: non-scaling-stroke;
 }
 
@@ -223,6 +224,11 @@
   line-height: 0.96;
   letter-spacing: -0.055em;
   text-wrap: balance;
+  opacity: 0;
+}
+
+.hero-word-scene__description {
+  opacity: 0;
 }
 
 .hero-word-scene__copy h1 span {
@@ -258,7 +264,7 @@ body:has(.video-hero--word-orbit) .metrics {
 }
 
 @media (max-width: 1100px) {
-  .video-hero--word-orbit .video-hero__scroll { height: 225svh; min-height: 1420px; }
+  .video-hero--word-orbit .video-hero__scroll { height: 198svh; min-height: 1250px; }
   .hero-word-scene__word-shell {
     transform: translate3d(var(--word-tablet-x), var(--word-tablet-y), 0) rotate(var(--word-rotation));
   }
@@ -269,7 +275,7 @@ body:has(.video-hero--word-orbit) .metrics {
 }
 
 @media (max-width: 760px) {
-  .video-hero--word-orbit .video-hero__scroll { height: 195svh; min-height: 1220px; }
+  .video-hero--word-orbit .video-hero__scroll { height: 178svh; min-height: 1110px; }
   .video-hero--word-orbit .video-hero__sticky { min-height: 560px; }
   .hero-word-scene__word-shell {
     top: 31%;
@@ -303,4 +309,9 @@ body:has(.video-hero--word-orbit) .metrics {
   .video-hero--word-orbit.is-video-hero-reduced .hero-word-scene__word-shell { display: none !important; }
   .video-hero--word-orbit.is-video-hero-reduced [data-hero-mark-fill] { transform: scale(1) !important; }
   .video-hero--word-orbit.is-video-hero-reduced [data-hero-mark-scan] { display: none !important; }
+  .video-hero--word-orbit.is-video-hero-reduced .hero-word-scene__copy h1,
+  .video-hero--word-orbit.is-video-hero-reduced .hero-word-scene__description {
+    opacity: 1 !important;
+  }
+  .video-hero--word-orbit.is-video-hero-reduced .video-hero__scroll-hint { display: none !important; }
 }

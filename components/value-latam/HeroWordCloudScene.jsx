@@ -70,7 +70,7 @@ export default function HeroWordCloudScene() {
           className="hero-word-scene__copy"
           data-hero-word-copy
         >
-          <h1 id="hero-word-scene-title">Value Latam</h1>
+          <h1 id="hero-word-scene-title" data-hero-title>Value Latam</h1>
 
           <p
             className="hero-word-scene__description"
