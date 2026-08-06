@@ -859,7 +859,6 @@ body {
 .hm-eyebrow,
 .un-go,
 .process-route-panel .n,
-.process-route-stage__current,
 .step .n,
 .sol-card .idx,
 .person .role,
@@ -908,8 +907,7 @@ body {
   background: transparent !important;
 }
 
-[data-vl-gsap-root='ai-processes'] .ai-story-rail__fill,
-.process-route-progress-mobile__fill {
+[data-vl-gsap-root='ai-processes'] .ai-story-rail__fill {
   background:
     linear-gradient(
       180deg,
@@ -918,8 +916,7 @@ body {
     ) !important;
 }
 
-.vl-card-topline,
-.process-route-progress__fill {
+.vl-card-topline {
   background:
     linear-gradient(
       90deg,

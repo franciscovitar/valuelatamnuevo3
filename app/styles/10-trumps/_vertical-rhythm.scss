@@ -144,6 +144,17 @@ section[data-vl-internal-page] > .wrap > :is(
   margin-bottom: clamp(32px, 3.4vw, 42px) !important;
 }
 
+@media (min-width: 981px) {
+  section[data-vl-internal-page] > .wrap > :is(
+    .fin-lede,
+    .ai-lede,
+    .pay-hero
+  ),
+  section[data-vl-internal-page] > .wrap > .sec-head .pay-sub {
+    max-width: 62.5rem;
+  }
+}
+
 /* Major internal chapters receive a real visual pause and a soft divider. */
 section[data-vl-internal-page] > .wrap > :is(
   .subunit,
@@ -255,25 +266,8 @@ section[data-vl-internal-page='procesos-ia'] .ai-band {
   margin-top: clamp(38px, 4vw, 48px) !important;
 }
 
-/* Process route: less dead room inside the pinned stage. */
-section[data-vl-internal-page='como-trabajamos']
-  .process-route__desktop
-  .sec-head {
-  margin-bottom: 20px !important;
-}
-
-section[data-vl-internal-page='como-trabajamos']
-  .process-route-stage {
-  margin-bottom: clamp(14px, 1.8vw, 20px);
-}
-
-section[data-vl-internal-page='como-trabajamos']
-  .process-route-segments {
-  margin-bottom: clamp(16px, 2vw, 22px);
-}
-
-section[data-vl-internal-page='como-trabajamos']
-  .closer {
+/* Process route: natural spacing between grid and CTA. */
+section[data-vl-internal-page='como-trabajamos'] .closer {
   margin-top: clamp(24px, 2.8vw, 34px) !important;
 }
 
