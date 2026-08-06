@@ -92,7 +92,6 @@ section[data-vl-home-section]::before {
 
 /* Generic internal-page separators */
 section[data-vl-internal-page] > .wrap > :is(
-  .subunit,
   .liquidity-operators,
   .ai-delivery,
   .pay-pillars,
@@ -168,17 +167,6 @@ section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group::before 
   display: none !important;
 }
 
-/* Financing: no top line above “¿Por qué con nosotros?” */
-section[data-vl-internal-page='financiamiento'] > .wrap > .subunit::before,
-section[data-vl-internal-page='financiamiento'] .vl-fin-divider {
-  content: none !important;
-  display: none !important;
-  margin: 0 !important;
-  height: 0 !important;
-  border: 0 !important;
-  background: none !important;
-}
-
 /* AI: no chapter/card/closer decorative lines */
 section[data-vl-internal-page='procesos-ia'] > .wrap > .ai-delivery::before,
 section[data-vl-internal-page='procesos-ia'] .ai-delivery-line {
@@ -222,7 +210,6 @@ section[data-vl-internal-page='procesos-ia'] .ai-band {
   }
 
   section[data-vl-internal-page] > .wrap > :is(
-    .subunit,
     .liquidity-operators,
     .ai-delivery,
     .pay-pillars,

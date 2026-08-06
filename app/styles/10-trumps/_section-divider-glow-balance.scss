@@ -170,7 +170,6 @@ section[data-vl-home-section='referrals'] {
 
 /* Internal page dividers: keep short style by default. */
 section[data-vl-internal-page] > .wrap > :is(
-  .subunit,
   .liquidity-operators,
   .ai-delivery,
   .pay-pillars,
@@ -198,7 +197,6 @@ section[data-vl-internal-page] > .wrap > :is(
   }
 
   section[data-vl-internal-page] > .wrap > :is(
-    .subunit,
     .liquidity-operators,
     .ai-delivery,
     .pay-pillars,
