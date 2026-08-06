@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger } from '@/lib/scroll/gsap';
+﻿import { gsap, ScrollTrigger } from '@/lib/scroll/gsap';
 import {
   HERO_MARK_REVEALS,
   HERO_WORD_LAYOUTS,
@@ -236,7 +236,7 @@ function addMarkReveal(timeline, targets) {
   });
 
   timeline.to(targets.markOutline, {
-    opacity: 0.10,
+    opacity: 0.88,
     duration: 0.18,
     ease: 'power1.out',
   }, 0.53);
@@ -259,6 +259,20 @@ function addMarkReveal(timeline, targets) {
     duration: 0.08,
     ease: 'power2.inOut',
   }, 0.675);
+
+  // V5.1 final mark normalization.
+  timeline.set(Array.from(targets.markFills.values()), {
+    scaleX: 1,
+    scaleY: 1,
+  }, 0.755);
+
+  timeline.set(Array.from(targets.markScans.values()), {
+    autoAlpha: 0,
+  }, 0.755);
+
+  timeline.set(targets.markOutline, {
+    opacity: 0.88,
+  }, 0.755);
 
   if (targets.brandName) {
     timeline.to(targets.brandName, {
@@ -351,7 +365,7 @@ function initReducedMotion(root, targets) {
   gsap.set(targets.words, { display: 'none', autoAlpha: 0 });
   gsap.set(Array.from(targets.markFills.values()), { scaleX: 1, scaleY: 1 });
   gsap.set(Array.from(targets.markScans.values()), { display: 'none' });
-  gsap.set(targets.markOutline, { opacity: 0.10 });
+  gsap.set(targets.markOutline, { opacity: 0.88 });
   gsap.set(targets.halo, { autoAlpha: 0.60, scale: 1 });
 
   return () => {
@@ -421,3 +435,4 @@ export function initVideoHeroAnimation() {
     root.classList.remove('is-video-hero-mounted', 'is-video-ready');
   };
 }
+

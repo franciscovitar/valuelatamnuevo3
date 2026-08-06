@@ -32,15 +32,6 @@ export default function ValueLatamMark() {
         </pattern>
       </defs>
 
-      <g
-        className="hero-word-scene__mark-outline"
-        data-hero-mark-outline
-      >
-        <path d={SMALL_BAR} />
-        <path d={MIDDLE_BAR} />
-        <path d={TALL_BAR} />
-      </g>
-
       <g clipPath="url(#vl-mark-small-clip)">
         <rect
           data-hero-mark-fill="small"
@@ -96,6 +87,15 @@ export default function ValueLatamMark() {
           height="7"
           fill="url(#vl-mark-scan-pattern)"
         />
+      </g>
+
+      <g
+        className="hero-word-scene__mark-outline"
+        data-hero-mark-outline
+      >
+        <path d={SMALL_BAR} />
+        <path d={MIDDLE_BAR} />
+        <path d={TALL_BAR} />
       </g>
     </svg>
   );

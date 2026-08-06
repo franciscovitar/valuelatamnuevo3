@@ -1,0 +1,165 @@
+/* =========================================================
+   VALUE LATAM — HERO V5.1
+   Unified optical center, large title, descriptive copy and
+   crisp three-bar mark at the end of the scroll sequence.
+   ========================================================= */
+
+.video-hero--word-orbit {
+  .hero-word-scene__core {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    z-index: 5;
+    display: flex;
+    width: min(92vw, 980px);
+    flex-direction: column;
+    align-items: center;
+    translate: -50% -50%;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .hero-word-scene__mark-anchor {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: grid;
+    place-items: center;
+    translate: none;
+  }
+
+  .hero-word-scene__mark {
+    display: block;
+    width: clamp(132px, 9.6vw, 182px);
+    height: auto;
+    overflow: visible;
+    shape-rendering: geometricPrecision;
+    filter: drop-shadow(0 14px 34px rgba(0, 0, 0, 0.42));
+  }
+
+  .hero-word-scene__mark-outline {
+    fill: none;
+    stroke: rgba(255, 253, 248, 0.94);
+    stroke-width: 0.38;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.88;
+    paint-order: stroke fill;
+    vector-effect: non-scaling-stroke;
+    pointer-events: none;
+  }
+
+  .hero-word-scene__copy {
+    position: relative;
+    left: auto;
+    top: auto;
+    z-index: 4;
+    display: grid;
+    width: 100%;
+    margin-top: clamp(46px, 5.4vh, 64px);
+    translate: none;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .hero-word-scene__copy h1,
+  .hero-word-scene__copy h1 span {
+    display: inline;
+    max-width: none;
+    margin: 0;
+    color: var(--hero-cream);
+    font-family: var(--font-sans);
+    font-size: clamp(4.25rem, 6.6vw, 7.5rem);
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.067em;
+    white-space: nowrap;
+    text-transform: none;
+  }
+
+  .hero-word-scene__description {
+    max-width: 50ch;
+    margin: clamp(22px, 2.6vh, 30px) auto 0;
+    color: rgba(247, 244, 237, 0.68);
+    font-family: var(--font-sans);
+    font-size: clamp(14px, 1.08vw, 17px);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+}
+
+@media (max-width: 1100px) {
+  .video-hero--word-orbit {
+    .hero-word-scene__core {
+      top: 46.5%;
+      width: min(94vw, 820px);
+    }
+
+    .hero-word-scene__mark {
+      width: clamp(124px, 14vw, 168px);
+    }
+
+    .hero-word-scene__copy {
+      margin-top: clamp(40px, 5vh, 56px);
+    }
+
+    .hero-word-scene__copy h1,
+    .hero-word-scene__copy h1 span {
+      font-size: clamp(3.8rem, 8.7vw, 6.3rem);
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .video-hero--word-orbit {
+    .hero-word-scene__core {
+      top: 45.5%;
+      width: calc(100vw - 30px);
+    }
+
+    .hero-word-scene__mark {
+      width: clamp(112px, 32vw, 142px);
+    }
+
+    .hero-word-scene__copy {
+      margin-top: 36px;
+    }
+
+    .hero-word-scene__copy h1,
+    .hero-word-scene__copy h1 span {
+      font-size: clamp(3rem, 15vw, 4.75rem);
+      letter-spacing: -0.058em;
+      white-space: normal;
+    }
+
+    .hero-word-scene__description {
+      max-width: 31ch;
+      margin-top: 18px;
+      font-size: 14px;
+      line-height: 1.48;
+    }
+  }
+}
+
+@media (max-height: 720px) and (min-width: 761px) {
+  .video-hero--word-orbit {
+    .hero-word-scene__core {
+      top: 46.5%;
+    }
+
+    .hero-word-scene__mark {
+      width: clamp(112px, 16vh, 142px);
+    }
+
+    .hero-word-scene__copy {
+      margin-top: clamp(32px, 4.4vh, 44px);
+    }
+
+    .hero-word-scene__copy h1,
+    .hero-word-scene__copy h1 span {
+      font-size: clamp(3.5rem, 9.6vh, 5.5rem);
+    }
+  }
+}

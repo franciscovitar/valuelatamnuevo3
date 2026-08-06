@@ -25,10 +25,7 @@ function getWordStyle(word) {
 
 export default function HeroWordCloudScene() {
   return (
-    <div
-      className="hero-word-scene"
-      data-hero-word-scene
-    >
+    <div className="hero-word-scene" data-hero-word-scene>
       <div
         className="hero-word-scene__words"
         data-hero-word-layer
@@ -56,33 +53,32 @@ export default function HeroWordCloudScene() {
         ))}
       </div>
 
-      <div
-        className="hero-word-scene__mark-anchor"
-        data-hero-mark-anchor
-        aria-hidden="true"
-      >
-        <span
-          className="hero-word-scene__halo"
-          data-hero-word-halo
-        />
-        <ValueLatamMark />
-      </div>
-
-      <div
-        className="hero-word-scene__copy"
-        data-hero-word-copy
-      >
-        <h1 id="hero-word-scene-title">
-          Distintas capacidades.
-          <span>Una sola estrategia.</span>
-        </h1>
-
-        <p
-          className="hero-word-scene__brand-name"
-          data-hero-brand-name
+      <div className="hero-word-scene__core">
+        <div
+          className="hero-word-scene__mark-anchor"
+          data-hero-mark-anchor
+          aria-hidden="true"
         >
-          Value Latam
-        </p>
+          <span
+            className="hero-word-scene__halo"
+            data-hero-word-halo
+          />
+          <ValueLatamMark />
+        </div>
+
+        <div
+          className="hero-word-scene__copy"
+          data-hero-word-copy
+        >
+          <h1 id="hero-word-scene-title">Value Latam</h1>
+
+          <p
+            className="hero-word-scene__description"
+            data-hero-subcopy
+          >
+            Financiamiento, liquidez, medios de pago e IA conectados bajo un mismo equipo.
+          </p>
+        </div>
       </div>
     </div>
   );
