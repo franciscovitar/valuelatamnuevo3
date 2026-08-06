@@ -1,9 +1,22 @@
 // Efectos editoriales por sección — no afecta al Hero (.cover-hero)
 
 .vl-tx-word,
-.vl-tx-char,
 .vl-tx-phrase {
   display: inline;
+}
+
+// Los caracteres se transforman individualmente: `inline` ignora transform.
+.vl-tx-char {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform, opacity, filter;
+}
+
+// Mantiene la palabra entera como unidad de salto de línea aunque cada
+// carácter sea inline-block; sin esto el texto se parte en cualquier letra.
+.vl-tx-cword {
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .vl-tx-line {
@@ -18,6 +31,39 @@
 
 .vl-text-paint .vl-tx-word {
   transition: color 0.01s linear;
+}
+
+// Transición por bandas — el overlay lo crea lib/motion/bandTransition.js.
+// Necesita ganarle a `section[data-vl-home-section] > *  { z-index: 1 }` de
+// _divider-background-depth, de ahí el selector con el elemento y el atributo.
+section[data-vl-home-section] > .vl-band-wipe,
+section[data-vl-internal-page] > .vl-band-wipe {
+  position: absolute;
+  // El overlay se posiciona contra el padding box, así que un borde o un
+  // redondeo subpíxel dejan asomar una hairline del fondo por arriba. Los 2px
+  // extra se comen ese filo; caen sobre la sección oscura anterior, del mismo
+  // color que las bandas, así que no se ven.
+  inset: -2px 0 0;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.vl-band-wipe__band {
+  position: absolute;
+  // Desborde lateral de 1px: evita que se vea el filo del fondo por
+  // redondeo cuando la banda escala.
+  left: -1px;
+  right: -1px;
+  background: var(--vl-band-color, #020306);
+  transform-origin: center top;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vl-band-wipe {
+    display: none !important;
+  }
 }
 
 .vl-metric-sep {

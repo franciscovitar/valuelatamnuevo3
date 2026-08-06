@@ -4,7 +4,7 @@ import { solutions } from '@/data/valueLatamContent';
 export default function Solutions() {
   return (
     <section
-      className="solutions"
+      className="solutions vl-section--light"
       data-vl-gsap-root="solutions"
       data-vl-home-section="solutions"
       id="soluciones"
