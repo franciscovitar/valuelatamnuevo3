@@ -93,15 +93,15 @@
 
   .pay-support{
     margin-top:28px;
-    padding:32px 36px;
+    padding:24px 26px;
     border:1px solid rgba(246,243,236,.12);
-    background:rgba(255,255,255,.05);
-    border-top:1px solid rgba(246,243,236,.12);
+    border-radius: var(--radius-card-premium);
+    background:rgba(255,255,255,.025);
   }
 
   .pay-support p{
     color:rgba(246,243,236,.76);
-    font-size:15.5px;
+    font-size:15px;
     font-weight:400;
     line-height:1.65;
     margin:10px 0 0;
@@ -109,7 +109,8 @@
 
   .pay-support b{font-weight:600;color:rgba(246,243,236,.94)}
 
-[data-vl-internal-page='medios-de-pago'] .pay-giros {
+[data-vl-internal-page='medios-de-pago'] .pay-giros,
+[data-vl-internal-page='medios-de-pago'] .pay-support {
   width: 100%;
   box-sizing: border-box;
   margin-top: 28px;
@@ -123,8 +124,13 @@
   margin: 0 0 10px;
 }
 
-[data-vl-internal-page='medios-de-pago'] .pay-giros p {
+[data-vl-internal-page='medios-de-pago'] .pay-giros p,
+[data-vl-internal-page='medios-de-pago'] .pay-support p {
   margin: 0;
+}
+
+[data-vl-internal-page='medios-de-pago'] .pay-support p {
+  margin-top: 10px;
 }
 
 @media (max-width: 760px) {
@@ -148,7 +154,7 @@
     width: 100%;
     box-sizing: border-box;
     margin-top: 24px;
-    padding: 23px 20px;
+    padding: 20px 18px;
     border-radius: var(--radius-card-premium);
   }
 

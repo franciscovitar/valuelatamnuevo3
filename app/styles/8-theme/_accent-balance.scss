@@ -8,8 +8,7 @@
 .cross b { color: #ccb487; }
 .badge { color: rgba(246, 243, 236, .85); }
 .feat-hl { border: 1px solid rgba(196, 194, 190, .42); background: rgba(196, 194, 190, .07); }
-.faq summary::after,
-.faq details[open] summary { color: #ccb487; }
+.faq summary::after { border-color: #ccb487; color: #ccb487; }
 .bs-dots button.active { background: #ccb487; }
 .reg .seal { color: rgba(246, 243, 236, .85); }
 .trust .logos .chip:hover { border-color: #ccb487; color: var(--paper); }

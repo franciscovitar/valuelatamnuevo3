@@ -82,7 +82,10 @@
 .jcard p { color: rgba(246, 243, 236, .76); font-size: 15px; line-height: 1.65; font-weight: 400; margin: 0; }
 
 .faq { margin-top: 22px; max-width: none; }
-.faq details { border-top: 1px solid rgba(246, 243, 236, .14); padding: 16px 2px; }
+.faq details {
+  border-top: 1px solid rgba(246, 243, 236, .14);
+  padding: 0;
+}
 .faq summary {
   cursor: pointer;
   list-style: none;
@@ -94,11 +97,45 @@
   justify-content: space-between;
   align-items: center;
   gap: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 22px clamp(20px, 3vw, 28px);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: '+'; color: var(--brass-2); font-size: 22px; font-weight: 300; line-height: 1; }
-.faq details[open] summary { color: var(--brass-2); }
-.faq details[open] summary::after { content: '\2013'; }
-.faq details p { margin: 12px 0 0; color: rgba(246, 243, 236, .80); font-size: 14.5px; line-height: 1.6; }
+.faq summary::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border: 0;
+  border-right: 1.5px solid #ccb487;
+  border-bottom: 1.5px solid #ccb487;
+  background: transparent;
+  transform: rotate(45deg);
+  transition: transform .22s ease;
+  pointer-events: none;
+}
+.faq details[open] summary { color: var(--paper); }
+.faq details[open] summary::after {
+  content: '';
+  transform: rotate(225deg);
+}
+.faq details p {
+  margin: 0;
+  padding: 0 clamp(20px, 3vw, 28px) 24px;
+  color: rgba(246, 243, 236, .80);
+  font-size: 14.5px;
+  line-height: 1.65;
+  max-height: none;
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq summary::after { transition: none; }
+}
 
 @media (max-width: 880px) { .join-cards { grid-template-columns: 1fr; } }

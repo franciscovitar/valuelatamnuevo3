@@ -57,9 +57,7 @@ section[data-vl-internal-page]::after {
 }
 
 /* Re-enable glow only in alternating home moments so the page breathes. */
-section[data-vl-home-section='why-us']::after,
 section[data-vl-home-section='work-with-us']::after,
-section[data-vl-home-section='partners']::after,
 section[data-vl-internal-page='financiamiento']::after,
 section[data-vl-internal-page='liquidez']::after,
 section[data-vl-internal-page='procesos-ia']::after,
@@ -78,19 +76,17 @@ section[data-vl-home-section]::before {
   opacity: 0.76 !important;
 }
 
-/* Explicit removals requested by the user */
+/* Explicit removals — keep partners divider as the reference */
 section[data-vl-home-section='solutions']::before,
 section[data-vl-home-section='metrics']::before,
 section[data-vl-home-section='process']::before,
 section[data-vl-home-section='regulation']::before,
-section[data-vl-home-section='team']::before,
-section[data-vl-home-section='contact']::before,
+section[data-vl-home-section='referrals']::before,
 section[data-vl-home-section='solutions'] > .wrap::before,
 section[data-vl-home-section='metrics'] > .wrap::before,
 section[data-vl-home-section='process'] > .wrap::before,
 section[data-vl-home-section='regulation'] > .wrap::before,
-section[data-vl-home-section='team'] > .wrap::before,
-section[data-vl-home-section='contact'] > .wrap::before {
+section[data-vl-home-section='referrals'] > .wrap::before {
   content: none !important;
   display: none !important;
   background: none !important;
@@ -98,15 +94,53 @@ section[data-vl-home-section='contact'] > .wrap::before {
   box-shadow: none !important;
 }
 
+/* Same luminous divider as partners (“Red de trabajo”): line + soft top glow */
+section[data-vl-home-section='partners']::before,
+section[data-vl-home-section='why-us']::before,
+section[data-vl-home-section='team']::before,
+section[data-vl-home-section='contact']::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  top: 0;
+  left: 50% !important;
+  width: min(72%, 1080px) !important;
+  height: 1px !important;
+  pointer-events: none;
+  transform: translateX(-50%) !important;
+  background: var(--vl-divider-short-balanced) !important;
+  opacity: 0.76 !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+section[data-vl-home-section='partners']::after,
+section[data-vl-home-section='why-us']::after,
+section[data-vl-home-section='team']::after,
+section[data-vl-home-section='contact']::after {
+  opacity: 0.96 !important;
+  background: var(--vl-section-glow-soft) !important;
+}
+
 /* Also remove glow on the same sections so it alternates more clearly. */
 section[data-vl-home-section='solutions']::after,
 section[data-vl-home-section='metrics']::after,
 section[data-vl-home-section='process']::after,
 section[data-vl-home-section='regulation']::after,
-section[data-vl-home-section='team']::after,
-section[data-vl-home-section='contact']::after {
+section[data-vl-home-section='referrals']::after {
   opacity: 0 !important;
   background: none !important;
+}
+
+/* Partners bottom edge was reading as a flat rule above “Cuatro unidades”. */
+section[data-vl-home-section='partners'].trust,
+.trust.partner-logos {
+  border-bottom: 0 !important;
+}
+
+section[data-vl-home-section='solutions'],
+section[data-vl-home-section='referrals'] {
+  border-top: 0 !important;
 }
 
 /* Internal page dividers: keep short style by default. */
@@ -129,6 +163,13 @@ section[data-vl-internal-page] > .wrap > :is(
 @media (max-width: 760px) {
   section[data-vl-home-section]::before {
     width: calc(100% - 64px) !important;
+  }
+
+  section[data-vl-home-section='partners']::before,
+  section[data-vl-home-section='why-us']::before,
+  section[data-vl-home-section='team']::before,
+  section[data-vl-home-section='contact']::before {
+    width: min(72%, 1080px) !important;
   }
 
   section[data-vl-internal-page] > .wrap > :is(

@@ -6,20 +6,6 @@ html.vl-motion-enabled {
     filter: none;
   }
 
-  [data-vl-home-section='solutions'] .sol-card {
-    transition: none;
-  }
-
-  [data-vl-home-section='solutions'] .sol-card:hover {
-    transform: none;
-    box-shadow: none;
-    border-color: var(--line-light);
-  }
-
-  [data-vl-home-section='solutions'] .sol-card:hover .arrow {
-    color: inherit;
-  }
-
   [data-vl-home-section='metrics'] .metric .num {
     font-variant-numeric: tabular-nums;
   }

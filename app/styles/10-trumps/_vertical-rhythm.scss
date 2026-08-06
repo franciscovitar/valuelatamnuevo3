@@ -228,7 +228,7 @@ section[data-vl-internal-page='medios-de-pago']
   .pay-group
   + .pay-group {
   padding-top: clamp(24px, 2.6vw, 32px);
-  border-top: 1px solid rgba(242, 239, 232, 0.055);
+  border-top: 0;
 }
 
 section[data-vl-internal-page='medios-de-pago'] .pay-pillars {

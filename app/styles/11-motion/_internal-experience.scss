@@ -216,19 +216,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
 }
 
 [data-vl-gsap-root='ai-processes'] .ai-delivery-line {
-  height: 1px;
-  margin: 22px 0 18px;
-  background: rgba(246, 243, 236, 0.1);
-  overflow: hidden;
-}
-
-[data-vl-gsap-root='ai-processes'] .ai-delivery-line__fill {
-  display: block;
-  width: 100%;
-  height: 100%;
-  transform: scaleX(0);
-  transform-origin: left center;
-  background: linear-gradient(90deg, rgba(196, 194, 190, 0.45), rgba(191, 160, 90, 0.85));
+  display: none;
 }
 
 [data-vl-gsap-root='ai-processes'] .ai-delivery-closer {
@@ -244,61 +232,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
 }
 
 [data-vl-gsap-root='payments'] .pay-reading-guide {
-  position: absolute;
-  top: 180px;
-  left: 0;
-  bottom: 120px;
-  width: 16px;
-  pointer-events: none;
-}
-
-[data-vl-gsap-root='payments'] .pay-reading-guide__track {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: rgba(246, 243, 236, 0.1);
-  overflow: hidden;
-}
-
-[data-vl-gsap-root='payments'] .pay-reading-guide__fill {
-  display: block;
-  width: 100%;
-  height: 100%;
-  transform: scaleY(0);
-  transform-origin: top center;
-  background: linear-gradient(180deg, rgba(196, 194, 190, 0.45), rgba(191, 160, 90, 0.82));
-}
-
-[data-vl-gsap-root='payments'] .pay-reading-guide__marks {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  height: 100%;
-}
-
-[data-vl-gsap-root='payments'] .pay-reading-guide__mark {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-[data-vl-gsap-root='payments'] .pay-reading-guide__dot {
-  display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 1px solid rgba(196, 194, 190, 0.45);
-  background: rgba(15, 15, 18, 0.92);
-  transition: border-color 0.25s ease;
-}
-
-[data-vl-gsap-root='payments'] .pay-reading-guide__mark.is-pay-active .pay-reading-guide__dot {
-  border-color: rgba(210, 183, 117, 0.85);
+  display: none;
 }
 
 [data-vl-gsap-root='payments'] .pay-group {
@@ -325,10 +259,6 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
 }
 
 @media (max-width: 760px) {
-  [data-vl-gsap-root='payments'] .pay-reading-guide {
-    display: none;
-  }
-
   [data-vl-gsap-root='payments'] .pay-group.is-pay-active .pay-group-label {
     color: rgba(210, 183, 117, 0.95);
   }

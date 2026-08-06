@@ -137,11 +137,26 @@ footer {
   border-top-color: transparent !important;
 }
 
-[data-vl-home-section='solutions'],
 [data-vl-home-section='regulation'],
-[data-vl-home-section='contact'],
 footer {
   border-top: 1px solid rgba(242, 239, 232, 0.06) !important;
+}
+
+[data-vl-home-section='solutions'],
+[data-vl-home-section='contact'],
+[data-vl-home-section='team'],
+[data-vl-home-section='referrals'] {
+  border-top: 0 !important;
+}
+
+.solutions,
+.finan {
+  border-top: 0 !important;
+}
+
+.trust.partner-logos {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
 }
 
 /* =========================================================
@@ -870,35 +885,29 @@ body {
 }
 
 .pay-feat summary::after,
-.faq summary::after,
 .tplus,
 .tunit.open .tplus {
   color: var(--vl-accent) !important;
 }
 
 .pay-feat summary,
-.faq summary {
-  color: var(--vl-text-primary) !important;
-}
-
-.pay-feat[open] summary,
+.faq summary,
 .faq details[open] summary,
 .faq summary:hover,
 .faq summary:focus-visible {
+  color: var(--vl-text-primary) !important;
+}
+
+.pay-feat[open] summary {
   color: var(--vl-accent-hover) !important;
 }
 
-.pay-reading-guide__dot {
-  background: var(--vl-surface-base) !important;
-  border-color: rgba(204, 180, 135, 0.34) !important;
+.faq summary::after {
+  color: var(--vl-accent) !important;
+  border-color: var(--vl-accent) !important;
+  background: transparent !important;
 }
 
-.pay-reading-guide__mark.is-pay-active .pay-reading-guide__dot {
-  background: var(--vl-accent) !important;
-  border-color: var(--vl-accent-hover) !important;
-}
-
-[data-vl-gsap-root='payments'] .pay-reading-guide__fill,
 [data-vl-gsap-root='ai-processes'] .ai-story-rail__fill,
 .process-route-progress-mobile__fill {
   background:
@@ -909,7 +918,6 @@ body {
     ) !important;
 }
 
-[data-vl-gsap-root='ai-processes'] .ai-delivery-line__fill,
 .vl-card-topline,
 .process-route-progress__fill {
   background:
@@ -955,13 +963,8 @@ body {
   border-color: var(--vl-border-hover) !important;
 }
 
-.nav-links > a::after,
-.nav-dropdown__trigger::after,
-.nav-dropdown__menu a::after {
-  background: var(--vl-accent) !important;
-  border-color: var(--vl-accent) !important;
-}
-
+/* Nav underline stays on the champagne gradient system from _navigation.scss.
+   Do not restyle trigger::after (chevron) or menu items with a second underline. */
 .nav-links > a:hover,
 .nav-links > a:focus-visible,
 .nav-links > a.is-active,
@@ -973,14 +976,14 @@ body {
 .nav-dropdown__menu a:focus-visible,
 .nav-dropdown__menu a.is-active {
   color: var(--vl-text-primary) !important;
-  border-color: var(--vl-accent) !important;
 }
 
 .nav-dropdown__menu a:hover,
 .nav-dropdown__menu a:focus-visible,
 .nav-dropdown__menu a.is-active {
   background: var(--vl-surface-raised) !important;
-  box-shadow: inset 3px 0 0 var(--vl-accent) !important;
+  box-shadow: none !important;
+  border-left: 0 !important;
 }
 
 .feat-hl,

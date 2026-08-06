@@ -120,35 +120,41 @@ section[data-vl-internal-page] > .wrap > :is(
   opacity: 0.78 !important;
 }
 
-/* Remove the full-width separator in the three home areas that are still showing it */
+/* Remove the full-width separator in home areas that should stay clean */
 section[data-vl-home-section='regulation'],
 section[data-vl-home-section='solutions'],
-section[data-vl-home-section='contact'] {
+section[data-vl-home-section='contact'],
+section[data-vl-home-section='team'],
+section[data-vl-home-section='referrals'] {
   border-top: 0 !important;
 }
 
 section[data-vl-home-section='regulation'] > .wrap,
 section[data-vl-home-section='solutions'] > .wrap,
-section[data-vl-home-section='contact'] > .wrap {
+section[data-vl-home-section='contact'] > .wrap,
+section[data-vl-home-section='team'] > .wrap,
+section[data-vl-home-section='referrals'] > .wrap {
   border-top: 0 !important;
 }
 
 section[data-vl-home-section='regulation']::before,
 section[data-vl-home-section='solutions']::before,
-section[data-vl-home-section='contact']::before,
+section[data-vl-home-section='referrals']::before,
 section[data-vl-home-section='regulation'] > .wrap::before,
 section[data-vl-home-section='solutions'] > .wrap::before,
-section[data-vl-home-section='contact'] > .wrap::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: min(72%, 1080px) !important;
-  height: 1px;
-  pointer-events: none;
-  transform: translateX(-50%);
-  background: var(--vl-divider-short) !important;
-  opacity: 0.82;
+section[data-vl-home-section='contact'] > .wrap::before,
+section[data-vl-home-section='team'] > .wrap::before,
+section[data-vl-home-section='referrals'] > .wrap::before {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+section[data-vl-home-section='partners'].trust,
+.trust.partner-logos {
+  border-bottom: 0 !important;
 }
 
 /* Results keeps only side dividers between metrics, not a horizontal divider above them */
@@ -165,23 +171,44 @@ section[data-vl-home-section='metrics'] .metric {
   border-top: 0 !important;
 }
 
-/* Payment groups previously drew full-width borders */
+/* Payment groups: no horizontal rules between 01–05 */
 section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group {
   position: relative;
   border-top: 0 !important;
 }
 
 section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: min(76%, 760px);
-  height: 1px;
-  pointer-events: none;
-  transform: translateX(-50%);
-  background: var(--vl-divider-short);
-  opacity: 0.72;
+  content: none !important;
+  display: none !important;
+}
+
+/* Financing: no top line above “¿Por qué con nosotros?” */
+section[data-vl-internal-page='financiamiento'] > .wrap > .subunit::before,
+section[data-vl-internal-page='financiamiento'] .vl-fin-divider {
+  content: none !important;
+  display: none !important;
+  margin: 0 !important;
+  height: 0 !important;
+  border: 0 !important;
+  background: none !important;
+}
+
+/* AI: no chapter/card/closer decorative lines */
+section[data-vl-internal-page='procesos-ia'] > .wrap > .ai-delivery::before,
+section[data-vl-internal-page='procesos-ia'] .ai-delivery-line {
+  content: none !important;
+  display: none !important;
+  margin: 0 !important;
+  height: 0 !important;
+  background: none !important;
+}
+
+section[data-vl-internal-page='procesos-ia'] .ai-delivery .join-cards {
+  margin-top: 28px;
+}
+
+section[data-vl-internal-page='procesos-ia'] .ai-band {
+  border-top: 0 !important;
 }
 
 @media (max-width: 760px) {
@@ -197,14 +224,15 @@ section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group::before 
       linear-gradient(180deg, #040508 0%, #050609 44%, #040508 100%);
   }
 
-  section[data-vl-home-section]::before,
-  section[data-vl-home-section='regulation']::before,
-  section[data-vl-home-section='solutions']::before,
-  section[data-vl-home-section='contact']::before,
-  section[data-vl-home-section='regulation'] > .wrap::before,
-  section[data-vl-home-section='solutions'] > .wrap::before,
-  section[data-vl-home-section='contact'] > .wrap::before {
+  section[data-vl-home-section]::before {
     width: calc(100% - 64px) !important;
+  }
+
+  section[data-vl-home-section='partners']::before,
+  section[data-vl-home-section='why-us']::before,
+  section[data-vl-home-section='team']::before,
+  section[data-vl-home-section='contact']::before {
+    width: min(72%, 1080px) !important;
   }
 
   section[data-vl-internal-page] > .wrap > :is(
@@ -213,8 +241,7 @@ section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group::before 
     .ai-delivery,
     .pay-pillars,
     .join-section-sub
-  )::before,
-  section[data-vl-internal-page='medios-de-pago'] .pay-group + .pay-group::before {
+  )::before {
     width: calc(100% - 48px) !important;
   }
 }

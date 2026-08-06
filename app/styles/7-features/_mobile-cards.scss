@@ -58,18 +58,7 @@
   overflow-wrap:anywhere;
 }
 .faq details{
-  overflow:hidden;
-}
-.faq details p{
-  max-height:0;
-  opacity:0;
-  transform:translateY(-4px);
-  transition:max-height .32s ease,opacity .25s ease,transform .25s ease,margin-top .25s ease;
-}
-.faq details[open] p{
-  max-height:160px;
-  opacity:1;
-  transform:none;
+  overflow: visible;
 }
 .join-section-sub + .fin-grid{
   margin-top:30px;
