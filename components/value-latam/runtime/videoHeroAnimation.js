@@ -3,6 +3,7 @@ import { getLenis, scrollToTop } from '@/lib/scroll/lenis';
 import { refreshScrollTriggers } from '@/lib/scroll/routeScroll';
 import {
   HERO_MARK_REVEALS,
+  HERO_SCENE,
   HERO_TIMELINE,
   HERO_WORD_LAYOUTS,
   HERO_WORDS,
@@ -43,14 +44,6 @@ function isWordVisible(word, layoutName) {
   if (layoutName === 'mobile') return !word.mobileHidden;
   if (layoutName === 'tablet') return !word.tabletHidden;
   return true;
-}
-
-function toViewportX(value, layout) {
-  return window.innerWidth * value * 0.01 * layout.xFactor;
-}
-
-function toViewportY(value, layout) {
-  return window.innerHeight * value * 0.01 * layout.yFactor;
 }
 
 function collectTargets(root) {
@@ -102,8 +95,13 @@ function getHeroScrollDistanceVh() {
   return getLayout().scrollDistanceVh;
 }
 
+/*
+ * El contenedor necesita la altura de la escena (100svh) mas el recorrido que
+ * consume la narrativa. Es lo que le da al hijo sticky algo sobre lo que
+ * pegarse: con 100svh justos no hay pin posible.
+ */
 function setScrollHeight(scrollEl) {
-  scrollEl.style.height = '100svh';
+  scrollEl.style.height = `${100 + getHeroScrollDistanceVh()}svh`;
 }
 
 function getScrollTriggerConfig(targets) {
@@ -128,10 +126,10 @@ function buildTimeline(targets) {
   });
 
   timeline.set(targets.scene, { autoAlpha: 1 }, 0);
-  setWordInitialState(timeline, targets);
   setMarkInitialState(timeline, targets);
-  addWordConvergence(timeline, targets);
+  addWordCloud(timeline, targets);
   addMarkReveal(timeline, targets);
+  addHeroExit(timeline, targets);
   addHintFade(timeline, targets);
   timeline.to({}, { duration: 0.001 }, 1);
 
@@ -155,32 +153,136 @@ function destroyHeroScrollAnimation(animation) {
   animation?.timeline?.kill();
 }
 
-function setWordInitialState(timeline, targets) {
+/*
+ * Estado de la nube. Se escribe estilo inline directo en vez de usar tweens
+ * por palabra: la proyeccion se recalcula entera en cada frame y crear 16
+ * tweens por frame seria trabajo tirado.
+ */
+const cloudState = {
+  entries: [],
+  progress: 0,
+};
+
+function clamp01(value) {
+  if (value < 0) return 0;
+  if (value > 1) return 1;
+  return value;
+}
+
+function refreshCloudEntries(targets) {
   const layoutName = getLayoutName();
-  const layout = getLayout();
+
+  cloudState.entries = [];
 
   targets.words.forEach((element) => {
     const baseWord = getWordConfig(element.dataset.heroWord);
 
     if (!baseWord || !isWordVisible(baseWord, layoutName)) {
-      timeline.set(element, { display: 'none', autoAlpha: 0 }, 0);
+      element.style.display = 'none';
       return;
     }
 
-    const word = getResponsiveWord(baseWord, layoutName);
+    element.style.display = 'block';
+    element.style.transformOrigin = '50% 50%';
 
-    timeline.set(element, {
-      display: 'block',
-      x: () => toViewportX(word.x, layout),
-      y: () => toViewportY(word.y, layout),
-      scale: 1,
-      rotate: word.rotation,
-      autoAlpha: word.opacity,
-      filter: `blur(${word.blur}px)`,
-      transformOrigin: '50% 50%',
-      force3D: true,
-    }, 0);
+    cloudState.entries.push({
+      element,
+      word: getResponsiveWord(baseWord, layoutName),
+    });
   });
+}
+
+/**
+ * Proyecta la nube para un avance de camara normalizado (0 -> 1).
+ * Escala y distancia radial comparten el divisor `k = focal / z`, de modo que
+ * una palabra cercana crece y se abre hacia el borde mas rapido que una
+ * lejana sin necesidad de easings por elemento.
+ */
+function renderCloud(progress) {
+  cloudState.progress = progress;
+
+  const layout = getLayout();
+  const { focal, zNear, zContent, cameraTravel } = HERO_SCENE;
+  const cameraZ = progress * cameraTravel;
+  const unitX = window.innerWidth * 0.01 * layout.xFactor;
+  const unitY = window.innerHeight * 0.01 * layout.yFactor;
+
+  cloudState.entries.forEach(({ element, word }) => {
+    const z = word.z0 - cameraZ;
+
+    if (z <= zNear) {
+      element.style.visibility = 'hidden';
+      element.style.opacity = '0';
+      return;
+    }
+
+    const k = focal / z;
+
+    // Nace tenue junto al punto de fuga y se apaga al alcanzar la camara.
+    const born = clamp01((k - 0.16) / 0.34);
+    const exit = clamp01((z - zNear) / 0.6);
+    const alpha = born * exit
+      * (word.opacity ?? 1)
+      * (word.depth === 'far' ? 0.62 : 1);
+
+    // Blur solo en lo muy lejano: la profundidad la comunica la escala.
+    const blur = k >= 0.5 ? 0 : Math.min(2.2, (0.5 - k) * 6);
+
+    element.style.visibility = alpha > 0.004 ? 'visible' : 'hidden';
+    element.style.opacity = alpha.toFixed(3);
+    element.style.filter = blur > 0.02 ? `blur(${blur.toFixed(2)}px)` : 'none';
+    element.style.transform = `translate3d(${(word.wx * k * unitX).toFixed(2)}px, ${(word.wy * k * unitY).toFixed(2)}px, 0) scale(${k.toFixed(4)}) rotate(${word.rotation}deg)`;
+
+    // Mas cerca que el plano del bloque central => pasa por delante del logo.
+    element.style.zIndex = z > zContent
+      ? String(Math.round(40 - Math.min(z, 6) * 4))
+      : String(Math.round(150 + (zContent - z) * 60));
+  });
+}
+
+/*
+ * Salida del bloque central mientras la seccion sigue pinneada. El simbolo
+ * arranca antes que la copia: el bloque no se va rigido, se deshace de arriba
+ * hacia abajo. Cuando el sticky finalmente suelta, la escena ya esta vacia y
+ * el paso a la seccion siguiente no deja un vacio negro.
+ */
+function addHeroExit(timeline, targets) {
+  const start = HERO_TIMELINE.exitAt;
+  const span = 1 - start;
+  const anchor = targets.root.querySelector('[data-hero-mark-anchor]');
+
+  if (anchor) {
+    timeline.to(anchor, {
+      y: () => -window.innerHeight * 0.52,
+      autoAlpha: 0,
+      duration: span * 0.86,
+      ease: 'power2.in',
+    }, start);
+  }
+
+  if (targets.copy) {
+    timeline.to(targets.copy, {
+      y: () => -window.innerHeight * 0.42,
+      autoAlpha: 0,
+      duration: span * 0.88,
+      ease: 'power2.in',
+    }, start + span * 0.12);
+  }
+}
+
+function addWordCloud(timeline, targets) {
+  refreshCloudEntries(targets);
+
+  const camera = { progress: 0 };
+
+  timeline.to(camera, {
+    progress: 1,
+    duration: HERO_SCENE.cloudEnd,
+    ease: 'none',
+    onUpdate: () => renderCloud(camera.progress),
+  }, 0);
+
+  renderCloud(0);
 }
 
 function setMarkInitialState(timeline, targets) {
@@ -202,6 +304,18 @@ function setMarkInitialState(timeline, targets) {
     autoAlpha: 1,
     y: 0,
   }, 0);
+
+  // Estado base de la salida: sin esto el scroll inverso no devuelve el
+  // bloque a su lugar y un remount por resize lo dejaria fuera de pantalla.
+  const anchor = targets.root.querySelector('[data-hero-mark-anchor]');
+
+  if (anchor) {
+    timeline.set(anchor, { y: 0, autoAlpha: 1 }, 0);
+  }
+
+  if (targets.copy) {
+    timeline.set(targets.copy, { y: 0, autoAlpha: 1 }, 0);
+  }
 
   HERO_MARK_REVEALS.forEach((reveal) => {
     const fill = targets.markFills.get(reveal.id);
@@ -226,45 +340,6 @@ function setMarkInitialState(timeline, targets) {
   });
 }
 
-function addWordConvergence(timeline, targets) {
-  const layoutName = getLayoutName();
-  const layout = getLayout();
-
-  targets.words.forEach((element) => {
-    const baseWord = getWordConfig(element.dataset.heroWord);
-
-    if (!baseWord || !isWordVisible(baseWord, layoutName)) return;
-
-    const word = getResponsiveWord(baseWord, layoutName);
-    const depthFactor = word.depth === 'far' ? 0.86 : 1;
-    const travel = word.end - word.start;
-    const midAt = word.start + travel * 0.54;
-    const middleX = word.x * 0.44 + word.curveX * 0.56;
-    const middleY = word.y * 0.44 + word.curveY * 0.56;
-
-    timeline.to(element, {
-      x: () => toViewportX(middleX, layout),
-      y: () => toViewportY(middleY, layout),
-      scale: 0.78 * depthFactor,
-      rotate: word.rotation * 0.12,
-      autoAlpha: Math.min(word.opacity, 0.78),
-      filter: `blur(${Math.max(0, word.blur * 0.35)}px)`,
-      duration: midAt - word.start,
-      ease: 'power2.inOut',
-    }, word.start);
-
-    timeline.to(element, {
-      x: () => toViewportX(word.targetX, layout),
-      y: () => toViewportY(word.targetY, layout),
-      scale: 0.24 * depthFactor,
-      rotate: 0,
-      autoAlpha: 0,
-      filter: `blur(${Math.min(2.2, word.blur + 1.2)}px)`,
-      duration: word.end - midAt,
-      ease: 'power1.inOut',
-    }, midAt);
-  });
-}
 
 function addMarkReveal(timeline, targets) {
   const {
@@ -481,6 +556,11 @@ export function initVideoHeroAnimation() {
         return;
       }
 
+      // Mismo layout: la proyeccion sigue en pixeles del viewport anterior y
+      // solo se recalcula en el onUpdate del timeline, que no dispara si el
+      // usuario redimensiona sin scrollear.
+      setScrollHeight(targets.scrollEl);
+      renderCloud(cloudState.progress);
       refreshScrollTriggers({ hard: true });
     });
   };
