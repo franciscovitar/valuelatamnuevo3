@@ -110,14 +110,30 @@ comparación de píxeles.
 | # | Oleada | Riesgo | Estado |
 |---|---|---|---|
 | 1 | Línea base verificable | — | hecha |
-| 2 | Eliminar código muerto (H1) y `three` (H2) | bajo | |
-| 3 | Componentes repetidos reales | bajo/medio | |
-| 4 | `CLAUDE.md` y documentación | bajo | |
+| 2 | Eliminar código muerto (H1) y `three` (H2) | bajo | hecha — `e258bc8` |
+| 3 | Componentes repetidos reales | bajo | hecha — `a8b6bd2` |
+| 4 | `CLAUDE.md` y documentación | bajo | hecha |
 
 Descartado por riesgo desproporcionado frente al beneficio: H3 y H4.
 
-Las oleadas 2 y 3 originalmente planeadas para *fuentes de verdad* se
-redujeron: la paleta y `siteConfig` ya estaban centralizadas.
+Las oleadas originalmente planeadas para *fuentes de verdad* se cancelaron: la
+paleta y `siteConfig` ya estaban centralizadas.
+
+### Resultado
+
+| | Antes | Después |
+|---|---|---|
+| Archivos JS/JSX | 121 | 102 |
+| Líneas JS/JSX | 16.512 | 13.799 |
+| Archivos inalcanzables | 19 (2.726 líneas) | 0 |
+| Dependencias de producción | 10 | 9 |
+| Duplicados de `sec-head` | 5 | 0 |
+
+Re-ejecutado el análisis de alcanzabilidad al cerrar: **102 de 102 archivos
+alcanzables, cero código muerto restante.**
+
+Paridad en las tres oleadas: **8.478 elementos comparados en 7 rutas × 4
+viewports, cero diferencias.**
 
 ---
 
