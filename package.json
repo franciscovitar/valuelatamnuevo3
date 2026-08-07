@@ -20,8 +20,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "resend": "^6.16.0",
-    "sass": "^1.97.3",
-    "three": "^0.185.1"
+    "sass": "^1.97.3"
   },
   "devDependencies": {
     "eslint": "^9",
