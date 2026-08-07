@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
-    "check": "npm run lint && npm run build"
+    "check": "npm run lint && npm run test:e2e && npm run build",
+    "test:e2e": "playwright test"
   },
   "engines": {
     "node": ">=20.9.0"
@@ -24,6 +25,7 @@
     "sass": "^1.97.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "eslint": "^9",
     "eslint-config-next": "^16.2.10"
   }

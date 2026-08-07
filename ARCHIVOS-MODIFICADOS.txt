@@ -1,4 +1,0 @@
-app/page.jsx
-components/value-latam/BackgroundCanvas.jsx
-lib/scroll/home/backgroundLines.js
-app/styles/8-theme/_background-lines.scss

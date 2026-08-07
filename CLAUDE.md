@@ -7,13 +7,17 @@ Lenis.
 ## Comandos
 
 ```bash
-npm run dev      # desarrollo
-npm run build    # build de produccion
-npm run lint     # eslint, --max-warnings=0
+npm run dev       # desarrollo
+npm run build     # build de produccion
+npm run lint      # eslint, --max-warnings=0
+npm run test:e2e  # playwright — suite minima, ver e2e/
+npm run check     # lint + test:e2e + build — validación obligatoria tras un cambio
 ```
 
-No hay tests ni type checking. `lint` y `build` son toda la validación
-automática disponible.
+No hay type checking (JavaScript sin TypeScript). La suite E2E es mínima a
+propósito: protege navegación (desktop/mobile), el formulario de contacto
+(mockeado, no pega contra Resend), rutas internas y accesibilidad básica —
+no reemplaza la verificación visual en navegador.
 
 En Windows, si hay un `dev` corriendo, `build` falla por archivos bloqueados en
 `.next`. `next.config.mjs` puede leer `VL_DIST_DIR` para compilar a otro
@@ -38,6 +42,7 @@ lib/
     internal/           idem para paginas internas
 data/                   contenido y configuracion del sitio
 docs/                   auditoria de mantenibilidad
+e2e/                    suite Playwright minima (ver npm run test:e2e)
 ```
 
 Dirección de dependencias: `app` → `components` → `lib` → `data`.
@@ -91,6 +96,23 @@ ResizeObserver, ticker de GSAP) y respetar `prefers-reduced-motion`.
   arrancaba descolgada.
 - `.hero-word-scene__words` no lleva `z-index` ni `will-change`: crearían un
   stacking context que impediría a las palabras cercanas pasar delante del logo.
+- No dejar código comentado como "retained for rollback": git es el historial.
+  Cuatro heroes viejos (`Intro`, `CoverStory`, `ImageHero`, `CityVideo`)
+  vivieron así, exportados desde el barrel pero sin consumidor real, hasta que
+  una auditoría los encontró y los borró (ver informe, sección 7). Si un
+  módulo deja de usarse, se elimina en el momento.
+- `10-trumps/` no se toca para resolver algo local. Es deuda conocida
+  (`!important` deliberado); buscar primero el dueño real del estilo. Nunca
+  agregar otro `!important` como parche.
+- Antes de hardcodear contacto, WhatsApp, URLs o navegación: revisar
+  `data/siteConfig.js` y `data/valueLatamContent.js`. No duplicar esa
+  información en un componente.
+- Antes de crear un botón, CTA o heading nuevo: buscar en
+  `components/value-latam` si ya existe el concepto (`SectionHeading`,
+  `ContactCta`). No crear un componente universal con muchos booleanos para
+  cubrir casos que en realidad son elementos distintos (ver `ContactCta` — a
+  propósito no absorbe el `<button type="submit">` del formulario ni los
+  enlaces externos, porque no comparten elemento ni semántica).
 
 ## Verificar un cambio
 
@@ -106,3 +128,25 @@ Dos advertencias de método:
 2. **El movimiento no se puede verificar automáticamente** en el panel de
    navegador de Claude Code: no compone frames, así que `requestAnimationFrame`
    no corre. Todo cambio que toque una animación necesita revisión humana.
+3. **En una sesión larga, comparar contra una línea base de hace rato da falsos
+   positivos** (Fast Refresh acumulado, estado del tab). La comparación
+   confiable es A/B inmediata: `git stash` → capturar → `git stash pop` →
+   capturar → comparar campo por campo, sin intervalo entre ambas.
+
+## Antes de editar
+
+- **Alcance**: tocar solo lo necesario para la tarea pedida. No aprovechar un
+  cambio chico para "mejorar" archivos no relacionados ni para cambiar diseño
+  sin que se haya pedido.
+- **Ubicar antes de tocar**: componente, estilos, módulo de motion, datos y
+  consumidores de una feature, no solo el primer resultado de una búsqueda.
+- **Selectores como contrato**: `className`, `id`, `data-*` y `aria-*` no son
+  solo estilo — el motion imperativo de `lib/scroll/` y `runtime/` los usa
+  como API (`.closest()`, `querySelector`). Antes de renombrar uno, buscar sus
+  consumidores en JS, no solo en SCSS.
+- No silenciar errores (`eslint-disable`, `catch {}` vacío, aumentar
+  tolerancia visual del arnés) para que algo pase sin resolver la causa.
+- Antes de instalar una dependencia nueva: confirmar que no exista ya una
+  solución en el proyecto o nativa del navegador/framework.
+- Nombres de archivo que indiquen el concepto, no `utils2`, `finalVersion`,
+  `temp`, `fix`.

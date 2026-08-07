@@ -77,8 +77,10 @@ components/value-latam/AmbientParticleField.jsx            264
 inalcanzables. `BackgroundCanvas.jsx` —lo que dibuja las líneas de fondo hoy—
 es SVG puro y no importa Three.
 
-`motion` (^12.42.2) **sí sigue en uso**: `CityVideo.jsx` y
-`runtime/microInteractions.js` la importan y son alcanzables. No se toca.
+`motion` (^12.42.2) **sí sigue en uso**: `runtime/microInteractions.js` la
+importa de forma independiente. No se toca. (`CityVideo.jsx`, la otra
+consumidora citada originalmente, se eliminó en la pasada de seguridad — ver
+sección 7 — pero `microInteractions.js` sostiene la dependencia por sí sola.)
 
 ### H3 — Dos archivos concentran demasiada responsabilidad
 
@@ -212,9 +214,201 @@ pisaba al primero, así que editar el primero no tenía efecto.
 npm run dev      # desarrollo
 npm run build    # build de produccion
 npm run lint     # eslint, --max-warnings=0
+npm run check    # lint + build
 ```
 
 No hay tests ni type checking: el proyecto es JavaScript sin TypeScript.
 
 Para compilar sin pisar el `.next` de un `dev` en curso (Windows bloquea los
 archivos), `next.config.mjs` puede leer `VL_DIST_DIR` de forma temporal.
+
+---
+
+## 7. Pasada de seguridad y arquitectura (post-refactor)
+
+Segunda pasada, quirúrgica: no repite el refactor de la sección 1-6, corrige
+inconsistencias puntuales y deja una red de seguridad mínima. Línea base:
+commit `2997bc6`.
+
+### 7.1 Bug real: paleta JS leía variables inexistentes
+
+`lib/scroll/home/palette.js` leía `--p-gold`, `--p-gold-bright`,
+`--p-gold-rgb`, `--p-gold-bright-rgb` — nombres de **antes** de que la escala
+se renombrara a `--p-accent-*` durante la conversión a paleta monocroma (ver
+sección 5). Como esas variables ya no existen, `getPropertyValue` devolvía
+string vacío y cada lectura caía siempre al `FALLBACK` hardcodeado, que
+además era el dorado cálido de la identidad previa (`#ccb487`), no el acento
+monocromo actual (`#f4f4f1`).
+
+Impacto real medido: dos `boxShadow` de resplandor (`glowGoldSoft`, en el
+pullquote de "Por qué Value Latam" y el CTA de referenciadores) renderizaban
+el color viejo. Ambos se aplican `onEnter`/`scrub` de ScrollTrigger, así que
+no aparecían en una captura estática sin scroll — el arnés de paridad no
+podía verlos por diseño (ver 7.4). Corregido: `palette.js` ahora lee
+`--p-accent*` y su `FALLBACK` está sincronizado con la escala actual.
+
+`lib/motion/textEffects.js` tenía el mismo patrón en sus fallbacks locales
+(`MUTED`/`ACTIVE`/`GOLD`), pero esos SÍ resuelven la variable CSS correcta —
+solo el literal de reserva estaba desactualizado. Cambio de fallback puro,
+cero impacto (esa rama es inalcanzable en render normal: las funciones se
+invocan siempre en cliente).
+
+### 7.2 Deuda registrada, no corregida: `MOTION_GLOW`
+
+`lib/motion/tokens.js` → `MOTION_GLOW.primaryHover` tiene un dorado cálido
+hardcodeado (`rgba(191, 160, 90)`) que tampoco deriva de la paleta y es
+residuo de la misma identidad previa. A diferencia de 7.1, **no se corrige**:
+es el hover de todo botón `.btn-primary` del sitio, un estado que la paridad
+exige preservar exactamente, y ese entorno no puede ejercitar estados de
+hover para verificarlo visualmente. Derivarlo de `--p-accent` es un cambio de
+diseño real (dorado → casi blanco), no una corrección de bug. Queda
+documentado en el propio archivo.
+
+### 7.3 Cuatro heroes legacy eliminados
+
+Una segunda pasada de alcanzabilidad (Fase 12 del prompt de esta sesión)
+encontró un caso que la de la sección 1 no había cubierto: componentes
+exportados desde el barrel `components/value-latam/index.js` pero sin
+consumidor real en ninguna página, algunos ni siquiera comentados.
+
+| Componente | Estado previo | Causa |
+|---|---|---|
+| `Intro.jsx` | cero referencias, ni comentadas | export de barrel nunca importado — la alcanzabilidad de la sección 1 no verificaba consumo real de cada export |
+| `CoverStory.jsx` | comentado "retained for rollback" | hero anterior a `VideoHero` |
+| `ImageHero.jsx` | comentado "retained for rollback"; su `@use` de SCSS ya estaba comentado (0% compilado) | hero intermedio, nunca terminó de activarse |
+| `CityVideo.jsx` | comentado; dependía de `/portada.mp4`, ya eliminado por el usuario | sección descartada |
+
+Eliminado por componente, con su infraestructura exclusiva confirmada por
+alcanzabilidad (cero consumidores fuera del propio grupo):
+
+- **Intro**: componente + `app/styles/6-sections/_hero.scss` (exclusivo al
+  100%, verificado selector por selector) + `data/valueLatamContent.js` →
+  `introHome` (sin otro consumidor).
+- **CoverStory**: componente + `runtime/coverAnimation.js` +
+  `runtime/heroKeyframes.js` (ambos exclusivos) + `public/hero-smoke.png` +
+  bloque `.hero-title`/`.ht-inner` de `_cover-presentation.scss` (ya marcado
+  `// Legacy hero-title (Intro sin uso) — conservado` por una sesión previa;
+  ahora confirmado y eliminado).
+- **ImageHero**: componente + `runtime/imageHeroAnimation.js` (exclusivo) +
+  `app/styles/8-theme/_image-hero.scss` + `public/hero-city-{mobile,desktop}.webp`.
+- **CityVideo**: componente + `app/styles/6-sections/_city-video.scss`
+  (exclusivo al 100%).
+
+`lib/motion/tokens.js` → `EXCLUDED_ANCESTORS` (consumido por
+`isMotionExcluded`, activo en `microInteractions.js`) tenía seis selectores
+— `.cover`, `.cover-scroll`, `.cover-sticky`, `.cover-brain`, `.hero-title`,
+`.cover-caption` — todos exclusivos de CoverStory/Intro. Verificado que
+ninguno coincidía con nada más del árbol activo antes de vaciar la lista; el
+mecanismo (`isMotionExcluded`) se conserva.
+
+**No se tocó**: el CSS de `.cover-hero*` sigue disperso en 8 archivos de
+`app/styles/` (además del bloque ya limpiado), mezclado con selectores
+activos en 6 de ellos. Purgarlo exige revisar cada archivo línea por línea
+para no arrastrar una regla activa — well fuera del alcance de una pasada
+quirúrgica. Queda selector muerto pero inerte (no puede coincidir con ningún
+elemento del DOM real). Candidato a una migración chica y dedicada, con
+comparación visual antes/después, igual que H4.
+
+### 7.4 Corrección de método: el arnés de paridad puede dar falsos positivos en sesiones largas
+
+Al comparar contra la línea base capturada más temprano en esta misma sesión
+aparecieron ~1.171 diferencias — no reproducibles. Aislado por comparación
+A/B inmediata (`git stash` → capturar → `git stash pop` → capturar → comparar
+campo por campo, sin intervalo), que dio **cero diferencias reales** en las
+mismas rutas: el `dev server` llevaba corriendo largo tiempo dentro de la
+sesión y algo (Fast Refresh acumulado, estado de sesión del tab) hizo derivar
+la comparación contra una línea base vieja.
+
+**Regla de método añadida**: para sesiones largas, la comparación confiable
+es A/B inmediata vía `git stash`, no contra una línea base capturada minutos
+u horas antes en la misma sesión de navegador. La línea base de la sección 4
+sigue siendo válida como snapshot de referencia entre sesiones distintas;
+dentro de una sesión larga, preferir A/B inmediata.
+
+### 7.5 Documentación
+
+`README.md` describía una migración de un prototipo HTML
+(`value-latam-cinematic-prototype.html`) y un `components/ValueLatamClient.jsx`
+que ya no existe (eliminado en la oleada 2 de la sección 3). Reescrito:
+instalar / ejecutar / validar / dónde está cada documento — sin duplicar
+`CLAUDE.md`.
+
+Eliminados `README-INSTALACION.md` y `ARCHIVOS-MODIFICADOS.txt`: instrucciones
+de instalación de un ZIP de un solo uso (la funcionalidad de líneas de fondo
+de la sección 7 de commits previos), ya aplicadas e integradas. El propio
+archivo indicaba que no hacía falta subirlo.
+
+### 7.6 Suite E2E mínima y dos bugs reales que encontró
+
+`@playwright/test` como dependencia de desarrollo únicamente, config mínima
+(`playwright.config.js`), 5 archivos en `e2e/`: home, navegación
+desktop/mobile, formulario de contacto (mockeado, sin pegar a Resend), rutas
+internas, accesibilidad básica + `prefers-reduced-motion`. 54 tests, 49
+corren, 5 se saltan a propósito (flujos de teclado/dropdown de escritorio
+contra el proyecto emulado táctil — cobertura duplicada, no hueco real).
+`npm run test:e2e`; integrado a `npm run check`.
+
+Esta suite corre en un Chromium real, que sí compone frames — a diferencia
+del panel de navegador de este entorno (sección 4). Eso le permitió encontrar
+dos bugs genuinos que ninguna verificación anterior de este proyecto pudo ver
+nunca, en ninguna sesión:
+
+**Bug 1 — recursión infinita en `lib/scroll/lenis.js`.** El listener de
+scroll hacía `window.dispatchEvent(new Event('scroll'))` para avisarle a
+`lib/scroll/ambientField.js` de cada tick. Pero Lenis también escucha scroll
+nativo para detectar input del usuario, así que ese evento sintético volvía a
+entrar a Lenis, que volvía a emitir `'scroll'`, que volvía a despachar el
+evento — `RangeError: Maximum call stack size exceeded`, de forma
+determinística, en cualquier página, con cualquier scroll real. Invisible en
+40+ turnos de verificación previa porque el panel de navegador nunca corre
+`requestAnimationFrame` ni dispara scroll de verdad. Encontrado por
+`home.spec.js` al revisar `pageerror` en la carga. Corregido eliminando esa
+única línea; `ambientField.js` no necesitó cambios (ya recibe eventos nativos
+genuinos, porque Lenis mueve el scroll real del documento).
+
+**Bug 2 — el foco nunca se movía al primer campo inválido.**
+`runtime/leadCapture.js` marca campos inválidos con
+`field.toggleAttribute('aria-invalid', true)` — un atributo booleano, queda
+`aria-invalid=""`. Pero la línea que mueve el foco buscaba
+`form.querySelector('[aria-invalid="true"]')`, el string literal `"true"`,
+que ese atributo nunca tiene. La búsqueda no encontraba nunca nada y el foco
+no se movía — ni para teclado ni para lector de pantalla, siempre, desde que
+se escribió. No cambia ningún píxel (los campos sí se marcaban visualmente
+via `.field-error`), así que tampoco lo hubiera visto el arnés de paridad.
+Encontrado por `contact-form.spec.js` al aserir `toBeFocused()`. Corregido
+cambiando el selector a `[aria-invalid]` (presencia, no valor).
+
+Ambos verificados sin impacto visual con A/B inmediata (7.4) antes y después
+de cada fix.
+
+### 7.7 Deuda arquitectónica conservada a propósito
+
+- **Header y Contact dependen de DOM imperativo**
+  (`runtime/navigationCards.js`, `runtime/leadCapture.js`) en vez de estado de
+  React. Funcionan, la interacción real depende de ellos, y ahora hay
+  cobertura E2E (7.6). No se migran en esta pasada: el beneficio de mover a
+  React no justifica el riesgo sobre código estable. Migrar solo si aparece
+  una necesidad funcional concreta, y con la suite E2E como red antes de
+  tocarlos.
+- **`10-trumps/`** sigue sin tocarse (H4). Ver CLAUDE.md, regla explícita
+  contra parchear ahí por un problema local.
+- **`.cover-hero*` disperso en 8 archivos de `app/styles/`** (7.3): selector
+  muerto (no matchea nada, `CoverStory` ya no existe) pero mezclado con reglas
+  activas en 6 de esos archivos. Purgarlo exige revisión línea por línea;
+  fuera de alcance de una pasada quirúrgica.
+- **5 vulnerabilidades `high` de `npm audit`**, todas preexistentes:
+  `brace-expansion`/`js-yaml` (transitivas de `eslint`), `postcss`/`sharp`
+  (empaquetadas dentro de `next`, no dependencias directas del proyecto). Se
+  comprobó que ninguna la introdujo esta pasada — ya estaban antes de instalar
+  Playwright. `npm audit fix` implicaría subir la versión mayor de `next`,
+  fuera de alcance ("no cambiar versiones mayores durante esta
+  refactorización"). Pendiente de una decisión explícita del equipo, no de un
+  fix automático.
+
+### 7.8 Verificación
+
+Lint, build y `test:e2e` limpios tras cada cambio. Paridad verificada con A/B
+inmediata (7.4) en las 7 rutas, viewport 1440×900 completo y 390×844 con
+verificación adicional sobre el único resultado dudoso (4 diferencias en
+`/financiamiento`, rastreadas a `SCRIPT`/`NEXTJS-PORTAL` — el overlay de
+Next.js en modo desarrollo, no contenido del sitio).
