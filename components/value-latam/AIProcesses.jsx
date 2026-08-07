@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import { aiSteps } from '@/data/valueLatamContent';
 import SectionHeading from './SectionHeading';
+import ContactCta from './ContactCta';
 
 export default function AIProcesses() {
   return (
@@ -78,7 +78,7 @@ export default function AIProcesses() {
           </div>
           <p className="ai-delivery-closer">El entregable final no es un PDF: es el agente funcionando en tu operación.</p>
         </div>
-        <div className="ai-band"><p className="tagline">Tu equipo deja de cargar datos. <b>Empieza a tomar decisiones.</b></p><Link className="btn btn-primary" href="/#contacto">Automatizar procesos</Link></div>
+        <div className="ai-band"><p className="tagline">Tu equipo deja de cargar datos. <b>Empieza a tomar decisiones.</b></p><ContactCta>Automatizar procesos</ContactCta></div>
       </div>
     </section>
   );

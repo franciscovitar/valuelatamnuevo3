@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { navLinks, navSolutionLinks } from '@/data/valueLatamContent';
+import ContactCta from './ContactCta';
 
 function isNavActive(href, pathname) {
   if (href.startsWith('/#')) {
@@ -108,9 +109,9 @@ export default function Header() {
         </nav>
 
         <div className="nav-cta">
-          <Link className="btn btn-primary" href="/#contacto">
+          <ContactCta>
             Agendar reunión
-          </Link>
+          </ContactCta>
         </div>
 
         <button

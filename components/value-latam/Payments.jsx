@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import { paymentGroups } from '@/data/valueLatamContent';
 import SectionHeading from './SectionHeading';
+import ContactCta from './ContactCta';
 
 export default function Payments() {
   return (
@@ -87,9 +87,9 @@ export default function Payments() {
           </p>
         </div>
         <div className="fin-cta" data-pay-block="cta">
-          <Link className="btn btn-primary" href="/#contacto">
+          <ContactCta>
             Quiero apuntar al costo 0 en mis pagos
-          </Link>
+          </ContactCta>
         </div>
       </div>
     </section>
