@@ -25,17 +25,26 @@ export const metadata = {
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Value Latam | Consultoría financiera integral',
-    description: 'Financiamiento, liquidez, medios de pago y automatización con IA para empresas.',
+    description:
+      'Financiamiento, liquidez, medios de pago y automatización con IA para empresas.',
     url: '/',
     siteName: siteConfig.name,
     locale: 'es_AR',
     type: 'website',
-    images: [{ url: '/value-latam-og.svg', width: 1200, height: 630, alt: siteConfig.name }],
+    images: [
+      {
+        url: '/value-latam-og.svg',
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Value Latam | Consultoría financiera integral',
-    description: 'Financiamiento, liquidez, medios de pago y automatización con IA para empresas.',
+    description:
+      'Financiamiento, liquidez, medios de pago y automatización con IA para empresas.',
     images: ['/value-latam-og.svg'],
   },
   icons: {
@@ -51,22 +60,29 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-<html
+    <html
       lang="es-AR"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
-        <head>
+      <head>
         <script
-          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
           rel="stylesheet"
         />
       </head>
+
       <body>
         <AppProviders>{children}</AppProviders>
       </body>

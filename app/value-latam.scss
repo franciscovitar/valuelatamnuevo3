@@ -1,4 +1,4 @@
-﻿// Value LATAM â€” ITCSS (cascada preservada)
+﻿// Value LATAM — ITCSS (cascada preservada)
 
 @use './styles/1-settings/breakpoints' as *;
 // Primero: fuente unica de color. Todo lo que sigue deriva de aca.
@@ -45,5 +45,10 @@
 @use './styles/10-trumps/hero-logo-assembly' as *;
 @use './styles/10-trumps/hero-logo-assembly-v5' as *;
 @use './styles/10-trumps/global-starfield' as *;
-// Último: redefine las variables --vl-* por sección para el tema marfil.
+
+// Compatibilidad: las viejas secciones "light" usan ahora el sistema oscuro.
 @use './styles/10-trumps/light-sections' as *;
+
+// SIEMPRE ULTIMO:
+// traduce cualquier fondo legacy hardcodeado al sistema actual de palette.
+@use './styles/10-trumps/velada-palette-final' as *;

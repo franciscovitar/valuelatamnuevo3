@@ -1,144 +1,130 @@
 // =========================================================
-// PALETA — FUENTE UNICA DE COLOR
+// VALUE LATAM — PALETA VELADA MATCH
+// Ajustada visualmente contra la referencia real de La Velada VI
 // =========================================================
 //
-// Este es el unico archivo donde se escriben valores de color literales.
-// Todo lo demas (tokens, capa de trumps, temas, motion en JS) deriva de aca.
+// Principio:
+// La identidad NO es "navy brillante".
+// Es un midnight casi plano (#0A1024), con cards apenas mas oscuras,
+// header mas profundo, crema marfil y oro apagado.
 //
-// COMO CAMBIAR UN COLOR
-//   Editas la variable de la ESCALA (bloque 1). Los roles del bloque 2 la
-//   siguen solos y con ellos toda la web, incluidas las paginas internas.
-//   Cambiar el dorado de marca = editar --p-accent y su terna --p-accent-rgb.
-//
-// POR QUE HAY TERNAS "-rgb"
-//   La web usa ~680 colores con transparencia. Un hex no sirve para eso, asi
-//   que cada color base publica tambien sus componentes sueltos y el consumidor
-//   arma la transparencia que necesita:
-//
-//     border-color: rgb(var(--p-cream-rgb) / 0.14);
-//
-//   Si cambias el hex, cambia tambien la terna: son el mismo color.
-//
-// REGLA DE ORO DEL DORADO
-//   El dorado de marca sobre fondo claro da 1.8:1 de contraste, ilegible.
-//   Cualquier dorado que sea TEXTO sobre claro usa --p-accent-deep (5.4:1).
-//   El dorado claro queda para filetes y adornos, sin requisito de contraste.
+// Fuente unica de color del proyecto.
 
 :root {
   // -------------------------------------------------------
-  // 1. ESCALA CRUDA — los unicos literales del proyecto
+  // 1. ESCALA CRUDA
   // -------------------------------------------------------
+
+  /* Oro */
+  --p-accent: #c9ab70;
+  --p-accent-bright: #ddc28a;
+  --p-accent-dim: #a58a58;
+  --p-accent-deep: #907443;
+  --p-accent-deeper: #725a32;
+
+  /* Crema */
+  --p-cream: #f3e2c6;
+  --p-cream-warm: #f7e8cf;
+  --p-cream-panel: #dfccb0;
+  --p-white: #fffaf0;
 
   /*
-   * Escala monocroma neutra. No hay color de marca: la jerarquia la dan la
-   * luminancia, el peso tipografico y el espacio, no el matiz.
-   *
-   * Los nombres `--p-accent-*` se conservan porque los consume media web; ya no
-   * son dorados sino los tonos de acento de la escala. Renombrarlos exigiria
-   * reescribir cientos de reglas para no ganar nada funcional.
+   * Escala oscura.
+   * #0A1024 es el fondo dominante real de la referencia.
+   * Las superficies NO suben hasta un navy brillante.
    */
+  --p-ink-950: #04061e;
+  --p-ink-900: #0a1024;
+  --p-ink-800: #090e1e;
+  --p-ink-700: #0c1022;
+  --p-ink-600: #10162b;
+  --p-ink-500: #151d34;
 
-  /* Acento: en monocromo el acento es el extremo claro sobre oscuro */
-  --p-accent: #f4f4f1;
-  --p-accent-bright: #f7f7f4;
-  --p-accent-dim: #c9c9c7;
-  --p-accent-deep: #3a3a38;
-  --p-accent-deeper: #1c1c1b;
+  /* Texto secundario */
+  --p-slate: #a3a9b7;
+  --p-slate-dim: #81899c;
+  --p-slate-ink: #343b4f;
+  --p-slate-ink-soft: #656d80;
 
-  /* Papel */
-  --p-cream: #f4f4f1;
-  --p-cream-warm: #f7f7f4;
-  --p-cream-panel: #e9e9e5;
-  --p-white: #ffffff;
+  /* Secundarios disponibles, no dominantes */
+  --p-maroon: #480f0e;
+  --p-forest: #1d3524;
+  --p-blood: #c63030;
+  --p-neon-cyan: #00aba5;
+  --p-neon-pink: #ff4f9f;
 
-  /* Tinta: de mas profundo a mas claro */
-  --p-ink-950: #050505;
-  --p-ink-900: #080808;
-  --p-ink-800: #0d0d0d;
-  --p-ink-700: #131313;
-  --p-ink-600: #1c1c1b;
-  --p-ink-500: #232322;
+  --p-success: #00aba5;
 
-  /* Neutros */
-  --p-slate: #c9c9c7;
-  --p-slate-dim: #9a9a97;
-  --p-slate-ink: #3a3a38;
-  --p-slate-ink-soft: #6b6b69;
+  /* RGB para transparencias */
+  --p-accent-rgb: 201 171 112;
+  --p-accent-bright-rgb: 221 194 138;
+  --p-accent-deep-rgb: 144 116 67;
 
-  /* Estado */
-  --p-success: #178a49;
+  --p-cream-rgb: 243 226 198;
+  --p-cream-warm-rgb: 247 232 207;
+  --p-white-rgb: 255 250 240;
 
-  /* Ternas para transparencias */
-  --p-accent-rgb: 244 244 241;
-  --p-accent-bright-rgb: 247 247 244;
-  --p-accent-deep-rgb: 58 58 56;
-  --p-cream-rgb: 244 244 241;
-  --p-cream-warm-rgb: 247 247 244;
-  --p-white-rgb: 255 255 255;
-  --p-ink-rgb: 5 5 5;
-  --p-ink-800-rgb: 13 13 13;
-  --p-slate-rgb: 201 201 199;
-  --p-hairline-rgb: 8 8 8;
+  --p-ink-rgb: 10 16 36;
+  --p-ink-950-rgb: 4 6 30;
+  --p-ink-800-rgb: 9 14 30;
+  --p-surface-rgb: 12 16 34;
+
+  --p-slate-rgb: 163 169 183;
+  --p-hairline-rgb: 201 171 112;
 
   // -------------------------------------------------------
-  // 2. ROLES — lo que consume el resto de la web
+  // 2. ROLES
   // -------------------------------------------------------
-  //
-  // Nombrados por funcion, no por color: "el borde sutil" sobrevive a un
-  // cambio de identidad, "el borde dorado" no.
 
-  /* Fondos de pagina */
   --role-bg-deep: var(--p-ink-950);
   --role-bg-base: var(--p-ink-900);
   --role-bg-raised: var(--p-ink-800);
 
-  /* Superficies de tarjeta y panel */
+  /*
+   * Cards: deliberadamente MUY cerca del fondo.
+   * Es una de las diferencias mas importantes respecto de la version anterior.
+   */
   --role-surface-deep: var(--p-ink-800);
   --role-surface-base: var(--p-ink-700);
   --role-surface-raised: var(--p-ink-600);
   --role-surface-active: var(--p-ink-500);
 
-  /* Texto sobre oscuro */
   --role-text-primary: var(--p-cream);
   --role-text-secondary: var(--p-slate);
   --role-text-muted: var(--p-slate-dim);
 
-  /* Texto sobre claro */
-  --role-text-on-light: var(--p-ink-600);
-  --role-text-on-light-soft: var(--p-slate-ink);
-  --role-text-on-light-muted: var(--p-slate-ink-soft);
+  /* Compatibilidad con consumidores antiguos */
+  --role-text-on-light: var(--p-cream);
+  --role-text-on-light-soft: var(--p-slate);
+  --role-text-on-light-muted: var(--p-slate-dim);
 
-  /* Acento */
   --role-accent: var(--p-accent);
   --role-accent-hover: var(--p-accent-bright);
-  --role-accent-on-light: var(--p-accent-deep);
-  --role-accent-on-light-hover: var(--p-accent-deeper);
+  --role-accent-on-light: var(--p-accent);
+  --role-accent-on-light-hover: var(--p-accent-bright);
 
-  /* Bordes y filetes */
-  --role-border-subtle: rgb(var(--p-accent-rgb) / 0.13);
-  --role-border-hover: rgb(var(--p-accent-bright-rgb) / 0.24);
-  --role-border-neutral: rgb(var(--p-cream-rgb) / 0.085);
-  --role-hairline-dark: rgb(var(--p-cream-rgb) / 0.14);
-  --role-hairline-light: rgb(var(--p-hairline-rgb) / 0.14);
+  /*
+   * Bordes cálidos y muy finos como en la referencia.
+   * Se perciben mas por temperatura que por luminosidad.
+   */
+  --role-border-subtle: rgb(var(--p-accent-rgb) / 0.16);
+  --role-border-hover: rgb(var(--p-accent-rgb) / 0.34);
+  --role-border-neutral: rgb(var(--p-accent-rgb) / 0.17);
+  --role-hairline-dark: rgb(var(--p-cream-rgb) / 0.10);
+  --role-hairline-light: rgb(var(--p-accent-rgb) / 0.18);
 
-  /* Botones: relleno claro con tinta oscura, el contraste maximo del sistema */
-  --role-button-start: #f4f4f1;
-  --role-button-end: #dededa;
-  --role-button-hover-start: #ffffff;
-  --role-button-hover-end: #eceCe8;
-  --role-button-ink: #080808;
+  --role-button-start: #f3e2c6;
+  --role-button-end: #c9ab70;
+  --role-button-hover-start: #faecd3;
+  --role-button-hover-end: #d5b778;
+  --role-button-ink: #0a1024;
 
-  /* Marcas de terceros: no son de la paleta, no deben seguir al acento. */
-  --role-whatsapp: var(--p-success);
-  --role-whatsapp-text: var(--p-white);
+  --role-whatsapp: var(--p-ink-700);
+  --role-whatsapp-text: var(--p-cream);
 
   // -------------------------------------------------------
-  // 3. CAPA SEMANTICA --vl-* — la que consumen los componentes
+  // 3. SEMANTICA --vl-*
   // -------------------------------------------------------
-  //
-  // Vivia duplicada en dos bloques :root de 10-trumps/_visual-direction-pass
-  // con valores distintos; el segundo pisaba al primero, asi que editar el
-  // primero no hacia nada. Ahora existe una sola vez y aca.
 
   --vl-bg-deep: var(--role-bg-deep);
   --vl-bg-base: var(--role-bg-base);
@@ -148,6 +134,7 @@
   --vl-surface-base: var(--role-surface-base);
   --vl-surface-raised: var(--role-surface-raised);
   --vl-surface-active: var(--role-surface-active);
+
   --vl-bg-card: var(--role-surface-base);
   --vl-bg-card-active: var(--role-surface-active);
 
@@ -170,54 +157,61 @@
 
   --vl-whatsapp: var(--role-whatsapp);
   --vl-whatsapp-text: var(--role-whatsapp-text);
-
   --vl-steel: var(--p-slate-dim);
 
   // -------------------------------------------------------
-  // 4. ALIAS HEREDADOS
+  // 4. ALIASES HEREDADOS
   // -------------------------------------------------------
-  //
-  // Nombres viejos que siguen usados en toda la web. Se conservan como alias
-  // para no reescribir cientos de reglas, pero ya no llevan valor propio.
-  // `--brass` llego a estar definido en cuatro archivos con cuatro valores
-  // distintos; ganaba el ultimo y los otros tres eran ruido.
 
   --ink: var(--role-bg-base);
   --ink-2: var(--role-bg-raised);
   --ink-3: var(--role-surface-active);
+
   --paper: var(--role-text-primary);
   --paper-2: var(--p-cream-warm);
-  --brass: var(--p-accent-dim);
-  --brass-2: var(--role-accent);
+
+  --brass: var(--p-accent);
+  --brass-2: var(--p-accent-bright);
+
   --slate: var(--role-text-muted);
   --slate-light: var(--role-text-secondary);
-  --line-dark: rgb(var(--p-cream-rgb) / 0.10);
-  --line-light: rgb(var(--p-cream-rgb) / 0.065);
 
-  // `--gold-ink` estaba declarado con tres valores distintos en tres archivos
-  // de 8-theme. Es el dorado para fondo claro, o sea el mismo rol que
-  // --role-accent-on-light: unificarlo ademas sube su contraste de ~4.2:1 a
-  // 5.4:1. `--azure` nunca fue azul: es el gris calido de texto secundario.
-  --gold-ink: var(--role-accent-on-light);
+  --line-dark: rgb(var(--p-accent-rgb) / 0.14);
+  --line-light: rgb(var(--p-accent-rgb) / 0.08);
+
+  --gold-ink: var(--p-accent);
   --azure: var(--role-text-secondary);
   --hairline: var(--role-hairline-light);
 
   // -------------------------------------------------------
-  // 5. SUPERFICIES Y SOMBRAS DERIVADAS
+  // 5. SOMBRAS
   // -------------------------------------------------------
 
   --border-brass-soft: var(--role-border-subtle);
   --border-brass-hover: var(--role-border-hover);
 
-  --shadow-card-premium: 0 20px 52px -38px rgb(0 0 0 / 0.94);
-  --shadow-card-premium-hover: 0 24px 60px -40px rgb(0 0 0 / 0.97);
-  --shadow-brass-soft: 0 12px 28px -18px rgb(var(--p-accent-rgb) / 0.36);
-  --shadow-brass-hover: 0 14px 32px -18px rgb(var(--p-accent-bright-rgb) / 0.46);
+  /*
+   * La referencia no usa grandes bloques azulados elevados.
+   * La separacion se consigue con borde + sombra negra corta.
+   */
+  --shadow-card-premium:
+    0 1px 0 rgb(var(--p-accent-rgb) / 0.05),
+    0 18px 38px -30px rgb(0 0 0 / 0.82);
+
+  --shadow-card-premium-hover:
+    0 1px 0 rgb(var(--p-accent-rgb) / 0.09),
+    0 22px 44px -30px rgb(0 0 0 / 0.90);
+
+  --shadow-brass-soft:
+    0 12px 28px -22px rgb(var(--p-accent-rgb) / 0.26);
+
+  --shadow-brass-hover:
+    0 14px 32px -22px rgb(var(--p-accent-rgb) / 0.36);
 
   --surface-card-premium:
     linear-gradient(
       180deg,
-      rgb(var(--p-ink-800-rgb) / 0.995),
-      rgb(var(--p-ink-rgb) / 0.998)
+      rgb(var(--p-surface-rgb) / 0.98),
+      rgb(var(--p-ink-800-rgb) / 0.995)
     );
 }

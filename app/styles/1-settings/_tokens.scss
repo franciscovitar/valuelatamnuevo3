@@ -1,9 +1,16 @@
-// Tokens NO cromaticos.
+// =========================================================
+// TOKENS NO CROMATICOS
+// VALUE LATAM · Instrument Sans / FIND direction
+// =========================================================
 //
-// Los colores viven exclusivamente en 1-settings/_palette.scss. Este archivo
-// solia declarar su propia paleta (--ink, --paper, --brass, --slate) que
-// despues era pisada por 10-trumps; los valores de aca no llegaban a verse.
-// Ahora esos nombres son alias declarados en la paleta.
+// Colores: 1-settings/_palette.scss
+//
+// Tipografia:
+// - Instrument Sans: display, UI y cuerpo.
+// - IBM Plex Mono: datos tecnicos donde ya se usaba.
+//
+// La identidad no depende de mezclar familias sino de:
+// escala grande + tracking cerrado + jerarquia limpia.
 
 :root {
   --maxw: 1180px;
@@ -12,10 +19,13 @@
   --ease-in-out: cubic-bezier(.77, 0, .175, 1);
   --ease-drawer: cubic-bezier(.32, .72, 0, 1);
 
+  --font-display: 'Instrument Sans', system-ui, sans-serif;
   --font-sans: 'Instrument Sans', system-ui, sans-serif;
-  --font-fraunces: var(--font-sans);
+
+  /* aliases heredados */
+  --font-fraunces: var(--font-display);
   --font-hanken: var(--font-sans);
-  --font-mono: 'IBM Plex Mono';
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 
   --radius-card-premium: 9px;
   --radius-pill: 999px;

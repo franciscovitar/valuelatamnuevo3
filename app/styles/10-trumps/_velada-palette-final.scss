@@ -1,0 +1,168 @@
+/* =========================================================
+   VALUE LATAM — VELADA FINAL MAPPING V2
+   =========================================================
+   Debe seguir cargandose ULTIMO.
+
+   Objetivo de esta version:
+   - fondo realmente #0A1024;
+   - header mas oscuro;
+   - sin grandes gradientes azules;
+   - cards casi fundidas con el fondo;
+   - preservar stars, lineas y motion existentes.
+   ========================================================= */
+
+/* Canvas */
+
+html {
+  background: var(--p-ink-900) !important;
+}
+
+body {
+  /*
+   * Casi plano a proposito.
+   * La referencia no tiene el barrido azul brillante de la version anterior.
+   */
+  background:
+    radial-gradient(
+      68% 34% at 50% 4%,
+      rgb(var(--p-cream-rgb) / 0.018),
+      transparent 70%
+    ),
+    var(--p-ink-900) !important;
+}
+
+main {
+  background: transparent !important;
+}
+
+/* Header */
+
+header.nav {
+  background: rgb(var(--p-ink-950-rgb) / 0.98) !important;
+  border-bottom-color: rgb(var(--p-accent-rgb) / 0.10) !important;
+}
+
+/* Hero */
+
+.video-hero--word-orbit {
+  --hero-black: var(--p-ink-900) !important;
+  background: var(--p-ink-900) !important;
+}
+
+.video-hero--word-orbit .video-hero__scroll,
+.video-hero--word-orbit .video-hero__sticky {
+  background: var(--p-ink-900) !important;
+}
+
+.video-hero__orbit-background {
+  background:
+    radial-gradient(
+      ellipse 42% 38% at 50% 50%,
+      rgb(var(--p-cream-rgb) / 0.014),
+      transparent 72%
+    ),
+    var(--p-ink-900) !important;
+}
+
+/* Secciones */
+
+section[data-vl-home-section],
+section[data-vl-internal-page] {
+  background-color: transparent !important;
+}
+
+/*
+ * Las antiguas light NO reciben un navy alternativo.
+ * Todo el sitio vive en el mismo midnight.
+ */
+section[data-vl-home-section].vl-section--light,
+section[data-vl-internal-page].vl-section--light,
+section[data-vl-home-section='solutions'].vl-section--light,
+section[data-vl-home-section='team'].vl-section--light {
+  background: var(--p-ink-900) !important;
+}
+
+/* Metrics: elimina el #0f0f12 legacy */
+
+body:has(.video-hero--word-orbit) .metrics,
+section[data-vl-home-section='metrics'] {
+  background: transparent !important;
+}
+
+/* Cards */
+
+[data-vl-home-section='solutions'] .sol-card,
+[data-vl-home-section='why-us'] .pullquote,
+[data-vl-home-section='team'] .person,
+[data-vl-home-section='contact'] form,
+.reg-seal-panel,
+.sol-ficha,
+.gain,
+.cycle,
+.feat,
+.client,
+.pillar,
+.ficha,
+.jcard,
+.biz,
+.pay-feat,
+.faq details,
+.vl-section--light .sol-card,
+.vl-section--light .person,
+.vl-section--light .pullquote,
+.vl-section--light form {
+  background: var(--surface-card-premium) !important;
+  border-color: var(--vl-border-neutral) !important;
+  box-shadow: var(--shadow-card-premium) !important;
+}
+
+/* Team estaba especialmente azul en la version anterior */
+
+[data-vl-home-section='team'] .person,
+[data-vl-home-section='team'] .person:hover,
+[data-vl-home-section='team'] .person:focus,
+[data-vl-home-section='team'] .person:focus-within,
+[data-vl-home-section='team'] .person:active {
+  background: var(--surface-card-premium) !important;
+}
+
+/* Hover: apenas subir luminancia */
+
+@media (hover: hover) and (pointer: fine) {
+  [data-vl-home-section='solutions'] .sol-card:hover,
+  [data-vl-home-section='team'] .person:hover,
+  .sol-ficha:hover,
+  .jcard:hover,
+  .pay-feat:hover {
+    background: var(--vl-surface-raised) !important;
+    border-color: var(--vl-border-hover) !important;
+    box-shadow: var(--shadow-card-premium-hover) !important;
+  }
+}
+
+/* Floating controls */
+
+.vl2-wa,
+.sound-toggle {
+  background-color: var(--p-ink-700) !important;
+  border-color: rgb(var(--p-accent-rgb) / 0.20) !important;
+}
+
+/* Mobile */
+
+@media (max-width: 760px) {
+  body {
+    background:
+      radial-gradient(
+        circle at 12% 16%,
+        rgb(var(--p-cream-rgb) / 0.075) 0 0.5px,
+        transparent 1.25px
+      ),
+      radial-gradient(
+        circle at 68% 14%,
+        rgb(var(--p-accent-rgb) / 0.075) 0 0.5px,
+        transparent 1.25px
+      ),
+      var(--p-ink-900) !important;
+  }
+}
