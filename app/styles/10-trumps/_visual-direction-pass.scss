@@ -198,57 +198,11 @@ header.nav {
 
 /* Buttons: migrado a 5-components/_buttons.scss (owner unico). */
 
-/* =========================================================
-   Surface system
-   ========================================================= */
-
-[data-vl-home-section='solutions'] .sol-card,
-[data-vl-home-section='why-us'] .pullquote,
-[data-vl-home-section='team'] .person,
-[data-vl-home-section='contact'] form,
-.reg-seal-panel,
-.sol-ficha,
-.gain,
-.cycle,
-.feat,
-.client,
-.pillar,
-.ficha,
-.jcard,
-.biz,
-.pay-feat,
-.faq details {
-  background-color: var(--vl-surface-base);
-  background-image: none;
-  border-color: var(--vl-border-neutral);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.014),
-    0 22px 50px -40px rgba(0, 0, 0, 0.95);
-  opacity: 1;
-}
-
-[data-vl-home-section='team'] .person,
-[data-vl-home-section='team'] .person:hover,
-[data-vl-home-section='team'] .person:focus,
-[data-vl-home-section='team'] .person:focus-within,
-[data-vl-home-section='team'] .person:active {
-  background-color: var(--vl-surface-base) !important;
-  background-image: none !important;
-}
-
-.sol-ficha.is-active,
-.gain.is-active,
-.cycle.is-active,
-.feat.is-active,
-.client.is-active,
-.pillar.is-active,
-.ficha.is-active,
-.jcard.is-active,
-.biz.is-active,
-.pay-feat.is-active {
-  background-color: var(--vl-surface-active);
-  border-color: var(--vl-border-hover);
-}
+/* Surface system: migrado a 10-trumps/_velada-palette-final.scss, que ya
+   cubre el mismo listado de clases (mas [data-vl-home-section='process']
+   .step y las variantes .vl-section--light) con !important y gana la
+   cascada. Los estados .is-active de esta lista no tienen consumidor real
+   en el codigo actual (grep sin resultados fuera de nav). */
 
 [data-vl-home-section='contact'] form {
   backdrop-filter: none;

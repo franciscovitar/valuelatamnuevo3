@@ -59,9 +59,12 @@
 
   .pay-feat{ border-radius: var(--radius-card-premium); }
 
-  /* sombras suaves tipo fintech en las tarjetas principales */
+  /* sombras suaves tipo fintech en las tarjetas principales
+     (.sol-card/.sol-ficha/.ficha/.biz/.client/.person/.gain/.jcard ya
+     quedan cubiertas, con mas prioridad, por el bloque CARDS de
+     10-trumps/_velada-palette-final.scss) */
 
-  .sol-card, .sol-ficha, .ficha, .biz, .client, .person, .gain, .jcard, .feat-list, .termsheet, .pay-hero{
+  .feat-list, .termsheet, .pay-hero{
 
     box-shadow:0 20px 54px -30px rgba(0,0,0,.6);
 

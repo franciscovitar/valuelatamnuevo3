@@ -6,7 +6,7 @@
 
   .process .sec-head h2{color:var(--paper)}
 
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
 
   .step{padding:32px 26px 30px;border-left:1px solid var(--line-dark);position:relative}
 
