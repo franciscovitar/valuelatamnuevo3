@@ -33,10 +33,10 @@ function ProcessHome({ steps }) {
       <div className="process-story">
         <div className="process-pin">
           <div className="wrap">
-            <div className="sec-head">
-              <span className="eyebrow">Nuestro proceso</span>
-              <h2 className="serif">Cómo empezamos a trabajar juntos</h2>
-            </div>
+            <SectionHeading
+              eyebrow="Nuestro proceso"
+              title="Cómo empezamos a trabajar juntos"
+            />
 
             <div aria-hidden="true" className="process-story-progress">
               <span className="process-story-progress__fill" />

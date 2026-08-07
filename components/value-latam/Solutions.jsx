@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { solutions } from '@/data/valueLatamContent';
+import SectionHeading from './SectionHeading';
 
 export default function Solutions() {
   return (
@@ -10,10 +11,10 @@ export default function Solutions() {
       id="soluciones"
     >
       <div className="wrap">
-        <div className="sec-head">
-          <span className="eyebrow">Qué hacemos</span>
-          <h2 className="serif">Cuatro unidades. Un solo socio</h2>
-        </div>
+        <SectionHeading
+          eyebrow="Qué hacemos"
+          title="Cuatro unidades. Un solo socio"
+        />
 
         <div className="sol-grid">
           {solutions.map((item) => (

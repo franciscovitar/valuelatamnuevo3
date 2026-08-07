@@ -1,4 +1,5 @@
 import { metrics } from '@/data/valueLatamContent';
+import SectionHeading from './SectionHeading';
 
 export default function Metrics() {
   return (
@@ -10,10 +11,11 @@ export default function Metrics() {
       style={{ paddingBottom: 64 }}
     >
       <div className="wrap">
-        <div className="sec-head" style={{ marginBottom: 24 }}>
-          <span className="eyebrow">Resultados</span>
-          <h2 className="serif">Experiencia que se mide en estructuras cerradas</h2>
-        </div>
+        <SectionHeading
+          eyebrow="Resultados"
+          title="Experiencia que se mide en estructuras cerradas"
+          style={{ marginBottom: 24 }}
+        />
 
         <div className="metrics-grid">
           {metrics.map((metric) => (
