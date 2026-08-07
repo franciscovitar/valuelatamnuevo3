@@ -8,7 +8,7 @@
 
   .tab{font-family:var(--font-hanken), sans-serif;font-weight:600;font-size:15px;padding:11px 22px;border:0;background:transparent;color:var(--slate);border-radius:2px;cursor:pointer;transition:background .2s,color .2s}
 
-  .tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+  .tab[aria-selected="true"]{background:rgb(var(--p-cream-warm-rgb) / .13);color:var(--paper)}
 
   .tab:hover:not([aria-selected="true"]){color:var(--ink)}
 
