@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "check": "npm run lint && npm run test:e2e && npm run build",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "check:architecture": "node scripts/check-architecture.mjs"
   },
   "engines": {
     "node": ">=20.9.0"

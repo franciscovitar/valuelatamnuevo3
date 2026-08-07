@@ -27,8 +27,8 @@ export default function ValueLatamMark() {
           height="2.2"
           patternUnits="userSpaceOnUse"
         >
-          <rect width="2.2" height="0.7" fill="rgba(255,255,255,.92)" />
-          <rect y="0.7" width="2.2" height="1.5" fill="rgba(255,255,255,.10)" />
+          <rect width="2.2" height="0.7" fill="rgb(var(--p-pure-white-rgb) / .92)" />
+          <rect y="0.7" width="2.2" height="1.5" fill="rgb(var(--p-pure-white-rgb) / .10)" />
         </pattern>
       </defs>
 
