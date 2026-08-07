@@ -349,25 +349,7 @@ header.nav {
    Forms
    ========================================================= */
 
-.field label {
-  color: var(--vl-text-secondary);
-}
-
-.field input,
-.field select,
-.field textarea {
-  color: var(--vl-text-primary);
-  background-color: var(--vl-surface-deep);
-  border-color: var(--vl-border-neutral);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.011);
-}
-
-.field input:focus-visible,
-.field select:focus-visible,
-.field textarea:focus-visible {
-  border-color: rgb(var(--p-accent-rgb) / 0.32);
-  box-shadow: 0 0 0 3px rgb(var(--p-accent-rgb) / 0.052);
-}
+/* Forms: migrado a 5-components/_forms.scss (owner unico). */
 
 /* =========================================================
    Partner logos

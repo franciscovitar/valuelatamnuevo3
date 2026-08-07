@@ -357,10 +357,7 @@ li,
 .person p,
 .step p,
 .reg p,
-.legal,
-.field label,
-.field-help,
-.form-note {
+.legal {
   color: var(--p-text) !important;
 }
 
@@ -369,7 +366,6 @@ small,
 .muted,
 .text-muted,
 .footer-note,
-.form-disclaimer,
 .contact-note {
   color: var(--p-text-muted) !important;
 }
