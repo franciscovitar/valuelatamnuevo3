@@ -1,4 +1,5 @@
 // Regulatorio (panel final)
+@use '../1-settings/breakpoints' as *;
 
 /* ---------- Regulatory section polish ---------- */
 .reg-inner {
@@ -85,13 +86,13 @@
   max-width: 110px;
 }
 
-@media (max-width: 980px) {
+@include down($bp-nav) {
   .reg-seal-panel {
     justify-self: start;
   }
 }
 
-@media (max-width: 560px) {
+@include down($bp-sm) {
   .reg-seal-panel {
     width: 100%;
     padding: 18px;

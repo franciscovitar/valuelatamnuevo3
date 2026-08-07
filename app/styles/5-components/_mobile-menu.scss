@@ -1,6 +1,7 @@
 // Menú mobile — única fuente responsive (≤980px)
+@use '../1-settings/breakpoints' as *;
 
-@media (max-width: 980px) {
+@include down($bp-nav) {
   :root {
     --header-height: 76px;
   }

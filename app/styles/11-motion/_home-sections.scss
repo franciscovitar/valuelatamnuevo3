@@ -1,4 +1,5 @@
 // Home Etapa 2 — evitar choques con hover CSS en secciones animadas
+@use '../1-settings/breakpoints' as *;
 
 html.vl-motion-enabled {
   [data-vl-home-section='partners'] .partner-logo-grid--static .partner-logo:hover {
@@ -74,7 +75,7 @@ html.vl-motion-enabled {
   }
 }
 
-@media (max-width: 980px) {
+@include down($bp-nav) {
   html.vl-motion-enabled {
     [data-vl-home-section='process'] .step:not(:first-child) {
       border-left-color: transparent;
@@ -96,7 +97,7 @@ html.vl-motion-enabled {
   }
 }
 
-@media (max-width: 760px) {
+@include down($bp-lg) {
   html.vl-motion-enabled {
     [data-vl-home-section='process'] .step:not(:first-child) {
       border-top-color: transparent;

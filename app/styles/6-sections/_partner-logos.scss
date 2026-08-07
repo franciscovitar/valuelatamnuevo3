@@ -1,4 +1,5 @@
 // Partner logos (componente)
+@use '../1-settings/breakpoints' as *;
 
 /* ---------- Partner logos: desktop static, mobile marquee ---------- */
 .partner-logos {
@@ -107,7 +108,7 @@
   }
 }
 
-@media (max-width: 760px) {
+@include down($bp-lg) {
   .partner-logos {
     padding-top: clamp(58px, 12vw, 82px);
     padding-bottom: clamp(58px, 12vw, 82px);

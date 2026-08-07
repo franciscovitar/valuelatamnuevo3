@@ -1,4 +1,5 @@
 // Etapa 7 — experiencia GSAP páginas internas
+@use '../1-settings/breakpoints' as *;
 
 // —— Etapa 10: Procesos con IA ——
 
@@ -96,7 +97,7 @@ html.vl-motion-enabled [data-vl-gsap-root='ai-processes'] .gain:hover {
   transform: rotate(90deg);
 }
 
-@media (max-width: 760px) {
+@include down($bp-lg) {
   [data-vl-gsap-root='payments'] .pay-group.is-pay-active .pay-group-label {
     color: rgb(var(--p-accent-rgb) / 0.95);
   }

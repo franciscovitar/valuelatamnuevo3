@@ -23,8 +23,13 @@ const FORBIDDEN_DIRS = [
   'app/styles/7-features',
 ];
 
-/* Literales de color: se permiten solo en la fuente unica y en excepciones tecnicas. */
-const COLOR_PATTERN = /#[0-9a-fA-F]{3,8}\b|\brgba?\([^)]*\)|\bhsla?\([^)]*\)/g;
+/*
+ * Literales de color: se permiten solo en la fuente unica y en excepciones
+ * tecnicas. rgb(var(--x-rgb) / alpha) es el patron correcto para
+ * transparencia (ver CLAUDE.md) y no cuenta como literal: el lookahead
+ * negativo lo excluye para no inflar el conteo con ~680 usos legitimos.
+ */
+const COLOR_PATTERN = /#[0-9a-fA-F]{3,8}\b|\brgba?\(\s*(?!var\()[^)]*\)|\bhsla?\(\s*(?!var\()[^)]*\)/g;
 const COLOR_SCSS_ALLOWLIST = new Set([
   'app/styles/1-settings/_palette.scss',
 ]);
