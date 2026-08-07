@@ -7,26 +7,3 @@
   .trust-inner{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
 
   .trust .label{font-family: var(--font-sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);white-space:nowrap}
-
-  .trust .logos{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-
-  .trust .logos .chip{
-    display:flex;align-items:center;justify-content:center;
-    height:auto;min-width:0;
-    background:transparent;
-    border:1px solid rgb(var(--p-cream-warm-rgb) / .18);
-    border-radius:16px;
-    padding:9px 18px;
-    font-family:var(--font-hanken), sans-serif;
-    font-weight:600;
-    font-size:14px;
-    letter-spacing:.01em;
-    color:rgb(var(--p-cream-warm-rgb) / .82);
-    transition:transform .18s ease;
-  }
-
-  .trust .logos .chip:hover{border-color:var(--role-accent);color:var(--paper);transform:translateY(-1px)}
-
-  .trust .logos .chip img{max-height:30px;max-width:118px;width:auto;object-fit:contain;display:block}
-
-  .logo-fallback{font-family:var(--font-hanken), sans-serif;font-weight:600;font-size:14px;color:var(--ink);letter-spacing:.01em;white-space:nowrap}

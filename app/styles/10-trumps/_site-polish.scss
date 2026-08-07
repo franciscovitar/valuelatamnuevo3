@@ -289,28 +289,7 @@ header.nav .nav-links .nav-mobile-cta {
   opacity: 1 !important;
 }
 
-/* Sellos regulatorios — sin hover visual (section.reg, no .reg descendiente) */
-[data-vl-home-section='regulation'] .seals .seal,
-[data-vl-home-section='regulation'] .seals .seal:hover,
-[data-vl-home-section='regulation'] .seals .seal:focus,
-[data-vl-home-section='regulation'] .seals .seal:focus-visible,
-[data-vl-home-section='regulation'] .seals .seal:active {
-  transform: none !important;
-  background: #fff !important;
-  border-color: rgba(255, 255, 255, 0.86) !important;
-  box-shadow: 0 18px 42px -30px rgba(0, 0, 0, 0.55) !important;
-  filter: none !important;
-  color: inherit !important;
-  transition: none !important;
-}
-
-[data-vl-home-section='regulation'] .seals .seal img,
-[data-vl-home-section='regulation'] .seals .seal:hover img,
-[data-vl-home-section='regulation'] .seals .seal:focus img,
-[data-vl-home-section='regulation'] .seals .seal:active img {
-  transform: none !important;
-  filter: none !important;
-}
+/* Sellos regulatorios: migrado a 6-sections/_regulatory-panel.scss (owner unico). */
 
 /* Opaque content surfaces above decorative background lines */
 [data-vl-home-section='why-us'] .pullquote {

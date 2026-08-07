@@ -343,15 +343,7 @@ header.nav {
   border-color: rgb(var(--p-cream-rgb) / 0.11) !important;
 }
 
-[data-vl-home-section='regulation'] .seals .seal,
-[data-vl-home-section='regulation'] .seals .seal:hover,
-[data-vl-home-section='regulation'] .seals .seal:focus,
-[data-vl-home-section='regulation'] .seals .seal:focus-visible,
-[data-vl-home-section='regulation'] .seals .seal:active {
-  background-color: var(--p-white) !important;
-  border-color: rgb(var(--p-cream-rgb) / 0.86) !important;
-  box-shadow: 0 14px 34px -28px rgba(0, 0, 0, 0.52) !important;
-}
+/* Sellos regulatorios: migrado a 6-sections/_regulatory-panel.scss (owner unico). */
 
 /* =========================================================
    Forms

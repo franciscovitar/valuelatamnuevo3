@@ -10,20 +10,4 @@
 
   .reg .badge{font-family: var(--font-sans);color:var(--brass-2);font-size:13px;letter-spacing:.04em}
 
-  .reg .seals{display:flex;gap:12px;flex-wrap:wrap}
-
-  .reg .seal{
-    display:flex;align-items:center;justify-content:center;
-    background:transparent;
-    border:1px solid rgb(var(--p-cream-warm-rgb) / .22);
-    border-radius:16px;
-    padding:12px 22px;
-    font-family:var(--font-sans);
-    font-weight:600;
-    font-size:15px;
-    letter-spacing:.14em;
-    color:rgb(var(--p-cream-warm-rgb) / .85);
-    text-decoration:none;
-  }
-
-  .reg .seal img{height:34px;width:auto;display:block}
+  // .reg .seals / .reg .seal: owner es 6-sections/_regulatory-panel.scss

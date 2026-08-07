@@ -24,6 +24,11 @@
   cursor: pointer;
 }
 
+.btn-primary,
+.btn-ghost {
+  will-change: transform;
+}
+
 .btn:focus-visible {
   outline: 2px solid var(--brass-2);
   outline-offset: 3px;
