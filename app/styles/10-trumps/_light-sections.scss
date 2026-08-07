@@ -1,106 +1,76 @@
-// Secciones claras (marfil) — ruptura del negro parejo
+// =========================================================
+// LEGACY "LIGHT SECTIONS" — AHORA TODO EL SITIO ES OSCURO
+// =========================================================
 //
-// El sitio corre sobre un set de variables semánticas `--vl-*` que la capa
-// 10-trumps aplica con !important. En vez de pelear esas reglas, esta capa
-// redefine las variables dentro de la sección: `color: var(--vl-accent)
-// !important` resuelve al valor local y adopta el tema claro sin más peso.
+// IMPORTANTE:
+// No eliminamos la clase `.vl-section--light` del JSX porque seria un cambio
+// estructural innecesario. Simplemente hacemos que esa clase consuma el mismo
+// sistema oscuro que el resto de la web.
 //
-// Regla de oro del dorado sobre marfil: `--vl-accent` da 1.8:1
-// sobre el marfil — ilegible. Todo dorado que sea TEXTO usa el brass oscuro
-// (--role-accent-on-light, 5.4:1). El dorado claro queda solo para filetes y adornos, donde
-// no hay requisito de contraste.
+// Resultado:
+// - no hay corte marfil;
+// - no hay tarjetas blancas;
+// - no hay textos oscuros;
+// - Solutions / Team y cualquier otra seccion marcada como light
+//   mantiene su estructura y motion, pero visualmente pertenece al mismo
+//   universo Midnight / Navy / Cream / Gold.
+//
+// Esto permite volver atras facilmente sin tocar componentes.
 
 .vl-section--light {
-  /* Fondos */
-  --vl-bg-deep: var(--p-cream-panel);
-  --vl-bg-base: var(--p-cream);
-  --vl-bg-raised: var(--p-cream-warm);
+  /* Fondos: misma familia que el tema oscuro */
+  --vl-bg-deep: var(--role-bg-deep);
+  --vl-bg-base: var(--role-bg-base);
+  --vl-bg-raised: var(--role-bg-raised);
 
-  /* Sobre claro se invierte la lógica de profundidad: las tarjetas suben a
-     blanco (se recortan contra el marfil) y los paneles embutidos bajan a un
-     marfil más profundo. En oscuro era al revés. */
-  --vl-surface-base: var(--p-white);
-  --vl-surface-raised: var(--p-white);
-  --vl-surface-active: var(--p-white);
-  --vl-surface-deep: var(--p-cream-panel);
+  /* Superficies */
+  --vl-surface-deep: var(--role-surface-deep);
+  --vl-surface-base: var(--role-surface-base);
+  --vl-surface-raised: var(--role-surface-raised);
+  --vl-surface-active: var(--role-surface-active);
 
   /* Texto */
-  --vl-text-primary: var(--role-text-on-light);
-  --vl-text-secondary: var(--role-text-on-light-soft);
-  --vl-text-muted: var(--role-text-on-light-muted);
+  --vl-text-primary: var(--role-text-primary);
+  --vl-text-secondary: var(--role-text-secondary);
+  --vl-text-muted: var(--role-text-muted);
 
-  /* Dorado legible sobre marfil */
-  --vl-accent: var(--role-accent-on-light);
-  --vl-accent-hover: var(--role-accent-on-light-hover);
+  /* Acento */
+  --vl-accent: var(--role-accent);
+  --vl-accent-hover: var(--role-accent-hover);
 
-  /* Bordes: sobre claro el hairline es oscuro, no blanco */
-  --vl-border-subtle: rgb(var(--p-accent-deep-rgb) / 0.22);
-  --vl-border-hover: rgb(var(--p-accent-deep-rgb) / 0.38);
-  --vl-border-neutral: rgb(var(--p-hairline-rgb) / 0.14);
+  /* Bordes */
+  --vl-border-subtle: var(--role-border-subtle);
+  --vl-border-hover: var(--role-border-hover);
+  --vl-border-neutral: var(--role-border-neutral);
+  --vl-hairline: var(--role-hairline-light);
 
-  /* Filete usado por el motion (ver lib/scroll/home/regulation.js) */
-  --vl-hairline: rgb(var(--p-hairline-rgb) / 0.16);
-
-  background: var(--p-cream);
+  background: var(--vl-bg-base);
   color: var(--vl-text-secondary);
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     color: var(--vl-text-primary);
   }
 
   p {
     color: var(--vl-text-secondary);
   }
-
-  // Sombras pensadas para fondo oscuro se ven como manchas sucias sobre
-  // marfil: acá la profundidad la da el borde, no el halo.
-  box-shadow: none;
 }
 
-// Las secciones son transparentes a propósito (dejan ver el campo ambiental
-// oscuro fijo, ver _ambient-particles y _divider-background-depth, ambas con
-// !important). Una sección clara tiene que taparlo de forma opaca.
-// Sin border-top: el salto oscuro→marfil ya delimita de sobra, y el borde
-// generaba una línea visible antes del wipe. El fondo se pinta hasta el border
-// box pero el overlay de bandas se posiciona contra el padding box, así que
-// ese 1px de marfil quedaba asomando por encima de las bandas.
+/*
+ * Las secciones claras antes tapaban el campo oscuro con marfil.
+ * Ahora se pintan directamente con Midnight.
+ */
 section[data-vl-home-section].vl-section--light,
 section[data-vl-internal-page].vl-section--light {
-  background-color: var(--p-cream) !important;
-  border-top: 0 !important;
+  background-color: var(--vl-bg-base) !important;
+  border-top-color: var(--vl-border-neutral) !important;
 }
 
-// El halo de profundidad entre secciones está calibrado para fondo oscuro:
-// sobre marfil se ve como una mancha gris.
-section[data-vl-home-section].vl-section--light::after,
-section[data-vl-internal-page].vl-section--light::after {
-  background: none;
-  opacity: 0;
-}
+/* ---------- Tarjetas ---------- */
 
-section[data-vl-home-section].vl-section--light::before {
-  background: rgb(var(--p-hairline-rgb) / 0.12) !important;
-}
-
-// visual-direction-pass fija estos filetes en blanco translúcido con
-// !important, que gana sobre el estilo inline del motion. Hay que repetir el
-// !important acá para invertirlos.
-.vl-section--light {
-  .vl-reg-sep,
-  .reg-seal-divider,
-  .reg-sep,
-  .reg-seal-panel hr,
-  .vl-nav-topline {
-    background: var(--vl-hairline) !important;
-    border-color: var(--vl-hairline) !important;
-  }
-}
-
-/* ---------- Tarjetas sobre fondo claro ---------- */
-
-// La sombra base del sistema es `0 22px 50px -40px rgba(0,0,0,.95)`, calibrada
-// para separar tarjetas de un fondo casi negro. Sobre marfil se lee como una
-// mancha gris: acá la elevación es corta, suave y ligeramente fría.
 .vl-section--light {
   .sol-card,
   .person,
@@ -116,8 +86,10 @@ section[data-vl-home-section].vl-section--light::before {
   .biz,
   .pay-feat,
   form {
-    box-shadow: 0 14px 32px -26px rgb(var(--p-hairline-rgb) / 0.42);
+    background: var(--surface-card-premium);
+    color: var(--vl-text-secondary);
     border-color: var(--vl-border-neutral);
+    box-shadow: var(--shadow-card-premium);
   }
 
   .sol-card:hover,
@@ -125,12 +97,10 @@ section[data-vl-home-section].vl-section--light::before {
   .sol-ficha:hover,
   .jcard:hover,
   .pay-feat:hover {
-    box-shadow: 0 18px 40px -26px rgb(var(--p-hairline-rgb) / 0.5);
     border-color: var(--vl-border-hover);
+    box-shadow: var(--shadow-card-premium-hover);
   }
 
-  // _navy-global pinta estos elementos con var(--paper): marfil sobre tarjeta
-  // oscura. Sobre tarjeta blanca quedan a 1.15:1, es decir invisibles.
   .sol-card .arrow,
   .sol-ficha .arrow,
   .metric .num,
@@ -140,17 +110,16 @@ section[data-vl-home-section].vl-section--light::before {
     color: var(--vl-text-primary);
   }
 
-  // El hover original va a --brass, que sobre blanco da 2.4:1.
   .sol-card:hover .arrow,
   .sol-ficha:hover .arrow {
     color: var(--vl-accent);
   }
 }
 
-/* ---------- Regulatorio en claro ---------- */
+/* ---------- Regulacion ---------- */
 
 .reg.vl-section--light {
-  background: var(--p-cream);
+  background: var(--vl-bg-base);
 
   .badge {
     color: var(--vl-accent);
@@ -159,22 +128,35 @@ section[data-vl-home-section].vl-section--light::before {
   .reg-seal-panel {
     background: var(--vl-surface-deep) !important;
     border-color: var(--vl-border-neutral) !important;
-    box-shadow: none;
+    box-shadow: var(--shadow-card-premium);
   }
-
 }
 
-// visual-direction-pass deja los sellos en var(--p-white) !important — un marfil casi
-// idéntico al del panel, así que sobre fondo claro desaparecerían. Van blancos
-// con hairline oscuro para que los logos se recorten.
+/*
+ * Si algun sello regulatorio aparece dentro de una seccion antiguamente clara,
+ * tambien debe quedar integrado al tema oscuro.
+ */
 [data-vl-home-section='regulation'].vl-section--light .seals .seal,
 [data-vl-home-section='regulation'].vl-section--light .seals .seal:hover,
 [data-vl-home-section='regulation'].vl-section--light .seals .seal:focus,
 [data-vl-home-section='regulation'].vl-section--light .seals .seal:focus-visible,
 [data-vl-home-section='regulation'].vl-section--light .seals .seal:active {
-  background-color: var(--p-white) !important;
-  border-color: rgb(var(--p-hairline-rgb) / 0.12) !important;
-  box-shadow: 0 12px 30px -22px rgb(var(--p-hairline-rgb) / 0.5) !important;
+  background-color: var(--vl-surface-base) !important;
+  border-color: var(--vl-border-neutral) !important;
+  color: var(--vl-text-primary) !important;
+  box-shadow: var(--shadow-card-premium) !important;
+}
+
+/* Filetes: vuelven al lenguaje claro sobre oscuro */
+.vl-section--light {
+  .vl-reg-sep,
+  .reg-seal-divider,
+  .reg-sep,
+  .reg-seal-panel hr,
+  .vl-nav-topline {
+    background: var(--vl-hairline) !important;
+    border-color: var(--vl-hairline) !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

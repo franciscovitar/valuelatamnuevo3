@@ -101,7 +101,12 @@ export function initLeadCapture() {
     if (!valid) {
       feedback.className = 'vl2-form-feedback is-error';
       feedback.textContent = 'Revisá los campos obligatorios e intentá nuevamente.';
-      form.querySelector('[aria-invalid="true"]')?.focus();
+      // setFieldState marca invalido con field.toggleAttribute('aria-invalid', true),
+      // que deja aria-invalid="" (atributo booleano) — no el string "true". El
+      // selector exigia el valor literal, asi que nunca coincidia con nada y el
+      // foco no se movia nunca al primer campo invalido. Bug real, no visible
+      // (no cambia ningun pixel), encontrado por e2e/contact-form.spec.js.
+      form.querySelector('[aria-invalid]')?.focus();
       return;
     }
 

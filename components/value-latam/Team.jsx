@@ -1,3 +1,5 @@
+import SectionHeading from './SectionHeading';
+
 const teamMembers = [
   {
     key: 'mauricio',
@@ -24,10 +26,10 @@ export default function Team() {
       id="equipo"
     >
       <div className="wrap">
-        <div className="sec-head">
-          <span className="eyebrow">Nuestro equipo</span>
-          <h2 className="serif">Experiencia a tu servicio</h2>
-        </div>
+        <SectionHeading
+          eyebrow="Nuestro equipo"
+          title="Experiencia a tu servicio"
+        />
 
         <div className="team-grid">
           {teamMembers.map((member) => (

@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { financingFeatures } from '@/data/valueLatamContent';
 import FeatureGrid from './FeatureGrid';
 import SectionHeading from './SectionHeading';
+import ContactCta from './ContactCta';
 
 export default function Financing() {
   return (
@@ -20,7 +20,7 @@ export default function Financing() {
           <h3>Somos la única consultoría que ve el mapa completo</h3>
           <p>Un banco te ofrece su producto; una SGR, el suyo. Nosotros relevamos <b>todo el mapa</b> y hacemos el benchmark entre entidades para avanzar con la opción óptima: la menor tasa efectiva total y una estructura de pasivos alineada al perfil de flujos de fondos de tu empresa.{' '}<span className="fin-paint">No trabajamos para una entidad: trabajamos para vos.</span></p>
         </div>
-        <div className="fin-cta"><Link className="btn btn-primary" href="/#contacto">Estructurar financiamiento</Link></div>
+        <div className="fin-cta"><ContactCta>Estructurar financiamiento</ContactCta></div>
       </div>
     </section>
   );

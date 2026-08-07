@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import SectionHeading from './SectionHeading';
+import ContactCta from './ContactCta';
 
 export default function Liquidity() {
   return (
@@ -49,7 +49,7 @@ export default function Liquidity() {
         </div>
 
         <div className="fin-cta">
-          <Link className="btn btn-primary" href="/#contacto">Gestionar mi liquidez</Link>
+          <ContactCta>Gestionar mi liquidez</ContactCta>
         </div>
       </div>
     </section>

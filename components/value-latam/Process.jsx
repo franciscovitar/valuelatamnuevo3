@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { processCloserHome, processSteps, processStepsHome, solutionPages } from '@/data/valueLatamContent';
 import SectionHeading from './SectionHeading';
+import ContactCta from './ContactCta';
 
 function ProcessStep({ title, text, index, showConnector }) {
   const formatted = String(index + 1).padStart(2, '0');
@@ -33,10 +34,10 @@ function ProcessHome({ steps }) {
       <div className="process-story">
         <div className="process-pin">
           <div className="wrap">
-            <div className="sec-head">
-              <span className="eyebrow">Nuestro proceso</span>
-              <h2 className="serif">Cómo empezamos a trabajar juntos</h2>
-            </div>
+            <SectionHeading
+              eyebrow="Nuestro proceso"
+              title="Cómo empezamos a trabajar juntos"
+            />
 
             <div aria-hidden="true" className="process-story-progress">
               <span className="process-story-progress__fill" />
@@ -59,9 +60,9 @@ function ProcessHome({ steps }) {
               <Link className="btn btn-ghost" href={solutionPages.comoTrabajamos.path} style={{ marginRight: 12 }}>
                 Ver las seis etapas
               </Link>
-              <Link className="btn btn-primary" href="/#contacto">
+              <ContactCta>
                 Empezá tu diagnóstico
-              </Link>
+              </ContactCta>
             </div>
           </div>
         </div>
@@ -99,9 +100,9 @@ function ProcessRoute({ steps }) {
             Trabajás con un solo interlocutor para toda tu operación.{' '}
             <b>En financiamiento, los honorarios se definen sobre la línea efectivamente disponible.</b>
           </p>
-          <Link className="btn btn-primary" href="/#contacto">
+          <ContactCta>
             Empezá tu diagnóstico
-          </Link>
+          </ContactCta>
         </div>
       </div>
     </section>

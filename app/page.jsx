@@ -2,8 +2,6 @@ import HomeScrollExperience from '@/components/scroll/HomeScrollExperience';
 import {
   BackgroundCanvas,
   Contact,
-  // Legacy Hero retained for rollback:
-  // CoverStory,
   Footer,
   Header,
   Metrics,
@@ -16,14 +14,11 @@ import {
   Team,
   ValueLatamRuntime,
   VideoHero,
-  CityVideo,
-  // ImageHero retained for rollback:
-  // ImageHero,
   WhyUs,
   WorkWithUsTeaser,
 } from '@/components/value-latam';
 
-const SHOW_BACKGROUND_LINES = false;
+const SHOW_BACKGROUND_LINES = true;
 
 export default function Home() {
   return (
@@ -32,12 +27,8 @@ export default function Home() {
       <Header />
       <main>
         {SHOW_BACKGROUND_LINES && <BackgroundCanvas />}
-        {/* Legacy Hero retained for rollback:
-        <CoverStory />
-        */}
         <VideoHero />
         <Metrics />
-        {/* <CityVideo /> */}
         <PartnerLogos />
         <Solutions />
         <WhyUs />

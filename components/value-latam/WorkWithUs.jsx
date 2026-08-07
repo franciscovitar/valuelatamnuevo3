@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { workFaqs, workFeatures } from '@/data/valueLatamContent';
 import FeatureGrid from './FeatureGrid';
 import SectionHeading from './SectionHeading';
+import ContactCta from './ContactCta';
 
 export default function WorkWithUs() {
   return (
@@ -65,9 +65,9 @@ export default function WorkWithUs() {
         </div>
 
         <div className="fin-cta">
-          <Link className="btn btn-primary" href="/#contacto">
+          <ContactCta>
             Ser referenciador
-          </Link>
+          </ContactCta>
           <p className="note" style={{ marginTop: 14 }}>
             → Te contactamos para evaluar tu perfil y armar el esquema de trabajo
           </p>

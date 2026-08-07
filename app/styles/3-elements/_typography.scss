@@ -1,36 +1,126 @@
-.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* =========================================================
+   LABELS / EYEBROWS
+   ========================================================= */
 
 .eyebrow {
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--brass);
 }
 
-.serif {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
+/* =========================================================
+   DISPLAY SYSTEM — FIND INSPIRED
+   ========================================================= */
+
+.serif,
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
 }
 
+.serif {
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+/*
+ * Hero:
+ * grande, compacto y moderno.
+ * Mantiene el comportamiento existente pero cambia su lenguaje visual.
+ */
 h1,
 .hero h1,
 .hero-title h1,
 .cover-caption .pb-step {
-  line-height: 0.98;
-  letter-spacing: -0.032em;
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
 }
 
+/*
+ * Titulares principales de seccion.
+ */
 h2,
-h3,
 .sec-head h2,
 .join-h3 {
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+  font-weight: 650;
+  line-height: 0.95;
+  letter-spacing: -0.048em;
 }
+
+/*
+ * H3 y H4: menos agresivos para no competir con los grandes titulares.
+ */
+h3,
+h4 {
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+/* =========================================================
+   HOME — ESCALAS ESPECIFICAS
+   ========================================================= */
+
+/*
+ * Titulo de seccion tipo:
+ * "Experiencia que se mide en estructuras cerradas"
+ * o "Empresas y aliados..."
+ */
+.sec-head h2 {
+  font-size: clamp(44px, 4.2vw, 68px);
+  max-width: 19ch;
+}
+
+/*
+ * Hero de la nube de palabras.
+ * Existe una capa posterior que fuerza font-family;
+ * la anulamos explicitamente.
+ */
+.video-hero--word-orbit .hero-word-scene__copy h1,
+.video-hero--word-orbit .hero-word-scene__copy h1 span {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  line-height: 0.90 !important;
+  letter-spacing: -0.060em !important;
+}
+
+/*
+ * Numeros protagonistas.
+ */
+.metric .num {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+}
+
+/*
+ * Cards.
+ */
+.sol-card h3,
+.person h3,
+.step h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+/* =========================================================
+   BODY / UI
+   ========================================================= */
 
 p,
 .lead,
@@ -38,7 +128,65 @@ p,
 .ai-lede,
 .modelo .lede,
 li {
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  letter-spacing: -0.018em;
 }
 
-.mono { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+nav,
+button,
+input,
+select,
+textarea,
+label,
+.btn-primary,
+.btn-ghost,
+.btn-ghost-dark {
+  font-family: var(--font-sans);
+}
+
+/*
+ * Navegacion y botones: un poco mas firmes,
+ * sin convertirse en titulares.
+ */
+.nav-links a,
+.nav-dropdown__trigger,
+.btn-primary,
+.btn-ghost,
+.btn-ghost-dark {
+  font-weight: 600;
+  letter-spacing: -0.018em;
+}
+
+/* =========================================================
+   DATOS
+   ========================================================= */
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 980px) {
+  .sec-head h2 {
+    font-size: clamp(40px, 6vw, 58px);
+  }
+}
+
+@media (max-width: 760px) {
+  .sec-head h2 {
+    font-size: clamp(36px, 10.5vw, 48px);
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+  }
+
+  .video-hero--word-orbit .hero-word-scene__copy h1,
+  .video-hero--word-orbit .hero-word-scene__copy h1 span {
+    line-height: 0.94 !important;
+    letter-spacing: -0.052em !important;
+  }
+}

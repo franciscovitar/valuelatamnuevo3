@@ -57,12 +57,6 @@ export const navLinks = [
   [solutionPages.referenciadores.path, 'Referenciadores'],
 ];
 
-export const introHome = {
-  eyebrow: 'Consultoría financiera integral para empresas',
-  title: 'El centro financiero de tu empresa',
-  lead: 'Financiamiento, liquidez, pagos e IA. Un solo socio para toda la operación.',
-};
-
 export const whyUsHome = {
   title: 'El brazo financiero y operativo de tu empresa',
   body: 'Integramos financiamiento, inversión, medios de pago e IA en un solo interlocutor. Sin cobrar por adelantado: cobramos por resultados.',
