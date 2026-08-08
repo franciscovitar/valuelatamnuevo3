@@ -247,6 +247,48 @@ function resolveDrift(idle, scale) {
   };
 }
 
+/* Aire que se le deja a la palabra respecto del borde del viewport. */
+const DRIFT_EDGE_MARGIN = 6;
+
+/* Piso del recorte: por muy al borde que este, la palabra sigue derivando. */
+const DRIFT_MIN_FIT = 0.3;
+
+/**
+ * Encoge la orbita lo justo para que la palabra no cruce el borde.
+ *
+ * Varias palabras perifericas salian de cuadro durante buena parte de su ciclo
+ * y volvian a entrar despues: eso es lo que delataba el loop, porque se leia
+ * como si el elemento desapareciera y volviera a aparecer.
+ *
+ * Solo se escala el radio, no `omega`, asi que la trayectoria es exactamente la
+ * misma recorrida en el mismo tiempo — misma direccion, misma curvatura
+ * relativa, mismo periodo — pero contenida en pantalla.
+ */
+function fitDriftToViewport(drift, rest, half, bounds) {
+  const fits = (factor) => {
+    const radius = drift.radius * factor;
+
+    return (
+      Math.abs(rest.x - radius * drift.cos0) + radius + half.x <= bounds.x
+      && Math.abs(rest.y - radius * drift.sin0) + radius + half.y <= bounds.y
+    );
+  };
+
+  if (fits(1)) return 1;
+
+  let low = 0;
+  let high = 1;
+
+  for (let step = 0; step < 14; step += 1) {
+    const mid = (low + high) / 2;
+
+    if (fits(mid)) low = mid;
+    else high = mid;
+  }
+
+  return Math.max(low, DRIFT_MIN_FIT);
+}
+
 function refreshCloudEntries(targets) {
   const layoutName = getLayoutName();
   const layout = getLayout();
@@ -285,6 +327,21 @@ function refreshCloudEntries(targets) {
     element.style.transformOrigin = '50% 50%';
     element.style.zIndex = String(visual.zIndex);
 
+    const drift = resolveDrift(word.idle, layout.idleScale);
+
+    drift.radius *= fitDriftToViewport(
+      drift,
+      rest,
+      {
+        x: element.offsetWidth * visual.scale * 0.5,
+        y: element.offsetHeight * visual.scale * 0.5,
+      },
+      {
+        x: window.innerWidth * 0.5 - DRIFT_EDGE_MARGIN,
+        y: window.innerHeight * 0.5 - DRIFT_EDGE_MARGIN,
+      }
+    );
+
     cloudState.entries.push({
       element,
       word,
@@ -295,7 +352,7 @@ function refreshCloudEntries(targets) {
         x: -toCenterY / distance,
         y: toCenterX / distance,
       },
-      drift: resolveDrift(word.idle, layout.idleScale),
+      drift,
     });
   });
 }

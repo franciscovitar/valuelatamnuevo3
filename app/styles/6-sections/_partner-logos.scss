@@ -8,6 +8,12 @@
    aliado, y obligaban a mantener dos juegos de tamanos. La cinta resuelve las
    dos cosas: entra siempre y hay una sola escala que ajustar. */
 .partner-logos {
+  /* Ancho del bloque de contenido. Lo comparten el titulo y la cinta: los
+     logos entran y salen justo en el borde del texto y no en el del viewport,
+     asi que la seccion se lee como un unico bloque alineado. Al ser una sola
+     variable, no se pueden desincronizar. */
+  --partner-content: 1120px;
+
   overflow: hidden;
   padding: clamp(70px, 8vw, 120px) 0;
 }
@@ -17,10 +23,14 @@
   padding-inline: clamp(24px, 4vw, 72px);
 }
 
-.partner-logos .partner-head {
+.partner-logos .partner-head,
+.partner-logos .partner-carousel-shell {
   width: 100%;
-  max-width: 1120px;
+  max-width: var(--partner-content);
   margin-inline: auto;
+}
+
+.partner-logos .partner-head {
   margin-bottom: clamp(30px, 5vw, 76px);
 }
 
@@ -32,7 +42,6 @@
 
   position: relative;
   display: block;
-  width: 100%;
   padding-block: 6px 14px;
   overflow: hidden;
   // El desvanecido en los bordes evita que los logos aparezcan y desaparezcan
@@ -137,13 +146,10 @@
     padding-bottom: clamp(58px, 12vw, 82px);
   }
 
+  /* El gutter lo pone el `wrap` para los dos. Antes la cinta iba a sangre y el
+     titulo se metia 24px por su cuenta, que es justo lo que los desalineaba. */
   .partner-logos .wrap {
     max-width: none;
-    padding-inline: 0;
-  }
-
-  .partner-logos .partner-head {
-    padding-inline: 24px;
   }
 
   .partner-carousel-shell {

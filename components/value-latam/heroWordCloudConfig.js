@@ -179,7 +179,7 @@ export const HERO_WORDS = [
     id: 'inversiones', label: 'Inversiones', size: 'md',
     x: 30, y: -34, depth: 0.34, rotation: 1.4,
     idle: { angle: 148, speed: 4, radius: 138, spin: -1, rotate: -1.3, scale: 0.013 },
-    converge: { start: 0.27, end: 0.52, pull: 'out', curve: 22, spin: -5 },
+    converge: { start: 0.40, end: 0.60, pull: 'out', curve: 22, spin: -5 },
     tablet: { x: 27, y: -31 }, mobile: { x: 25, y: -13 },
   },
   {
@@ -235,14 +235,14 @@ export const HERO_WORDS = [
     id: 'mercado-capitales', label: 'Mercado de capitales', size: 'sm', far: true,
     x: 31, y: 32, depth: 0.62, rotation: 0.8,
     idle: { angle: 208, speed: 3.9, radius: 134, spin: 1, rotate: 1.3, scale: 0.009 },
-    converge: { start: 0.45, end: 0.64, pull: 'inOut', curve: 24, spin: -4 },
+    converge: { start: 0.52, end: 0.665, pull: 'inOut', curve: 24, spin: -4 },
     tablet: { x: 29, y: 30 }, mobileHidden: true,
   },
   {
     id: 'ejecucion', label: 'Ejecucion', size: 'xs', far: true,
     x: 36, y: -38, depth: 0.7, rotation: -1.6,
     idle: { angle: 132, speed: 4.3, radius: 142, spin: -1, rotate: -0.9, scale: 0.008 },
-    converge: { start: 0.47, end: 0.66, pull: 'out', curve: -12, spin: 5 },
+    converge: { start: 0.60, end: 0.68, pull: 'out', curve: -12, spin: 5 },
     tabletHidden: true, mobileHidden: true,
   },
   {

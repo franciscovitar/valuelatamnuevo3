@@ -3,14 +3,14 @@ import SectionHeading from './SectionHeading';
 const teamMembers = [
   {
     key: 'mauricio',
-    role: 'Jefe de Estrategia · Socio',
+    role: 'Jefe de Estrategia',
     name: 'Mauricio Maggio',
     bio: 'Profesional con amplia experiencia en estructuración de financiamiento para empresas PyME, asesoría en inversiones y optimización de liquidez, integrando herramientas del sistema financiero y del mercado de capitales.',
     href: 'https://www.linkedin.com/in/mauricio-maggio-41b46534a',
   },
   {
     key: 'claudia',
-    role: 'Relaciones de Banca Corporativa · Socia',
+    role: 'Relaciones de Banca Corporativa',
     name: 'Claudia Abeti',
     bio: 'Más de 30 años de experiencia en banca, con trayectoria como Tesorera, Oficial CRM y RBB, Gerente de Sucursal y especialista en financiamiento PyME a través de banca tradicional y préstamos sindicados.',
     href: 'https://www.linkedin.com/in/claudiaabeti/',
