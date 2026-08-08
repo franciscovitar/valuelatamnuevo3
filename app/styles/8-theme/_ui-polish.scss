@@ -43,22 +43,6 @@
 
   }
 
-.trust .logos.marquee{display:block;overflow:hidden;width:100%;flex-wrap:nowrap;
-
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-
-    mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
-
-  .trust .logos.marquee .mq-track{display:flex;align-items:center;gap:50px;width:max-content;animation:vlMarquee 36s linear infinite;}
-
-  .trust .logos.marquee:hover .mq-track{animation-play-state:paused;}
-
-  .trust .logos.marquee .rel-logo{flex:0 0 auto;}
-
-  @keyframes vlMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-  @media(prefers-reduced-motion:reduce){.trust .logos.marquee .mq-track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;gap:30px}}
-
 .btn, header .btn, .nav .btn, header .btn-primary, .nav .btn-primary{ border-radius:999px; }
 
   .btn-primary, .btn-ghost{ border-radius:999px; }
@@ -75,13 +59,12 @@
 
   .pay-feat{ border-radius: var(--radius-card-premium); }
 
-  .field input, .field select, .field textarea{ border-radius:14px; }
+  /* sombras suaves tipo fintech en las tarjetas principales
+     (.sol-card/.sol-ficha/.ficha/.biz/.client/.person/.gain/.jcard ya
+     quedan cubiertas, con mas prioridad, por el bloque CARDS de
+     10-trumps/_velada-palette-final.scss) */
 
-  .reg .seal, .trust .logos .chip{ border-radius:16px; }
-
-  /* sombras suaves tipo fintech en las tarjetas principales */
-
-  .sol-card, .sol-ficha, .ficha, .biz, .client, .person, .gain, .jcard, .feat-list, .termsheet, .pay-hero{
+  .feat-list, .termsheet, .pay-hero{
 
     box-shadow:0 20px 54px -30px rgba(0,0,0,.6);
 

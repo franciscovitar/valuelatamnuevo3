@@ -33,8 +33,7 @@
   gap:clamp(24px,2.6vw,40px);
 }
 .partner-logo,
-.rel-strip .liquidity-logo,
-.reg .seal.logo{
+.rel-strip .liquidity-logo{
   background:var(--p-cream);
   border:1px solid rgb(var(--p-cream-warm-rgb) / .2);
   box-shadow:0 20px 50px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.75);
@@ -84,33 +83,12 @@
   grid-template-columns:minmax(0,1.25fr) minmax(380px,.75fr);
   gap:clamp(56px,7vw,110px);
 }
-.reg .seals{
-  grid-template-columns:repeat(2,minmax(190px,230px));
-  gap:24px;
-}
-.reg .seal.logo{
-  height:106px;
-  padding:20px 28px;
-  border-radius:var(--radius-card-premium);
-}
-.reg .seal.logo img{
-  max-width:176px;
-  max-height:66px;
-  width:auto;
-  height:auto;
-}
-.reg .seal-logo--cnv img{max-width:184px}
-.reg .seal-logo--byma img{max-width:170px}
-
 @media(max-width:1180px){
   .partner-logo-grid{
     grid-template-columns:repeat(3,minmax(180px,1fr));
   }
   .reg-inner{
     grid-template-columns:1fr;
-  }
-  .reg .seals{
-    justify-content:start;
   }
 }
 @media(max-width:760px){
@@ -157,14 +135,6 @@
     min-width:0;
     height:86px;
   }
-  .reg .seals{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    width:100%;
-  }
-  .reg .seal.logo{
-    height:94px;
-    padding:18px 20px;
-  }
 }
 @media(max-width:480px){
   .partner-logo-grid{
@@ -179,10 +149,6 @@
   }
   .rel-strip .liquidity-logo{
     height:82px;
-  }
-  .reg .seals{
-    grid-template-columns:1fr;
-    max-width:none;
   }
 }
 
@@ -218,18 +184,6 @@
 .rel-strip .liquidity-logo--adcap img{
   max-height:82px;
   max-width:82px;
-}
-.reg .seal.logo{
-  height:112px;
-  padding:22px 30px;
-}
-.reg .seal-logo--cnv img{
-  max-width:196px;
-  max-height:76px;
-}
-.reg .seal-logo--byma img{
-  max-width:186px;
-  max-height:76px;
 }
 
 @media(max-width:760px){

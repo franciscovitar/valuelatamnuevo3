@@ -1,4 +1,16 @@
-// Formulario de contacto
+// Formulario de contacto — .field consolidado en un unico owner (estado
+// final tomado de 8-theme/_ui-polish, 10-trumps/_visual-direction-pass,
+// 10-trumps/_velada-palette-final y 11-motion/_home-sections; ver
+// docs/refactor-maintainability-report.md).
+//
+// NOTA: el background/border de los campos se fuerza con
+// `rgb(var(--p-ink-900-rgb) / .72) !important` — `--p-ink-900-rgb` no existe
+// en 1-settings/_palette.scss, asi que ese `background` (shorthand) es
+// invalido y termina reseteando background-image/position/etc a su valor
+// inicial. Efecto real ya presente en produccion: el fondo se ve
+// transparente y el select pierde su flecha personalizada. Se preserva tal
+// cual (bug preexistente, fuera de alcance de este refactor) — ver tarea
+// separada para corregir la variable.
 
 /* ---------- CTA / FORM ---------- */
   .cta{background:var(--ink);color:var(--paper)}
@@ -10,12 +22,54 @@
   .cta .reassure .tick{color:var(--brass-2);font-weight:700}
   form{background:var(--ink-2);border:1px solid var(--line-dark);border-radius:var(--radius-card-premium);padding:30px}
   .field{margin-bottom:16px}
-  .field label{display:block;font-size:13px;color:var(--slate-light);margin-bottom:7px;font-weight:500}
-  .field input,.field select,.field textarea{
-    width:100%;background:var(--ink);border:1px solid var(--line-dark);border-radius:2px;
-    padding:12px 14px;color:var(--paper);font-family:inherit;font-size:15px;
+  .field label{
+    display:block;margin-bottom:7px;font-weight:500;font-size:13px;
+    color:var(--p-text) !important;
   }
-  .field textarea{resize:vertical;min-height:70px}
+  .field input,.field select,.field textarea{
+    width:100%;min-height:48px;padding:12px 14px;font-family:inherit;font-size:15px;
+    border:1px solid var(--line-dark);border-radius:14px;
+    color:var(--vl-text-primary);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.011);
+    background:rgb(var(--p-ink-900-rgb) / .72) !important;
+    border-color:rgb(var(--p-accent-rgb) / .14) !important;
+  }
+  .field select{
+    appearance:none;
+    padding-right:42px;
+  }
+  .field textarea{resize:vertical;min-height:104px}
+  .field-error label{color:#ffd0c2}
+  .field [aria-invalid="true"]{
+    border-color:#ff9a7b;
+    box-shadow:0 0 0 3px rgba(255,154,123,.14);
+  }
+  .field-help,
+  .form-note{color:var(--p-text) !important}
+  .form-disclaimer{color:var(--p-text-muted) !important}
+
+  html.vl-motion-enabled {
+    [data-vl-home-section='contact'] .field input,
+    [data-vl-home-section='contact'] .field select,
+    [data-vl-home-section='contact'] .field textarea {
+      transition: border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    [data-vl-home-section='contact'] .field input:hover,
+    [data-vl-home-section='contact'] .field select:hover,
+    [data-vl-home-section='contact'] .field textarea:hover {
+      border-color: rgb(var(--p-slate-rgb) / 0.34);
+    }
+
+    [data-vl-home-section='contact'] .field input:focus-visible,
+    [data-vl-home-section='contact'] .field select:focus-visible,
+    [data-vl-home-section='contact'] .field textarea:focus-visible {
+      outline: none;
+      border-color: rgb(var(--p-slate-rgb) / 0.62);
+      box-shadow: 0 0 0 3px rgb(var(--p-slate-rgb) / 0.16);
+    }
+  }
+
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   form .btn{width:100%;justify-content:center;margin-top:6px}
   form .legal{font-size:12px;color:var(--slate);margin-top:14px;line-height:1.5}

@@ -96,39 +96,7 @@
   background:#fff;
 }
 
-.reg .seals{
-  display:flex;
-  gap:16px;
-  align-items:center;
-  justify-content:flex-start;
-  flex-wrap:wrap;
-}
-.reg .seal.logo{
-  box-sizing:border-box;
-  width:132px;
-  height:72px;
-  padding:13px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgb(var(--p-cream-warm-rgb) / .96);
-  border:1px solid rgb(var(--p-cream-warm-rgb) / .25);
-  border-radius:10px;
-  text-decoration:none;
-  box-shadow:0 18px 40px -34px rgba(0,0,0,.72);
-  overflow:hidden;
-}
-.reg .seal.logo img{
-  display:block;
-  width:100%;
-  height:42px;
-  max-width:92px;
-  max-height:42px;
-  object-fit:contain;
-}
-.reg .seal.logo .logo-fallback{
-  display:none;
-}
+// .reg .seals / .reg .seal.logo: owner es 6-sections/_regulatory-panel.scss
 
 @media(max-width:980px){
   .partner-logo-grid{
@@ -151,18 +119,5 @@
     max-width:118px;
     height:36px;
     max-height:36px;
-  }
-  .reg .seals{
-    gap:12px;
-  }
-  .reg .seal.logo{
-    width:116px;
-    height:64px;
-    padding:12px 16px;
-  }
-  .reg .seal.logo img{
-    max-width:84px;
-    height:38px;
-    max-height:38px;
   }
 }

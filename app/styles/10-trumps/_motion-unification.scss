@@ -56,22 +56,6 @@
   transform: none;
 }
 
-/* Partner logos stay calm instead of moving forever. */
-.partner-carousel-track {
-  animation: none !important;
-  transform: translate3d(0, 0, 0) !important;
-  will-change: auto !important;
-}
-
-.partner-carousel-set + .partner-carousel-set {
-  display: none !important;
-}
-
-.partner-carousel-set {
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 /* Remove decorative pulses that compete with content. */
 .sound-toggle .sicon,
 .sound-toggle.is-on .sicon,

@@ -1,29 +1,12 @@
-.rel-logo{height:56px;padding:0 20px;border-radius:9px}
-.rel-logo img{height:34px;max-width:150px;width:auto;object-fit:contain;display:block}
-  .rel-fb{font-size:15px}
-  .trust .logos{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:20px}
-  .reg .seals{display:flex;gap:14px;flex-wrap:wrap}
-  .reg .seal.logo{background:#fff;border:none;border-radius:9px;height:56px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center}
-  .reg .seal.logo img{height:34px;max-width:150px;width:auto;object-fit:contain;display:block}
-  .reg .seal.logo .rel-fb{color:#1a1a1e;display:inline}
-  .reg .seal.logo img ~ .rel-fb{display:none}
+// Restos sin relacion con logos (nunca migrados a un owner propio).
+// .rel-logo / .trust .logos / .reg .seal.logo vivian aqui — eliminados:
+// .rel-logo no tiene consumidores en el markup actual y .reg .seal.logo
+// esta consolidado en 6-sections/_regulatory-panel.scss (lote LOGOS).
+.vlw {
+  display: inline-block;
+  will-change: transform, opacity;
+}
 
-.rel-logo, .reg .seal.logo {
-  background:rgba(255,255,255,.035); border:1px solid rgb(var(--p-cream-warm-rgb) / .12);
-    border-radius:14px; height:74px; padding:11px 18px;
-    display:inline-flex; align-items:center; justify-content:center; overflow:hidden;
-  }
-  .rel-logo {
-    transition:border-color .18s ease, transform .18s ease;
-  }
-  .rel-logo img, .reg .seal.logo img{
-    height:100%; max-height:50px; width:auto; max-width:170px;
-    object-fit:contain; display:block; border-radius:9px;
-  }
-  .rel-logo:hover{border-color:var(--role-accent); transform:translateY(-2px)}
-  .rel-fb{color:rgb(var(--p-cream-warm-rgb) / .92); font-size:15px; font-weight:700}
-  .reg .seal.logo .rel-fb{color:rgb(var(--p-cream-warm-rgb) / .92)}
-  .reg .seal.logo img ~ .rel-fb{display:none}
-  .btn-primary,.btn-ghost{will-change:transform}
-  .vlw{display:inline-block;will-change:transform,opacity}
-  #brainbg{display:none}
+#brainbg {
+  display: none;
+}

@@ -1,10 +1,11 @@
 // Home Etapa 6 — estructura pin, progreso y glow (sin cambio visual estático)
+@use '../1-settings/breakpoints' as *;
 
 .vl-home-scroll-anchor {
   display: none;
 }
 
-@media (min-width: 761px) {
+@include up($bp-lg + 1px) {
   [data-vl-gsap-root='process'] .process-pin {
     box-sizing: border-box;
     width: 100%;
@@ -127,7 +128,7 @@ html.vl-motion-enabled {
   }
 }
 
-@media (max-width: 760px) {
+@include down($bp-lg) {
   [data-vl-gsap-root='process'] .process-story-progress {
     display: none;
   }

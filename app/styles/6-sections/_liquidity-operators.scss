@@ -1,4 +1,5 @@
 // Operadores de liquidez
+@use '../1-settings/breakpoints' as *;
 
 /* ---------- Liquidity operator logos ---------- */
 .finan .liquidity-operators {
@@ -78,7 +79,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@include down($bp-md) {
   .finan .liquidity-operators {
     --liq-logo-size: 56px;
     --liq-gap: 10px;

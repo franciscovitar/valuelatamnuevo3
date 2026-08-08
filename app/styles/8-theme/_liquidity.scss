@@ -78,32 +78,12 @@
   margin-right: 2px;
 }
 
-.rel-logo {
-  background: #fff;
-  border-radius: 8px;
-  height: 44px;
-  padding: 0 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.rel-logo img {
-  height: 24px;
-  width: auto;
-  display: block;
-}
-
 .rel-fb {
   display: inline;
   font-family: var(--font-hanken), sans-serif;
   font-weight: 700;
   font-size: 14px;
   color: #1a1a1e;
-}
-
-.rel-logo img ~ .rel-fb {
-  display: none;
 }
 
 .rel-more {

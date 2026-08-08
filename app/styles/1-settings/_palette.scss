@@ -1,12 +1,14 @@
 // =========================================================
 // VALUE LATAM — PALETA VELADA MATCH
-// Ajustada visualmente contra la referencia real de La Velada VI
+// Texto corregido: blanco calido para lectura
 // =========================================================
 //
 // Principio:
-// La identidad NO es "navy brillante".
-// Es un midnight casi plano (#0A1024), con cards apenas mas oscuras,
-// header mas profundo, crema marfil y oro apagado.
+// - fondos midnight;
+// - superficies casi negras/azul noche;
+// - oro y crema SOLO para jerarquia, titulos y detalles;
+// - parrafos y texto de lectura en blanco calido neutro;
+// - nada de gris azulado en body copy.
 //
 // Fuente unica de color del proyecto.
 
@@ -15,23 +17,32 @@
   // 1. ESCALA CRUDA
   // -------------------------------------------------------
 
-  /* Oro */
+  /* Oro — detalles / acentos */
   --p-accent: #c9ab70;
   --p-accent-bright: #ddc28a;
   --p-accent-dim: #a58a58;
   --p-accent-deep: #907443;
   --p-accent-deeper: #725a32;
 
-  /* Crema */
+  /* Crema — titulos / momentos editoriales */
   --p-cream: #f3e2c6;
   --p-cream-warm: #f7e8cf;
   --p-cream-panel: #dfccb0;
   --p-white: #fffaf0;
+  /* Blanco puro sin tinte: para el patron de scan del logo, unico lugar que
+     lo necesita. --p-white es un blanco calido y cambiaria ese resultado. */
+  --p-pure-white: #ffffff;
+
+  /*
+   * Blanco calido de lectura.
+   * Son neutros; no tienen el sesgo azul que tenia la escala Slate anterior.
+   */
+  --p-text: #f1efe9;
+  --p-text-soft: #d8d5ce;
+  --p-text-muted: #bdb9b0;
 
   /*
    * Escala oscura.
-   * #0A1024 es el fondo dominante real de la referencia.
-   * Las superficies NO suben hasta un navy brillante.
    */
   --p-ink-950: #04061e;
   --p-ink-900: #0a1024;
@@ -40,11 +51,15 @@
   --p-ink-600: #10162b;
   --p-ink-500: #151d34;
 
-  /* Texto secundario */
-  --p-slate: #a3a9b7;
-  --p-slate-dim: #81899c;
-  --p-slate-ink: #343b4f;
-  --p-slate-ink-soft: #656d80;
+  /*
+   * Aliases legacy "slate".
+   * Se mantienen los nombres para no romper consumidores,
+   * pero YA NO son azulados.
+   */
+  --p-slate: var(--p-text);
+  --p-slate-dim: var(--p-text-soft);
+  --p-slate-ink: #3d3b37;
+  --p-slate-ink-soft: #747069;
 
   /* Secundarios disponibles, no dominantes */
   --p-maroon: #480f0e;
@@ -63,13 +78,19 @@
   --p-cream-rgb: 243 226 198;
   --p-cream-warm-rgb: 247 232 207;
   --p-white-rgb: 255 250 240;
+  --p-pure-white-rgb: 255 255 255;
+
+  --p-text-rgb: 241 239 233;
+  --p-text-soft-rgb: 216 213 206;
+  --p-text-muted-rgb: 189 185 176;
 
   --p-ink-rgb: 10 16 36;
   --p-ink-950-rgb: 4 6 30;
   --p-ink-800-rgb: 9 14 30;
   --p-surface-rgb: 12 16 34;
 
-  --p-slate-rgb: 163 169 183;
+  /* Compatibilidad */
+  --p-slate-rgb: var(--p-text-rgb);
   --p-hairline-rgb: 201 171 112;
 
   // -------------------------------------------------------
@@ -80,39 +101,41 @@
   --role-bg-base: var(--p-ink-900);
   --role-bg-raised: var(--p-ink-800);
 
-  /*
-   * Cards: deliberadamente MUY cerca del fondo.
-   * Es una de las diferencias mas importantes respecto de la version anterior.
-   */
   --role-surface-deep: var(--p-ink-800);
   --role-surface-base: var(--p-ink-700);
   --role-surface-raised: var(--p-ink-600);
   --role-surface-active: var(--p-ink-500);
 
+  /*
+   * JERARQUIA DE TEXTO
+   *
+   * primary   = crema, reservado para titulos y alto contraste;
+   * secondary = blanco calido neutro, parrafos y lectura normal;
+   * muted     = blanco calido reducido, labels secundarios / legales.
+   */
   --role-text-primary: var(--p-cream);
-  --role-text-secondary: var(--p-slate);
-  --role-text-muted: var(--p-slate-dim);
+  --role-text-secondary: var(--p-text);
+  --role-text-muted: var(--p-text-muted);
 
   /* Compatibilidad con consumidores antiguos */
   --role-text-on-light: var(--p-cream);
-  --role-text-on-light-soft: var(--p-slate);
-  --role-text-on-light-muted: var(--p-slate-dim);
+  --role-text-on-light-soft: var(--p-text);
+  --role-text-on-light-muted: var(--p-text-muted);
 
+  /* Acento: NO debe usarse como body copy */
   --role-accent: var(--p-accent);
   --role-accent-hover: var(--p-accent-bright);
   --role-accent-on-light: var(--p-accent);
   --role-accent-on-light-hover: var(--p-accent-bright);
 
-  /*
-   * Bordes cálidos y muy finos como en la referencia.
-   * Se perciben mas por temperatura que por luminosidad.
-   */
+  /* Bordes */
   --role-border-subtle: rgb(var(--p-accent-rgb) / 0.16);
   --role-border-hover: rgb(var(--p-accent-rgb) / 0.34);
   --role-border-neutral: rgb(var(--p-accent-rgb) / 0.17);
   --role-hairline-dark: rgb(var(--p-cream-rgb) / 0.10);
   --role-hairline-light: rgb(var(--p-accent-rgb) / 0.18);
 
+  /* Botones */
   --role-button-start: #f3e2c6;
   --role-button-end: #c9ab70;
   --role-button-hover-start: #faecd3;
@@ -120,7 +143,7 @@
   --role-button-ink: #0a1024;
 
   --role-whatsapp: var(--p-ink-700);
-  --role-whatsapp-text: var(--p-cream);
+  --role-whatsapp-text: var(--p-text);
 
   // -------------------------------------------------------
   // 3. SEMANTICA --vl-*
@@ -157,7 +180,8 @@
 
   --vl-whatsapp: var(--role-whatsapp);
   --vl-whatsapp-text: var(--role-whatsapp-text);
-  --vl-steel: var(--p-slate-dim);
+
+  --vl-steel: var(--p-text-muted);
 
   // -------------------------------------------------------
   // 4. ALIASES HEREDADOS
@@ -180,7 +204,13 @@
   --line-light: rgb(var(--p-accent-rgb) / 0.08);
 
   --gold-ink: var(--p-accent);
+
+  /*
+   * Alias viejo. Antes terminaba aportando un sesgo azul.
+   * Lo dejamos neutro para cualquier consumidor residual.
+   */
   --azure: var(--role-text-secondary);
+
   --hairline: var(--role-hairline-light);
 
   // -------------------------------------------------------
@@ -190,10 +220,6 @@
   --border-brass-soft: var(--role-border-subtle);
   --border-brass-hover: var(--role-border-hover);
 
-  /*
-   * La referencia no usa grandes bloques azulados elevados.
-   * La separacion se consigue con borde + sombra negra corta.
-   */
   --shadow-card-premium:
     0 1px 0 rgb(var(--p-accent-rgb) / 0.05),
     0 18px 38px -30px rgb(0 0 0 / 0.82);

@@ -7,6 +7,7 @@ import {
   HERO_TIMELINE,
   HERO_WORD_LAYOUTS,
   HERO_WORDS,
+  resolveDepthVisual,
 } from '../heroWordCloudConfig';
 
 const BREAKPOINTS = {
@@ -38,6 +39,26 @@ function getResponsiveWord(word, layoutName) {
   }
 
   return word;
+}
+
+/*
+ * Curvas de velocidad de la convergencia. Que cada palabra elija la suya es lo
+ * que evita que la constelacion entera viaje al centro como un bloque: unas se
+ * despegan rapido y frenan al llegar, otras se quedan flotando y aceleran
+ * despues.
+ */
+const CONVERGE_PULLS = {
+  out: (t) => 1 - (1 - t) ** 3,
+  in: (t) => t ** 2.4,
+  inOut: (t) => (
+    t < 0.5
+      ? 4 * t * t * t
+      : 1 - ((-2 * t + 2) ** 3) / 2
+  ),
+};
+
+function easeConverge(local, pull) {
+  return (CONVERGE_PULLS[pull] || CONVERGE_PULLS.inOut)(local);
 }
 
 function isWordVisible(word, layoutName) {
@@ -155,12 +176,15 @@ function destroyHeroScrollAnimation(animation) {
 
 /*
  * Estado de la nube. Se escribe estilo inline directo en vez de usar tweens
- * por palabra: la proyeccion se recalcula entera en cada frame y crear 16
- * tweens por frame seria trabajo tirado.
+ * por palabra: cada palabra combina su trayectoria ambiental (tiempo) con su
+ * convergencia (scroll) en cada frame, y crear 16 tweens por frame para eso
+ * seria trabajo tirado.
  */
 const cloudState = {
   entries: [],
   progress: 0,
+  time: 0,
+  target: { x: 0, y: 0 },
 };
 
 function clamp01(value) {
@@ -169,10 +193,68 @@ function clamp01(value) {
   return value;
 }
 
+function smoothstep01(edge0, edge1, value) {
+  const t = clamp01((value - edge0) / (edge1 - edge0));
+  return t * t * (3 - 2 * t);
+}
+
+/**
+ * Centro de atraccion: el centro optico de la marca, medido en el sistema de
+ * coordenadas de las palabras (origen en el centro de la escena).
+ *
+ * Se mide sobre `scene`, que nunca lleva transform, y se descuenta el
+ * desplazamiento que la salida del hero pueda estar aplicando al ancla. Asi el
+ * destino no se corre si el layout se recalcula con el scroll avanzado.
+ */
+function measureConvergeTarget(targets) {
+  const anchor = targets.root.querySelector('[data-hero-mark-anchor]');
+
+  if (!targets.scene || !targets.mark || !anchor) return { x: 0, y: 0 };
+
+  const sceneRect = targets.scene.getBoundingClientRect();
+  const markRect = targets.mark.getBoundingClientRect();
+  const anchorShiftY = Number(gsap.getProperty(anchor, 'y')) || 0;
+
+  return {
+    x: (markRect.left + markRect.width / 2)
+      - (sceneRect.left + sceneRect.width / 2),
+    y: (markRect.top + markRect.height / 2 - anchorShiftY)
+      - (sceneRect.top + sceneRect.height / 2),
+  };
+}
+
+/**
+ * Precalcula la deriva ambiental de una palabra.
+ *
+ * La palabra recorre un arco de circunferencia que en `t = 0` pasa por su
+ * posicion de reposo con la velocidad apuntando a `angle`. El centro del arco
+ * queda entonces a 90 grados de esa direccion, del lado que indica `spin`.
+ *
+ * `omega = speed / radius` no depende de la escala del layout, asi que reducir
+ * la amplitud en mobile achica el recorrido sin acelerar el giro.
+ */
+function resolveDrift(idle, scale) {
+  const theta0 = (idle.angle - 90 * idle.spin) * (Math.PI / 180);
+
+  return {
+    theta0,
+    cos0: Math.cos(theta0),
+    sin0: Math.sin(theta0),
+    omega: (idle.speed / idle.radius) * idle.spin,
+    radius: idle.radius * scale,
+    rotate: idle.rotate,
+    scale: idle.scale,
+  };
+}
+
 function refreshCloudEntries(targets) {
   const layoutName = getLayoutName();
+  const layout = getLayout();
+  const unitX = window.innerWidth * 0.01 * layout.xFactor;
+  const unitY = window.innerHeight * 0.01 * layout.yFactor;
 
   cloudState.entries = [];
+  cloudState.target = measureConvergeTarget(targets);
 
   targets.words.forEach((element) => {
     const baseWord = getWordConfig(element.dataset.heroWord);
@@ -182,61 +264,100 @@ function refreshCloudEntries(targets) {
       return;
     }
 
+    const word = getResponsiveWord(baseWord, layoutName);
+    const visual = resolveDepthVisual(word.depth);
+    const converge = {
+      ...word.converge,
+      start: word.converge.start * layout.convergeStretch,
+      end: Math.min(word.converge.end * layout.convergeStretch, 0.68),
+    };
+    const rest = {
+      x: word.x * unitX,
+      y: word.y * unitY,
+    };
+    // Direccion del viaje al centro. Su perpendicular curva la trayectoria,
+    // para que las palabras no bajen todas por un radio recto.
+    const toCenterX = cloudState.target.x - rest.x;
+    const toCenterY = cloudState.target.y - rest.y;
+    const distance = Math.max(Math.hypot(toCenterX, toCenterY), 0.001);
+
     element.style.display = 'block';
     element.style.transformOrigin = '50% 50%';
+    element.style.zIndex = String(visual.zIndex);
 
     cloudState.entries.push({
       element,
-      word: getResponsiveWord(baseWord, layoutName),
+      word,
+      converge,
+      visual,
+      rest,
+      bow: {
+        x: -toCenterY / distance,
+        y: toCenterX / distance,
+      },
+      drift: resolveDrift(word.idle, layout.idleScale),
     });
   });
 }
 
 /**
- * Proyecta la nube para un avance de camara normalizado (0 -> 1).
- * Escala y distancia radial comparten el divisor `k = focal / z`, de modo que
- * una palabra cercana crece y se abre hacia el borde mas rapido que una
- * lejana sin necesidad de easings por elemento.
+ * Dibuja la constelacion para un instante `time` y un progreso de scroll.
+ *
+ * Ambiente y convergencia se resuelven por palabra y se suman:
+ *   - el ambiente usa la trayectoria propia de la palabra y se apaga a medida
+ *     que la atraccion la toma;
+ *   - la convergencia interpola desde la posicion ambiental actual hasta el
+ *     centro, con arco lateral, reduccion de escala, giro y desvanecimiento.
  */
-function renderCloud(progress) {
+function renderCloud(progress, time) {
   cloudState.progress = progress;
+  cloudState.time = time;
 
-  const layout = getLayout();
-  const { focal, zNear, zContent, cameraTravel } = HERO_SCENE;
-  const cameraZ = progress * cameraTravel;
-  const unitX = window.innerWidth * 0.01 * layout.xFactor;
-  const unitY = window.innerHeight * 0.01 * layout.yFactor;
+  const { absorbScale, absorbFadeFrom } = HERO_SCENE;
+  const target = cloudState.target;
 
-  cloudState.entries.forEach(({ element, word }) => {
-    const z = word.z0 - cameraZ;
+  cloudState.entries.forEach((entry) => {
+    const {
+      element, word, converge, visual, rest, bow, drift,
+    } = entry;
+    const local = clamp01(
+      (progress - converge.start) / (converge.end - converge.start)
+    );
+    const pull = easeConverge(local, converge.pull);
 
-    if (z <= zNear) {
+    if (pull >= 1) {
       element.style.visibility = 'hidden';
       element.style.opacity = '0';
       return;
     }
 
-    const k = focal / z;
+    // La deriva se apaga a medida que la atraccion toma a la palabra.
+    const ambient = 1 - pull;
+    const swept = drift.omega * time;
+    const amplitude = drift.radius * ambient;
+    const driftX = (Math.cos(drift.theta0 + swept) - drift.cos0) * amplitude;
+    const driftY = (Math.sin(drift.theta0 + swept) - drift.sin0) * amplitude;
+    // Giro y respiracion siguen el mismo arco, con lo que tampoco invierten
+    // dentro del tiempo en que alguien mira la escena.
+    const driftRotate = Math.sin(swept) * drift.rotate * ambient;
+    const breath = 1 + Math.sin(swept * 0.7) * drift.scale * ambient;
 
-    // Nace tenue junto al punto de fuga y se apaga al alcanzar la camara.
-    const born = clamp01((k - 0.16) / 0.34);
-    const exit = clamp01((z - zNear) / 0.6);
-    const alpha = born * exit
-      * (word.opacity ?? 1)
-      * (word.depth === 'far' ? 0.62 : 1);
-
-    // Blur solo en lo muy lejano: la profundidad la comunica la escala.
-    const blur = k >= 0.5 ? 0 : Math.min(2.2, (0.5 - k) * 6);
+    // Arco lateral: maximo a mitad de viaje, nulo en los extremos.
+    const arc = Math.sin(Math.PI * local) * converge.curve;
+    const fromX = rest.x + driftX;
+    const fromY = rest.y + driftY;
+    const x = fromX + (target.x - fromX) * pull + bow.x * arc;
+    const y = fromY + (target.y - fromY) * pull + bow.y * arc;
+    const scale = visual.scale * breath * (1 + (absorbScale - 1) * pull);
+    const alpha = visual.opacity * (1 - smoothstep01(absorbFadeFrom, 1, pull));
+    const rotation = word.rotation + driftRotate + converge.spin * pull;
 
     element.style.visibility = alpha > 0.004 ? 'visible' : 'hidden';
     element.style.opacity = alpha.toFixed(3);
-    element.style.filter = blur > 0.02 ? `blur(${blur.toFixed(2)}px)` : 'none';
-    element.style.transform = `translate3d(${(word.wx * k * unitX).toFixed(2)}px, ${(word.wy * k * unitY).toFixed(2)}px, 0) scale(${k.toFixed(4)}) rotate(${word.rotation}deg)`;
-
-    // Mas cerca que el plano del bloque central => pasa por delante del logo.
-    element.style.zIndex = z > zContent
-      ? String(Math.round(40 - Math.min(z, 6) * 4))
-      : String(Math.round(150 + (zContent - z) * 60));
+    element.style.filter = visual.blur > 0.02
+      ? `blur(${visual.blur.toFixed(2)}px)`
+      : 'none';
+    element.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(4)}) rotate(${rotation.toFixed(2)}deg)`;
   });
 }
 
@@ -270,19 +391,27 @@ function addHeroExit(timeline, targets) {
   }
 }
 
+/*
+ * El scroll solo publica el progreso: quien dibuja es el ticker. Si la nube se
+ * pintara desde el `onUpdate` del timeline, la escena quedaria congelada
+ * mientras nadie scrollea, y la mitad del efecto es justamente que la
+ * constelacion ya este viva antes de que el usuario toque nada.
+ */
 function addWordCloud(timeline, targets) {
   refreshCloudEntries(targets);
 
-  const camera = { progress: 0 };
+  const scroll = { progress: 0 };
 
-  timeline.to(camera, {
+  timeline.to(scroll, {
     progress: 1,
-    duration: HERO_SCENE.cloudEnd,
+    duration: 1,
     ease: 'none',
-    onUpdate: () => renderCloud(camera.progress),
+    onUpdate: () => {
+      cloudState.progress = scroll.progress;
+    },
   }, 0);
 
-  renderCloud(0);
+  renderCloud(0, cloudState.time);
 }
 
 function setMarkInitialState(timeline, targets) {
@@ -521,6 +650,14 @@ export function initVideoHeroAnimation() {
   let lenisSyncFrame = 0;
   const removeParallax = bindWordFieldParallax(targets);
 
+  const tickCloud = (time) => {
+    if (document.hidden) return;
+
+    renderCloud(cloudState.progress, time);
+  };
+
+  gsap.ticker.add(tickCloud);
+
   const syncScrollPosition = () => {
     scrollToTop({ immediate: true });
     heroAnimation.scrollTrigger?.scroll(heroAnimation.scrollTrigger.start);
@@ -556,11 +693,11 @@ export function initVideoHeroAnimation() {
         return;
       }
 
-      // Mismo layout: la proyeccion sigue en pixeles del viewport anterior y
-      // solo se recalcula en el onUpdate del timeline, que no dispara si el
-      // usuario redimensiona sin scrollear.
+      // Mismo layout: las posiciones de reposo y el centro de atraccion siguen
+      // en pixeles del viewport anterior.
       setScrollHeight(targets.scrollEl);
-      renderCloud(cloudState.progress);
+      refreshCloudEntries(targets);
+      renderCloud(cloudState.progress, cloudState.time);
       refreshScrollTriggers({ hard: true });
     });
   };
@@ -571,6 +708,7 @@ export function initVideoHeroAnimation() {
   return () => {
     cancelAnimationFrame(resizeFrame);
     cancelAnimationFrame(lenisSyncFrame);
+    gsap.ticker.remove(tickCloud);
     removeParallax();
     window.removeEventListener('resize', rebuild);
     window.removeEventListener('orientationchange', rebuild);

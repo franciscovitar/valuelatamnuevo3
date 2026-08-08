@@ -1,27 +1,25 @@
 /* =========================================================
-   VALUE LATAM — VELADA FINAL MAPPING V2
+   VALUE LATAM — VELADA SURFACES + DARK DIVIDER FIX
+   Reemplaza tu archivo actual:
+   app/styles/10-trumps/_velada-palette-final.scss
    =========================================================
-   Debe seguir cargandose ULTIMO.
 
-   Objetivo de esta version:
-   - fondo realmente #0A1024;
-   - header mas oscuro;
-   - sin grandes gradientes azules;
-   - cards casi fundidas con el fondo;
-   - preservar stars, lineas y motion existentes.
+   Objetivos:
+   1) Cards menos azules y mas cercanas al fondo, estilo La Velada.
+   2) El "corte" / wipe entre secciones deja de usar crema/claro
+      y pasa a un azul oscuro coherente con la paleta.
+   3) Mantener la paleta actual y la tipografia que ya elegiste.
    ========================================================= */
 
-/* Canvas */
+/* =========================================================
+   CANVAS
+   ========================================================= */
 
 html {
   background: var(--p-ink-900) !important;
 }
 
 body {
-  /*
-   * Casi plano a proposito.
-   * La referencia no tiene el barrido azul brillante de la version anterior.
-   */
   background:
     radial-gradient(
       68% 34% at 50% 4%,
@@ -35,15 +33,13 @@ main {
   background: transparent !important;
 }
 
-/* Header */
-
+/* Header un poco mas profundo */
 header.nav {
   background: rgb(var(--p-ink-950-rgb) / 0.98) !important;
   border-bottom-color: rgb(var(--p-accent-rgb) / 0.10) !important;
 }
 
 /* Hero */
-
 .video-hero--word-orbit {
   --hero-black: var(--p-ink-900) !important;
   background: var(--p-ink-900) !important;
@@ -64,17 +60,12 @@ header.nav {
     var(--p-ink-900) !important;
 }
 
-/* Secciones */
-
+/* Todas las secciones quedan en el mismo universo midnight */
 section[data-vl-home-section],
 section[data-vl-internal-page] {
   background-color: transparent !important;
 }
 
-/*
- * Las antiguas light NO reciben un navy alternativo.
- * Todo el sitio vive en el mismo midnight.
- */
 section[data-vl-home-section].vl-section--light,
 section[data-vl-internal-page].vl-section--light,
 section[data-vl-home-section='solutions'].vl-section--light,
@@ -82,19 +73,46 @@ section[data-vl-home-section='team'].vl-section--light {
   background: var(--p-ink-900) !important;
 }
 
-/* Metrics: elimina el #0f0f12 legacy */
+/* =========================================================
+   CARDS — MAS CERCA DE LA VELADA
+   ========================================================= */
 
-body:has(.video-hero--word-orbit) .metrics,
-section[data-vl-home-section='metrics'] {
-  background: transparent !important;
+/*
+ * La version anterior seguia un poco azulada.
+ * Aca las cards quedan apenas separadas del fondo:
+ * - top: #0c1022 aprox
+ * - bottom: #090e1e aprox
+ */
+:root {
+  --vl-card-velada:
+    linear-gradient(
+      180deg,
+      rgb(var(--p-surface-rgb) / 0.98),
+      rgb(var(--p-ink-800-rgb) / 0.995)
+    );
+
+  --vl-card-velada-hover:
+    linear-gradient(
+      180deg,
+      rgb(16 22 43 / 0.99),
+      rgb(var(--p-surface-rgb) / 1)
+    );
+
+  --vl-card-border: rgb(var(--p-accent-rgb) / 0.16);
+  --vl-card-border-hover: rgb(var(--p-accent-rgb) / 0.28);
+  --vl-card-shadow:
+    0 1px 0 rgb(var(--p-accent-rgb) / 0.045),
+    0 18px 38px -30px rgb(0 0 0 / 0.82);
+  --vl-card-shadow-hover:
+    0 1px 0 rgb(var(--p-accent-rgb) / 0.08),
+    0 22px 44px -30px rgb(0 0 0 / 0.90);
 }
-
-/* Cards */
 
 [data-vl-home-section='solutions'] .sol-card,
 [data-vl-home-section='why-us'] .pullquote,
 [data-vl-home-section='team'] .person,
 [data-vl-home-section='contact'] form,
+[data-vl-home-section='process'] .step,
 .reg-seal-panel,
 .sol-ficha,
 .gain,
@@ -111,44 +129,185 @@ section[data-vl-home-section='metrics'] {
 .vl-section--light .person,
 .vl-section--light .pullquote,
 .vl-section--light form {
-  background: var(--surface-card-premium) !important;
-  border-color: var(--vl-border-neutral) !important;
-  box-shadow: var(--shadow-card-premium) !important;
+  background: var(--vl-card-velada) !important;
+  border-color: var(--vl-card-border) !important;
+  box-shadow: var(--vl-card-shadow) !important;
 }
 
-/* Team estaba especialmente azul en la version anterior */
-
+/* Nuestro equipo y soluciones: especialmente importantes */
 [data-vl-home-section='team'] .person,
-[data-vl-home-section='team'] .person:hover,
-[data-vl-home-section='team'] .person:focus,
-[data-vl-home-section='team'] .person:focus-within,
-[data-vl-home-section='team'] .person:active {
-  background: var(--surface-card-premium) !important;
+[data-vl-home-section='solutions'] .sol-card {
+  border-radius: 16px;
 }
-
-/* Hover: apenas subir luminancia */
 
 @media (hover: hover) and (pointer: fine) {
   [data-vl-home-section='solutions'] .sol-card:hover,
   [data-vl-home-section='team'] .person:hover,
+  [data-vl-home-section='contact'] form:hover,
   .sol-ficha:hover,
   .jcard:hover,
   .pay-feat:hover {
-    background: var(--vl-surface-raised) !important;
-    border-color: var(--vl-border-hover) !important;
-    box-shadow: var(--shadow-card-premium-hover) !important;
+    background: var(--vl-card-velada-hover) !important;
+    border-color: var(--vl-card-border-hover) !important;
+    box-shadow: var(--vl-card-shadow-hover) !important;
   }
 }
 
-/* Floating controls */
+/* Inputs y selects integrados con la misma familia visual */
+[data-vl-home-section='contact'] input,
+[data-vl-home-section='contact'] select,
+[data-vl-home-section='contact'] textarea {
+  background: rgb(var(--p-ink-900-rgb) / 0.72) !important;
+  border-color: rgb(var(--p-accent-rgb) / 0.14) !important;
+}
 
+/* Floating controls */
 .vl2-wa,
 .sound-toggle {
   background-color: var(--p-ink-700) !important;
   border-color: rgb(var(--p-accent-rgb) / 0.20) !important;
 }
 
-/* Mobile */
+/* =========================================================
+   SECTION WIPE / CORTES ENTRE SECCIONES
+   =========================================================
+
+   Tu captura muestra franjas claras/crema.
+   Eso significa que el wipe todavia esta leyendo el "light theme" viejo.
+   Lo normalizamos a azules oscuros.
+
+   Como hay varias implementaciones posibles en el proyecto, el override
+   cubre varias convenciones de naming sin tocar el JSX.
+   ========================================================= */
+
+/* Variables de apoyo */
+:root {
+  --vl-divider-ink: var(--p-ink-950);
+  --vl-divider-ink-2: var(--p-ink-900);
+  --vl-divider-ink-3: var(--p-ink-800);
+}
+
+/*
+ * Cualquier contenedor de divider/wipe usa midnight,
+ * no crema / paper.
+ */
+:is(
+  .section-divider,
+  .section-divider-wrap,
+  .section-divider-glow,
+  .vl-section-divider,
+  .vl-divider,
+  .divider-bg,
+  .divider-background,
+  .divider-depth,
+  .section-wipe,
+  .section-transition,
+  [data-vl-divider],
+  [data-vl-section-divider]
+) {
+  --divider-band-a: var(--vl-divider-ink);
+  --divider-band-b: var(--vl-divider-ink-2);
+  --divider-band-c: var(--vl-divider-ink-3);
+}
+
+/* Bandas / slices / rows del efecto */
+:is(
+  .section-divider__band,
+  .section-divider__slice,
+  .section-divider__row,
+  .vl-section-divider__band,
+  .vl-divider__band,
+  .divider-band,
+  .divider-slice,
+  .wipe-band,
+  .wipe-row
+):nth-child(odd) {
+  background: var(--vl-divider-ink-2) !important;
+}
+
+:is(
+  .section-divider__band,
+  .section-divider__slice,
+  .section-divider__row,
+  .vl-section-divider__band,
+  .vl-divider__band,
+  .divider-band,
+  .divider-slice,
+  .wipe-band,
+  .wipe-row
+):nth-child(even) {
+  background: var(--vl-divider-ink) !important;
+}
+
+/*
+ * Si el efecto usa pseudo-elementos, tambien los oscurizamos.
+ */
+:is(
+  .section-divider,
+  .section-divider-wrap,
+  .vl-section-divider,
+  .vl-divider,
+  .section-wipe,
+  .section-transition,
+  [data-vl-divider],
+  [data-vl-section-divider]
+)::before {
+  background: linear-gradient(
+    180deg,
+    var(--vl-divider-ink-2),
+    var(--vl-divider-ink)
+  ) !important;
+}
+
+:is(
+  .section-divider,
+  .section-divider-wrap,
+  .vl-section-divider,
+  .vl-divider,
+  .section-wipe,
+  .section-transition,
+  [data-vl-divider],
+  [data-vl-section-divider]
+)::after {
+  background: linear-gradient(
+    180deg,
+    var(--vl-divider-ink),
+    var(--vl-divider-ink-3)
+  ) !important;
+}
+
+/*
+ * Glow del divider: sigue existiendo, pero mucho mas sobrio.
+ */
+:is(
+  .section-divider-glow,
+  .divider-glow,
+  .vl-divider-glow
+) {
+  background:
+    radial-gradient(
+      50% 100% at 50% 50%,
+      rgb(var(--p-accent-rgb) / 0.08),
+      transparent 70%
+    ) !important;
+}
+
+/* Filetes asociados al divider */
+:is(
+  .vl-reg-sep,
+  .reg-seal-divider,
+  .reg-sep,
+  .vl-nav-topline,
+  .section-divider-line,
+  .divider-line
+) {
+  background: rgb(var(--p-accent-rgb) / 0.14) !important;
+  border-color: rgb(var(--p-accent-rgb) / 0.14) !important;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 760px) {
   body {
@@ -165,4 +324,80 @@ section[data-vl-home-section='metrics'] {
       ),
       var(--p-ink-900) !important;
   }
+}
+
+
+/* =========================================================
+   READING TEXT — WARM WHITE, NEVER BLUE / GOLD
+   =========================================================
+   Esta capa existe porque hay estilos legacy en 8-theme y 10-trumps
+   que todavia asignan colores de texto con selectores mas especificos.
+   Como este archivo se carga ultimo, dejamos una regla visual clara:
+   - body copy = blanco calido;
+   - labels secundarios = blanco calido reducido;
+   - oro = solo jerarquia y detalles.
+   ========================================================= */
+
+p,
+li,
+.lead,
+.fin-lede,
+.ai-lede,
+.modelo .lede,
+.sec-head p,
+.metric .cap,
+.sol-card p,
+.sol-ficha p,
+.panel-lead p,
+.feat p,
+.client p,
+.client .who,
+.edge p.body,
+.edge li,
+.person p,
+.step p,
+.reg p,
+.legal {
+  color: var(--p-text) !important;
+}
+
+/* Texto realmente secundario: sigue neutro, nunca azul. */
+small,
+.muted,
+.text-muted,
+.footer-note,
+.contact-note {
+  color: var(--p-text-muted) !important;
+}
+
+/* Jerarquia: crema para titulos. */
+h1,
+h2,
+h3,
+h4,
+.serif,
+.sec-head h2,
+.process .sec-head h2,
+.metric .num {
+  color: var(--p-cream) !important;
+}
+
+/* Oro solo en detalles / labels / acentos. */
+.eyebrow,
+.eyebrow *,
+.kicker,
+.kicker *,
+.overline,
+.overline *,
+.mini-kicker,
+.mini-kicker *,
+.sol-card .idx,
+.person .role,
+.step .n,
+.reg .badge,
+.reg .badge *,
+.reg-seal-kicker,
+.reg-seal-kicker *,
+.edge li::before {
+  color: var(--p-accent) !important;
 }

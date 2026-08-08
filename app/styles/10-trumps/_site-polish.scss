@@ -200,82 +200,6 @@ header.nav .nav-links .nav-mobile-cta {
     linear-gradient(180deg, #0b243d 0%, #081b30 54%, #09090b 100%);
 }
 
-/* Partner logos desktop spacing fix - balanced row */
-@media (min-width: 761px) {
-  .partner-logos .partner-carousel-viewport {
-    overflow: visible;
-  }
-
-  .partner-logos .partner-carousel-track {
-    width: 100%;
-    display: block;
-    animation: none;
-    transform: none;
-  }
-
-  .partner-logos .partner-carousel-set {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(70px, 6vw, 118px);
-  }
-
-  .partner-logos .partner-carousel-set[aria-hidden='true'] {
-    display: none;
-  }
-
-  .partner-logos .partner-logo {
-    flex: 0 0 auto;
-    width: auto;
-    height: 124px;
-    min-width: 0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-    transform: none;
-    filter: none;
-  }
-
-  .partner-logos .partner-logo img {
-    display: block;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    transform: none;
-    filter: none;
-  }
-
-  .partner-logos .partner-logo--balanz img,
-  .partner-logos .partner-logo--adcap img {
-    width: 124px;
-    height: 124px;
-    max-width: 124px;
-    max-height: 124px;
-    border-radius: 14px;
-  }
-
-  .partner-logos .partner-logo--argenpymes img {
-    max-width: 210px;
-    max-height: 76px;
-  }
-
-  .partner-logos .partner-logo--trend img {
-    max-width: 240px;
-    max-height: 86px;
-  }
-
-  .partner-logos .partner-logo--acindar img {
-    max-width: 210px;
-    max-height: 76px;
-  }
-}
-
 /* Partner logos — sin hover visual */
 .partner-logos .partner-logo:hover,
 .partner-logos .partner-logo:focus,
@@ -289,28 +213,7 @@ header.nav .nav-links .nav-mobile-cta {
   opacity: 1 !important;
 }
 
-/* Sellos regulatorios — sin hover visual (section.reg, no .reg descendiente) */
-[data-vl-home-section='regulation'] .seals .seal,
-[data-vl-home-section='regulation'] .seals .seal:hover,
-[data-vl-home-section='regulation'] .seals .seal:focus,
-[data-vl-home-section='regulation'] .seals .seal:focus-visible,
-[data-vl-home-section='regulation'] .seals .seal:active {
-  transform: none !important;
-  background: #fff !important;
-  border-color: rgba(255, 255, 255, 0.86) !important;
-  box-shadow: 0 18px 42px -30px rgba(0, 0, 0, 0.55) !important;
-  filter: none !important;
-  color: inherit !important;
-  transition: none !important;
-}
-
-[data-vl-home-section='regulation'] .seals .seal img,
-[data-vl-home-section='regulation'] .seals .seal:hover img,
-[data-vl-home-section='regulation'] .seals .seal:focus img,
-[data-vl-home-section='regulation'] .seals .seal:active img {
-  transform: none !important;
-  filter: none !important;
-}
+/* Sellos regulatorios: migrado a 6-sections/_regulatory-panel.scss (owner unico). */
 
 /* Opaque content surfaces above decorative background lines */
 [data-vl-home-section='why-us'] .pullquote {

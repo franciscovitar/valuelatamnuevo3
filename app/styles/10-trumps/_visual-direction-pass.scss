@@ -196,129 +196,13 @@ header.nav {
     inset 0 1px 0 rgba(255, 255, 255, 0.022);
 }
 
-/* =========================================================
-   Buttons
-   ========================================================= */
+/* Buttons: migrado a 5-components/_buttons.scss (owner unico). */
 
-.btn-primary {
-  color: var(--vl-button-ink);
-  background:
-    linear-gradient(
-      180deg,
-      var(--vl-button-start) 0%,
-      var(--vl-button-end) 100%
-    );
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 11px 26px -18px rgb(var(--p-accent-rgb) / 0.48);
-  text-shadow: none;
-}
-
-.btn-primary::before {
-  content: none;
-  display: none;
-}
-
-.btn-primary:hover,
-.btn-primary:focus-visible {
-  background:
-    linear-gradient(
-      180deg,
-      var(--vl-button-hover-start) 0%,
-      var(--vl-button-hover-end) 100%
-    );
-  transform: translateY(-1px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 13px 30px -18px rgb(var(--p-accent-bright-rgb) / 0.54);
-}
-
-.btn-primary:hover::after,
-.btn-primary:focus-visible::after {
-  transform: translateX(2px);
-}
-
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-.btn-ghost,
-.btn-ghost-dark {
-  color: var(--vl-text-primary);
-  border-color: var(--vl-border-neutral);
-  background: rgba(255, 255, 255, 0.014);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.014);
-}
-
-.btn-ghost:hover,
-.btn-ghost:focus-visible,
-.btn-ghost-dark:hover,
-.btn-ghost-dark:focus-visible {
-  color: var(--vl-accent-hover);
-  border-color: var(--vl-border-hover);
-  background: rgb(var(--p-accent-rgb) / 0.04);
-  box-shadow: 0 10px 26px -20px rgb(var(--p-accent-rgb) / 0.34);
-  transform: translateY(-1px);
-}
-
-header .btn-primary,
-.nav .btn-primary {
-  padding: 10px 18px;
-  font-size: 13.5px;
-}
-
-/* =========================================================
-   Surface system
-   ========================================================= */
-
-[data-vl-home-section='solutions'] .sol-card,
-[data-vl-home-section='why-us'] .pullquote,
-[data-vl-home-section='team'] .person,
-[data-vl-home-section='contact'] form,
-.reg-seal-panel,
-.sol-ficha,
-.gain,
-.cycle,
-.feat,
-.client,
-.pillar,
-.ficha,
-.jcard,
-.biz,
-.pay-feat,
-.faq details {
-  background-color: var(--vl-surface-base);
-  background-image: none;
-  border-color: var(--vl-border-neutral);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.014),
-    0 22px 50px -40px rgba(0, 0, 0, 0.95);
-  opacity: 1;
-}
-
-[data-vl-home-section='team'] .person,
-[data-vl-home-section='team'] .person:hover,
-[data-vl-home-section='team'] .person:focus,
-[data-vl-home-section='team'] .person:focus-within,
-[data-vl-home-section='team'] .person:active {
-  background-color: var(--vl-surface-base) !important;
-  background-image: none !important;
-}
-
-.sol-ficha.is-active,
-.gain.is-active,
-.cycle.is-active,
-.feat.is-active,
-.client.is-active,
-.pillar.is-active,
-.ficha.is-active,
-.jcard.is-active,
-.biz.is-active,
-.pay-feat.is-active {
-  background-color: var(--vl-surface-active);
-  border-color: var(--vl-border-hover);
-}
+/* Surface system: migrado a 10-trumps/_velada-palette-final.scss, que ya
+   cubre el mismo listado de clases (mas [data-vl-home-section='process']
+   .step y las variantes .vl-section--light) con !important y gana la
+   cascada. Los estados .is-active de esta lista no tienen consumidor real
+   en el codigo actual (grep sin resultados fuera de nav). */
 
 [data-vl-home-section='contact'] form {
   backdrop-filter: none;
@@ -413,87 +297,27 @@ header .btn-primary,
   border-color: rgb(var(--p-cream-rgb) / 0.11) !important;
 }
 
-[data-vl-home-section='regulation'] .seals .seal,
-[data-vl-home-section='regulation'] .seals .seal:hover,
-[data-vl-home-section='regulation'] .seals .seal:focus,
-[data-vl-home-section='regulation'] .seals .seal:focus-visible,
-[data-vl-home-section='regulation'] .seals .seal:active {
-  background-color: var(--p-white) !important;
-  border-color: rgb(var(--p-cream-rgb) / 0.86) !important;
-  box-shadow: 0 14px 34px -28px rgba(0, 0, 0, 0.52) !important;
-}
+/* Sellos regulatorios: migrado a 6-sections/_regulatory-panel.scss (owner unico). */
 
 /* =========================================================
    Forms
    ========================================================= */
 
-.field label {
-  color: var(--vl-text-secondary);
-}
-
-.field input,
-.field select,
-.field textarea {
-  color: var(--vl-text-primary);
-  background-color: var(--vl-surface-deep);
-  border-color: var(--vl-border-neutral);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.011);
-}
-
-.field input:focus-visible,
-.field select:focus-visible,
-.field textarea:focus-visible {
-  border-color: rgb(var(--p-accent-rgb) / 0.32);
-  box-shadow: 0 0 0 3px rgb(var(--p-accent-rgb) / 0.052);
-}
+/* Forms: migrado a 5-components/_forms.scss (owner unico). */
 
 /* =========================================================
    Partner logos
    ========================================================= */
 
-@media (min-width: 761px) {
-  .partner-logos .partner-carousel-set {
-    gap: clamp(56px, 5.2vw, 96px);
-  }
+/* Solo tratamiento de color: el tamano y el layout de la cinta los define
+   6-sections/_partner-logos.scss, que es su dueno. */
+.partner-logos .partner-logo {
+  opacity: 0.86;
+  transition: opacity 200ms ease;
+}
 
-  .partner-logos .partner-logo {
-    height: 108px;
-    opacity: 0.86;
-    transition: opacity 200ms ease;
-  }
-
-  .partner-logos .partner-logo img {
-    filter: saturate(0.82) contrast(1.02);
-  }
-
-  .partner-logos .partner-logo--balanz img,
-  .partner-logos .partner-logo--adcap img {
-    width: 104px;
-    height: 104px;
-    max-width: 104px;
-    max-height: 104px;
-    border-radius: 12px;
-  }
-
-  .partner-logos .partner-logo--argenpymes img {
-    max-width: 188px;
-    max-height: 68px;
-  }
-
-  .partner-logos .partner-logo--trend img {
-    max-width: 208px;
-    max-height: 74px;
-  }
-
-  .partner-logos .partner-logo--acindar img {
-    max-width: 184px;
-    max-height: 68px;
-  }
-
-  .partner-logos .partner-logo:hover,
-  .partner-logos .partner-logo:focus-visible {
-    opacity: 1 !important;
-  }
+.partner-logos .partner-logo img {
+  filter: saturate(0.82) contrast(1.02);
 }
 
 /* =========================================================
@@ -613,23 +437,14 @@ header .btn-primary,
 
 @media (prefers-reduced-motion: reduce) {
   .vl2-wa,
-  .sound-toggle,
-  .btn-primary,
-  .btn-ghost,
-  .btn-ghost-dark {
+  .sound-toggle {
     transition: none;
   }
 
   .vl2-wa:hover,
   .vl2-wa:focus-visible,
   .sound-toggle:hover,
-  .sound-toggle:focus-visible,
-  .btn-primary:hover,
-  .btn-primary:focus-visible,
-  .btn-ghost:hover,
-  .btn-ghost:focus-visible,
-  .btn-ghost-dark:hover,
-  .btn-ghost-dark:focus-visible {
+  .sound-toggle:focus-visible {
     transform: none;
   }
 }

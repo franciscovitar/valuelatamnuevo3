@@ -1,6 +1,12 @@
 // Partner logos (componente)
+@use '../1-settings/breakpoints' as *;
 
-/* ---------- Partner logos: desktop static, mobile marquee ---------- */
+/* ---------- Partner logos: cinta infinita en todos los anchos ----------
+   Antes habia dos presentaciones: una grilla estatica de cinco columnas fijas
+   (118px 190px 230px 190px 118px) en desktop y la cinta solo bajo 760px. Esas
+   columnas fijas no entran en cuanto el viewport se achica o se suma un
+   aliado, y obligaban a mantener dos juegos de tamanos. La cinta resuelve las
+   dos cosas: entra siempre y hay una sola escala que ajustar. */
 .partner-logos {
   overflow: hidden;
   padding: clamp(70px, 8vw, 120px) 0;
@@ -8,35 +14,61 @@
 
 .partner-logos .wrap {
   max-width: 1780px;
-  padding-inline: clamp(42px, 4vw, 72px);
+  padding-inline: clamp(24px, 4vw, 72px);
 }
 
 .partner-logos .partner-head {
   width: 100%;
   max-width: 1120px;
   margin-inline: auto;
-  margin-bottom: clamp(38px, 5vw, 76px);
-}
-
-.partner-logo-grid--static {
-  display: grid;
-  grid-template-columns: 118px 190px 230px 190px 118px;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  column-gap: clamp(42px, 4.2vw, 72px);
-  width: 100%;
-  max-width: 1120px;
-  margin-inline: auto;
+  margin-bottom: clamp(30px, 5vw, 76px);
 }
 
 .partner-carousel-shell {
-  display: none;
+  /* Separacion y velocidad escalan con el viewport: la cinta tiene que
+     avanzar a un ritmo parecido en cualquier pantalla. */
+  --carousel-gap: clamp(26px, 4.4vw, 78px);
+  --carousel-speed: 38s;
+
+  position: relative;
+  display: block;
+  width: 100%;
+  padding-block: 6px 14px;
+  overflow: hidden;
+  // El desvanecido en los bordes evita que los logos aparezcan y desaparezcan
+  // de golpe contra el limite del viewport.
+  mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+}
+
+.partner-carousel-viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.partner-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: partner-logo-marquee var(--carousel-speed) linear infinite;
+  will-change: transform;
+}
+
+.partner-carousel-set {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--carousel-gap);
+  padding: 0;
+  padding-right: var(--carousel-gap);
+  margin: 0;
+  list-style: none;
 }
 
 .partner-logos .partner-logo {
   position: relative;
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
   min-width: 0;
@@ -46,9 +78,11 @@
   overflow: visible;
   background: transparent;
   border: 0;
+  border-radius: 0;
   box-shadow: none;
   filter: none;
   transform: none;
+  pointer-events: none;
 }
 
 .partner-logos .partner-logo img {
@@ -61,53 +95,43 @@
   filter: none;
 }
 
-.partner-logos .partner-logo .rel-fb {
-  display: none;
+/* La caja lleva medidas propias en vez de heredarlas del tamano intrinseco de
+   la imagen: con `loading="lazy"` el logo no tiene dimensiones hasta que carga,
+   y los apaisados colapsaban a ancho 0 dejando la cinta corta y saltando al
+   aparecer. El `object-fit` se encarga de la proporcion. */
+.partner-logos .partner-logo img {
+  width: 100%;
+  height: 100%;
 }
 
 .partner-logos .partner-logo--plain {
-  width: 100%;
-  height: 104px;
+  height: clamp(42px, 4.4vw, 62px);
 }
 
-.partner-logos .partner-logo--acindar img {
-  max-width: 190px;
-  max-height: 58px;
+.partner-logos .partner-logo--argenpymes {
+  width: clamp(140px, 14vw, 196px);
 }
 
-.partner-logos .partner-logo--argenpymes img {
-  max-width: 190px;
-  max-height: 58px;
+.partner-logos .partner-logo--acindar {
+  width: clamp(140px, 14vw, 190px);
 }
 
-.partner-logos .partner-logo--trend img {
-  max-width: 220px;
-  max-height: 72px;
+.partner-logos .partner-logo--trend {
+  width: clamp(150px, 15.5vw, 220px);
 }
 
 .partner-logos .partner-logo--badge {
-  width: 118px;
-  height: 118px;
+  width: clamp(80px, 8.4vw, 118px);
+  height: clamp(80px, 8.4vw, 118px);
   overflow: hidden;
-  border-radius: 13px;
+  border-radius: clamp(10px, 1vw, 13px);
 }
 
 .partner-logos .partner-logo--badge img {
-  width: 118px;
-  height: 118px;
-  max-width: 118px;
-  max-height: 118px;
-  border-radius: 13px;
+  border-radius: inherit;
 }
 
-@media (max-width: 1080px) {
-  .partner-logo-grid--static {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 32px 44px;
-  }
-}
-
-@media (max-width: 760px) {
+@include down($bp-lg) {
   .partner-logos {
     padding-top: clamp(58px, 12vw, 82px);
     padding-bottom: clamp(58px, 12vw, 82px);
@@ -120,131 +144,18 @@
 
   .partner-logos .partner-head {
     padding-inline: 24px;
-    margin-bottom: 30px;
-  }
-
-  .partner-logo-grid--static {
-    display: none;
   }
 
   .partner-carousel-shell {
-    --carousel-gap: clamp(26px, 6vw, 44px);
-    --badge-pair-gap: 18px;
-    --carousel-speed: 28s;
-
-    position: relative;
-    display: block;
-    width: 100%;
-    overflow: hidden;
-    padding-block: 6px 14px;
-    mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
-  }
-
-  .partner-carousel-viewport {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .partner-carousel-track {
-    display: flex;
-    width: max-content;
-    animation: partner-logo-marquee var(--carousel-speed) linear infinite;
-    will-change: transform;
-  }
-
-  .partner-carousel-set {
-    display: flex;
-    align-items: center;
-    gap: var(--carousel-gap);
-    flex: 0 0 auto;
-    padding-right: var(--carousel-gap);
-  }
-
-  .partner-carousel-shell .partner-logo {
-    flex: 0 0 auto;
-    pointer-events: none;
-  }
-
-  .partner-carousel-shell .partner-logo--plain {
-    width: auto;
-    height: 76px;
-  }
-
-  .partner-carousel-shell .partner-logo--acindar img {
-    width: 188px;
-    max-width: 188px;
-    max-height: 50px;
-  }
-
-  .partner-carousel-shell .partner-logo--argenpymes img {
-    width: 196px;
-    max-width: 196px;
-    max-height: 54px;
-  }
-
-  .partner-carousel-shell .partner-logo--trend img {
-    width: 198px;
-    max-width: 198px;
-    max-height: 62px;
-  }
-
-  .partner-carousel-shell .partner-logo--badge,
-  .partner-carousel-shell .partner-logo--badge img {
-    width: 102px;
-    height: 102px;
-    max-width: 102px;
-    max-height: 102px;
-    border-radius: 13px;
-  }
-
-  .partner-carousel-shell .partner-logo--balanz {
-    margin-right: var(--badge-pair-gap);
+    --carousel-speed: 30s;
   }
 }
 
-@media (max-width: 430px) {
-  .partner-carousel-shell {
-    --carousel-gap: 24px;
-    --badge-pair-gap: 14px;
-    --carousel-speed: 25s;
-  }
-
-  .partner-carousel-shell .partner-logo--plain {
-    height: 66px;
-  }
-
-  .partner-carousel-shell .partner-logo--acindar img {
-    width: 154px;
-    max-width: 154px;
-    max-height: 42px;
-  }
-
-  .partner-carousel-shell .partner-logo--argenpymes img {
-    width: 164px;
-    max-width: 164px;
-    max-height: 46px;
-  }
-
-  .partner-carousel-shell .partner-logo--trend img {
-    width: 166px;
-    max-width: 166px;
-    max-height: 54px;
-  }
-
-  .partner-carousel-shell .partner-logo--badge,
-  .partner-carousel-shell .partner-logo--badge img {
-    width: 86px;
-    height: 86px;
-    max-width: 86px;
-    max-height: 86px;
-  }
-}
-
+/* Un juego exacto de los tres: al llegar, la cinta vuelve a 0 y el frame
+   siguiente es identico al anterior. */
 @keyframes partner-logo-marquee {
   from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(-33.3333%, 0, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
