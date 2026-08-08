@@ -15,6 +15,13 @@ const BREAKPOINTS = {
   tablet: 1100,
 };
 
+/*
+ * Cuanto puede cambiar el alto del viewport sin que sea un cambio de layout.
+ * Cubre la barra de direcciones de Chrome y Safari en iOS y Android, que ronda
+ * los 56-120px segun navegador.
+ */
+const MOBILE_BROWSER_CHROME_TOLERANCE = 150;
+
 function getLayoutName() {
   if (window.innerWidth <= BREAKPOINTS.mobile) return 'mobile';
   if (window.innerWidth <= BREAKPOINTS.tablet) return 'tablet';
@@ -129,7 +136,21 @@ function getScrollTriggerConfig(targets) {
   const config = {
     trigger: targets.root,
     start: 'top top',
-    end: () => `+=${getHeroScrollDistanceVh()}%`,
+    /*
+     * El final del pin se mide sobre el recorrido que el contenedor tiene de
+     * verdad, no en `%` del viewport.
+     *
+     * La altura del contenedor esta en `svh`, que en mobile es la pantalla CON
+     * la barra de direcciones desplegada; `%` en ScrollTrigger se resuelve
+     * contra `innerHeight`, que crece cuando esa barra se contrae. Con las dos
+     * unidades mezcladas el pin pedia mas scroll del que el contenedor tenia
+     * (~150px en un mobile tipico) y cada recalculo reposicionaba la escena.
+     * En desktop ambas medidas coinciden, asi que la duracion no cambia.
+     */
+    end: () => `+=${Math.max(
+      targets.scrollEl.offsetHeight - targets.stickyEl.offsetHeight,
+      1
+    )}`,
     scrub: HERO_TIMELINE.scrub,
     invalidateOnRefresh: true,
   };
@@ -715,7 +736,18 @@ export function initVideoHeroAnimation() {
 
   gsap.ticker.add(tickCloud);
 
+  /*
+   * Solo reposiciona si el usuario todavia no se movio. Esto corre tambien
+   * dentro de un doble rAF despues del montaje, y en mobile ese frame llega
+   * cuando el usuario ya empezo a scrollear: devolverlo al tope se sentia como
+   * si la pagina lo empujara hacia arriba.
+   */
   const syncScrollPosition = () => {
+    if ((window.scrollY ?? window.pageYOffset ?? 0) > 2) {
+      refreshScrollTriggers({ hard: true });
+      return;
+    }
+
     scrollToTop({ immediate: true });
     heroAnimation.scrollTrigger?.scroll(heroAnimation.scrollTrigger.start);
     refreshScrollTriggers({ hard: true });
@@ -737,7 +769,31 @@ export function initVideoHeroAnimation() {
     });
   });
 
+  let lastWidth = window.innerWidth;
+  let lastHeight = window.innerHeight;
+
   const rebuild = () => {
+    const widthChanged = window.innerWidth !== lastWidth;
+    const heightDelta = Math.abs(window.innerHeight - lastHeight);
+
+    /*
+     * En mobile la barra de direcciones se contrae y se despliega mientras se
+     * scrollea, y cada vez dispara `resize`. Atender esos avisos hacia un
+     * `ScrollTrigger.refresh(true)` en pleno scroll, con el hero pinneado:
+     * el pin se recalculaba y reposicionaba el viewport varias veces por
+     * gesto, que es el temblor. Un cambio de alto solo, y por debajo de lo que
+     * mide esa barra, no es un cambio de layout: no hay nada que rehacer.
+     */
+    if (
+      currentLayout === 'mobile'
+      && !widthChanged
+      && heightDelta < MOBILE_BROWSER_CHROME_TOLERANCE
+    ) {
+      return;
+    }
+
+    lastWidth = window.innerWidth;
+    lastHeight = window.innerHeight;
     cancelAnimationFrame(resizeFrame);
 
     resizeFrame = requestAnimationFrame(() => {
