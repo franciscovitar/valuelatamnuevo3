@@ -777,12 +777,26 @@ export function initVideoHeroAnimation() {
     const heightDelta = Math.abs(window.innerHeight - lastHeight);
 
     /*
+     * La referencia se actualiza SIEMPRE, tambien cuando el aviso se ignora.
+     *
+     * Dejandola anclada al alto del ultimo refresh, la comparacion no era
+     * contra el cambio sino contra la desviacion acumulada: la barra de
+     * direcciones se mueve en varios tramos y, al sumar mas que la tolerancia,
+     * terminaba disparando el `refresh(true)` igual — en mitad del gesto y con
+     * el hero pegado. El filtro se volvia un temporizador del temblor en vez de
+     * evitarlo. Con la referencia al dia, solo dispara un cambio brusco de
+     * verdad: rotacion o teclado.
+     */
+    lastWidth = window.innerWidth;
+    lastHeight = window.innerHeight;
+
+    /*
      * En mobile la barra de direcciones se contrae y se despliega mientras se
-     * scrollea, y cada vez dispara `resize`. Atender esos avisos hacia un
-     * `ScrollTrigger.refresh(true)` en pleno scroll, con el hero pinneado:
-     * el pin se recalculaba y reposicionaba el viewport varias veces por
-     * gesto, que es el temblor. Un cambio de alto solo, y por debajo de lo que
-     * mide esa barra, no es un cambio de layout: no hay nada que rehacer.
+     * scrollea, y cada vez dispara `resize`. Atender esos avisos lleva a un
+     * `ScrollTrigger.refresh(true)` en pleno gesto, que recalcula el start y el
+     * end de todos los triggers y reposiciona el scroll: eso es el temblor. Un
+     * cambio de alto solo, y por debajo de lo que mide esa barra, no es un
+     * cambio de layout: no hay nada que rehacer.
      */
     if (
       currentLayout === 'mobile'
@@ -792,8 +806,6 @@ export function initVideoHeroAnimation() {
       return;
     }
 
-    lastWidth = window.innerWidth;
-    lastHeight = window.innerHeight;
     cancelAnimationFrame(resizeFrame);
 
     resizeFrame = requestAnimationFrame(() => {
