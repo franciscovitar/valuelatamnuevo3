@@ -396,6 +396,11 @@ header.nav {
     background: rgb(var(--p-ink-rgb) / 0.988);
   }
 
+  .vl2-wa,
+  .sound-toggle {
+    min-height: 44px;
+  }
+
   .nav-links {
     background:
       linear-gradient(
@@ -411,7 +416,7 @@ header.nav {
   .vl2-wa {
     right: max(12px, env(safe-area-inset-right, 0px));
     bottom: max(12px, env(safe-area-inset-bottom, 0px));
-    min-height: 40px;
+    min-height: 44px;
     padding: 8px 12px;
     font-size: 12px;
   }
@@ -419,9 +424,9 @@ header.nav {
   .sound-toggle {
     right: max(12px, env(safe-area-inset-right, 0px));
     bottom: max(60px, calc(48px + env(safe-area-inset-bottom, 0px)));
-    width: 38px;
-    height: 38px;
-    min-height: 38px;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
     justify-content: center;
     padding: 0;
   }

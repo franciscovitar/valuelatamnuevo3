@@ -3,14 +3,8 @@
 // 10-trumps/_velada-palette-final y 11-motion/_home-sections; ver
 // docs/refactor-maintainability-report.md).
 //
-// NOTA: el background/border de los campos se fuerza con
-// `rgb(var(--p-ink-900-rgb) / .72) !important` — `--p-ink-900-rgb` no existe
-// en 1-settings/_palette.scss, asi que ese `background` (shorthand) es
-// invalido y termina reseteando background-image/position/etc a su valor
-// inicial. Efecto real ya presente en produccion: el fondo se ve
-// transparente y el select pierde su flecha personalizada. Se preserva tal
-// cual (bug preexistente, fuera de alcance de este refactor) — ver tarea
-// separada para corregir la variable.
+// Los campos usan el RGB canonico del fondo base y conservan el caret propio
+// del select; `background-color` evita borrar esa capa visual.
 
 /* ---------- CTA / FORM ---------- */
   .cta{background:var(--ink);color:var(--paper)}
@@ -31,12 +25,20 @@
     border:1px solid var(--line-dark);border-radius:14px;
     color:var(--vl-text-primary);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.011);
-    background:rgb(var(--p-ink-900-rgb) / .72) !important;
+    background-color:rgb(var(--p-ink-rgb) / .72) !important;
     border-color:rgb(var(--p-accent-rgb) / .14) !important;
   }
   .field select{
     appearance:none;
     padding-right:42px;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--vl-accent) 50%),
+      linear-gradient(135deg, var(--vl-accent) 50%, transparent 50%);
+    background-position:
+      calc(100% - 17px) 50%,
+      calc(100% - 12px) 50%;
+    background-repeat:no-repeat;
+    background-size:5px 5px;
   }
   .field textarea{resize:vertical;min-height:104px}
   .field-error label{color:#ffd0c2}

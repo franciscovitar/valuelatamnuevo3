@@ -1,6 +1,7 @@
 .page-back {
   position: relative;
   z-index: 2;
+  overflow: clip;
   padding-top: clamp(96px, 13vh, 128px);
   padding-bottom: 12px;
 }
