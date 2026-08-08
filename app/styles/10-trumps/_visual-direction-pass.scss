@@ -309,49 +309,15 @@ header.nav {
    Partner logos
    ========================================================= */
 
-@media (min-width: 761px) {
-  .partner-logos .partner-carousel-set {
-    gap: clamp(56px, 5.2vw, 96px);
-  }
+/* Solo tratamiento de color: el tamano y el layout de la cinta los define
+   6-sections/_partner-logos.scss, que es su dueno. */
+.partner-logos .partner-logo {
+  opacity: 0.86;
+  transition: opacity 200ms ease;
+}
 
-  .partner-logos .partner-logo {
-    height: 108px;
-    opacity: 0.86;
-    transition: opacity 200ms ease;
-  }
-
-  .partner-logos .partner-logo img {
-    filter: saturate(0.82) contrast(1.02);
-  }
-
-  .partner-logos .partner-logo--balanz img,
-  .partner-logos .partner-logo--adcap img {
-    width: 104px;
-    height: 104px;
-    max-width: 104px;
-    max-height: 104px;
-    border-radius: 12px;
-  }
-
-  .partner-logos .partner-logo--argenpymes img {
-    max-width: 188px;
-    max-height: 68px;
-  }
-
-  .partner-logos .partner-logo--trend img {
-    max-width: 208px;
-    max-height: 74px;
-  }
-
-  .partner-logos .partner-logo--acindar img {
-    max-width: 184px;
-    max-height: 68px;
-  }
-
-  .partner-logos .partner-logo:hover,
-  .partner-logos .partner-logo:focus-visible {
-    opacity: 1 !important;
-  }
+.partner-logos .partner-logo img {
+  filter: saturate(0.82) contrast(1.02);
 }
 
 /* =========================================================

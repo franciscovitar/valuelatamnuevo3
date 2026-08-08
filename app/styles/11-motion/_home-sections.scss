@@ -2,11 +2,6 @@
 @use '../1-settings/breakpoints' as *;
 
 html.vl-motion-enabled {
-  [data-vl-home-section='partners'] .partner-logo-grid--static .partner-logo:hover {
-    transform: none;
-    filter: none;
-  }
-
   [data-vl-home-section='metrics'] .metric .num {
     font-variant-numeric: tabular-nums;
   }

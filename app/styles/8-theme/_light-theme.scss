@@ -14,8 +14,11 @@ header.nav { background: rgba(255,255,255,.82); border-bottom: 1px solid var(--h
 .viz-cap { color: var(--slate); }
 .hero-badge { color: var(--slate); border-color: var(--hairline); }
 .hero-badge b { color: var(--gold-ink); }
-.btn-ghost { border-color: var(--hairline); color: var(--ink); }
-.btn-ghost:hover { border-color: var(--brass); color: var(--gold-ink); }
+/* El boton fantasma lo define 5-components/_buttons.scss con los tokens
+   `--vl-*`, que ya se adaptan al contexto. La regla que habia aca lo pintaba
+   con `--ink` sin acotar seccion y, por orden ITCSS, le ganaba: sobre los
+   fondos oscuros quedaba tinta oscura sobre tinta oscura, practicamente
+   invisible (se veia asi en "Nuestro proceso"). */
 .shape.navy { opacity: .12; }
 .shape.blue { opacity: .16; }
 .shape.ghost { border-color: rgb(var(--p-hairline-rgb) / .12); opacity: .6; }
