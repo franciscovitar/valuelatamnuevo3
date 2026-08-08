@@ -312,6 +312,7 @@
     display: inline-flex;
     width: 44px;
     height: 44px;
+    flex: 0 0 44px;
     align-items: center;
     justify-content: center;
     padding: 0;
@@ -416,15 +417,15 @@
   }
 
   header.nav .menu-btn {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
   }
 
   header.nav .menu-btn-line {
     width: 22px;
   }
 
-  header.nav .menu-btn-line:nth-child(1) { top: 13px; }
-  header.nav .menu-btn-line:nth-child(2) { top: 20px; }
-  header.nav .menu-btn-line:nth-child(3) { top: 27px; }
+  header.nav .menu-btn-line:nth-child(1) { top: 14px; }
+  header.nav .menu-btn-line:nth-child(2) { top: 21px; }
+  header.nav .menu-btn-line:nth-child(3) { top: 28px; }
 }

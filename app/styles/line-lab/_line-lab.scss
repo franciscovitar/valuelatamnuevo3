@@ -313,6 +313,18 @@
 @media (max-width: 640px) {
   .line-lab__panel {
     width: min(280px, 88vw);
+    overflow-x: hidden;
+  }
+
+  .line-lab__panel-toggle,
+  .line-lab__checkpoint-buttons button,
+  .line-lab__copy,
+  .line-lab__panel-body > input[type='range'] {
+    min-height: 44px;
+  }
+
+  .line-lab__checkpoint-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

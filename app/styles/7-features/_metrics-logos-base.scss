@@ -1,7 +1,7 @@
 /* responsive metrics polish */
 .partner-logos{padding:54px 0 62px;border-top:1px solid rgb(var(--p-cream-warm-rgb) / .10)}
 .partner-head{max-width:760px;margin-bottom:22px}
-.partner-head h2{font-size:clamp(28px,4vw,48px)}
+.partner-head h2{font-size:clamp(28px,4vw,42px)}
 .partner-logo-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px;align-items:center}
 .partner-logo{height:68px;min-width:0;padding:0 18px}
 .partner-logo img{max-height:42px;max-width:150px;width:auto;object-fit:contain;filter:saturate(.95) contrast(1.04)}
@@ -16,7 +16,7 @@
   .metrics{padding:50px 0 44px}
   .metrics .wrap{padding-inline:24px}
   .metrics .sec-head{margin-bottom:20px}
-  .metrics .sec-head h2{font-size:clamp(30px,8.7vw,38px);line-height:1.05;max-width:none;letter-spacing:-0.025em}
+  .metrics .sec-head h2{font-size:clamp(28px,8vw,34px);line-height:1.05;max-width:none;letter-spacing:-0.025em}
   .metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;border-top:0}
   .metric{
     min-height:150px;
