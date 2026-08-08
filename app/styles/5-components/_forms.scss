@@ -22,7 +22,7 @@
   }
   .field input,.field select,.field textarea{
     width:100%;min-height:48px;padding:12px 14px;font-family:inherit;font-size:15px;
-    border:1px solid var(--line-dark);border-radius:14px;
+    border:1px solid var(--line-dark);border-radius:10px;
     color:var(--vl-text-primary);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.011);
     background-color:rgb(var(--p-ink-rgb) / .72) !important;

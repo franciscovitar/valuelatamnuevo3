@@ -317,7 +317,7 @@ section[data-vl-internal-page] > .wrap > :last-child {
   }
 
   section[data-vl-internal-page] {
-    padding-top: 64px !important;
+    padding-top: 56px !important;
     padding-bottom: 58px !important;
   }
 
@@ -361,5 +361,24 @@ section[data-vl-internal-page] > .wrap > :last-child {
     .pay-group
     + .pay-group {
     padding-top: 24px;
+  }
+}
+
+@media (max-width: 430px) {
+  section[data-vl-internal-page='liquidez'] .biz {
+    padding: 26px 24px;
+  }
+
+  section[data-vl-internal-page='medios-de-pago'] .pillar {
+    padding: 30px 28px;
+  }
+
+  section[data-vl-internal-page='procesos-ia'] .jcard,
+  section[data-vl-internal-page='referenciadores'] .jcard {
+    padding: 28px 24px;
+  }
+
+  section[data-vl-internal-page='como-trabajamos'] .process-route-panel {
+    padding: 24px 21px 23px;
   }
 }

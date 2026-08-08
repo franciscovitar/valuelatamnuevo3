@@ -19,7 +19,7 @@ export default function WhyUs() {
             &ldquo;En Argentina, la mayoría de los negocios terminan siendo, en buena medida,{' '}
             <span>financieros</span>. Nuestro trabajo es que esa variable juegue a favor de la empresa.&rdquo;
           </p>
-          <p className="by">— Mauricio Maggio, Socio</p>
+          <p className="by">— Mauricio Maggio</p>
         </div>
       </div>
     </section>
