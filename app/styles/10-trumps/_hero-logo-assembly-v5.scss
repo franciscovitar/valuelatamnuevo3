@@ -32,6 +32,12 @@
     pointer-events: none;
   }
 
+  // En la variante IMAGES todos los satelites pasan por detras del bloque
+  // central. El modo de palabras conserva su profundidad original.
+  .hero-word-scene.is-image-mode .hero-word-scene__core {
+    z-index: 200;
+  }
+
   .hero-word-scene__mark-anchor {
     position: relative;
     left: auto;

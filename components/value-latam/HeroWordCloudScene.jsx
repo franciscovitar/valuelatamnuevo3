@@ -33,7 +33,10 @@ export default function HeroWordCloudScene() {
   const imageMode = isHeroImageMode();
 
   return (
-    <div className="hero-word-scene" data-hero-word-scene>
+    <div
+      className={`hero-word-scene${imageMode ? ' is-image-mode' : ''}`}
+      data-hero-word-scene
+    >
       <div
         className="hero-word-scene__words"
         data-hero-word-layer
