@@ -267,15 +267,15 @@ export const HERO_WORDS = [
  */
 export const HERO_WORD_LAYOUTS = {
   desktop: {
-    scrollDistanceVh: 235, xFactor: 1.14, yFactor: 1.1,
+    scrollDistanceVh: 180, xFactor: 1.14, yFactor: 1.1,
     idleScale: 1, convergeStretch: 1,
   },
   tablet: {
-    scrollDistanceVh: 205, xFactor: 1.08, yFactor: 1.06,
+    scrollDistanceVh: 150, xFactor: 1.08, yFactor: 1.06,
     idleScale: 0.8, convergeStretch: 1.03,
   },
   mobile: {
-    scrollDistanceVh: 175, xFactor: 1.02, yFactor: 1.02,
+    scrollDistanceVh: 120, xFactor: 1.02, yFactor: 1.02,
     idleScale: 0.58, convergeStretch: 1.27,
   },
 };

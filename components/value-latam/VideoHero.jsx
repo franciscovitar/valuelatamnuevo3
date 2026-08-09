@@ -32,9 +32,6 @@ export default function VideoHero() {
             data-video-hero-scroll-hint
             aria-hidden="true"
           >
-            <span className="video-hero__scroll-hint-text">
-              Deslizá para descubrir
-            </span>
             <span className="video-hero__scroll-hint-line" />
           </div>
         </div>
