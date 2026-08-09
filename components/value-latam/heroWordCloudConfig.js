@@ -1,5 +1,5 @@
 export const HERO_TIMELINE = {
-  scrub: 0.42,
+  scrub: 0.58,
   hintFade: 0.09,
   markOutlinePeak: 0.94,
   markNormalizeAt: 0.62,
@@ -267,15 +267,15 @@ export const HERO_WORDS = [
  */
 export const HERO_WORD_LAYOUTS = {
   desktop: {
-    scrollDistanceVh: 180, xFactor: 1.14, yFactor: 1.1,
+    scrollDistanceVh: 260, xFactor: 1.14, yFactor: 1.1,
     idleScale: 1, convergeStretch: 1,
   },
   tablet: {
-    scrollDistanceVh: 150, xFactor: 1.08, yFactor: 1.06,
+    scrollDistanceVh: 220, xFactor: 1.08, yFactor: 1.06,
     idleScale: 0.8, convergeStretch: 1.03,
   },
   mobile: {
-    scrollDistanceVh: 120, xFactor: 1.02, yFactor: 1.02,
+    scrollDistanceVh: 175, xFactor: 1.02, yFactor: 1.02,
     idleScale: 0.58, convergeStretch: 1.27,
   },
 };

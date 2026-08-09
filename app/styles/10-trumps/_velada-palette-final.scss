@@ -42,22 +42,30 @@ header.nav {
 /* Hero */
 .video-hero--word-orbit {
   --hero-black: var(--p-ink-900) !important;
-  background: var(--p-ink-900) !important;
+  /* Transparente para que el hero muestre el fondo del documento, igual que el
+     resto de las secciones. Con el solido quedaba plano y cortado del resto. */
+  background: transparent !important;
 }
 
 .video-hero--word-orbit .video-hero__scroll,
 .video-hero--word-orbit .video-hero__sticky {
-  background: var(--p-ink-900) !important;
+  background: transparent !important;
 }
 
 .video-hero__orbit-background {
+  /* Solo atmosfera, sin base solida: dos halos calidos que dan profundidad
+     con el mismo lenguaje que el gradiente del documento. */
   background:
     radial-gradient(
-      ellipse 42% 38% at 50% 50%,
-      rgb(var(--p-cream-rgb) / 0.014),
-      transparent 72%
+      ellipse 70% 46% at 50% 6%,
+      rgb(var(--p-cream-warm-rgb) / 0.03),
+      transparent 68%
     ),
-    var(--p-ink-900) !important;
+    radial-gradient(
+      ellipse 46% 40% at 50% 52%,
+      rgb(var(--p-cream-warm-rgb) / 0.022),
+      transparent 72%
+    ) !important;
 }
 
 /* Todas las secciones quedan en el mismo universo midnight */

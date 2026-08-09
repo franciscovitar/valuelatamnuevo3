@@ -80,7 +80,7 @@
     display: inline;
     max-width: none;
     margin: 0;
-    color: var(--hero-cream);
+    color: var(--p-white) !important;
     font-family: var(--font-sans);
     font-size: clamp(4.25rem, 6.6vw, 7.5rem);
     font-weight: 600;

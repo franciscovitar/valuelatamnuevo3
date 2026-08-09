@@ -20,14 +20,19 @@
   overflow-x: clip;
   overflow-y: visible;
   color: var(--hero-cream);
-  background: var(--hero-black);
+  /*
+   * Sin color propio: el resto de las secciones son transparentes y dejan ver
+   * el fondo del documento con su gradiente. El hero se pintaba encima un
+   * solido y quedaba plano y despegado del resto de la web.
+   */
+  background: transparent;
 }
 
 .video-hero--word-orbit .video-hero__scroll {
   position: relative;
   min-height: 100svh;
   margin: 0;
-  background: var(--hero-black);
+  background: transparent;
 }
 
 // Pinned: la escena queda fija mientras el usuario consume la altura de
@@ -42,7 +47,7 @@
   margin: 0;
   overflow: hidden;
   isolation: isolate;
-  background: var(--hero-black);
+  background: transparent;
 }
 
 .video-hero__orbit-background,
@@ -55,8 +60,16 @@
 .video-hero__orbit-background {
   z-index: 1;
   background:
-    radial-gradient(ellipse 42% 38% at 50% 50%, rgba(255, 255, 255, 0.018), transparent 72%),
-    #020306;
+    radial-gradient(
+      ellipse 70% 46% at 50% 6%,
+      rgb(var(--p-cream-warm-rgb) / 0.028),
+      transparent 68%
+    ),
+    radial-gradient(
+      ellipse 46% 40% at 50% 52%,
+      rgb(var(--p-cream-warm-rgb) / 0.022),
+      transparent 72%
+    );
 }
 
 .video-hero__orbit-background::before {
@@ -66,7 +79,7 @@
 .video-hero__orbit-vignette {
   z-index: 3;
   background:
-    radial-gradient(ellipse 88% 78% at 50% 50%, transparent 42%, rgba(0, 0, 0, 0.52) 100%);
+    radial-gradient(ellipse 104% 92% at 50% 48%, transparent 54%, rgb(var(--p-ink-900-rgb) / 0.34) 100%);
 }
 
 .hero-word-scene {

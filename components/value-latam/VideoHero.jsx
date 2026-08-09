@@ -26,14 +26,6 @@ export default function VideoHero() {
           />
 
           <HeroWordCloudScene />
-
-          <div
-            className="video-hero__scroll-hint"
-            data-video-hero-scroll-hint
-            aria-hidden="true"
-          >
-            <span className="video-hero__scroll-hint-line" />
-          </div>
         </div>
       </div>
     </section>

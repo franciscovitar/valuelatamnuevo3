@@ -1,11 +1,12 @@
-import { HERO_WORDS, resolveDepthVisual } from './heroWordCloudConfig';
+import { resolveDepthVisual } from './heroWordCloudConfig';
+import { getHeroSatellites, isHeroImageMode } from './heroSatellites';
 import ValueLatamMark from './ValueLatamMark';
 
 /*
  * Estado del primer frame, antes de que el runtime tome el control (y estado
- * definitivo si el JS no corre): cada palabra en su posicion de reposo, con la
+ * definitivo si el JS no corre): cada satelite en su posicion de reposo, con la
  * escala y la presencia que le corresponden por profundidad. El movimiento
- * ambiental lo agrega el runtime, porque cada palabra tiene su propia
+ * ambiental lo agrega el runtime, porque cada satelite tiene su propia
  * trayectoria y eso no se puede expresar con un keyframe compartido.
  */
 function getWordStyle(word) {
@@ -29,6 +30,8 @@ function getWordStyle(word) {
 }
 
 export default function HeroWordCloudScene() {
+  const imageMode = isHeroImageMode();
+
   return (
     <div className="hero-word-scene" data-hero-word-scene>
       <div
@@ -36,23 +39,37 @@ export default function HeroWordCloudScene() {
         data-hero-word-layer
         aria-hidden="true"
       >
-        {HERO_WORDS.map((word) => (
+        {getHeroSatellites().map((satellite) => (
           <span
             className={[
               'hero-word-scene__word-shell',
-              `is-size-${word.size}`,
-              word.accent ? 'is-accent' : '',
-              word.far ? 'is-far' : '',
-              word.mobileHidden ? 'is-mobile-hidden' : '',
-              word.tabletHidden ? 'is-tablet-hidden' : '',
+              // El recuadro define su tamano por `tile`; la palabra, por `size`.
+              imageMode
+                ? `is-tile is-tile-${satellite.tile} is-ratio-${satellite.ratio}`
+                : `is-size-${satellite.size}`,
+              satellite.accent ? 'is-accent' : '',
+              satellite.far ? 'is-far' : '',
+              satellite.mobileHidden ? 'is-mobile-hidden' : '',
+              satellite.tabletHidden ? 'is-tablet-hidden' : '',
             ].filter(Boolean).join(' ')}
-            data-hero-word={word.id}
-            style={getWordStyle(word)}
-            key={word.id}
+            data-hero-word={satellite.id}
+            style={getWordStyle(satellite)}
+            key={satellite.id}
           >
-            <span className="hero-word-scene__word-float">
-              {word.label}
-            </span>
+            {imageMode ? (
+              <span className="hero-word-scene__tile">
+                <img
+                  alt={satellite.alt}
+                  decoding="async"
+                  loading="lazy"
+                  src={satellite.src}
+                />
+              </span>
+            ) : (
+              <span className="hero-word-scene__word-float">
+                {satellite.label}
+              </span>
+            )}
           </span>
         ))}
       </div>

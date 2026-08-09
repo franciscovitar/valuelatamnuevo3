@@ -6,9 +6,9 @@ import {
   HERO_SCENE,
   HERO_TIMELINE,
   HERO_WORD_LAYOUTS,
-  HERO_WORDS,
   resolveDepthVisual,
 } from '../heroWordCloudConfig';
+import { getHeroSatellites } from '../heroSatellites';
 
 const BREAKPOINTS = {
   mobile: 760,
@@ -32,8 +32,13 @@ function getLayout() {
   return HERO_WORD_LAYOUTS[getLayoutName()];
 }
 
+/*
+ * Unico punto del runtime que sabe de la variante activa. Todo lo demas —
+ * deriva, profundidad, convergencia, parallax — opera sobre datos con la misma
+ * forma, asi que palabras e imagenes comparten el mismo motor sin ramas.
+ */
 function getWordConfig(id) {
-  return HERO_WORDS.find((word) => word.id === id);
+  return getHeroSatellites().find((satellite) => satellite.id === id);
 }
 
 function getResponsiveWord(word, layoutName) {
