@@ -261,7 +261,10 @@ header.nav {
   display: block;
   padding: 10px 14px;
   border-radius: 10px;
-  color: rgb(var(--p-cream-rgb) / .82);
+  // Mismo blanco que el resto del nav (--paper), no una version atenuada:
+  // el .82 de opacidad los teñia mas dorado/apagado contra el fondo oscuro
+  // del menu.
+  color: var(--paper);
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;

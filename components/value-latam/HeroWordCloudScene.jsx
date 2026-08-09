@@ -97,7 +97,9 @@ export default function HeroWordCloudScene() {
             className="hero-word-scene__description"
             data-hero-subcopy
           >
-            Financiamiento, liquidez, medios de pago e IA conectados bajo un mismo equipo.
+            Financiamiento, liquidez, medios de pago e IA conectados
+            {' '}
+            <span className="hero-word-scene__accent">bajo un mismo equipo</span>.
           </p>
         </div>
       </div>

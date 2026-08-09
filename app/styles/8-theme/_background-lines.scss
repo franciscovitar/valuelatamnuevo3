@@ -1,5 +1,5 @@
-// La red de lineas venia en azul electrico, de la identidad anterior. Se
-// paso al sistema crema/dorado conservando la jerarquia de profundidad:
+// La red de lineas venia en azul electrico, de la identidad anterior. Hoy es
+// dorada, el unico acento de la marca, conservando la jerarquia de profundidad:
 // lineas estructurales en crema muy tenue, cabezas viajeras en crema
 // brillante y destellos en dorado, que es el unico acento de la marca.
 // Los alfas de las lineas bajaron a ~la mitad: el crema es bastante mas
@@ -43,17 +43,17 @@
 }
 
 .vl-bg-lines__path--outer {
-  stroke: rgb(var(--p-cream-rgb) / 0.10);
+  stroke: rgb(var(--p-accent-rgb) / 0.12);
   stroke-width: 0.82;
 }
 
 .vl-bg-lines__path--middle {
-  stroke: rgb(var(--p-cream-rgb) / 0.13);
+  stroke: rgb(var(--p-accent-rgb) / 0.15);
   stroke-width: 0.98;
 }
 
 .vl-bg-lines__path--inner {
-  stroke: rgb(var(--p-cream-rgb) / 0.08);
+  stroke: rgb(var(--p-accent-rgb) / 0.10);
   stroke-width: 0.76;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .vl-bg-lines__path--active {
-  stroke: rgb(var(--p-cream-rgb) / 0.66);
+  stroke: rgb(var(--p-accent-bright-rgb) / 0.62);
   stroke-width: 1.08;
   opacity: 0.92;
   filter:
@@ -72,19 +72,19 @@
 
 .vl-bg-lines__line-group--outer
 .vl-bg-lines__path--active {
-  stroke: rgb(var(--p-cream-rgb) / 0.40);
+  stroke: rgb(var(--p-accent-rgb) / 0.40);
   stroke-width: 0.96;
 }
 
 .vl-bg-lines__line-group--inner
 .vl-bg-lines__path--active {
-  stroke: rgb(var(--p-cream-rgb) / 0.30);
+  stroke: rgb(var(--p-accent-rgb) / 0.30);
   stroke-width: 0.88;
 }
 
 .vl-bg-lines__travel-head {
   r: 1.55px;
-  fill: rgb(var(--p-cream-rgb) / 0.95);
+  fill: rgb(var(--p-accent-bright-rgb) / 0.92);
   opacity: 0;
   vector-effect: non-scaling-stroke;
   filter:
@@ -94,7 +94,7 @@
 
 .vl-bg-lines__travel-head--outer {
   r: 1.35px;
-  fill: rgb(var(--p-cream-rgb) / 0.80);
+  fill: rgb(var(--p-accent-rgb) / 0.78);
 }
 
 .vl-bg-lines__travel-head--inner {
