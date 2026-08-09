@@ -274,6 +274,13 @@ body:has(.video-hero--word-orbit) .metrics {
 }
 
 @media (max-width: 760px) {
+  .video-hero--word-orbit .video-hero__sticky {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+  }
+
   .video-hero--word-orbit .video-hero__scroll { min-height: 100svh; }
   .hero-word-scene__word-shell {
     transform:
