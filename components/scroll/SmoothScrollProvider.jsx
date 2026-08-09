@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { MOBILE_VIEWPORT_QUERY } from '@/lib/motion/tokens';
 import {
   bootstrapSmoothScroll,
   getActiveLenis,
@@ -39,9 +40,12 @@ export default function SmoothScrollProvider({ children }) {
     };
 
     sync();
+    const viewportQuery = window.matchMedia(MOBILE_VIEWPORT_QUERY);
+    viewportQuery.addEventListener('change', sync);
     const unsubscribeReducedMotion = subscribeReducedMotion(sync);
 
     return () => {
+      viewportQuery.removeEventListener('change', sync);
       unsubscribeReducedMotion();
       teardownSmoothScroll();
     };
