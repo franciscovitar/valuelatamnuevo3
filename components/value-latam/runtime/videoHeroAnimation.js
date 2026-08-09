@@ -34,7 +34,7 @@ function getLayout() {
 
 /*
  * Unico punto del runtime que sabe de la variante activa. Todo lo demas —
- * deriva, profundidad, convergencia, parallax — opera sobre datos con la misma
+ * deriva, profundidad y convergencia — opera sobre datos con la misma
  * forma, asi que palabras e imagenes comparten el mismo motor sin ramas.
  */
 function getWordConfig(id) {
@@ -552,7 +552,6 @@ function setMarkInitialState(timeline, targets) {
   });
 }
 
-
 function addMarkReveal(timeline, targets) {
   const {
     markOutlinePeak,
@@ -643,41 +642,6 @@ function addHintFade(timeline, targets) {
   }, HERO_TIMELINE.hintFade);
 }
 
-function bindWordFieldParallax(targets) {
-  const supportsPointer = window.matchMedia(
-    '(hover: hover) and (pointer: fine)'
-  ).matches;
-
-  if (!supportsPointer) return () => {};
-
-  const moveX = gsap.quickTo(targets.wordsLayer, 'x', {
-    duration: 1.1,
-    ease: 'power3.out',
-  });
-  const moveY = gsap.quickTo(targets.wordsLayer, 'y', {
-    duration: 1.1,
-    ease: 'power3.out',
-  });
-
-  const handlePointerMove = (event) => {
-    moveX((event.clientX / window.innerWidth - 0.5) * 10);
-    moveY((event.clientY / window.innerHeight - 0.5) * 6);
-  };
-
-  const handlePointerLeave = () => {
-    moveX(0);
-    moveY(0);
-  };
-
-  window.addEventListener('pointermove', handlePointerMove, { passive: true });
-  document.documentElement.addEventListener('pointerleave', handlePointerLeave);
-
-  return () => {
-    window.removeEventListener('pointermove', handlePointerMove);
-    document.documentElement.removeEventListener('pointerleave', handlePointerLeave);
-  };
-}
-
 function initReducedMotion(root, targets) {
   root.classList.add(
     'is-video-hero-mounted',
@@ -731,7 +695,6 @@ export function initVideoHeroAnimation() {
   let currentLayout = getLayoutName();
   let resizeFrame = 0;
   let lenisSyncFrame = 0;
-  const removeParallax = bindWordFieldParallax(targets);
 
   const tickCloud = (time) => {
     if (document.hidden) return;
@@ -839,12 +802,10 @@ export function initVideoHeroAnimation() {
     cancelAnimationFrame(resizeFrame);
     cancelAnimationFrame(lenisSyncFrame);
     gsap.ticker.remove(tickCloud);
-    removeParallax();
     window.removeEventListener('resize', rebuild);
     window.removeEventListener('orientationchange', rebuild);
     destroyHeroScrollAnimation(heroAnimation);
     targets.scrollEl.style.removeProperty('height');
-    gsap.set(targets.wordsLayer, { clearProps: 'x,y' });
     gsap.set(targets.words, { clearProps: 'all' });
     gsap.set(targets.title, { clearProps: 'all' });
     gsap.set(targets.subcopy, { clearProps: 'all' });
