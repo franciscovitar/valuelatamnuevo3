@@ -10,7 +10,7 @@ import { HERO_IMAGES } from './heroImageSatellites';
  * Es lo unico que hay que tocar para cambiar de variante. Las dos configuraciones
  * conviven vivas: cambiar el modo no borra ni comenta nada.
  */
-export const HERO_SATELLITE_MODE = 'images';
+export const HERO_SATELLITE_MODE = 'words';
 
 /**
  * Satelites de la variante activa.

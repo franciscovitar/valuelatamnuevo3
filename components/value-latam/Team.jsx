@@ -3,16 +3,23 @@ import SectionHeading from './SectionHeading';
 const teamMembers = [
   {
     key: 'mauricio',
-    role: 'Jefe de Estrategia',
+    role: 'Dirección de Estrategia',
     name: 'Mauricio Maggio',
-    bio: 'Profesional con amplia experiencia en estructuración de financiamiento para empresas PyME, asesoría en inversiones y optimización de liquidez, integrando herramientas del sistema financiero y del mercado de capitales.',
+    bio: 'Define el rumbo estratégico de la firma. Lidera la estructuración de financiamiento para empresas PyME y el diseño y seguimiento de portafolios de inversión de clientes individuales y corporativos, integrando banca, SGRs y mercado de capitales. Más de 15 años en el sistema financiero argentino.',
     href: 'https://www.linkedin.com/in/mauricio-maggio-41b46534a',
   },
   {
+    key: 'gabriela',
+    role: 'Dirección Comercial y de Operaciones',
+    name: 'Gabriela Guerrecagoitya',
+    bio: 'Contadora Pública. Conduce la cartera comercial de la firma y el diseño de sus procesos internos, con foco en automatización e inteligencia artificial aplicada a la operación. Especialista en comercio exterior y valuación de empresas.',
+    href: 'https://www.linkedin.com/in/gabriela-guerrecagoitya-850216428/?skipRedirect=true',
+  },
+  {
     key: 'claudia',
-    role: 'Relaciones de Banca Corporativa',
+    role: 'Responsable de Onboarding y Experiencia del Cliente',
     name: 'Claudia Abeti',
-    bio: 'Más de 30 años de experiencia en banca, con trayectoria como Tesorera, Oficial CRM y RBB, Gerente de Sucursal y especialista en financiamiento PyME a través de banca tradicional y préstamos sindicados.',
+    bio: 'Más de 30 años de trayectoria en banca, con desempeño como Tesorera, Oficial CRM y RBB, Gerente de Sucursal y especialista en financiamiento PyME a través de banca tradicional y préstamos sindicados. En Value Latam conduce el onboarding de clientes y la relación operativa con las entidades, y es responsable de la experiencia del cliente a lo largo de toda la operación.',
     href: 'https://www.linkedin.com/in/claudiaabeti/',
   },
 ];
@@ -34,7 +41,9 @@ export default function Team() {
         <div className="team-grid">
           {teamMembers.map((member) => (
             <div className="person" key={member.key}>
-              <span className="role">{member.role}</span>
+              <span className={`role${member.key === 'claudia' ? ' role--compact' : ''}`}>
+                {member.role}
+              </span>
               <h4>{member.name}</h4>
               <p>{member.bio}</p>
               <a
