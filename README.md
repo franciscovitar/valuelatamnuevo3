@@ -1,5 +1,24 @@
 # Value Latam
 
+## Recruiter / Engineering Snapshot
+
+**Product.** Real client website for Value Latam, built as a production-oriented Next.js frontend with a strong focus on visual fidelity, motion and safe maintainability.
+
+**Architecture.** Next.js 16 + React 19 + JavaScript + Sass, with shared motion/scroll layers built around GSAP, ScrollTrigger and Lenis. Reusable institutional content is centralized under `data/`; contact delivery is handled through the app API with Resend.
+
+**Engineering decisions.**
+- Preserve visual parity while reducing maintainability risk rather than refactoring working code for cleanliness alone.
+- Keep shared motion tokens/effects separate from page-specific scroll sequences.
+- Respect `prefers-reduced-motion` and clean up animation/listener resources.
+- Treat known imperative navigation/form areas and CSS overrides as explicit technical debt when changing them would create more risk than value.
+
+**Verification surface.** Playwright E2E covers the home, desktop/mobile navigation, the contact form, major internal pages and reduced-motion behavior. `npm run check` combines lint, E2E tests and a production build; form tests intercept `/api/contact` instead of sending real email. This README-only change does not claim those checks were rerun.
+
+**Live:** https://www.valuelatam.com/  
+**Repository:** https://github.com/franciscovitar/valuelatamnuevo3
+
+---
+
 Sitio web de Value Latam desarrollado con Next.js 16 (App Router, Turbopack), React 19, JavaScript, Sass y animaciones con GSAP + ScrollTrigger + Lenis.
 
 ## Instalar
