@@ -1,0 +1,76 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "bash build-preview.sh",
+  "outputDirectory": "dist",
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/financiamiento",
+      "destination": "/corporate-finance.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/liquidez",
+      "destination": "/wealth-management.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/medios-de-pago",
+      "destination": "/value-pay.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/procesos-ia",
+      "destination": "/consulting.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/como-trabajamos",
+      "destination": "/index.html#proceso",
+      "statusCode": 301
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/corporate-finance",
+      "destination": "/corporate-finance.html"
+    },
+    {
+      "source": "/wealth-management",
+      "destination": "/wealth-management.html"
+    },
+    {
+      "source": "/consulting",
+      "destination": "/consulting.html"
+    },
+    {
+      "source": "/value-pay",
+      "destination": "/value-pay.html"
+    },
+    {
+      "source": "/seguros",
+      "destination": "/seguros.html"
+    },
+    {
+      "source": "/referenciadores",
+      "destination": "/referenciadores.html"
+    },
+    {
+      "source": "/gracias",
+      "destination": "/gracias.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ]
+    }
+  ]
+}
